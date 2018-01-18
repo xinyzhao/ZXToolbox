@@ -17,7 +17,7 @@ pod "ZXToolbox"
 ## Usage
 
 ```
-#import "ZXToolbox.h"
+#import <ZXToolbox/ZXToolbox.h>
 ```
 
 ## Foundation
