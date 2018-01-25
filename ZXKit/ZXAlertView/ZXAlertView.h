@@ -111,4 +111,12 @@
  */
 - (void)showInViewController:(UIViewController *)viewController;
 
+/**
+ Show the alertView
+ 
+ @param viewController The parent view controller
+ @param sourceView The source view for iPad
+ */
+- (void)showInViewController:(UIViewController *)viewController sourceView:(UIView *)sourceView;
+
 @end

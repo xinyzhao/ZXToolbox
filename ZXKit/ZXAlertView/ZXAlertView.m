@@ -251,21 +251,26 @@ typedef void (^ZXAlertActionHandler)(ZXAlertAction *action);
 }
 
 - (void)showInViewController:(UIViewController *)viewController {
+    [self showInViewController:viewController sourceView:nil];
+}
+
+- (void)showInViewController:(UIViewController *)viewController sourceView:(UIView *)sourceView {
     if (@available(iOS 8.0, *)) {
         if (self.alertController) {
+            if (sourceView) {
+                self.alertController.popoverPresentationController.sourceRect = sourceView.frame;
+                self.alertController.popoverPresentationController.sourceView = sourceView;
+            }
             [viewController presentViewController:self.alertController animated:YES completion:nil];
         }
-        
     } else if (self.actionSheet) {
         if (viewController.tabBarController) {
             [self.actionSheet showInView:[UIApplication sharedApplication].keyWindow];
         } else {
             [self.actionSheet showInView:viewController.view];
         }
-
     } else if (self.alertView) {
         [self.alertView show];
-        
     }
 }
 
