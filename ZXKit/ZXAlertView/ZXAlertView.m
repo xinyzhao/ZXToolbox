@@ -53,18 +53,17 @@ typedef void (^ZXAlertActionHandler)(ZXAlertAction *action);
 @property (nonatomic, strong) UIAlertController *alertController NS_AVAILABLE_IOS(8_0);
 @property (nonatomic, strong) UIAlertView *alertView;
 @property (nonatomic, strong) UIActionSheet *actionSheet;
-@property (nonatomic, strong) NSMutableArray<UITextField *> *textFieldArray;
 
 @end
 
 @implementation ZXAlertView
+@synthesize textFields = _textFields;
 
 - (instancetype)initWithTitle:(NSString *)title message:(NSString *)message cancelAction:(ZXAlertAction *)cancelAction otherActions:(ZXAlertAction *)otherActions, ... {
     self = [super init];
     if (self) {
         self.title = title;
         self.message = message;
-        self.textFieldArray = [[NSMutableArray alloc] init];
         //
         if (@available(iOS 8.0, *)) {
             //
@@ -140,7 +139,6 @@ typedef void (^ZXAlertActionHandler)(ZXAlertAction *action);
     if (self) {
         self.title = title;
         self.message = message;
-        self.textFieldArray = [[NSMutableArray alloc] init];
         //
         if (@available(iOS 8.0, *)) {
             //
@@ -227,18 +225,19 @@ typedef void (^ZXAlertActionHandler)(ZXAlertAction *action);
 
 - (void)addTextField:(void (^)(UITextField *textField))configurationHandler {
     if (@available(iOS 8.0, *)) {
-        __weak typeof(self) weakSelf = self;
         [self.alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-            [weakSelf.textFieldArray addObject:textField];
+            if (textField) {
+                _textFields = [self.textFields arrayByAddingObject:textField];
+            }
             if (configurationHandler) {
                 configurationHandler(textField);
             }
         }];
         
     } else {
-        UITextField *textField = [self.alertView textFieldAtIndex:self.textFieldArray.count];
+        UITextField *textField = [self.alertView textFieldAtIndex:_textFields.count];
         if (textField) {
-            [self.textFieldArray addObject:textField];
+            _textFields = [self.textFields arrayByAddingObject:textField];
         }
         if (configurationHandler) {
             configurationHandler(textField);
@@ -247,7 +246,10 @@ typedef void (^ZXAlertActionHandler)(ZXAlertAction *action);
 }
 
 - (NSArray<UITextField *> *)textFields {
-    return [self.textFieldArray copy];
+    if (_textFields == nil) {
+        _textFields = [[NSArray alloc] init];
+    }
+    return _textFields;
 }
 
 - (void)showInViewController:(UIViewController *)viewController {
@@ -255,12 +257,14 @@ typedef void (^ZXAlertActionHandler)(ZXAlertAction *action);
 }
 
 - (void)showInViewController:(UIViewController *)viewController sourceView:(UIView *)sourceView {
+    [self showInViewController:viewController sourceView:sourceView sourceRect:sourceView.bounds];
+}
+
+- (void)showInViewController:(UIViewController *)viewController sourceView:(UIView *)sourceView sourceRect:(CGRect)sourceRect {
     if (@available(iOS 8.0, *)) {
         if (self.alertController) {
-            if (sourceView) {
-                self.alertController.popoverPresentationController.sourceRect = sourceView.frame;
-                self.alertController.popoverPresentationController.sourceView = sourceView;
-            }
+            self.alertController.popoverPresentationController.sourceRect = sourceRect;
+            self.alertController.popoverPresentationController.sourceView = sourceView;
             [viewController presentViewController:self.alertController animated:YES completion:nil];
         }
     } else if (self.actionSheet) {

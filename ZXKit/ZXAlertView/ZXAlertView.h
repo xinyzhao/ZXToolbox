@@ -98,11 +98,11 @@
 - (void)addTextField:(void (^)(UITextField *textField))configurationHandler;
 
 /**
- Text fields for alert view
+ All text fields for alert view
 
  @return The text fields
  */
-- (NSArray<UITextField *> *)textFields;
+@property (nonatomic, readonly) NSArray<UITextField *> *textFields;
 
 /**
  Show the alertView
@@ -118,5 +118,14 @@
  @param sourceView The source view for iPad
  */
 - (void)showInViewController:(UIViewController *)viewController sourceView:(UIView *)sourceView;
+
+/**
+ Show the alertView
+ 
+ @param viewController The parent view controller
+ @param sourceView The source view for iPad
+ @param sourceRect The source rect for iPad
+ */
+- (void)showInViewController:(UIViewController *)viewController sourceView:(UIView *)sourceView sourceRect:(CGRect)sourceRect;
 
 @end
