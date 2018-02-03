@@ -24,112 +24,74 @@
 
 #import <UIKit/UIKit.h>
 
-@class ZXTagLabel;
-
-/**
- Tag aciton handler
-
- @param label The sender
- */
-typedef void(^ZXTagAction)(ZXTagLabel *label);
-
-/**
- ZXTagLabel
- */
-@interface ZXTagLabel : UILabel
-/**
- Tag action, see ZXTagAction
- */
-@property (nonatomic, copy) ZXTagAction action;
-/**
- Content inset, margins for label
- */
-@property (nonatomic, assign) UIEdgeInsets contentInset;
-/**
- Content size, include insets
- */
-@property (nonatomic, readonly) CGSize contentSize;
-
-/**
- Initialzes with text string
-
- @param text content text
- @return Instance
- */
-- (instancetype)initWithText:(NSString *)text;
-
-@end
-
-/**
- Tag option handler
-
- @param label ZXTagLabel
- */
-typedef void(^ZXTagOption)(ZXTagLabel *label);
-
 /// ZXTagView
-@interface ZXTagView : UIView
-/**
- Content inset, margins for tagView
- */
-@property (nonatomic, assign) UIEdgeInsets contentInset;
-/**
- Padding inset, space for line and item
- */
-@property (nonatomic, assign) UIEdgeInsets paddingInset;
-/**
- Content height
- */
-@property (nonatomic, readonly) CGFloat contentHeight;
+@interface ZXTagView : UIScrollView
 
 /**
- Add tag at last
-
- @param tag Tag text
- @param option option handler
- @param action action handler
+ The spacing for items, default NO, if YES the tag view will be auto break to new line
  */
-- (void)addTag:(NSString *)tag option:(ZXTagOption)option action:(ZXTagAction)action;
+@property(nonatomic) BOOL alwaysScrollVertical;
+
+/**
+ The spacing for items
+ */
+@property (nonatomic, assign) CGFloat spacingForItems;
+
+/**
+ The spacing for lines
+ */
+@property (nonatomic, assign) CGFloat spacingForLines;
+
+/**
+ Selected index
+ */
+@property (nonatomic, assign) NSInteger selectedIndex;
+
+/**
+ Selected index with animated
+ @param index The tag index
+ @param animated Animated for selection
+ */
+- (void)setSelectedIndex:(NSInteger)index animated:(BOOL)animated;
+
+/**
+ The tag view selected block
+ 
+ @param index The selected index
+ @param view The selected view
+ @param view The Previous selected view
+ */
+@property (nonatomic, copy) void (^selectedBlock)(NSInteger index, UIView *view, UIView *prevView);
+
+/**
+ Add tag view with an action block
+
+ @param view The tag view
+ */
+- (void)addTagView:(UIView *)view;
 
 /**
  Insert tag at index
 
- @param tag Tag text
- @param index Index of tag
- @param option option handler
- @param action action handler
+ @param view The tag view
+ @param index The index of tag view
  */
-- (void)insertTag:(NSString *)tag atIndex:(NSUInteger)index option:(ZXTagOption)option action:(ZXTagAction)action;
+- (void)insertTagView:(UIView *)view atIndex:(NSInteger)index;
 
 /**
- Get tag text at index
+ Get tag view at index
 
- @param index Index of tag
- @return Tag text
+ @param index The index of tag view
+ @return The tag view
  */
-- (NSString *)tagAtIndex:(NSUInteger)index;
+- (UIView *)tagViewAtIndex:(NSInteger)index;
 
 /**
- Get tag label at index
+ Remove tag view at index
 
- @param index Index of tag
- @return ZXTagLabel
+ @param index The index of tag view
  */
-- (ZXTagLabel *)tagLabelAtIndex:(NSUInteger)index;
-
-/**
- Remove tag with tag text
-
- @param tag Tag text
- */
-- (void)removeTag:(NSString *)tag;
-
-/**
- Remove tag at index
-
- @param index Index of tag
- */
-- (void)removeTagAtIndex:(NSUInteger)index;
+- (void)removeTagAtIndex:(NSInteger)index;
 
 /**
  Remove all tags

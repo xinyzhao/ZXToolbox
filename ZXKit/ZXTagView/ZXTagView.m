@@ -25,199 +25,154 @@
 #import "ZXTagView.h"
 
 @interface ZXTagView ()
-@property (nonatomic, strong) NSMutableArray *tags;
-@property (nonatomic, strong) NSMutableArray *tagLabels;
-
-@end
-
-@implementation ZXTagLabel
-
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-        self.textAlignment = NSTextAlignmentCenter;
-        self.userInteractionEnabled = YES;
-    }
-    return self;
-}
-
-- (instancetype)initWithText:(NSString *)text
-{
-    self = [self initWithFrame:CGRectZero];
-    if (self) {
-        self.text = text;
-    }
-    return self;
-}
-
-- (void)drawRect:(CGRect)rect {
-    [super drawRect:rect];
-    //
-    {
-        CGRect rect = self.frame;
-        rect.size = _contentSize;
-        self.frame = rect;
-    }
-}
-
-- (void)setContentInset:(UIEdgeInsets)contentInset {
-    if (!UIEdgeInsetsEqualToEdgeInsets(_contentInset, contentInset)) {
-        _contentInset = contentInset;
-        //
-        [self updateContentSize];
-    }
-}
-
-- (void)setText:(NSString *)text {
-    [super setText:text];
-    //
-    [self updateContentSize];
-}
-
-- (void)setFont:(UIFont *)font {
-    [super setFont:font];
-    //
-    [self updateContentSize];
-}
-
-- (void)updateContentSize {
-    CGSize size = [self.text sizeWithAttributes:@{NSFontAttributeName:self.font}];
-    _contentSize.width = ceilf(size.width) + self.contentInset.left + self.contentInset.right;
-    _contentSize.height = ceilf(size.height) + self.contentInset.top + self.contentInset.bottom;
-    [self setNeedsDisplay];
-}
+@property (nonatomic, strong) NSMutableArray<UIView *> *tagViews;
 
 @end
 
 @implementation ZXTagView
 
-- (void)setContentInset:(UIEdgeInsets)contentInset {
-    _contentInset = contentInset;
+- (instancetype)initWithCoder:(NSCoder *)coder {
+    self = [super initWithCoder:coder];
+    if (self) {
+        _alwaysScrollVertical = NO;
+        _spacingForItems = 0;
+        _spacingForLines = 0;
+        _selectedIndex = -1;
+    }
+    return self;
+}
+
+- (instancetype)initWithFrame:(CGRect)frame {
+    self = [super initWithFrame:frame];
+    if (self) {
+        _alwaysScrollVertical = NO;
+        _spacingForItems = 0;
+        _spacingForLines = 0;
+        _selectedIndex = -1;
+    }
+    return self;
+}
+
+- (void)setSpacingForItems:(CGFloat)spacingForItems {
+    _spacingForItems = spacingForItems;
     [self setNeedsLayout];
 }
 
-- (void)setPaddingInset:(UIEdgeInsets)paddingInset {
-    _paddingInset = paddingInset;
+- (void)setSpacingForLines:(CGFloat)spacingForLines {
+    _spacingForLines = spacingForLines;
     [self setNeedsLayout];
 }
 
-- (CGFloat)contentHeight {
-    __block CGRect rect = CGRectZero;
-    rect.origin.x = self.contentInset.left;
-    rect.origin.y = self.contentInset.top;
-    __weak typeof(self) weakSelf = self;
-    [self.tagLabels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        ZXTagLabel *label = obj;
-        rect.size = label.contentSize;
-        if (rect.origin.x + rect.size.width + weakSelf.paddingInset.right + weakSelf.contentInset.right > weakSelf.frame.size.width) {
-            rect.origin.x = weakSelf.contentInset.left;
-            rect.origin.y += rect.size.height + weakSelf.paddingInset.top + weakSelf.paddingInset.bottom;
-        }
-        rect.origin.x += rect.size.width + weakSelf.paddingInset.left + weakSelf.paddingInset.right;
-    }];
-    return rect.origin.y + rect.size.height + weakSelf.paddingInset.bottom;
+- (NSMutableArray<UIView *> *)tagViews {
+    if (_tagViews == nil) {
+        _tagViews = [[NSMutableArray alloc] init];
+    }
+    return _tagViews;
 }
 
-- (void)addTag:(NSString *)tag option:(ZXTagOption)option action:(ZXTagAction)action {
-    if (self.tags == nil) {
-        self.tags = [NSMutableArray array];
-    }
-    if (self.tagLabels == nil) {
-        self.tagLabels = [NSMutableArray array];
-    }
-    if ([tag isKindOfClass:[NSString class]]) {
-        ZXTagLabel *label = [[ZXTagLabel alloc] initWithText:tag];
-        if (option) {
-            option(label);
-        }
-        label.action = action;
-        [self addSubview:label];
-        [self.tags addObject:tag];
-        [self.tagLabels addObject:label];
-        [self setNeedsLayout];
-        //
+- (void)addTagView:(UIView *)view {
+    if (view) {
+        [self.tagViews addObject:view];
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                              action:@selector(onLabel:)];
-        [label addGestureRecognizer:tap];
-    }
-}
-
-- (void)insertTag:(NSString *)tag atIndex:(NSUInteger)index option:(ZXTagOption)option action:(ZXTagAction)action {
-    if ([tag isKindOfClass:[NSString class]]) {
-        ZXTagLabel *label = [[ZXTagLabel alloc] initWithText:tag];
-        if (option) {
-            option(label);
-        }
-        label.action = action;
-        [self addSubview:label];
-        [self.tags insertObject:tag atIndex:index];
-        [self.tagLabels insertObject:label atIndex:index];
+                                                                              action:@selector(onTagView:)];
+        [view addGestureRecognizer:tap];
+        [self addSubview:view];
         [self setNeedsLayout];
-        //
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                              action:@selector(onLabel:)];
-        [label addGestureRecognizer:tap];
     }
 }
 
-- (NSString *)tagAtIndex:(NSUInteger)index {
-    return [self.tags objectAtIndex:index];
+- (void)insertTagView:(UIView *)view atIndex:(NSInteger)index {
+    if (view) {
+        [self.tagViews insertObject:view atIndex:index];
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                              action:@selector(onTagView:)];
+        [view addGestureRecognizer:tap];
+        [self addSubview:view];
+        [self setNeedsLayout];
+    }
 }
 
-- (ZXTagLabel *)tagLabelAtIndex:(NSUInteger)index {
-    return [self.tagLabels objectAtIndex:index];
+- (UIView *)tagViewAtIndex:(NSInteger)index {
+    UIView *view = nil;
+    if (index >= 0 && index < self.tagViews.count) {
+        view = [self.tagViews objectAtIndex:index];
+    }
+    return view;
 }
 
-- (void)removeTag:(NSString *)tag {
-    NSUInteger index = [self.tags indexOfObject:tag];
-    [self removeTagAtIndex:index];
-}
-
-- (void)removeTagAtIndex:(NSUInteger)index {
-    if (index != NSNotFound && index < self.tags.count) {
-        ZXTagLabel *label = self.tagLabels[index];
-        [label removeFromSuperview];
-        [self.tags removeObjectAtIndex:index];
-        [self.tagLabels removeObjectAtIndex:index];
+- (void)removeTagAtIndex:(NSInteger)index {
+    UIView *view = [self tagViewAtIndex:index];
+    if (view) {
+        [view removeFromSuperview];
+        [self.tagViews removeObject:view];
         [self setNeedsLayout];
     }
 }
 
 - (void)removeAllTags {
-    [self.tagLabels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        ZXTagLabel *label = obj;
-        [label removeFromSuperview];
+    [self.tagViews enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        [obj removeFromSuperview];
     }];
-    [self.tags removeAllObjects];
-    [self.tagLabels removeAllObjects];
+    [self.tagViews removeAllObjects];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     //
     __block CGRect rect = CGRectZero;
-    rect.origin.x = self.contentInset.left;
-    rect.origin.y = self.contentInset.top;
-    __weak typeof(self) weakSelf = self;
-    [self.tagLabels enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        ZXTagLabel *label = obj;
-        rect.size = label.contentSize;
-        if (rect.origin.x + rect.size.width + weakSelf.paddingInset.right + weakSelf.contentInset.right > weakSelf.frame.size.width) {
-            rect.origin.x = weakSelf.contentInset.left;
-            rect.origin.y += rect.size.height + weakSelf.paddingInset.top + weakSelf.paddingInset.bottom;
+    [self.tagViews enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        rect.size = obj.bounds.size;
+        if (_alwaysScrollVertical) {
+            if (rect.origin.x + rect.size.width + _spacingForItems + self.contentInset.left + self.contentInset.right > self.frame.size.width) {
+                rect.origin.x = 0;
+                rect.origin.y += rect.size.height + _spacingForLines;
+            }
         }
-        label.frame = rect;
-        rect.origin.x += rect.size.width + weakSelf.paddingInset.left + weakSelf.paddingInset.right;
+        obj.frame = rect;
+        rect.origin.x += rect.size.width + _spacingForItems;
     }];
+    //
+    if (_alwaysScrollVertical) {
+        rect.size.width = 0;
+        rect.size.height = rect.origin.y + rect.size.height;
+    } else {
+        rect.size.width = rect.origin.x - _spacingForItems;
+        rect.size.height = 0;
+    }
+    self.contentSize = rect.size;
 }
 
-- (void)onLabel:(id)sender {
-    UITapGestureRecognizer *tap = sender;
-    ZXTagLabel *label = (ZXTagLabel *)tap.view;
-    if (label.action) {
-        label.action(label);
+- (void)setSelectedIndex:(NSInteger)selectedIndex {
+    [self setSelectedIndex:selectedIndex animated:NO];
+}
+
+- (void)setSelectedIndex:(NSInteger)selectedIndex animated:(BOOL)animated {
+    UIView *view = [self tagViewAtIndex:selectedIndex];
+    if (view) {
+        CGPoint offset = CGPointZero;
+        offset.x = view.frame.origin.x + view.bounds.size.width / 2 - self.bounds.size.width / 2;
+        if (offset.x < -self.contentInset.left) {
+            offset.x = -self.contentInset.left;
+        }
+        if (offset.x > self.contentSize.width - self.bounds.size.width + self.contentInset.right) {
+            offset.x = self.contentSize.width - self.bounds.size.width + self.contentInset.right;
+        }
+        [self setContentOffset:offset animated:animated];
+        //
+        UIView *prevView = [self tagViewAtIndex:_selectedIndex];
+        if (_selectedIndex != selectedIndex) {
+            _selectedIndex = selectedIndex;
+            if (_selectedBlock) {
+                _selectedBlock(_selectedIndex, view, prevView);
+            }
+        }
     }
+}
+
+- (void)onTagView:(id)sender {
+    UITapGestureRecognizer *tap = sender;
+    NSInteger index = [self.tagViews indexOfObject:tap.view];
+    [self setSelectedIndex:index animated:YES];
 }
 
 @end

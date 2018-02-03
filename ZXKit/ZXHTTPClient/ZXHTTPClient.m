@@ -23,6 +23,7 @@
 //
 
 #import "ZXHTTPClient.h"
+#import <sys/utsname.h>
 
 @interface ZXHTTPClient ()
 
@@ -74,15 +75,27 @@
         }
     }
     // URL request
-    NSMutableURLRequest *reqeust = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString]];
-    reqeust.HTTPMethod = method;
-    reqeust.HTTPBody = body;
+    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:[NSURL URLWithString:URLString]];
+    request.HTTPMethod = method;
+    request.HTTPBody = body;
+    //
+    struct utsname systemInfo;
+    uname(&systemInfo);
+    NSString *userAgent = [NSString stringWithFormat:@"%@/%@/%@ (%@, %@ %@)"
+                           , [[NSBundle mainBundle] infoDictionary][(__bridge NSString *)kCFBundleExecutableKey] ?: [[NSBundle mainBundle] infoDictionary][@"CFBundleName"]
+                           , [[NSBundle mainBundle] infoDictionary][@"CFBundleShortVersionString"]
+                           , [[NSBundle mainBundle] infoDictionary][@"CFBundleVersion"]
+                           , [NSString stringWithCString: systemInfo.machine encoding:NSASCIIStringEncoding] ?: [[UIDevice currentDevice] model]
+                           , [[UIDevice currentDevice] systemName]
+                           , [[UIDevice currentDevice] systemVersion]
+                           ];
+    [request setValue:userAgent forHTTPHeaderField:@"User-Agent"];
     // URL request handler
     if (requestHandler) {
-        requestHandler(reqeust);
+        requestHandler(request);
     }
     // data task
-    __block NSURLSessionDataTask *task = [[ZXHTTPClient URLSession] dataTaskWithRequest:reqeust completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
+    __block NSURLSessionDataTask *task = [[ZXHTTPClient URLSession] dataTaskWithRequest:request completionHandler:^(NSData * _Nullable data, NSURLResponse * _Nullable response, NSError * _Nullable error) {
         dispatch_async(dispatch_get_main_queue(), ^{
             if (completionHandler) {
                 completionHandler(task, data, error);
@@ -143,23 +156,19 @@
 
 + (NSURLSessionDataTask *)requestWithURLString:(NSString *)URLString method:(NSString *)method params:(NSDictionary *)params jsonObject:(id)jsonObject requestHandler:(void(^)(NSMutableURLRequest *request))requestHandler completionHandler:(void(^)(NSURLSessionDataTask *task, NSData *data, NSError *error))completionHandler {
     // JSON data
-    NSError *error;
-    NSData *bodyData = [NSJSONSerialization dataWithJSONObject:jsonObject options:kNilOptions error:&error];
-    if (bodyData) {
-        // HTTP request
-        return [ZXHTTPClient requestWithURLString:URLString method:method params:params body:bodyData requestHandler:^(NSMutableURLRequest *request) {
-            [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
-            [request setValue:[NSString stringWithFormat:@"%llu", (uint64_t)bodyData.length] forHTTPHeaderField:@"Content-Length"];
-            if (requestHandler) {
-                requestHandler(request);
-            }
-        } completionHandler:completionHandler];
+    NSError *error = nil;
+    NSData *bodyData = nil;
+    if (jsonObject) {
+        bodyData = [NSJSONSerialization dataWithJSONObject:jsonObject options:kNilOptions error:&error];
     }
-    // failed
-    if (completionHandler) {
-        completionHandler(nil, nil, error);
-    }
-    return nil;
+    // HTTP request
+    return [ZXHTTPClient requestWithURLString:URLString method:method params:params body:bodyData requestHandler:^(NSMutableURLRequest *request) {
+        [request setValue:@"application/json; charset=utf-8" forHTTPHeaderField:@"Content-Type"];
+        [request setValue:[NSString stringWithFormat:@"%llu", (uint64_t)bodyData.length] forHTTPHeaderField:@"Content-Length"];
+        if (requestHandler) {
+            requestHandler(request);
+        }
+    } completionHandler:completionHandler];
 }
 
 #pragma mark HTTP Methods
