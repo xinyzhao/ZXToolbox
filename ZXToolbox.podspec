@@ -26,8 +26,8 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "JSONObject" do |ss|
-    ss.source_files  = "ZXKit/JSONObject/*.{h,m}"
-    ss.public_header_files = "ZXKit/JSONObject/*.h"
+    ss.source_files  = "Foundation/JSONObject/*.{h,m}"
+    ss.public_header_files = "Foundation/JSONObject/*.h"
   end
 
   s.subspec "NSArray+Extra" do |ss|
