@@ -162,9 +162,9 @@
         UIView *prevView = [self tagViewAtIndex:_selectedIndex];
         if (_selectedIndex != selectedIndex) {
             _selectedIndex = selectedIndex;
-            if (_selectedBlock) {
-                _selectedBlock(_selectedIndex, view, prevView);
-            }
+        }
+        if (_selectedBlock) {
+            _selectedBlock(_selectedIndex, view, prevView);
         }
     }
 }
