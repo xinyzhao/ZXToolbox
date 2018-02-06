@@ -48,7 +48,7 @@
 - (instancetype)initWithURL:(NSURL *)URL {
     self = [super init];
     if (self) {
-        _status = ZXPlaybackStatusUnknown;
+        _status = ZXPlaybackStatusBuffering;
         _URL = [URL copy];
         if (_URL) {
             AVURLAsset *asset = [AVURLAsset URLAssetWithURL:_URL options:nil];
@@ -59,6 +59,8 @@
         if (_playerItem) {
             [_playerItem addObserver:self forKeyPath:@"status" options:(NSKeyValueObservingOptionNew) context:nil];
             [_playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+            [_playerItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
+            [_playerItem addObserver:self forKeyPath:@"playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidPlayToEndTime:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
             //
             _player = [AVPlayer playerWithPlayerItem:_playerItem];
@@ -237,6 +239,8 @@
         [[NSNotificationCenter defaultCenter] removeObserver:self];
         [_playerItem removeObserver:self forKeyPath:@"status"];
         [_playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+        [_playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+        [_playerItem removeObserver:self forKeyPath:@"playbackLikelyToKeepUp"];
         _playerItem = nil;
     }
 }
@@ -292,6 +296,7 @@
         if (_playerStatus) {
             _playerStatus(status, _playerItem.error);
         }
+        
     } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
         CMTimeRange timeRange = [_playerItem.loadedTimeRanges.firstObject CMTimeRangeValue];
         NSTimeInterval loaded = CMTimeGetSeconds(timeRange.start) + CMTimeGetSeconds(timeRange.duration);
@@ -299,9 +304,27 @@
         if (_loadedTime) {
             _loadedTime(loaded, duration);
         }
+        
+    } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
+        if (_playerItem.isPlaybackBufferEmpty) {
+            self.status = ZXPlaybackStatusBuffering;
+        }
+        
+    } else if ([keyPath isEqualToString:@"playbackLikelyToKeepUp"]) {
+        if (_playerItem.isPlaybackLikelyToKeepUp && self.isPlaying) {
+            [self.player play];
+        }
+        
     } else if ([keyPath isEqualToString:@"rate"]) {
         BOOL isPlaying = ABS([[change objectForKey:@"new"] floatValue]) > 0.0;
-        self.status = isPlaying ? ZXPlaybackStatusPlaying : ZXPlaybackStatusPaused;
+        if (isPlaying) {
+            self.status = ZXPlaybackStatusPlaying;
+        } else if (self.playerItem.isPlaybackBufferEmpty) {
+            self.status = ZXPlaybackStatusBuffering;
+        } else {
+            self.status = ZXPlaybackStatusPaused;
+        }
+        
     } else if ([keyPath isEqualToString:@"bounds"]) {
         CGRect bounds = [[change objectForKey:@"new"] CGRectValue];
         _playerLayer.frame = bounds;

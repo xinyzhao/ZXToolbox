@@ -26,7 +26,7 @@
 #import <MediaPlayer/MediaPlayer.h>
 
 typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
-    ZXPlaybackStatusUnknown,
+    ZXPlaybackStatusBuffering,
     ZXPlaybackStatusPlaying,
     ZXPlaybackStatusPaused,
     ZXPlaybackStatusEnded,
