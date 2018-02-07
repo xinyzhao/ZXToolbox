@@ -52,7 +52,7 @@
         self.localPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:NSStringFromClass([self class])];
         self.maximumConcurrent = 0;
         self.resumeBrokenEnabled = YES;
-        self.allowInvalidCertificates = YES;
+        self.allowInvalidCertificates = NO;
     }
     return self;
 }

@@ -32,7 +32,7 @@
 @property (nonatomic, strong) NSURLSession * _Nonnull URLSession;
 
 /**
- Enable to allow untrusted SSL certificates, default YES.
+ Enable to allow untrusted SSL certificates, default NO.
  */
 @property (nonatomic, assign) BOOL allowInvalidCertificates;
 

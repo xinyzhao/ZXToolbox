@@ -52,7 +52,7 @@
 @property (nonatomic, assign) BOOL resumeBrokenEnabled;
 
 /**
- Enable to allow untrusted SSL certificates, default YES.
+ Enable to allow untrusted SSL certificates, default NO.
  */
 @property (nonatomic, assign) BOOL allowInvalidCertificates;
 

@@ -47,8 +47,7 @@
         self.URLSession = [NSURLSession sessionWithConfiguration:configuration
                                                         delegate:self
                                                    delegateQueue:queue];
-        [NSURLSession sharedSession];
-        self.allowInvalidCertificates = YES;
+        self.allowInvalidCertificates = NO;
     }
     return self;
 }
