@@ -28,6 +28,7 @@
 typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
     ZXPlaybackStatusBuffering,
     ZXPlaybackStatusPlaying,
+    ZXPlaybackStatusSeeking,
     ZXPlaybackStatusPaused,
     ZXPlaybackStatusEnded,
 };
@@ -65,6 +66,6 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 - (void)pause;
 - (void)stop;
 
-- (void)seekToTime:(NSTimeInterval)time andPlay:(BOOL)play;
+- (void)seekToTime:(NSTimeInterval)time pauseAndPlay:(BOOL)pauseAndPlay;
 
 @end
