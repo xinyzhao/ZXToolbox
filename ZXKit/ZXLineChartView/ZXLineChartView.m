@@ -163,14 +163,14 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.opaque = NO;
+        self.backgroundColor = [UIColor clearColor];
         [self initView];
     }
     return self;
 }
 
 - (void)initView {
-    self.opaque = NO;
-    self.backgroundColor = [UIColor clearColor];
     self.isVisible = YES;
 }
 
