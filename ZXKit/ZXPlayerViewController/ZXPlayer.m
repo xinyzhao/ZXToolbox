@@ -189,7 +189,7 @@
     }
 }
 
-- (UIImage *)videoPreviewImage {
+- (UIImage *)previewImage {
     UIImage *image = nil;
     if (self.playerItem.asset) {
         AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:self.playerItem.asset];

@@ -52,7 +52,7 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 @property (nonatomic, assign) CGFloat brightnessFactor; // 0 - 1, 0 mean is disabled, default is 0.5
 @property (nonatomic, assign) CGFloat volumeFactor; // 0 - 1, 0 mean is disabled, default is 0.5
 
-@property (nonatomic, readonly) UIImage *videoPreviewImage;
+@property (nonatomic, readonly) UIImage *previewImage;
 @property (nonatomic, readonly) NSURL *URL;
 
 + (instancetype)playerWithURL:(NSURL *)URL;

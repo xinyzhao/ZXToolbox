@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.0.6"
+  s.version      = "1.0.7"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -190,6 +190,11 @@ Pod::Spec.new do |s|
     ss.dependency 'ZXToolbox/ZXURLSession'
     ss.source_files  = "ZXKit/ZXImageView/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXImageView/*.h"
+  end
+
+  s.subspec "ZXLineChartView" do |ss|
+    ss.source_files  = "ZXKit/ZXLineChartView/*.{h,m}"
+    ss.public_header_files = "ZXKit/ZXLineChartView/*.h"
   end
 
   s.subspec "ZXNetworkTrafficMonitor" do |ss|
