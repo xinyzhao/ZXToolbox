@@ -125,11 +125,11 @@
     //
     NSInteger count = self.lineDash.count;
     if (count > 0) {
-        double *dash = malloc(sizeof(float) * count);
+        CGFloat *dash = malloc(sizeof(CGFloat) * count);
         for (NSInteger i = 0; i < count; ++i) {
             dash[i] = [self.lineDash[i] floatValue];
         }
-        CGContextSetLineDash(context, 0, (const double *)dash, count);
+        CGContextSetLineDash(context, 0, dash, count);
         free(dash);
     }
     CGContextStrokePath(context);
