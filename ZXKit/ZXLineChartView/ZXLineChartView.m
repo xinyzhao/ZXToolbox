@@ -143,7 +143,8 @@
 @property (nonatomic, strong) NSArray *points;
 @property (nonatomic, assign) CGPoint point;
 
-@property (nonatomic, copy) void(^didMoveToPoint)(CGPoint point, NSInteger index);
+@property (nonatomic, copy) void(^touchesMoved)(CGPoint point, NSInteger index);
+@property (nonatomic, copy) void(^touchesEnded)(void);
 
 @end
 
@@ -202,13 +203,13 @@
     }
 }
 
-- (void)moveToPoint:(id)point {
+- (void)moveToPoint:(id)point trigger:(BOOL)trigger {
     self.point = [point CGPointValue];
     [self setNeedsDisplay];
     //
-    if (_didMoveToPoint) {
+    if (trigger && _touchesMoved) {
         NSInteger index = [self.points indexOfObject:point];
-        _didMoveToPoint([point CGPointValue], index);
+        _touchesMoved([point CGPointValue], index);
     }
 }
 
@@ -227,7 +228,7 @@
             }
         }
         if (object) {
-            [self moveToPoint:object];
+            [self moveToPoint:object trigger:YES];
         }
     }
 }
@@ -249,6 +250,18 @@
     CGPoint point = [touch locationInView:self];
     if (CGRectContainsPoint(self.touchRect, point)) {
         [self moveToNearestPoint:point];
+    }
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+    if (_touchesEnded) {
+        _touchesEnded();
+    }
+}
+
+- (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
+    if (_touchesEnded) {
+        _touchesEnded();
     }
 }
 
@@ -321,10 +334,15 @@
         _nodeView = [[ZXLineChartNode alloc] initWithFrame:self.bounds];
         //
         __weak typeof(self) weakSelf = self;
-        _nodeView.didMoveToPoint = ^(CGPoint point, NSInteger index) {
-            if (weakSelf.didMoveToPoint && index >= 0 && index < weakSelf.dataArray.count) {
+        _nodeView.touchesMoved = ^(CGPoint point, NSInteger index) {
+            if (weakSelf.touchesMoved && index >= 0 && index < weakSelf.dataArray.count) {
                 ZXLineChartData *data = weakSelf.dataArray[index];
-                weakSelf.didMoveToPoint(point, data);
+                weakSelf.touchesMoved(point, data);
+            }
+        };
+        _nodeView.touchesEnded = ^{
+            if (weakSelf.touchesEnded) {
+                weakSelf.touchesEnded();
             }
         };
     }
@@ -552,7 +570,7 @@
     self.nodeView.touchRect = rect;
     self.nodeView.points = [points copy];
     [self addSubview:self.nodeView];
-    [self.nodeView moveToPoint:[points lastObject]];
+    [self.nodeView moveToPoint:[points lastObject] trigger:NO];
 }
 
 - (UIEdgeInsets)contentInset {

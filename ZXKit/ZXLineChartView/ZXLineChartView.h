@@ -91,6 +91,7 @@
 
 @property (nonatomic, strong) ZXLineChartNode *nodeView;
 
-@property (nonatomic, copy) void (^didMoveToPoint)(CGPoint point, ZXLineChartData *data);
+@property (nonatomic, copy) void (^touchesMoved)(CGPoint point, ZXLineChartData *data);
+@property (nonatomic, copy) void (^touchesEnded)(void);
 
 @end
