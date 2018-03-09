@@ -172,6 +172,11 @@
 
 - (void)initView {
     self.isVisible = YES;
+    //
+    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
+    pan.cancelsTouchesInView = NO;
+    pan.delaysTouchesBegan = YES;
+    [self addGestureRecognizer:pan];
 }
 
 - (UIColor *)color {
@@ -234,6 +239,32 @@
 }
 
 #pragma mark Touch Event
+
+- (void)onPan:(UIPanGestureRecognizer *)pan {
+    switch (pan.state) {
+        case UIGestureRecognizerStateBegan:
+        case UIGestureRecognizerStateChanged:
+        {
+            CGPoint point = [pan locationInView:pan.view];
+            if (CGRectContainsPoint(self.touchRect, point)) {
+                if (self.points.count > 0) {
+                    [self moveToNearestPoint:point];
+                }
+            }
+            break;
+        }
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled:
+        {
+            if (_touchesEnded) {
+                _touchesEnded();
+            }
+            break;
+        }
+        default:
+            break;
+    }
+}
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
     UITouch *touch = [touches anyObject];
