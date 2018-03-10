@@ -23,6 +23,7 @@ pod "ZXToolbox"
 ## Foundation
 
 * Base64Encoding
+* JSONObject
 * NSArray+Extra
 * NSDate+Extra
 * NSFileManager+Extra
@@ -45,7 +46,6 @@ pod "ZXToolbox"
 
 ## ZXKit
 
-* JSONObject
 * QRCodeGenerator
 * QRCodeReader
 * QRCodeScanner
