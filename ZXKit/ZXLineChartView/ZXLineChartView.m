@@ -143,6 +143,7 @@
 @property (nonatomic, strong) NSArray *points;
 @property (nonatomic, assign) CGPoint point;
 
+@property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
 @property (nonatomic, copy) void(^touchesMoved)(CGPoint point, NSInteger index);
 @property (nonatomic, copy) void(^touchesEnded)(void);
 
@@ -172,6 +173,10 @@
 
 - (void)initView {
     self.isVisible = NO;
+    //
+    self.panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
+    self.panGestureRecognizer.enabled = NO;
+    [self addGestureRecognizer:self.panGestureRecognizer];
 }
 
 - (UIColor *)color {
@@ -188,6 +193,14 @@
 
 - (CGFloat)lineWidth {
     return _lineWidth ?: kZXLineChartLineWidth;
+}
+
+- (void)setCancelsTouchesInView:(BOOL)cancelsTouchesInView {
+    self.panGestureRecognizer.enabled = !cancelsTouchesInView;
+}
+
+- (BOOL)cancelsTouchesInView {
+    return !self.panGestureRecognizer.enabled;
 }
 
 - (void)setIsVisible:(BOOL)isVisible {
@@ -240,10 +253,36 @@
 
 #pragma mark Touch Event
 
+- (void)onPan:(UIPanGestureRecognizer *)pan {
+    switch (pan.state) {
+        case UIGestureRecognizerStateBegan:
+        case UIGestureRecognizerStateChanged:
+        {
+            CGPoint point = [pan locationInView:pan.view];
+            if (CGRectContainsPoint(self.touchRect, point)) {
+                if (self.points.count > 0) {
+                    [self moveToNearestPoint:point];
+                }
+            }
+            break;
+        }
+        case UIGestureRecognizerStateEnded:
+        case UIGestureRecognizerStateCancelled:
+        {
+            if (_touchesEnded) {
+                _touchesEnded();
+            }
+            break;
+        }
+        default:
+            break;
+    }
+}
+
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:self];
-    if (CGRectContainsPoint(self.touchRect, point)) {
+    if (self.cancelsTouchesInView && CGRectContainsPoint(self.touchRect, point)) {
         [self moveToNearestPoint:point];
     }
 }
@@ -251,19 +290,19 @@
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:self];
-    if (CGRectContainsPoint(self.touchRect, point)) {
+    if (self.cancelsTouchesInView && CGRectContainsPoint(self.touchRect, point)) {
         [self moveToNearestPoint:point];
     }
 }
 
 - (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
-    if (_touchesEnded) {
+    if (self.cancelsTouchesInView && _touchesEnded) {
         _touchesEnded();
     }
 }
 
 - (void)touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
-    if (_touchesEnded) {
+    if (self.cancelsTouchesInView && _touchesEnded) {
         _touchesEnded();
     }
 }
