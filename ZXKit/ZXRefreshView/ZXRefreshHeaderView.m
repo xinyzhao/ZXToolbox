@@ -149,8 +149,10 @@
         //
         UIEdgeInsets inset = self.scrollView.contentInset;
         inset.top += self.frame.size.height;
+        CGPoint offset = CGPointMake(0, -inset.top);
         [UIView animateWithDuration:.2 animations:^{
             _scrollView.contentInset = inset;
+            _scrollView.contentOffset = offset;
         }];
         //
         if (_refreshingBlock) {
