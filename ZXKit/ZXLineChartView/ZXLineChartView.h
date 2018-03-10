@@ -73,7 +73,7 @@
 @property (nonatomic, assign) CGFloat radius; // circle radius, default is kZXLineChartNodeRadius
 @property (nonatomic, strong) UIColor *lineColor; // border color, default is kZXLineChartLineColor
 @property (nonatomic, assign) CGFloat lineWidth; // border width, default is kZXLineChartLineWidth
-@property (nonatomic, assign) BOOL isVisible; // default is YES
+@property (nonatomic, assign) BOOL isVisible; // default is NO
 
 @end
 

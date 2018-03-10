@@ -171,12 +171,7 @@
 }
 
 - (void)initView {
-    self.isVisible = YES;
-    //
-    UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
-    pan.cancelsTouchesInView = NO;
-    pan.delaysTouchesBegan = YES;
-    [self addGestureRecognizer:pan];
+    self.isVisible = NO;
 }
 
 - (UIColor *)color {
@@ -195,6 +190,11 @@
     return _lineWidth ?: kZXLineChartLineWidth;
 }
 
+- (void)setIsVisible:(BOOL)isVisible {
+    _isVisible = isVisible;
+    [self setNeedsDisplay];
+}
+
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     //
@@ -208,11 +208,11 @@
     }
 }
 
-- (void)moveToPoint:(id)point trigger:(BOOL)trigger {
+- (void)moveToPoint:(id)point {
     self.point = [point CGPointValue];
     [self setNeedsDisplay];
     //
-    if (trigger && _touchesMoved) {
+    if (_touchesMoved) {
         NSInteger index = [self.points indexOfObject:point];
         _touchesMoved([point CGPointValue], index);
     }
@@ -233,46 +233,18 @@
             }
         }
         if (object) {
-            [self moveToPoint:object trigger:YES];
+            [self moveToPoint:object];
         }
     }
 }
 
 #pragma mark Touch Event
 
-- (void)onPan:(UIPanGestureRecognizer *)pan {
-    switch (pan.state) {
-        case UIGestureRecognizerStateBegan:
-        case UIGestureRecognizerStateChanged:
-        {
-            CGPoint point = [pan locationInView:pan.view];
-            if (CGRectContainsPoint(self.touchRect, point)) {
-                if (self.points.count > 0) {
-                    [self moveToNearestPoint:point];
-                }
-            }
-            break;
-        }
-        case UIGestureRecognizerStateEnded:
-        case UIGestureRecognizerStateCancelled:
-        {
-            if (_touchesEnded) {
-                _touchesEnded();
-            }
-            break;
-        }
-        default:
-            break;
-    }
-}
-
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:self];
     if (CGRectContainsPoint(self.touchRect, point)) {
-        if (self.points.count > 0) {
-            [self moveToNearestPoint:point];
-        }
+        [self moveToNearestPoint:point];
     }
 }
 
@@ -601,7 +573,6 @@
     self.nodeView.touchRect = rect;
     self.nodeView.points = [points copy];
     [self addSubview:self.nodeView];
-    [self.nodeView moveToPoint:[points lastObject] trigger:NO];
 }
 
 - (UIEdgeInsets)contentInset {
