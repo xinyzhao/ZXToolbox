@@ -50,7 +50,7 @@
         self.contentInset = 0;
         self.contentOffset = 0;
         self.refreshState = ZXRefreshStateIdle;
-        self.pullingProgress = 0.f;
+        self.pullingProgress = 0.0;
     }
     return self;
 }
@@ -102,13 +102,13 @@
 }
 
 - (void)setPullingProgress:(CGFloat)pullingProgress {
-    if (pullingProgress < 0.f) {
-        pullingProgress = 0.f;
-    } else if (pullingProgress > 1.f) {
-        pullingProgress = 1.f;
+    if (pullingProgress < 0.0) {
+        pullingProgress = 0.0;
+    } else if (pullingProgress > 1.0) {
+        pullingProgress = 1.0;
     }
     //
-    if (ABS(_pullingProgress - pullingProgress) > .005) {
+    if (ABS(_pullingProgress - pullingProgress) > 0.01) {
         _pullingProgress = pullingProgress;
     }
 }
@@ -207,32 +207,25 @@
     CGFloat insetTop = -self.parentInset.top;
     CGFloat height = self.frame.size.height;
     CGFloat progress = (insetTop - offsetY) / height;
-    if (self.scrollView.isDragging && !self.isRefreshing) {
-        if (offsetY < insetTop) {
-            if (offsetY > insetTop - height) {
-                if (self.refreshState == ZXRefreshStateIdle || self.refreshState == ZXRefreshStateWillRefreshing) {
+    if (self.refreshState != ZXRefreshStateRefreshing) {
+        if (self.scrollView.isDragging) {
+            self.pullingProgress = progress;
+            if (offsetY < insetTop) {
+                if (offsetY > insetTop - height) {
                     self.refreshState = ZXRefreshStatePulling;
-                }
-                self.pullingProgress = progress;
-            } else {
-                self.pullingProgress = 1.f;
-                if (self.refreshState < ZXRefreshStateWillRefreshing) {
+                } else {
                     self.refreshState = ZXRefreshStateWillRefreshing;
                 }
-            }
-        } else {
-            self.pullingProgress = 0.f;
-            if (self.refreshState == ZXRefreshStateWillRefreshing) {
+            } else {
                 self.refreshState = ZXRefreshStateIdle;
             }
+        } else if (self.refreshState == ZXRefreshStateWillRefreshing) {
+            [self beginRefreshing];
+        } else {
+            self.refreshState = ZXRefreshStateIdle;
         }
-        self.pullingProgress = (insetTop - offsetY) / height;
-    } else if (self.refreshState == ZXRefreshStateWillRefreshing) {
-        [self beginRefreshing];
-    } else if (self.refreshState != ZXRefreshStateRefreshing) {
-        self.pullingProgress = progress;
     }
-//    NSLog(@"%d %d", (int)self.refreshState, (int)(self.pullingProgress * 100));
+    //NSLog(@"%d %d", (int)self.refreshState, (int)(self.pullingProgress * 100));
 }
 
 @end
