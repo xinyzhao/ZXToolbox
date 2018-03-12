@@ -398,8 +398,8 @@
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     // Drawing code
-    [self.layer.sublayers makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
     [self.subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [self.layer.sublayers makeObjectsPerformSelector:@selector(removeFromSuperlayer)];
     //
     CGRect xAxis = CGRectZero;
     CGRect yAxis = CGRectZero;
