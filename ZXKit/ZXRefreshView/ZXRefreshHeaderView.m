@@ -144,20 +144,20 @@
 #pragma mark Refreshing
 
 - (BOOL)beginRefreshing {
-    if (_refreshState == ZXRefreshStateIdle || _refreshState == ZXRefreshStateWillRefreshing) {
-        _refreshState = ZXRefreshStateRefreshing;
+    if (self.refreshState == ZXRefreshStateIdle || self.refreshState == ZXRefreshStateWillRefreshing) {
+        self.refreshState = ZXRefreshStateRefreshing;
         //
         UIEdgeInsets inset = self.scrollView.contentInset;
         inset.top += self.frame.size.height;
         CGPoint offset = CGPointMake(0, -inset.top);
-        [UIView animateWithDuration:.2 animations:^{
+        [UIView animateWithDuration:.25 animations:^{
             _scrollView.contentInset = inset;
             _scrollView.contentOffset = offset;
+        } completion:^(BOOL finished) {
+            if (_refreshingBlock) {
+                _refreshingBlock();
+            }
         }];
-        //
-        if (_refreshingBlock) {
-            _refreshingBlock();
-        }
         //
         return YES;
     }
@@ -170,7 +170,7 @@
         //
         UIEdgeInsets inset = self.scrollView.contentInset;
         inset.top -= self.frame.size.height;
-        [UIView animateWithDuration:.2 animations:^{
+        [UIView animateWithDuration:.25 animations:^{
             _scrollView.contentInset = inset;
         }];
         //
