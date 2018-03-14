@@ -66,7 +66,7 @@ extern void floorAndCeiling(double *min, double *max);
 @property (nonatomic, strong) UIColor *lineColor; // default is kZXLineChartLineColor
 @property (nonatomic, assign) CGFloat lineWidth; // default is kZXLineChartLineWidth
 @property (nonatomic, copy) NSArray<NSNumber *> *lineDash; // same as [CAShapeLayer lineDashPattern]
-@property (nonatomic, assign) BOOL isVisible; // default is YES
+@property (nonatomic, assign) BOOL isEnabled; // default is YES
 
 @end
 
@@ -76,8 +76,11 @@ extern void floorAndCeiling(double *min, double *max);
 @property (nonatomic, strong) UIColor *lineColor; // border color, default is kZXLineChartLineColor
 @property (nonatomic, assign) CGFloat lineWidth; // border width, default is kZXLineChartLineWidth
 
+@property (nonatomic, readonly) ZXLineChartLine *xLine;
+@property (nonatomic, readonly) ZXLineChartLine *yLine;
+
 @property(nonatomic) BOOL cancelsTouchesInView; // default is YES
-@property (nonatomic, assign) BOOL isVisible; // default is NO
+@property (nonatomic, assign) BOOL isEnabled; // default is NO
 
 @end
 
@@ -90,10 +93,12 @@ extern void floorAndCeiling(double *min, double *max);
 @property (nonatomic, strong) UIColor *fillColor; // default is kZXLineChartFillColor
 @property (nonatomic, strong) UIColor *gradientColor; // default is kZXLineChartGradientColor
 
-@property (nonatomic, strong) ZXLineChartAxis *xAxis;
-@property (nonatomic, strong) ZXLineChartAxis *yAxis;
+@property (nonatomic, readonly) ZXLineChartAxis *xAxis;
+@property (nonatomic, readonly) ZXLineChartAxis *yAxis;
 
-@property (nonatomic, strong) ZXLineChartNode *nodeView;
+@property (nonatomic, readonly) ZXLineChartNode *nodeView;
+
+@property (nonatomic, readonly) UIEdgeInsets contentInset;
 
 @property (nonatomic, copy) void (^touchesMoved)(CGPoint point, ZXLineChartData *data);
 @property (nonatomic, copy) void (^touchesEnded)(void);

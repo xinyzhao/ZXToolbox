@@ -102,7 +102,7 @@ void floorAndCeiling(double *min, double *max) {
 {
     self = [super init];
     if (self) {
-        self.isVisible = YES;
+        self.isEnabled = YES;
     }
     return self;
 }
@@ -150,7 +150,7 @@ void floorAndCeiling(double *min, double *max) {
 @end
 
 @interface ZXLineChartNode ()
-@property (nonatomic, assign) CGRect touchRect;
+@property (nonatomic, assign) CGRect chartRect;
 @property (nonatomic, strong) NSArray *points;
 @property (nonatomic, assign) CGPoint point;
 
@@ -161,6 +161,8 @@ void floorAndCeiling(double *min, double *max) {
 @end
 
 @implementation ZXLineChartNode
+@synthesize xLine = _xLine;
+@synthesize yLine = _yLine;
 
 - (instancetype)initWithCoder:(NSCoder *)coder
 {
@@ -183,8 +185,7 @@ void floorAndCeiling(double *min, double *max) {
 }
 
 - (void)initView {
-    self.isVisible = NO;
-    //
+    self.isEnabled = NO;
     self.panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPan:)];
     self.panGestureRecognizer.enabled = NO;
     [self addGestureRecognizer:self.panGestureRecognizer];
@@ -206,6 +207,20 @@ void floorAndCeiling(double *min, double *max) {
     return _lineWidth ?: kZXLineChartLineWidth;
 }
 
+- (ZXLineChartLine *)xLine {
+    if (_xLine == nil) {
+        _xLine = [[ZXLineChartLine alloc] init];
+    }
+    return _xLine;
+}
+
+- (ZXLineChartLine *)yLine {
+    if (_yLine == nil) {
+        _yLine = [[ZXLineChartLine alloc] init];
+    }
+    return _yLine;
+}
+
 - (void)setCancelsTouchesInView:(BOOL)cancelsTouchesInView {
     self.panGestureRecognizer.enabled = !cancelsTouchesInView;
 }
@@ -214,15 +229,30 @@ void floorAndCeiling(double *min, double *max) {
     return !self.panGestureRecognizer.enabled;
 }
 
-- (void)setIsVisible:(BOOL)isVisible {
-    _isVisible = isVisible;
+- (void)setIsEnabled:(BOOL)isEnabled {
+    _isEnabled = isEnabled;
     [self setNeedsDisplay];
 }
 
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     //
-    if (self.isVisible) {
+    if (self.isEnabled) {
+        if (self.xLine) {
+            CGRect line = self.chartRect;
+            line.origin.x = self.point.x - self.xLine.lineWidth / 2;
+            line.size.width = self.xLine.lineWidth;
+            line.size.height += line.origin.y;
+            line.origin.y = 0;
+            [self.xLine drawRect:line];
+        }
+        if (self.yLine) {
+            CGRect line = self.chartRect;
+            line.origin.y = self.point.y - self.yLine.lineWidth / 2;
+            line.size.width += rect.size.width - line.size.width - line.origin.x;
+            line.size.height = self.yLine.lineWidth;
+            [self.yLine drawRect:line];
+        }
         CGContextRef context = UIGraphicsGetCurrentContext();
         CGContextSetFillColorWithColor(context, self.color.CGColor);
         CGContextSetStrokeColorWithColor(context, self.lineColor.CGColor);
@@ -270,7 +300,7 @@ void floorAndCeiling(double *min, double *max) {
         case UIGestureRecognizerStateChanged:
         {
             CGPoint point = [pan locationInView:pan.view];
-            if (CGRectContainsPoint(self.touchRect, point)) {
+            if (CGRectContainsPoint(self.chartRect, point)) {
                 if (self.points.count > 0) {
                     [self moveToNearestPoint:point];
                 }
@@ -293,7 +323,7 @@ void floorAndCeiling(double *min, double *max) {
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:self];
-    if (self.cancelsTouchesInView && CGRectContainsPoint(self.touchRect, point)) {
+    if (self.cancelsTouchesInView && CGRectContainsPoint(self.chartRect, point)) {
         [self moveToNearestPoint:point];
     }
 }
@@ -301,7 +331,7 @@ void floorAndCeiling(double *min, double *max) {
 - (void)touchesMoved:(NSSet<UITouch *> *)touches withEvent:(nullable UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGPoint point = [touch locationInView:self];
-    if (self.cancelsTouchesInView && CGRectContainsPoint(self.touchRect, point)) {
+    if (self.cancelsTouchesInView && CGRectContainsPoint(self.chartRect, point)) {
         [self moveToNearestPoint:point];
     }
 }
@@ -325,6 +355,9 @@ void floorAndCeiling(double *min, double *max) {
 @end
 
 @implementation ZXLineChartView
+@synthesize xAxis = _xAxis;
+@synthesize yAxis = _yAxis;
+@synthesize nodeView = _nodeView;
 
 - (instancetype)initWithCoder:(NSCoder *)coder
 {
@@ -363,7 +396,7 @@ void floorAndCeiling(double *min, double *max) {
 - (ZXLineChartAxis *)xAxis {
     if (_xAxis == nil) {
         _xAxis = [[ZXLineChartAxis alloc] init];
-        _xAxis.gridLine.isVisible = NO;
+        _xAxis.gridLine.isEnabled = NO;
         _xAxis.gridLine.lineColor = kZXLineChartGridColor;
         _xAxis.gridLine.lineWidth = kZXLineChartGridWidth;
         _xAxis.textAlignment = NSTextAlignmentCenter;
@@ -374,7 +407,7 @@ void floorAndCeiling(double *min, double *max) {
 - (ZXLineChartAxis *)yAxis {
     if (_yAxis == nil) {
         _yAxis = [[ZXLineChartAxis alloc] init];
-        _yAxis.gridLine.isVisible = YES;
+        _yAxis.gridLine.isEnabled = YES;
         _yAxis.gridLine.lineColor = kZXLineChartGridColor;
         _yAxis.gridLine.lineWidth = kZXLineChartGridWidth;
         _yAxis.textAlignment = NSTextAlignmentRight;
@@ -426,7 +459,7 @@ void floorAndCeiling(double *min, double *max) {
     chart.size.width = rect.size.width - inset.left - inset.right;
     chart.size.height = rect.size.height - inset.top - inset.bottom;
     //
-    if (self.xAxis.axisLine.isVisible) {
+    if (self.xAxis.axisLine.isEnabled) {
         xAxis.origin.x = inset.left;
         xAxis.origin.y = rect.size.height - inset.bottom - self.xAxis.axisLine.lineWidth;
         xAxis.size.width = rect.size.width - inset.left;
@@ -445,7 +478,7 @@ void floorAndCeiling(double *min, double *max) {
         //
         chart.size.height -= xAxis.size.height;
     }
-    if (self.yAxis.axisLine.isVisible) {
+    if (self.yAxis.axisLine.isEnabled) {
         yAxis.origin.x = inset.left;
         yAxis.size.width = self.yAxis.axisLine.lineWidth;
         yAxis.size.height = rect.size.height - inset.bottom;
@@ -475,7 +508,7 @@ void floorAndCeiling(double *min, double *max) {
 }
 
 - (void)drawAxisX:(CGRect)lineRect label:(CGRect)labelRect {
-    if (self.xAxis.axisLine.isVisible) {
+    if (self.xAxis.axisLine.isEnabled) {
         [self.xAxis.axisLine drawRect:lineRect];
         //
         NSInteger count = self.xAxis.texts.count;
@@ -503,7 +536,7 @@ void floorAndCeiling(double *min, double *max) {
 }
 
 - (void)drawAxisY:(CGRect)lineRect label:(CGRect)labelRect {
-    if (self.yAxis.axisLine.isVisible) {
+    if (self.yAxis.axisLine.isEnabled) {
         [self.yAxis.axisLine drawRect:lineRect];
         //
         NSInteger count = self.yAxis.texts.count;
@@ -531,7 +564,7 @@ void floorAndCeiling(double *min, double *max) {
 }
 
 - (void)drawGridX:(CGRect)rect {
-    if (self.xAxis.gridLine.isVisible && self.xAxis.texts.count > 0) {
+    if (self.xAxis.gridLine.isEnabled && self.xAxis.texts.count > 0) {
         CGFloat width = rect.size.width / self.xAxis.texts.count;
         CGRect grid = rect;
         grid.size.width = self.xAxis.gridLine.lineWidth;
@@ -543,7 +576,7 @@ void floorAndCeiling(double *min, double *max) {
 }
 
 - (void)drawGridY:(CGRect)rect {
-    if (self.yAxis.gridLine.isVisible && self.yAxis.texts.count > 0) {
+    if (self.yAxis.gridLine.isEnabled && self.yAxis.texts.count > 0) {
         CGFloat height = rect.size.height / self.yAxis.texts.count;
         CGRect grid = rect;
         grid.size.height = self.yAxis.gridLine.lineWidth;
@@ -620,14 +653,14 @@ void floorAndCeiling(double *min, double *max) {
         [self.layer addSublayer:shapeLayer];
     }
     //
-    self.nodeView.touchRect = rect;
+    self.nodeView.chartRect = rect;
     self.nodeView.points = [points copy];
     [self addSubview:self.nodeView];
 }
 
 - (UIEdgeInsets)contentInset {
     UIEdgeInsets inset = UIEdgeInsetsZero;
-    if (self.xAxis.axisLine.isVisible && self.xAxis.texts.count > 0) {
+    if (self.xAxis.axisLine.isEnabled && self.xAxis.texts.count > 0) {
         CGSize size = [self.xAxis sizeWithText:self.xAxis.zeroText];
         inset.left = MAX(inset.left, size.width / 2);
         //
@@ -640,7 +673,7 @@ void floorAndCeiling(double *min, double *max) {
         inset.top = MAX(inset.top, size.height / 2);
         inset.bottom = MAX(inset.bottom, size.height + size.height / 2);
     }
-    if (self.yAxis.axisLine.isVisible && self.yAxis.texts.count > 0) {
+    if (self.yAxis.axisLine.isEnabled && self.yAxis.texts.count > 0) {
         CGSize size = [self.yAxis sizeWithText:self.yAxis.zeroText];
         inset.bottom = MAX(inset.bottom, size.height / 2);
         //
