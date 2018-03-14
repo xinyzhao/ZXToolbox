@@ -34,6 +34,8 @@
 #define kZXLineChartNodeColor       [UIColor whiteColor]
 #define kZXLineChartNodeRadius      4
 
+extern void floorAndCeiling(double *min, double *max);
+
 @class ZXLineChartAxis;
 @class ZXLineChartData;
 @class ZXLineChartLine;

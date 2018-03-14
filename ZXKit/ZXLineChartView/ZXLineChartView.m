@@ -23,6 +23,17 @@
 
 #import "ZXLineChartView.h"
 
+void floorAndCeiling(double *min, double *max) {
+    uint64_t units = MIN(*max - *min, *min);
+    for (uint64_t u = 1; u < units; u *= 10) {
+        if (u * 10 > units) {
+            *max = ceil(*max / u) * u;
+            *min = floor(*min / u) * u;
+            break;
+        }
+    }
+}
+
 @implementation ZXLineChartAxis
 
 - (ZXLineChartLine *)axisLine {
