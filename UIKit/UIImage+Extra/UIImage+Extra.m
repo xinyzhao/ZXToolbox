@@ -26,7 +26,19 @@
 
 #pragma mark UIImage Extra
 
-NSData *UIImageCompressToData(UIImage *image, NSUInteger length) {
+UIImage * UIImageCombineToRect(UIImage *image1, UIImage *image2, CGRect rect) {
+    CGFloat w = MAX(image1.size.width, rect.origin.x + rect.size.width);
+    CGFloat h = MAX(image1.size.height, rect.origin.y + rect.size.height);
+    CGSize size = CGSizeMake(w, h);
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
+    [image1 drawInRect:CGRectMake(0, 0, image1.size.width, image1.size.height)];
+    [image2 drawInRect:rect];
+    UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return result;
+}
+
+NSData * UIImageCompressToData(UIImage *image, NSUInteger length) {
     if (length < 1024) {
         length = 1024;
         NSLog(@">[COMPRESS] Not less than %d bytes", (int)length);
@@ -52,7 +64,7 @@ NSData *UIImageCompressToData(UIImage *image, NSUInteger length) {
     return data;
 }
 
-UIImage *UIImageCropToRect(UIImage *image, CGRect rect) {
+UIImage * UIImageCropToRect(UIImage *image, CGRect rect) {
     rect.origin.x = roundf(rect.origin.x * image.scale);
     rect.origin.y = roundf(rect.origin.y * image.scale);
     rect.size.width = roundf(rect.size.width * image.scale);
@@ -63,7 +75,7 @@ UIImage *UIImageCropToRect(UIImage *image, CGRect rect) {
     return croppedImage;
 }
 
-UIImage *UIImageFromColor(UIColor *color, CGSize size) {
+UIImage * UIImageFromColor(UIColor *color, CGSize size) {
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
     UIGraphicsBeginImageContextWithOptions(rect.size, NO, 0.0);
     CGContextRef context = UIGraphicsGetCurrentContext();
@@ -75,7 +87,7 @@ UIImage *UIImageFromColor(UIColor *color, CGSize size) {
 }
 
 //https://developer.apple.com/library/ios/documentation/GraphicsImaging/Reference/CoreImageFilterReference/index.html#//apple_ref/doc/filter/ci/CIGaussianBlur
-UIImage *UIImageGaussianBlur(UIImage *image, CGFloat radius) {
+UIImage * UIImageGaussianBlur(UIImage *image, CGFloat radius) {
     if (image) {
         //
         CIImage *inputImage = [CIImage imageWithCGImage:image.CGImage];
@@ -96,8 +108,7 @@ UIImage *UIImageGaussianBlur(UIImage *image, CGFloat radius) {
     return image;
 }
 
-UIImage *UIImageOrientationToUp(UIImage *image) {
-    
+UIImage * UIImageOrientationToUp(UIImage *image) {
     // No-op if the orientation is already correct
     if (image.imageOrientation == UIImageOrientationUp)
         return image;
@@ -174,7 +185,7 @@ UIImage *UIImageOrientationToUp(UIImage *image) {
     return imgup;
 }
 
-UIImage *UIImageScaleToSize(UIImage *image, CGSize size) {
+UIImage * UIImageScaleToSize(UIImage *image, CGSize size) {
     UIImage *resized = nil;
     UIGraphicsBeginImageContextWithOptions(size, NO, 0);
     [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
@@ -183,7 +194,7 @@ UIImage *UIImageScaleToSize(UIImage *image, CGSize size) {
     return resized;
 }
 
-UIImage *UIImageToGrayscale(UIImage *image) {
+UIImage * UIImageToGrayscale(UIImage *image) {
     CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceGray();
     CGContextRef context = CGBitmapContextCreate(nil, image.size.width, image.size.height, 8, 0, colorSpace, kCGBitmapByteOrderDefault | kCGImageAlphaPremultipliedLast);
     CGColorSpaceRelease(colorSpace);
@@ -199,7 +210,7 @@ UIImage *UIImageToGrayscale(UIImage *image) {
 }
 
 // convert to grayscale using recommended method: http://en.wikipedia.org/wiki/Grayscale#Converting_color_to_grayscale
-//UIImage *UIImageToGrayscale(UIImage *image) {
+//UIImage * UIImageToGrayscale(UIImage *image) {
 //    typedef enum {
 //        A = 0,
 //        B = 1,
@@ -234,7 +245,7 @@ UIImage *UIImageToGrayscale(UIImage *image) {
 //    return grayImage;
 //}
 
-UIImage *UIImageToThumbnail(UIImage *image, CGSize size, BOOL scaleAspectFill) {
+UIImage * UIImageToThumbnail(UIImage *image, CGSize size, BOOL scaleAspectFill) {
     UIImage *thumbnail = nil;
     //
     CGSize imageSize = image.size;
@@ -302,6 +313,10 @@ CGSize UIImageSizeForScreenScale(UIImage *image) {
 
 - (UIImage *)blurImage:(CGFloat)radius {
     return UIImageGaussianBlur(self, radius);
+}
+
+- (UIImage *)combineImage:(UIImage *)image toRect:(CGRect)rect {
+    return UIImageCombineToRect(self, image, rect);
 }
 
 - (NSData *)compressToData:(NSUInteger)length {
