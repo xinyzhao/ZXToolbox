@@ -43,8 +43,8 @@ extern void floorAndCeiling(double *min, double *max);
 @class ZXLineChartView;
 
 @interface ZXLineChartAxis : NSObject
-@property (nonatomic, strong) ZXLineChartLine *axisLine;
-@property (nonatomic, strong) ZXLineChartLine *gridLine;
+@property (nonatomic, readonly) ZXLineChartLine *axisLine;
+@property (nonatomic, readonly) ZXLineChartLine *gridLine;
 
 @property (nonatomic, strong) NSArray *texts;
 @property (nonatomic, strong) UIFont *textFont;
@@ -87,14 +87,14 @@ extern void floorAndCeiling(double *min, double *max);
 @interface ZXLineChartView : UIView
 @property (nonatomic, strong) NSArray<ZXLineChartData *> *dataArray;
 
-@property (nonatomic, strong) ZXLineChartLine *chartLine;
+@property (nonatomic, readonly) ZXLineChartAxis *xAxis;
+@property (nonatomic, readonly) ZXLineChartAxis *yAxis;
+
+@property (nonatomic, readonly) ZXLineChartLine *chartLine;
 @property (nonatomic, assign) NSInteger smoothGranularity; // default is 20
 
 @property (nonatomic, strong) UIColor *fillColor; // default is kZXLineChartFillColor
 @property (nonatomic, strong) UIColor *gradientColor; // default is kZXLineChartGradientColor
-
-@property (nonatomic, readonly) ZXLineChartAxis *xAxis;
-@property (nonatomic, readonly) ZXLineChartAxis *yAxis;
 
 @property (nonatomic, readonly) ZXLineChartNode *nodeView;
 

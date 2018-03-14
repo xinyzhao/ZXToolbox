@@ -35,6 +35,8 @@ void floorAndCeiling(double *min, double *max) {
 }
 
 @implementation ZXLineChartAxis
+@synthesize axisLine = _axisLine;
+@synthesize gridLine = _gridLine;
 
 - (ZXLineChartLine *)axisLine {
     if (_axisLine == nil) {
@@ -355,6 +357,7 @@ void floorAndCeiling(double *min, double *max) {
 @end
 
 @implementation ZXLineChartView
+@synthesize chartLine = _chartLine;
 @synthesize xAxis = _xAxis;
 @synthesize yAxis = _yAxis;
 @synthesize nodeView = _nodeView;
