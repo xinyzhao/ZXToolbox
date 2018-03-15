@@ -26,6 +26,11 @@
 
 @interface NSString (NumberValue)
 
++ (NSString *)stringWithNumber:(NSNumber *)number;
++ (NSString *)stringWithNumber:(NSNumber *)number format:(NSString *)format;
+
+- (NSString *)stringWithNumberFormat:(NSString *)format;
+
 @property (readonly) char charValue;
 @property (readonly) unsigned char unsignedCharValue;
 @property (readonly) short shortValue;

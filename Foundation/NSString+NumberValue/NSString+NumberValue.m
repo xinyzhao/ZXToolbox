@@ -26,40 +26,67 @@
 
 @implementation NSString (NumberValue)
 
++ (NSNumberFormatter *)numberFormatter {
+    static NSNumberFormatter *numberFormatter = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        numberFormatter = [[NSNumberFormatter alloc] init];
+    });
+    numberFormatter.positiveFormat = nil;
+    return numberFormatter;
+}
+
++ (NSString *)stringWithNumber:(NSNumber *)number {
+    return [[NSString numberFormatter] stringFromNumber:number];
+}
+
++ (NSString *)stringWithNumber:(NSNumber *)number format:(NSString *)format {
+    NSNumberFormatter *nf = [NSString numberFormatter];
+    nf.positiveFormat = format;
+    return [nf stringFromNumber:number];
+}
+
+- (NSString *)stringWithNumberFormat:(NSString *)format {
+    NSNumberFormatter *nf = [NSString numberFormatter];
+    NSNumber *number = [nf numberFromString:self];
+    nf.positiveFormat = format;
+    return [nf stringFromNumber:number];
+}
+
 - (char)charValue {
-    return [[[[NSNumberFormatter alloc] init] numberFromString:self] charValue];
+    return [[[NSString numberFormatter] numberFromString:self] charValue];
 }
 
 - (unsigned char)unsignedCharValue {
-    return [[[[NSNumberFormatter alloc] init] numberFromString:self] unsignedCharValue];
+    return [[[NSString numberFormatter] numberFromString:self] unsignedCharValue];
 }
 
 - (short)shortValue {
-    return [[[[NSNumberFormatter alloc] init] numberFromString:self] shortValue];
+    return [[[NSString numberFormatter] numberFromString:self] shortValue];
 }
 
 - (unsigned short)unsignedShortValue {
-    return [[[[NSNumberFormatter alloc] init] numberFromString:self] unsignedShortValue];
+    return [[[NSString numberFormatter] numberFromString:self] unsignedShortValue];
 }
 
 - (unsigned int)unsignedIntValue {
-    return [[[[NSNumberFormatter alloc] init] numberFromString:self] unsignedIntValue];
+    return [[[NSString numberFormatter] numberFromString:self] unsignedIntValue];
 }
 
 - (long)longValue {
-    return [[[[NSNumberFormatter alloc] init] numberFromString:self] longValue];
+    return [[[NSString numberFormatter] numberFromString:self] longValue];
 }
 
 - (unsigned long)unsignedLongValue {
-    return [[[[NSNumberFormatter alloc] init] numberFromString:self] unsignedLongValue];
+    return [[[NSString numberFormatter] numberFromString:self] unsignedLongValue];
 }
 
 - (unsigned long long)unsignedLongLongValue {
-    return [[[[NSNumberFormatter alloc] init] numberFromString:self] unsignedLongLongValue];
+    return [[[NSString numberFormatter] numberFromString:self] unsignedLongLongValue];
 }
 
 - (NSUInteger)unsignedIntegerValue {
-    return [[[[NSNumberFormatter alloc] init] numberFromString:self] unsignedIntegerValue];
+    return [[[NSString numberFormatter] numberFromString:self] unsignedIntegerValue];
 }
 
 @end
