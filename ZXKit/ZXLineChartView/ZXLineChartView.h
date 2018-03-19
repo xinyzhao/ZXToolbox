@@ -34,7 +34,7 @@
 #define kZXLineChartNodeColor       [UIColor whiteColor]
 #define kZXLineChartNodeRadius      4
 
-extern void floorAndCeiling(double *min, double *max);
+extern void floorAndCeiling(double const *in_values, size_t in_count, double *out_min, double *out_max);
 
 @class ZXLineChartAxis;
 @class ZXLineChartData;
@@ -91,7 +91,7 @@ extern void floorAndCeiling(double *min, double *max);
 @property (nonatomic, readonly) ZXLineChartAxis *yAxis;
 
 @property (nonatomic, readonly) ZXLineChartLine *chartLine;
-@property (nonatomic, assign) NSInteger smoothGranularity; // default is 20
+@property (nonatomic, assign) NSInteger smoothGranularity; // default is 5
 
 @property (nonatomic, strong) UIColor *fillColor; // default is kZXLineChartFillColor
 @property (nonatomic, strong) UIColor *gradientColor; // default is kZXLineChartGradientColor

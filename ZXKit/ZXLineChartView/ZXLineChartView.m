@@ -23,15 +23,29 @@
 
 #import "ZXLineChartView.h"
 
-void floorAndCeiling(double *min, double *max) {
-    uint64_t units = MIN(*max - *min, *min);
+void floorAndCeiling(double const *in_values, size_t in_count, double *out_min, double *out_max) {
+    double max = 0.0;
+    double min = 0.0;
+    double diff = 0.0;
+    double prev = 0.0;
+    for (size_t i = 0; i < in_count; ++i) {
+        double v = in_values[i];
+        min = i == 0 ? v : MIN(min, v);
+        max = MAX(max, v);
+        diff = i == 0 ? 0 : MAX(diff, ABS(v - prev));
+        prev = v;
+    }
+    //
+    uint64_t units = MIN(MIN(max - min, min), diff);
     for (uint64_t u = 1; u < units; u *= 10) {
         if (u * 10 > units) {
-            *max = ceil(*max / u) * u;
-            *min = floor(*min / u) * u;
+            min = floor(min / u) * u;
+            max = ceil(max / u) * u;
             break;
         }
     }
+    *out_min = min;
+    *out_max = max;
 }
 
 @implementation ZXLineChartAxis
@@ -384,7 +398,7 @@ void floorAndCeiling(double *min, double *max) {
 
 - (void)initView
 {
-    self.smoothGranularity = 20;
+    self.smoothGranularity = 5;
     self.fillColor = kZXLineChartFillColor;
     self.gradientColor = kZXLineChartGradientColor;
 }
@@ -606,6 +620,8 @@ void floorAndCeiling(double *min, double *max) {
 
         } else {
             path = [[UIBezierPath alloc] init];
+            path.lineCapStyle = kCGLineCapButt;
+            path.lineJoinStyle = kCGLineJoinMiter;
             path.lineWidth = self.chartLine.lineWidth;
             //
             CGPoint point = [points[0] CGPointValue];
@@ -703,6 +719,8 @@ void floorAndCeiling(double *min, double *max) {
  */
 - (UIBezierPath *)smoothedPathWithPoints:(NSArray *)pointsArray granularity:(NSInteger)granularity {
     UIBezierPath * smoothedPath = [[UIBezierPath alloc] init];
+    smoothedPath.lineCapStyle = kCGLineCapRound;
+    smoothedPath.lineJoinStyle = kCGLineJoinRound;
 
     // Add control points to make the math make sense
     NSMutableArray *points = [pointsArray mutableCopy];
