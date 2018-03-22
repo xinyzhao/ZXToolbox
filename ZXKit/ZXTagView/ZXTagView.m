@@ -34,10 +34,7 @@
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
-        _alwaysScrollVertical = NO;
-        _spacingForItems = 0;
-        _spacingForLines = 0;
-        _selectedIndex = -1;
+        [self initView];
     }
     return self;
 }
@@ -45,12 +42,16 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        _alwaysScrollVertical = NO;
-        _spacingForItems = 0;
-        _spacingForLines = 0;
-        _selectedIndex = -1;
+        [self initView];
     }
     return self;
+}
+
+- (void)initView {
+    _isMultiLine = NO;
+    _spacingForItems = 0;
+    _spacingForLines = 0;
+    _selectedIndex = -1;
 }
 
 - (void)setSpacingForItems:(CGFloat)spacingForItems {
@@ -122,7 +123,7 @@
     __block CGRect rect = CGRectZero;
     [self.tagViews enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         rect.size = obj.bounds.size;
-        if (_alwaysScrollVertical) {
+        if (_isMultiLine) {
             if (rect.origin.x + rect.size.width + _spacingForItems + self.contentInset.left + self.contentInset.right > self.frame.size.width) {
                 rect.origin.x = 0;
                 rect.origin.y += rect.size.height + _spacingForLines;
@@ -132,7 +133,7 @@
         rect.origin.x += rect.size.width + _spacingForItems;
     }];
     //
-    if (_alwaysScrollVertical) {
+    if (_isMultiLine) {
         rect.size.width = 0;
         rect.size.height = rect.origin.y + rect.size.height;
     } else {
@@ -149,15 +150,16 @@
 - (void)setSelectedIndex:(NSInteger)selectedIndex animated:(BOOL)animated {
     UIView *view = [self tagViewAtIndex:selectedIndex];
     if (view) {
-        CGPoint offset = CGPointZero;
-        offset.x = view.frame.origin.x + view.bounds.size.width / 2 - self.bounds.size.width / 2;
-        if (offset.x < -self.contentInset.left) {
-            offset.x = -self.contentInset.left;
+        if (!_isMultiLine) {
+            CGPoint offset = CGPointZero;
+            offset.x = view.frame.origin.x + view.bounds.size.width / 2 - self.bounds.size.width / 2;
+            if (offset.x < -self.contentInset.left) {
+                offset.x = -self.contentInset.left;
+            } else if (offset.x > self.contentSize.width - self.bounds.size.width + self.contentInset.right) {
+                offset.x = self.contentSize.width - self.bounds.size.width + self.contentInset.right;
+            }
+            [self setContentOffset:offset animated:animated];
         }
-        if (offset.x > self.contentSize.width - self.bounds.size.width + self.contentInset.right) {
-            offset.x = self.contentSize.width - self.bounds.size.width + self.contentInset.right;
-        }
-        [self setContentOffset:offset animated:animated];
         //
         UIView *prevView = [self tagViewAtIndex:_selectedIndex];
         if (_selectedIndex != selectedIndex) {

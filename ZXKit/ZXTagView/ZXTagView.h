@@ -28,9 +28,9 @@
 @interface ZXTagView : UIScrollView
 
 /**
- The spacing for items, default NO, if YES the tag view will be auto break to new line
+ Multi-line for items, default is single line, if YES the tag view will be auto break to new line
  */
-@property(nonatomic) BOOL alwaysScrollVertical;
+@property(nonatomic, assign) BOOL isMultiLine;
 
 /**
  The spacing for items
@@ -43,7 +43,7 @@
 @property (nonatomic, assign) CGFloat spacingForLines;
 
 /**
- Selected index
+ Selected item at index
  */
 @property (nonatomic, assign) NSInteger selectedIndex;
 
