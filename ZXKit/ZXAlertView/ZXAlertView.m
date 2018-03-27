@@ -42,6 +42,7 @@ typedef void (^ZXAlertActionHandler)(ZXAlertAction *action);
     if (self) {
         self.title = title;
         self.handler = handler;
+        self.style = ZXAlertActionStyleDefault;
     }
     return self;
 }
@@ -68,6 +69,7 @@ typedef void (^ZXAlertActionHandler)(ZXAlertAction *action);
         if (@available(iOS 8.0, *)) {
             //
             self.alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
+            //
             if (cancelAction) {
                 UIAlertAction *alertAction = [UIAlertAction actionWithTitle:cancelAction.title style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
                     if (cancelAction.handler) {
@@ -78,7 +80,7 @@ typedef void (^ZXAlertActionHandler)(ZXAlertAction *action);
             }
             //
             if (otherActions) {
-                UIAlertAction *alertAction = [UIAlertAction actionWithTitle:otherActions.title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                UIAlertAction *alertAction = [UIAlertAction actionWithTitle:otherActions.title style:(NSInteger)otherActions.style handler:^(UIAlertAction * _Nonnull action) {
                     if (otherActions.handler) {
                         otherActions.handler(otherActions);
                     }
@@ -91,7 +93,7 @@ typedef void (^ZXAlertActionHandler)(ZXAlertAction *action);
                 while ((obj = va_arg(vaList, id))) {
                     if ([obj isKindOfClass:[ZXAlertAction class]]) {
                         ZXAlertAction *otherAction = obj;
-                        UIAlertAction *alertAction = [UIAlertAction actionWithTitle:otherAction.title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        UIAlertAction *alertAction = [UIAlertAction actionWithTitle:otherAction.title style:(NSInteger)otherAction.style handler:^(UIAlertAction * _Nonnull action) {
                             if (otherAction.handler) {
                                 otherAction.handler(otherAction);
                             }
@@ -163,7 +165,7 @@ typedef void (^ZXAlertActionHandler)(ZXAlertAction *action);
             }
             //
             if (otherActions) {
-                UIAlertAction *alertAction = [UIAlertAction actionWithTitle:otherActions.title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                UIAlertAction *alertAction = [UIAlertAction actionWithTitle:otherActions.title style:(NSInteger)otherActions.style handler:^(UIAlertAction * _Nonnull action) {
                     if (otherActions.handler) {
                         otherActions.handler(otherActions);
                     }
@@ -176,7 +178,7 @@ typedef void (^ZXAlertActionHandler)(ZXAlertAction *action);
                 while ((obj = va_arg(vaList, id))) {
                     if ([obj isKindOfClass:[ZXAlertAction class]]) {
                         ZXAlertAction *otherAction = obj;
-                        UIAlertAction *alertAction = [UIAlertAction actionWithTitle:otherAction.title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                        UIAlertAction *alertAction = [UIAlertAction actionWithTitle:otherAction.title style:(NSInteger)otherAction.style handler:^(UIAlertAction * _Nonnull action) {
                             if (otherAction.handler) {
                                 otherAction.handler(otherAction);
                             }

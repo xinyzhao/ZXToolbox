@@ -25,6 +25,15 @@
 #import <UIKit/UIKit.h>
 
 /**
+ ZXAlertActionStyle
+ */
+typedef NS_ENUM(NSInteger, ZXAlertActionStyle) {
+    ZXAlertActionStyleDefault = 0,
+    ZXAlertActionStyleCancel,
+    ZXAlertActionStyleDestructive
+};
+
+/**
  ZXAlertAction
  */
 @interface ZXAlertAction : NSObject
@@ -33,6 +42,10 @@
  Title for action
  */
 @property (nonatomic, strong) NSString *title;
+/**
+ Style for action
+ */
+@property (nonatomic, assign) ZXAlertActionStyle style;
 
 /**
  Make an action
@@ -72,7 +85,7 @@
 
  @param title Title for alert view
  @param message Message for alert view
- @param cancelAction Cancel action
+ @param cancelAction Cancel action, the style is UIAlertActionStyleCancel
  @param otherActions Other actions, end with nil
  @return Instance
  */
@@ -83,8 +96,8 @@
 
  @param title Title for alert view
  @param message Message for alert view
- @param cancelAction Cancel action
- @param destructiveAction Destructive action
+ @param cancelAction Cancel action, the style is UIAlertActionStyleCancel
+ @param destructiveAction Destructive action, the style is ZXAlertActionStyleDestructive
  @param otherActions Other actions, end with nil
  @return Instance
  */
