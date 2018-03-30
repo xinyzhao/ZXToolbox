@@ -26,7 +26,7 @@
 
 #pragma mark UIImage Extra
 
-UIImage * UIImageCompositingToRect(UIImage *image1, UIImage *image2, CGRect rect) {
+UIImage * UIImageCombineToRect(UIImage *image1, UIImage *image2, CGRect rect) {
     CGSize size = image1.size;
     CGFloat w = MAX(size.width, rect.origin.x + rect.size.width);
     CGFloat h = MAX(size.height, rect.origin.y + rect.size.height);
@@ -324,8 +324,8 @@ UIImage * UIImageToThumbnail(UIImage *image, CGSize size, BOOL scaleAspectFill) 
     return UIImageGaussianBlur(self, radius);
 }
 
-- (UIImage *)compositingImage:(UIImage *)image toRect:(CGRect)rect {
-    return UIImageCompositingToRect(self, image, rect);
+- (UIImage *)combineImage:(UIImage *)image toRect:(CGRect)rect {
+    return UIImageCombineToRect(self, image, rect);
 }
 
 - (NSData *)compressToData:(NSUInteger)length {

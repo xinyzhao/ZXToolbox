@@ -27,7 +27,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 
 /// 拼接
-UIKIT_EXTERN UIImage * UIImageCompositingToRect(UIImage *image1, UIImage *image2, CGRect rect);
+UIKIT_EXTERN UIImage * UIImageCombineToRect(UIImage *image1, UIImage *image2, CGRect rect);
 
 /// 压缩
 UIKIT_EXTERN NSData * UIImageCompressToData(UIImage *image, NSUInteger length);
@@ -69,8 +69,8 @@ UIKIT_EXTERN UIImage * UIImageToThumbnail(UIImage *image, CGSize size, BOOL scal
 /// 高斯模糊
 - (UIImage *)blurImage:(CGFloat)radius;
 
-/// 拼接
-- (UIImage *)compositingImage:(UIImage *)image toRect:(CGRect)rect;
+/// 合并
+- (UIImage *)combineImage:(UIImage *)image toRect:(CGRect)rect;
 
 /// 压缩
 - (NSData *)compressToData:(NSUInteger)length;
