@@ -27,13 +27,13 @@
 #import <CoreGraphics/CoreGraphics.h>
 
 /// 拼接
-UIKIT_EXTERN UIImage * UIImageCombineToRect(UIImage *image1, UIImage *image2, CGRect rect);
+UIKIT_EXTERN UIImage * UIImageCompositingToRect(UIImage *image1, UIImage *image2, CGRect rect);
 
 /// 压缩
 UIKIT_EXTERN NSData * UIImageCompressToData(UIImage *image, NSUInteger length);
 
 /// 裁剪
-UIKIT_EXTERN UIImage * UIImageCropToRect(UIImage *image, CGRect rect);
+UIKIT_EXTERN UIImage * UIImageCroppingToRect(UIImage *image, CGRect rect);
 
 /// 根据颜色创建图像
 UIKIT_EXTERN UIImage * UIImageFromColor(UIColor *color, CGSize size);
@@ -47,15 +47,16 @@ UIKIT_EXTERN UIImage * UIImageOrientationToUp(UIImage *image);
 /// 缩放
 UIKIT_EXTERN UIImage * UIImageScaleToSize(UIImage *image, CGSize size);
 
+/// 图像尺寸
+UIKIT_EXTERN CGSize UIImageSizeOfScale(UIImage *image, CGFloat scale);
+UIKIT_EXTERN CGSize UIImageSizeOfScreenScale(UIImage *image);
+UIKIT_EXTERN CGSize UIImageSizeToScale(UIImage *image, CGFloat scale);
+
 /// 灰度图
 UIKIT_EXTERN UIImage * UIImageToGrayscale(UIImage *image);
 
 /// 缩略图
 UIKIT_EXTERN UIImage * UIImageToThumbnail(UIImage *image, CGSize size, BOOL scaleAspectFill);
-
-/// 图像尺寸
-UIKIT_EXTERN CGSize UIImageSizeForScale(UIImage *image, CGFloat scale);
-UIKIT_EXTERN CGSize UIImageSizeForScreenScale(UIImage *image);
 
 
 /// UIImage (Extra)
@@ -69,13 +70,13 @@ UIKIT_EXTERN CGSize UIImageSizeForScreenScale(UIImage *image);
 - (UIImage *)blurImage:(CGFloat)radius;
 
 /// 拼接
-- (UIImage *)combineImage:(UIImage *)image toRect:(CGRect)rect;
+- (UIImage *)compositingImage:(UIImage *)image toRect:(CGRect)rect;
 
 /// 压缩
 - (NSData *)compressToData:(NSUInteger)length;
 
 /// 裁剪
-- (UIImage *)cropToRect:(CGRect)rect;
+- (UIImage *)croppingToRect:(CGRect)rect;
 
 /// 灰度图
 - (UIImage *)grayscaleImage;
@@ -86,6 +87,11 @@ UIKIT_EXTERN CGSize UIImageSizeForScreenScale(UIImage *image);
 /// 缩放
 - (UIImage *)scaleTo:(CGFloat)scale;
 - (UIImage *)scaleToSize:(CGSize)size;
+
+/// 尺寸
+- (CGSize)sizeOfScale:(CGFloat)scale;
+- (CGSize)sizeOfScreenScale;
+- (CGSize)sizeToScale:(CGFloat)scale;
 
 /// 缩略图
 - (UIImage *)thumbnailImage:(CGSize)size aspect:(BOOL)fill;

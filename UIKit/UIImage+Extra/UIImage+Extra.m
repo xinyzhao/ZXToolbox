@@ -26,12 +26,12 @@
 
 #pragma mark UIImage Extra
 
-UIImage * UIImageCombineToRect(UIImage *image1, UIImage *image2, CGRect rect) {
-    CGFloat w = MAX(image1.size.width, rect.origin.x + rect.size.width);
-    CGFloat h = MAX(image1.size.height, rect.origin.y + rect.size.height);
-    CGSize size = CGSizeMake(w, h);
-    UIGraphicsBeginImageContextWithOptions(size, NO, 0.0);
-    [image1 drawInRect:CGRectMake(0, 0, image1.size.width, image1.size.height)];
+UIImage * UIImageCompositingToRect(UIImage *image1, UIImage *image2, CGRect rect) {
+    CGSize size = image1.size;
+    CGFloat w = MAX(size.width, rect.origin.x + rect.size.width);
+    CGFloat h = MAX(size.height, rect.origin.y + rect.size.height);
+    UIGraphicsBeginImageContextWithOptions(CGSizeMake(w, h), NO, image1.scale);
+    [image1 drawInRect:CGRectMake(0, 0, size.width, size.height)];
     [image2 drawInRect:rect];
     UIImage *result = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
@@ -54,7 +54,7 @@ NSData * UIImageCompressToData(UIImage *image, NSUInteger length) {
         }
         data = UIImageJPEGRepresentation(image, quality);
         if (data.length > length) {
-            CGSize size = UIImageSizeForScale(image, quality);
+            CGSize size = UIImageSizeToScale(image, quality);
             image = UIImageScaleToSize(image, size);
         }
         retry++;
@@ -64,7 +64,7 @@ NSData * UIImageCompressToData(UIImage *image, NSUInteger length) {
     return data;
 }
 
-UIImage * UIImageCropToRect(UIImage *image, CGRect rect) {
+UIImage * UIImageCroppingToRect(UIImage *image, CGRect rect) {
     rect.origin.x = roundf(rect.origin.x * image.scale);
     rect.origin.y = roundf(rect.origin.y * image.scale);
     rect.size.width = roundf(rect.size.width * image.scale);
@@ -98,7 +98,7 @@ UIImage * UIImageGaussianBlur(UIImage *image, CGFloat radius) {
         CIContext *context = [CIContext contextWithOptions:nil];
         CIImage *outputImage = [filter valueForKey:@"outputImage"];
         CGRect outputRect = CGRectZero;
-        outputRect.size = UIImageSizeForScale(image, 1.f);
+        outputRect.size = UIImageSizeOfScale(image, 1.0);
         CGImageRef imageRef = [context createCGImage:outputImage
                                             fromRect:outputRect];
         image = [[UIImage alloc] initWithCGImage:imageRef scale:image.scale orientation:image.imageOrientation];
@@ -187,11 +187,33 @@ UIImage * UIImageOrientationToUp(UIImage *image) {
 
 UIImage * UIImageScaleToSize(UIImage *image, CGSize size) {
     UIImage *resized = nil;
-    UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+    UIGraphicsBeginImageContextWithOptions(size, NO, image.scale);
     [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
     resized = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return resized;
+}
+
+CGSize UIImageSizeOfScale(UIImage *image, CGFloat scale) {
+    CGSize size = image.size;
+    if (scale > 0) {
+        size.width *= image.scale / scale;
+        size.height *= image.scale / scale;
+    }
+    return size;
+}
+
+CGSize UIImageSizeOfScreenScale(UIImage *image) {
+    return UIImageSizeOfScale(image, [UIScreen mainScreen].scale);
+}
+
+CGSize UIImageSizeToScale(UIImage *image, CGFloat scale) {
+    CGSize size = image.size;
+    if (scale > 0) {
+        size.width *= scale;
+        size.height *= scale;
+    }
+    return size;
 }
 
 UIImage * UIImageToGrayscale(UIImage *image) {
@@ -286,19 +308,6 @@ UIImage * UIImageToThumbnail(UIImage *image, CGSize size, BOOL scaleAspectFill) 
     return thumbnail;
 }
 
-CGSize UIImageSizeForScale(UIImage *image, CGFloat scale) {
-    CGSize size = image.size;
-    if (scale > 0) {
-        size.width *= image.scale / scale;
-        size.height *= image.scale / scale;
-    }
-    return size;
-}
-
-CGSize UIImageSizeForScreenScale(UIImage *image) {
-    return UIImageSizeForScale(image, [UIScreen mainScreen].scale);
-}
-
 #pragma mark UIImage (Extra)
 
 @implementation UIImage (Extra)
@@ -315,16 +324,16 @@ CGSize UIImageSizeForScreenScale(UIImage *image) {
     return UIImageGaussianBlur(self, radius);
 }
 
-- (UIImage *)combineImage:(UIImage *)image toRect:(CGRect)rect {
-    return UIImageCombineToRect(self, image, rect);
+- (UIImage *)compositingImage:(UIImage *)image toRect:(CGRect)rect {
+    return UIImageCompositingToRect(self, image, rect);
 }
 
 - (NSData *)compressToData:(NSUInteger)length {
     return UIImageCompressToData(self, length);
 }
 
-- (UIImage *)cropToRect:(CGRect)rect {
-    return UIImageCropToRect(self, rect);
+- (UIImage *)croppingToRect:(CGRect)rect {
+    return UIImageCroppingToRect(self, rect);
 }
 
 - (UIImage *)grayscaleImage {
@@ -336,14 +345,24 @@ CGSize UIImageSizeForScreenScale(UIImage *image) {
 }
 
 - (UIImage *)scaleTo:(CGFloat)scale {
-    CGSize size = UIImageSizeForScreenScale(self);
-    size.width = roundf(size.width * scale);
-    size.height = roundf(size.height * scale);
+    CGSize size = [self sizeToScale:scale];
     return UIImageScaleToSize(self, size);
 }
 
 - (UIImage *)scaleToSize:(CGSize)size {
     return UIImageScaleToSize(self, size);
+}
+
+- (CGSize)sizeOfScale:(CGFloat)scale {
+    return UIImageSizeOfScale(self, scale);
+}
+
+- (CGSize)sizeOfScreenScale {
+    return UIImageSizeOfScreenScale(self);
+}
+
+- (CGSize)sizeToScale:(CGFloat)scale {
+    return UIImageSizeToScale(self, scale);
 }
 
 - (UIImage *)thumbnailImage:(CGSize)size aspect:(BOOL)fill {
