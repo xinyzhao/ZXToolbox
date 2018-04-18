@@ -102,7 +102,8 @@
 }
 
 - (void)suspendAllDownloads {
-    for (ZXDownloadTask *task in [self.downloadTasks allValues]) {
+    NSArray *tasks =  [self.downloadTasks allValues];
+    for (ZXDownloadTask *task in tasks) {
         task.state = ZXDownloadStateSuspended;
     }
 }
@@ -118,13 +119,13 @@
     }
     //
     if (self.maximumConcurrent > 0) {
-        __block NSUInteger count = 0;
-        [self.downloadTasks enumerateKeysAndObjectsUsingBlock:^(id  _Nonnull key, id  _Nonnull obj, BOOL * _Nonnull stop) {
-            ZXDownloadTask *task = obj;
+        NSUInteger count = 0;
+        NSArray *tasks = [self.downloadTasks allValues];
+        for (ZXDownloadTask *task in tasks) {
             if (task.state == ZXDownloadStateRunning) {
-                ++count;
+                count += 1;
             }
-        }];
+        }
         if (count >= self.maximumConcurrent) {
             task.state = ZXDownloadStateWaiting;
             return NO;
@@ -139,7 +140,8 @@
 }
 
 - (void)resumeNextDowloadTask {
-    for (ZXDownloadTask *task in [self.downloadTasks allValues]) {
+    NSArray *tasks = [self.downloadTasks allValues];
+    for (ZXDownloadTask *task in tasks) {
         if (task.state == ZXDownloadStateWaiting) {
             [self resumeDownloadTask:task];
             break;
@@ -155,10 +157,9 @@
 }
 
 - (void)resumeAllDownloads {
-    for (ZXDownloadTask *task in [self.downloadTasks allValues]) {
-        if (task.state == ZXDownloadStateSuspended) {
-            [self resumeDownloadTask:task];
-        }
+    NSArray *tasks = [self.downloadTasks allValues];
+    for (ZXDownloadTask *task in tasks) {
+        [self resumeDownloadTask:task];
     }
 }
 
@@ -178,7 +179,8 @@
 }
 
 - (void)cancelAllDownloads {
-    for (ZXDownloadTask *task in [self.downloadTasks allValues]) {
+    NSArray *tasks = [self.downloadTasks allValues];
+    for (ZXDownloadTask *task in tasks) {
         task.state = ZXDownloadStateCancelled;
     }
     [self.downloadTasks removeAllObjects];

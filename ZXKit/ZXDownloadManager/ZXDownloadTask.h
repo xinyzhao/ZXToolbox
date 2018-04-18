@@ -28,7 +28,6 @@
  ZXDownloadState
  */
 typedef NS_ENUM(NSInteger, ZXDownloadState) {
-    ZXDownloadStateUnknown,
     ZXDownloadStateWaiting,
     ZXDownloadStateRunning,
     ZXDownloadStateSuspended,

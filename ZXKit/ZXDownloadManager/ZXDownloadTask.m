@@ -67,7 +67,7 @@
             [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
         }
         //
-        _state = ZXDownloadStateUnknown;
+        _state = ZXDownloadStateWaiting;
         _totalBytesWritten = 0;
         _totalBytesExpectedToWrite = 0;
         _localFilePath = [path stringByAppendingPathComponent:[URL lastPathComponent]];
@@ -115,9 +115,6 @@
     _state = state;
     //
     switch (_state) {
-        case ZXDownloadStateUnknown:
-            return;
-
         case ZXDownloadStateRunning:
             [self.dataTask resume];
             break;
