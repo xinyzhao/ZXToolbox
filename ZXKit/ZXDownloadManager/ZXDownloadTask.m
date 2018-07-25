@@ -67,7 +67,7 @@
             [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:YES attributes:nil error:nil];
         }
         //
-        _state = ZXDownloadStateWaiting;
+        _state = ZXDownloadStateUnknown;
         _totalBytesWritten = 0;
         _totalBytesExpectedToWrite = 0;
         _localFilePath = [path stringByAppendingPathComponent:[URL lastPathComponent]];
@@ -115,6 +115,9 @@
     _state = state;
     //
     switch (_state) {
+        case ZXDownloadStateUnknown:
+            return;
+
         case ZXDownloadStateRunning:
             [self.dataTask resume];
             break;
@@ -140,7 +143,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         for (ZXDownloadObserver *observer in observers) {
             if (observer.state) {
-                observer.state(_state);
+                observer.state(self->_state);
             }
         }
     });
@@ -171,7 +174,7 @@
     dispatch_async(dispatch_get_main_queue(), ^{
         for (ZXDownloadObserver *observer in observers) {
             if (observer.progress) {
-                observer.progress(_totalBytesWritten, _totalBytesExpectedToWrite, _progress);
+                observer.progress(self->_totalBytesWritten, self->_totalBytesExpectedToWrite, self->_progress);
             }
         }
     });
@@ -230,8 +233,8 @@
     //
     NSArray *observers = [self.observers allValues];
     dispatch_async(dispatch_get_main_queue(), ^{
-        BOOL completed = _state == ZXDownloadStateCompleted;
-        NSString *path = completed ? _localFilePath : nil;
+        BOOL completed = self->_state == ZXDownloadStateCompleted;
+        NSString *path = completed ? self->_localFilePath : nil;
         for (ZXDownloadObserver *observer in observers) {
             if (observer.completion) {
                 observer.completion(completed, path, error);

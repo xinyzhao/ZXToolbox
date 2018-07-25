@@ -229,7 +229,7 @@ typedef void (^ZXAlertActionHandler)(ZXAlertAction *action);
     if (@available(iOS 8.0, *)) {
         [self.alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
             if (textField) {
-                _textFields = [self.textFields arrayByAddingObject:textField];
+                self->_textFields = [self.textFields arrayByAddingObject:textField];
             }
             if (configurationHandler) {
                 configurationHandler(textField);

@@ -151,11 +151,11 @@
         inset.top += self.frame.size.height;
         CGPoint offset = CGPointMake(0, -inset.top);
         [UIView animateWithDuration:.25 animations:^{
-            _scrollView.contentInset = inset;
-            _scrollView.contentOffset = offset;
+            self->_scrollView.contentInset = inset;
+            self->_scrollView.contentOffset = offset;
         } completion:^(BOOL finished) {
-            if (_refreshingBlock) {
-                _refreshingBlock();
+            if (self->_refreshingBlock) {
+                self->_refreshingBlock();
             }
         }];
         //
@@ -171,7 +171,7 @@
         UIEdgeInsets inset = self.scrollView.contentInset;
         inset.top -= self.frame.size.height;
         [UIView animateWithDuration:.25 animations:^{
-            _scrollView.contentInset = inset;
+            self->_scrollView.contentInset = inset;
         }];
         //
         return YES;

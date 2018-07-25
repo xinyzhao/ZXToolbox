@@ -123,14 +123,14 @@
     __block CGRect rect = CGRectZero;
     [self.tagViews enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         rect.size = obj.bounds.size;
-        if (_isMultiLine) {
-            if (rect.origin.x + rect.size.width + _spacingForItems + self.contentInset.left + self.contentInset.right > self.frame.size.width) {
+        if (self->_isMultiLine) {
+            if (rect.origin.x + rect.size.width + self->_spacingForItems + self.contentInset.left + self.contentInset.right > self.frame.size.width) {
                 rect.origin.x = 0;
-                rect.origin.y += rect.size.height + _spacingForLines;
+                rect.origin.y += rect.size.height + self->_spacingForLines;
             }
         }
         obj.frame = rect;
-        rect.origin.x += rect.size.width + _spacingForItems;
+        rect.origin.x += rect.size.width + self->_spacingForItems;
     }];
     //
     if (_isMultiLine) {

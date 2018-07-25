@@ -86,7 +86,7 @@
         __weak typeof(self) weakSelf = self;
         [UIView animateWithDuration:_presentingDuration animations:^{
             weakSelf.backgroundColor = weakSelf.presentedBackgroundColor;
-            weakSelf.presentedView.frame = _toFrame;
+            weakSelf.presentedView.frame = self->_toFrame;
         } completion:^(BOOL finished) {
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:weakSelf action:@selector(dismiss)];
             tap.delegate = weakSelf;
@@ -100,9 +100,9 @@
     __weak typeof(self) weakSelf = self;
     [UIView animateWithDuration:_dismissingDuration animations:^{
         weakSelf.backgroundColor = [UIColor clearColor];
-        weakSelf.presentedView.frame = _fromFrame;
+        weakSelf.presentedView.frame = self->_fromFrame;
     } completion:^(BOOL finished) {
-        if (!_isPresented) {
+        if (!self->_isPresented) {
             [weakSelf.presentedView removeFromSuperview];
             weakSelf.hidden = YES;
         }
