@@ -55,6 +55,7 @@
 #import "ZXCircularProgressView.h"
 #import "ZXDownloadManager.h"
 #import "ZXDrawingView.h"
+#import "ZXHaloLabel.h"
 #import "ZXHashValue.h"
 #import "ZXHTTPClient.h"
 #import "ZXImageView.h"

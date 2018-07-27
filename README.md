@@ -57,6 +57,7 @@ pod "ZXToolbox"
 * ZXCircularProgressView
 * ZXDownloadManager
 * ZXDrawingView
+* ZXHaloLabel
 * ZXHashValue
 * ZXHTTPClient
 * ZXImageView
