@@ -60,6 +60,7 @@
 #import "ZXHTTPClient.h"
 #import "ZXImageView.h"
 #import "ZXLineChartView.h"
+#import "ZXNavigationController.h"
 #import "ZXNetworkTrafficMonitor.h"
 #import "ZXPageIndicatorView.h"
 #import "ZXPageView.h"

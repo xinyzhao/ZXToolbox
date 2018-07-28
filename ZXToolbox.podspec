@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.3.2"
+  s.version      = "1.3.3"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -200,6 +200,11 @@ Pod::Spec.new do |s|
   s.subspec "ZXLineChartView" do |ss|
     ss.source_files  = "ZXKit/ZXLineChartView/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXLineChartView/*.h"
+  end
+  
+  s.subspec "ZXNavigationController" do |ss|
+    ss.source_files  = "ZXKit/ZXNavigationController/*.{h,m}"
+    ss.public_header_files = "ZXKit/ZXNavigationController/*.h"
   end
 
   s.subspec "ZXNetworkTrafficMonitor" do |ss|
