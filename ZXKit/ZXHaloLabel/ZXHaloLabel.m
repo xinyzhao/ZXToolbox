@@ -25,11 +25,13 @@
 #import "ZXHaloLabel.h"
 
 @implementation ZXHaloLabel
+@synthesize haloColor = _haloColor;
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
         _haloBlur = 4;
+        _haloColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -38,35 +40,43 @@
     self = [super initWithFrame:frame];
     if (self) {
         _haloBlur = 4;
+        _haloColor = [UIColor whiteColor];
     }
     return self;
 }
 
-- (UIColor *)haloColor {
-    if (_haloColor == nil) {
-        _haloColor = [UIColor whiteColor];
-    }
-    return _haloColor;
+- (void)setHaloBlur:(CGFloat)haloBlur {
+    _haloBlur = haloBlur;
+    [self setNeedsDisplay];
+}
+
+- (void)setHaloColor:(UIColor *)haloColor {
+    _haloColor = [haloColor copy];
+    [self setNeedsDisplay];
 }
 
 - (void)drawTextInRect: (CGRect)rect {
-    CGFloat r,g,b,a;
-    [self.haloColor getRed:&r green:&g blue:&b alpha:&a];
-    CGFloat colors[] = {r, g, b, a};
-    CGSize shadowOffest = CGSizeMake(0, 0);
-    CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-    CGColorRef textColor = CGColorCreate(colorSpace, colors);
-
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextSaveGState(ctx);
-    CGContextSetShadow(ctx, shadowOffest, self.haloBlur);
-    CGContextSetShadowWithColor(ctx, shadowOffest, self.haloBlur, textColor);
-    
-    [super drawTextInRect:rect];
-
-    CGColorRelease(textColor);
-    CGColorSpaceRelease(colorSpace);
-    CGContextRestoreGState(ctx);
+    if (self.haloBlur && self.haloColor) {
+        CGFloat r,g,b,a;
+        [self.haloColor getRed:&r green:&g blue:&b alpha:&a];
+        CGFloat colors[] = {r, g, b, a};
+        CGSize shadowOffest = CGSizeMake(0, 0);
+        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
+        CGColorRef textColor = CGColorCreate(colorSpace, colors);
+        
+        CGContextRef ctx = UIGraphicsGetCurrentContext();
+        CGContextSaveGState(ctx);
+        CGContextSetShadow(ctx, shadowOffest, self.haloBlur);
+        CGContextSetShadowWithColor(ctx, shadowOffest, self.haloBlur, textColor);
+        
+        [super drawTextInRect:rect];
+        
+        CGColorRelease(textColor);
+        CGColorSpaceRelease(colorSpace);
+        CGContextRestoreGState(ctx);
+    } else {
+        [super drawTextInRect:rect];
+    }
 }
 
 @end

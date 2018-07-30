@@ -34,7 +34,7 @@
 @property (nonatomic, readonly) UIView *presentedView;
 
 /**
- Presented background color, default [[UIColor blackColor] colorWithAlphaComponent:0.4]
+ Presented background color, default [[UIColor blackColor] colorWithAlphaComponent:0.6]
  */
 @property (nonatomic, strong) UIColor *presentedBackgroundColor;
 
