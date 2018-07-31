@@ -68,6 +68,7 @@
 #import "ZXPlayerViewController.h"
 #import "ZXPopoverWindow.h"
 #import "ZXRefreshView.h"
+#import "ZXScriptMessageHandler.h"
 #import "ZXTabBarController.h"
 #import "ZXTagView.h"
 #import "ZXToastView.h"

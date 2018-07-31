@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.3.4"
+  s.version      = "1.3.5"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -247,6 +247,12 @@ Pod::Spec.new do |s|
   	ss.dependency 'ZXToolbox/ZXCircularProgressView'
     ss.source_files  = "ZXKit/ZXRefreshView/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXRefreshView/*.h"
+  end
+
+  s.subspec "ZXScriptMessageHandler" do |ss|
+    ss.ios.deployment_target = '8.0'
+    ss.source_files  = "ZXKit/ZXScriptMessageHandler/*.{h,m}"
+    ss.public_header_files = "ZXKit/ZXScriptMessageHandler/*.h"
   end
 
   s.subspec "ZXTabBarController" do |ss|

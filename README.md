@@ -70,6 +70,7 @@ pod "ZXToolbox"
 * ZXPlayerViewController
 * ZXPopoverWindow
 * ZXRefreshView
+* ZXScriptMessageHandler
 * ZXTabBarController
 * ZXTagView
 * ZXToastView
