@@ -253,6 +253,7 @@ Pod::Spec.new do |s|
     ss.ios.deployment_target = '8.0'
     ss.source_files  = "ZXKit/ZXScriptMessageHandler/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXScriptMessageHandler/*.h"
+    ss.frameworks = "WebKit"
   end
 
   s.subspec "ZXTabBarController" do |ss|
