@@ -25,7 +25,10 @@
 #import <UIKit/UIKit.h>
 
 @interface ZXHaloLabel : UILabel
-@property (nonatomic, assign) CGFloat haloBlur;
+@property (nonatomic, assign) CGFloat borderWidth;
+@property (nonatomic, strong) UIColor *borderColor;
+
 @property (nonatomic, strong) UIColor *haloColor;
+@property (nonatomic, assign) CGFloat haloRadius;
 
 @end

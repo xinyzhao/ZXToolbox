@@ -30,8 +30,11 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        _haloBlur = 4;
-        _haloColor = [UIColor whiteColor];
+        self.layer.shadowRadius = 2;
+        self.layer.shadowColor = [UIColor whiteColor].CGColor;
+        self.layer.shadowOffset = CGSizeZero;
+        self.layer.shadowOpacity = 1.0;
+        self.shadowOffset = CGSizeZero;
     }
     return self;
 }
@@ -39,41 +42,61 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        _haloBlur = 4;
-        _haloColor = [UIColor whiteColor];
+        self.layer.shadowRadius = 2;
+        self.layer.shadowColor = [UIColor whiteColor].CGColor;
+        self.layer.shadowOffset = CGSizeZero;
+        self.layer.shadowOpacity = 1.0;
+        self.shadowOffset = CGSizeZero;
     }
     return self;
 }
 
-- (void)setHaloBlur:(CGFloat)haloBlur {
-    _haloBlur = haloBlur;
+- (void)setBorderColor:(UIColor *)borderColor {
+    _borderColor = [borderColor copy];
+    [self setNeedsDisplay];
+}
+
+- (void)setBorderWidth:(CGFloat)borderWidth {
+    _borderWidth = borderWidth;
     [self setNeedsDisplay];
 }
 
 - (void)setHaloColor:(UIColor *)haloColor {
-    _haloColor = [haloColor copy];
-    [self setNeedsDisplay];
+    self.layer.shadowColor = haloColor.CGColor;
+}
+
+- (UIColor *)haloColor {
+    UIColor *color = nil;
+    if (self.layer.shadowColor) {
+        color = [UIColor colorWithCGColor:self.layer.shadowColor];
+    }
+    return color;
+}
+
+- (void)setHaloRadius:(CGFloat)haloRadius {
+    self.layer.shadowRadius = haloRadius;
+}
+
+- (CGFloat)haloRadius {
+    return self.layer.shadowRadius;
 }
 
 - (void)drawTextInRect: (CGRect)rect {
-    if (self.haloBlur && self.haloColor) {
-        CGFloat r,g,b,a;
-        [self.haloColor getRed:&r green:&g blue:&b alpha:&a];
-        CGFloat colors[] = {r, g, b, a};
-        CGSize shadowOffest = CGSizeMake(0, 0);
-        CGColorSpaceRef colorSpace = CGColorSpaceCreateDeviceRGB();
-        CGColorRef textColor = CGColorCreate(colorSpace, colors);
-        
-        CGContextRef ctx = UIGraphicsGetCurrentContext();
-        CGContextSaveGState(ctx);
-        CGContextSetShadow(ctx, shadowOffest, self.haloBlur);
-        CGContextSetShadowWithColor(ctx, shadowOffest, self.haloBlur, textColor);
-        
+    if (self.borderWidth > 0.0 || self.haloRadius > 0.0) {
+        CGContextRef context = UIGraphicsGetCurrentContext();
+        UIColor *textColor = self.textColor;
+        // Drawing border
+        if (self.borderColor) {
+            CGContextSetLineWidth(context, self.borderWidth);
+            CGContextSetLineJoin(context, kCGLineJoinRound);
+            CGContextSetTextDrawingMode(context, kCGTextStroke);
+            self.textColor = self.borderColor;
+            [super drawTextInRect:rect];
+        }
+        // Drawing text
+        CGContextSetTextDrawingMode(context, kCGTextFill);
+        self.textColor = textColor;
         [super drawTextInRect:rect];
-        
-        CGColorRelease(textColor);
-        CGColorSpaceRelease(colorSpace);
-        CGContextRestoreGState(ctx);
     } else {
         [super drawTextInRect:rect];
     }
