@@ -1,5 +1,5 @@
 //
-// ZXHaloLabel.h
+// UIApplication+BadgeNumber.m
 //
 // Copyright (c) 2018 Zhao Xin (https://github.com/xinyzhao/ZXToolbox)
 //
@@ -22,13 +22,20 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "UIApplication+BadgeNumber.h"
 
-@interface ZXHaloLabel : UILabel
-@property (nonatomic, strong) UIColor *borderColor;
-@property (nonatomic, assign) CGFloat borderWidth;
+@implementation UIApplication (BadgeNumber)
 
-@property (nonatomic, strong) UIColor *haloColor;
-@property (nonatomic, assign) CGFloat haloRadius;
+- (void)resetBageNumber {
+    if(@available(iOS 11.0, *)){
+        [UIApplication sharedApplication].applicationIconBadgeNumber = -1;
+    } else {
+        UILocalNotification *clearEpisodeNotification = [[UILocalNotification alloc] init];
+        clearEpisodeNotification.fireDate = [NSDate dateWithTimeIntervalSinceNow:(0.3)];
+        clearEpisodeNotification.timeZone = [NSTimeZone defaultTimeZone];
+        clearEpisodeNotification.applicationIconBadgeNumber = -1;
+        [[UIApplication sharedApplication] scheduleLocalNotification:clearEpisodeNotification];
+    }
+}
 
 @end

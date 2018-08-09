@@ -1,5 +1,5 @@
 //
-// ZXHaloLabel.h
+// UIApplication+BadgeNumber.h
 //
 // Copyright (c) 2018 Zhao Xin (https://github.com/xinyzhao/ZXToolbox)
 //
@@ -21,14 +21,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-
 #import <UIKit/UIKit.h>
 
-@interface ZXHaloLabel : UILabel
-@property (nonatomic, strong) UIColor *borderColor;
-@property (nonatomic, assign) CGFloat borderWidth;
+@interface UIApplication (BadgeNumber)
 
-@property (nonatomic, strong) UIColor *haloColor;
-@property (nonatomic, assign) CGFloat haloRadius;
+/*
+ * 重置APP角标数量，并且保留系统通知栏内的推送通知
+ * 注意：iOS8之后，必须在使用前注册用户通知 -[UIApplication registerUserNotificationSettings:]
+ */
+- (void)resetBageNumber;
 
 @end

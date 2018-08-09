@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.3.7"
+  s.version      = "1.3.8"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -90,6 +90,11 @@ Pod::Spec.new do |s|
     ss.source_files  = "ZXKit/QRCodeScanner/*.{h,m}"
     ss.public_header_files = "ZXKit/QRCodeScanner/*.h"
     ss.frameworks = "AVFoundation"
+  end
+
+  s.subspec "UIApplication+BadgeNumber" do |ss|
+    ss.source_files  = "UIKit/UIApplication+BadgeNumber/*.{h,m}"
+    ss.public_header_files = "UIKit/UIApplication+BadgeNumber/*.h"
   end
 
   s.subspec "UIApplicationIdleTimer" do |ss|
