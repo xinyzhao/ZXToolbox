@@ -24,14 +24,9 @@
 
 #import <UIKit/UIKit.h>
 
-/**
- ZXScrollLabel
- 
- serial text when numberOfLines == 1, otherwise is multiline text
- */
 @interface ZXScrollLabel : UILabel
 @property (nonatomic, readonly) NSArray *allTexts;
-@property (nonatomic, assign) NSTimeInterval haltTime; // Default is 3 sec., halt time of each text
+@property (nonatomic, assign) NSTimeInterval haltTime; // Default is 0 sec., halt time of each text
 @property (nonatomic, assign) double scrollSpeed; // Default is 30 in pixels per second.
 
 - (void)addTexts:(NSArray *)texts;
