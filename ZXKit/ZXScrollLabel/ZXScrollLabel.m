@@ -103,7 +103,7 @@
     return _haltTime;
 }
 
-- (CGFloat)scrollSpeed {
+- (double)scrollSpeed {
     if (_scrollSpeed < 0.01f) {
         return 30.f;
     }
