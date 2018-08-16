@@ -248,8 +248,6 @@
         NSTimeInterval duration = ABS(offset.x - self.prevLabel.frame.origin.x) / self.scrollSpeed;
         NSTimeInterval delay = self.haltTime;
         //
-        NSTimeInterval time = [[NSDate date] timeIntervalSince1970];
-        NSLog(@">>>-[%f] %.f, %.f, %.f", time, self.scrollView.contentOffset.x, offset.x, duration);
         __weak typeof(self) weakSelf = self;
         __weak typeof(self.scrollView) scrollView = self.scrollView;
         __weak typeof(self.currentLabel) currentLabel = self.currentLabel;
@@ -267,7 +265,6 @@
                 frame.origin.x = currentLabel.frame.origin.x + currentLabel.frame.size.width;
                 nextLabel.frame = frame;
             }
-            NSLog(@">>>+[%f] %.f, %.f, %.f", time, scrollView.contentOffset.x, currentLabel.frame.origin.x, nextLabel.frame.origin.x);
             weakSelf.isScrolling = NO;
             [weakSelf performSelector:_cmd withObject:weakSelf afterDelay:finished ? MIN(delay, duration) : MAX(delay, 0.3)];
         }];
