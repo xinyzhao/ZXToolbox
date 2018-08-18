@@ -238,7 +238,6 @@
         self.prevLabel = self.currentLabel;
         self.currentLabel = self.nextLabel;
         self.nextLabel = self.prevLabel;
-        [self setTextForLabel:self.nextLabel atIndex:self.currentLabel.tag + 1];
     }
     //
     if (self.currentLabel && !self.isScrolling) {
@@ -259,6 +258,7 @@
                 [weakSelf setFrameForLabel:currentLabel atIndex:currentLabel.tag];
                 [scrollView setContentOffset:CGPointMake(currentLabel.frame.origin.x, 0)];
             }
+            [weakSelf setTextForLabel:nextLabel atIndex:currentLabel.tag + 1];
             [weakSelf setFrameForLabel:nextLabel atIndex:nextLabel.tag];
             if (nextLabel.frame.origin.x <= currentLabel.frame.origin.x) {
                 CGRect frame = nextLabel.frame;
