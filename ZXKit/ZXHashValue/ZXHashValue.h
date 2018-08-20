@@ -38,3 +38,23 @@
 - (NSString *)SHA1String;
 
 @end
+
+@interface NSData (ZXHashValue)
+
+- (NSData *)MD5Data;
+- (NSString *)MD5String;
+
+- (NSData *)SHA1Data;
+- (NSString *)SHA1String;
+
+@end
+
+@interface NSString (ZXHashValue)
+
+- (NSData *)MD5Data;
+- (NSString *)MD5String;
+
+- (NSData *)SHA1Data;
+- (NSString *)SHA1String;
+
+@end

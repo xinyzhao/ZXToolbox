@@ -201,3 +201,44 @@
 }
 
 @end
+
+@implementation NSData (ZXHashValue)
+
+- (NSData *)MD5Data {
+    return [[[ZXHashValue alloc] initWithData:self] MD5Data];
+}
+
+- (NSString *)MD5String {
+    return [[[ZXHashValue alloc] initWithData:self] MD5String];
+}
+
+- (NSData *)SHA1Data {
+    return [[[ZXHashValue alloc] initWithData:self] SHA1Data];
+}
+
+- (NSString *)SHA1String {
+    return [[[ZXHashValue alloc] initWithData:self] SHA1String];
+}
+
+@end
+
+@implementation NSString (ZXHashValue)
+
+- (NSData *)MD5Data {
+    return [[[ZXHashValue alloc] initWithString:self] MD5Data];
+}
+
+- (NSString *)MD5String {
+    return [[[ZXHashValue alloc] initWithString:self] MD5String];
+}
+
+- (NSData *)SHA1Data {
+    return [[[ZXHashValue alloc] initWithString:self] SHA1Data];
+}
+
+- (NSString *)SHA1String {
+    return [[[ZXHashValue alloc] initWithString:self] SHA1String];
+}
+
+@end
+
