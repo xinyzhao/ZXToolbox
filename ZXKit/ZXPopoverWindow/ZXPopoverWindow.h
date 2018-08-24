@@ -49,9 +49,9 @@
 @property (nonatomic, assign) NSTimeInterval dismissingDuration;
 
 /**
- Dismiss when tap the background, defatult YES
+ Action block when tap on background without presented view
  */
-@property (nonatomic, assign) BOOL dismissWhenTapBackground;
+@property (nonatomic, copy) void (^touchedBackgroundBlock)(void);
 
 /**
  Present view in window

@@ -40,7 +40,6 @@
         self.presentedBackgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.4];
         self.presentingDuration = .3;
         self.dismissingDuration = .2;
-        self.dismissWhenTapBackground = YES;
     }
     return self;
 }
@@ -52,7 +51,6 @@
         self.presentedBackgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.4];
         self.presentingDuration = .3;
         self.dismissingDuration = .2;
-        self.dismissWhenTapBackground = YES;
     }
     return self;
 }
@@ -88,7 +86,7 @@
             weakSelf.backgroundColor = weakSelf.presentedBackgroundColor;
             weakSelf.presentedView.frame = self->_toFrame;
         } completion:^(BOOL finished) {
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:weakSelf action:@selector(dismiss)];
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:weakSelf action:@selector(onTapBackground:)];
             tap.delegate = weakSelf;
             [weakSelf addGestureRecognizer:tap];
         }];
@@ -114,9 +112,15 @@
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
     CGPoint point = [gestureRecognizer locationInView:self.presentedView];
     if (!CGRectContainsPoint(self.presentedView.bounds, point)) {
-        return _dismissWhenTapBackground;
+        return YES;
     }
     return NO;
+}
+
+- (void)onTapBackground:(id)sender {
+    if (_touchedBackgroundBlock) {
+        _touchedBackgroundBlock();
+    }
 }
 
 @end
