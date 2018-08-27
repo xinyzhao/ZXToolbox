@@ -174,8 +174,7 @@
 
 - (void)removeAllTexts {
     [self.textArray removeAllObjects];
-    [self.scrollView.layer removeAllAnimations];
-    [self removeLabels];
+    self.isResetting = YES;
 }
 
 - (void)removeLabels {
@@ -190,23 +189,23 @@
 - (void)setFrame:(CGRect)frame {
     [super setFrame:frame];
     //
+    self.scrollView.frame = self.bounds;
     [self resetLabels];
 }
 
 - (void)setBounds:(CGRect)bounds {
     [super setBounds:bounds];
     //
+    self.scrollView.frame = self.bounds;
     [self resetLabels];
 }
 
 - (void)resetLabels {
     [self layoutLabels];
-    [self.scrollView.layer removeAllAnimations];
     self.isResetting = YES;
 }
 
 - (void)layoutLabels {
-    self.scrollView.frame = self.bounds;
     [self.textRects removeAllObjects];
     //
     CGFloat offset = self.bounds.size.width;
@@ -225,6 +224,9 @@
 }
 
 - (void)scrollLabels {
+    if (self.isScrolling) {
+        return;
+    }
     //
     if (self.isResetting) {
         [self removeLabels];
@@ -240,7 +242,7 @@
         self.nextLabel = self.prevLabel;
     }
     //
-    if (self.currentLabel && !self.isScrolling) {
+    if (self.currentLabel) {
         self.isScrolling = YES;
         //
         CGPoint offset = CGPointMake(self.currentLabel.frame.origin.x, 0);
