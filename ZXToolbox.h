@@ -74,6 +74,7 @@
 #import "ZXTabBarController.h"
 #import "ZXTagView.h"
 #import "ZXToastView.h"
+#import "ZXURLProtocol.h"
 #import "ZXURLSession.h"
 
 #endif /* ZXToolbox_h */

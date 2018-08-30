@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.4.4"
+  s.version      = "1.4.5"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -279,6 +279,12 @@ Pod::Spec.new do |s|
   s.subspec "ZXToastView" do |ss|
     ss.source_files  = "ZXKit/ZXToastView/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXToastView/*.h"
+  end
+
+  s.subspec "ZXURLProtocol" do |ss|
+    ss.source_files  = "ZXKit/ZXURLProtocol/*.{h,m}"
+    ss.public_header_files = "ZXKit/ZXURLProtocol/*.h"
+    ss.frameworks = "CoreFoundation", "MobileCoreServices"
   end
 
   s.subspec "ZXURLSession" do |ss|
