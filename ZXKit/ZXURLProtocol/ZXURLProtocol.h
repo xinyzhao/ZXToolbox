@@ -26,6 +26,10 @@
 #import <CoreFoundation/CoreFoundation.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 
+/**
+ Be careful, this class use the private api + [WKBrowsingContextController registerSchemeForCustomProtocol:],
+ And will be lost the post body data for request
+ */
 @interface ZXURLProtocol : NSURLProtocol
 
 /**
@@ -53,13 +57,13 @@
 + (NSString *)mimeTypeWithExtension:(NSString *)extension;
 
 /**
- Load data with local path
+ Load data with local file at path
 
  @param path The local path for URL.
  @param policy The NSURLCacheStoragePolicy the protocol
  has determined should be used for the given response if the
  response is to be stored in a cache.
  */
-- (void)loadDataWithPath:(NSString *)path cacheStoragePolicy:(NSURLCacheStoragePolicy)policy;
+- (void)loadDataWithFile:(NSString *)path cacheStoragePolicy:(NSURLCacheStoragePolicy)policy;
 
 @end

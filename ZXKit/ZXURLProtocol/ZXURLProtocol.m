@@ -94,9 +94,6 @@
 #pragma mark Overrides
 
 + (BOOL)canInitWithRequest:(NSURLRequest *)request {
-    if ([NSURLProtocol propertyForKey:ZXURLProtocolHandledKey inRequest:request]) {
-        return NO;
-    }
     if ([ZXURLProtocol URLProtocol].customRequest) {
         return [ZXURLProtocol URLProtocol].customRequest(request);
     }
@@ -110,6 +107,10 @@
     return request;
 }
 
++ (BOOL)requestIsCacheEquivalent:(NSURLRequest *)a toRequest:(NSURLRequest *)b {
+    return [a isEqual:b];
+}
+
 - (void)startLoading {
     if ([ZXURLProtocol URLProtocol].didStartLoading) {
         [ZXURLProtocol URLProtocol].didStartLoading(self);
@@ -117,7 +118,6 @@
         NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:NSURLErrorBadServerResponse userInfo:@{NSLocalizedDescriptionKey:@"Request failed: not found (404)"}];
         [self.client URLProtocol:self didFailWithError:error];
     }
-    [NSURLProtocol setProperty:@(YES) forKey:ZXURLProtocolHandledKey inRequest:[self.request mutableCopy]];
 }
 
 - (void)stopLoading {
@@ -140,7 +140,7 @@
     return mime;
 }
 
-- (void)loadDataWithPath:(NSString *)path cacheStoragePolicy:(NSURLCacheStoragePolicy)policy {
+- (void)loadDataWithFile:(NSString *)path cacheStoragePolicy:(NSURLCacheStoragePolicy)policy {
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]) {
         NSData *data = [NSData dataWithContentsOfFile:path];
         NSString *ext = [[path lastPathComponent] pathExtension];
