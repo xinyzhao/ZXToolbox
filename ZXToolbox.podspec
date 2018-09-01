@@ -134,6 +134,8 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "WKWebView+H5Pay" do |ss|
+    ss.dependency 'ZXToolbox/NSString+URLEncoding'
+    ss.dependency 'ZXToolbox/JSONObject'
     ss.source_files  = "Foundation/WKWebView+H5Pay/*.{h,m}"
     ss.public_header_files = "Foundation/WKWebView+H5Pay/*.h"
     ss.weak_framework = "WebKit"
