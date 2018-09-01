@@ -30,7 +30,6 @@
  Be careful, this class use the private api + [WKBrowsingContextController registerSchemeForCustomProtocol:],
  And will be lost the post body data for request
  */
-WK_EXTERN API_AVAILABLE(macosx(10.10), ios(8.0))
 @interface ZXURLProtocol : NSURLProtocol
 
 /**
@@ -42,12 +41,12 @@ WK_EXTERN API_AVAILABLE(macosx(10.10), ios(8.0))
  @param startLoading Starts protocol-specific loading of a request.
  @param stopLoading Stops protocol-specific loading of a request.
  */
-+ (void)registerSchemes:(NSArray *)schemes customRequest:(BOOL (^)(NSURLRequest *request))customRequest canonicalRequest:(NSURLRequest * (^)(NSURLRequest *request))canonicalRequest startLoading:(void (^)(ZXURLProtocol *protocol))startLoading stopLoading:(void (^)(ZXURLProtocol *protocol))stopLoading;
++ (void)registerSchemes:(NSArray *)schemes customRequest:(BOOL (^)(NSURLRequest *request))customRequest canonicalRequest:(NSURLRequest * (^)(NSURLRequest *request))canonicalRequest startLoading:(void (^)(ZXURLProtocol *protocol))startLoading stopLoading:(void (^)(ZXURLProtocol *protocol))stopLoading API_AVAILABLE(macosx(10.10), ios(8.0));
 
 /**
  Unregister schemes
  */
-+ (void)unregisterSchemes;
++ (void)unregisterSchemes API_AVAILABLE(macosx(10.10), ios(8.0));
 
 /**
  Get mimetype with file extension
@@ -65,6 +64,6 @@ WK_EXTERN API_AVAILABLE(macosx(10.10), ios(8.0))
  has determined should be used for the given response if the
  response is to be stored in a cache.
  */
-- (void)loadDataWithFile:(NSString *)path cacheStoragePolicy:(NSURLCacheStoragePolicy)policy;
+- (void)loadDataWithFile:(NSString *)path cacheStoragePolicy:(NSURLCacheStoragePolicy)policy API_AVAILABLE(macosx(10.10), ios(8.0));
 
 @end
