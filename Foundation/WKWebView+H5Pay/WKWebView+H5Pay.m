@@ -23,10 +23,12 @@
 //
 
 #import "WKWebView+H5Pay.h"
+#import "NSString+URLEncoding.h"
+#import "JSONObject.h"
 
 @implementation WKWebView (H5Pay)
 
-- (BOOL)decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler refererForWeixin:(NSString *)refererForWeixin {
+- (BOOL)decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler refererForWeixin:(NSString *)refererForWeixin URLScheme:(NSString *)URLScheme {
     NSURL *url = navigationAction.request.URL;
     if ([url.host isEqualToString:@"wx.tenpay.com"]) {
         NSString *refererKey = @"Referer";
@@ -46,12 +48,21 @@
                 });
             });
         }
-    } else if ([url.scheme isEqualToString:@"weixin"] &&
-               [[UIApplication sharedApplication] canOpenURL:url]) {
+    } else if ([url.scheme isEqualToString:@"weixin"] && [[UIApplication sharedApplication] canOpenURL:url]) {
         decisionHandler(WKNavigationActionPolicyCancel);
         [[UIApplication sharedApplication] openURL:url];
-    } else if ([url.scheme isEqualToString:@"alipay"] &&
-               [[UIApplication sharedApplication] canOpenURL:url]) {
+    } else if ([url.scheme isEqualToString:@"alipay"] && [[UIApplication sharedApplication] canOpenURL:url]) {
+        if (URLScheme && [url.absoluteString hasPrefix:@"alipay://alipayclient"]) {
+            NSString *str = [url.absoluteString stringByURLDecoding:NSUTF8StringEncoding];
+            NSMutableArray *components = [[str componentsSeparatedByString:@"?"] mutableCopy];
+            NSMutableDictionary *dict = [[JSONObject JSONObjectWithString:components.lastObject] mutableCopy];
+            [dict setObject:URLScheme forKey:@"fromAppUrlScheme"];
+            str = [JSONObject stringWithJSONObject:dict];
+            str = [str stringByURLEncoding:NSUTF8StringEncoding];
+            [components replaceObjectAtIndex:(components.count - 1) withObject:str];
+            str = [components componentsJoinedByString:@"?"];
+            url = [NSURL URLWithString:str];
+        }
         decisionHandler(WKNavigationActionPolicyCancel);
         [[UIApplication sharedApplication] openURL:url];
     } else {

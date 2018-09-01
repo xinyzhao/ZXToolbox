@@ -30,7 +30,7 @@ NSString *NSStringWithURLEncoding(NSString *string, NSStringEncoding encoding) {
 }
 
 NSString *NSStringWithURLDecoding(NSString *string, NSStringEncoding encoding) {
-    NSString *str = CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(NULL, (__bridge CFStringRef)string, CFSTR(":/?#[]@!$ &'()*+,;=\"<>%{}|\\^~`"), CFStringConvertNSStringEncodingToEncoding(encoding)));
+    NSString *str = CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(NULL, (__bridge CFStringRef)string, CFSTR(""), CFStringConvertNSStringEncodingToEncoding(encoding)));
     return str;
 }
 
