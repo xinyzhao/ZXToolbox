@@ -30,6 +30,7 @@
  Be careful, this class use the private api + [WKBrowsingContextController registerSchemeForCustomProtocol:],
  And will be lost the post body data for request
  */
+WK_EXTERN API_AVAILABLE(macosx(10.10), ios(8.0))
 @interface ZXURLProtocol : NSURLProtocol
 
 /**

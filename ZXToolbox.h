@@ -48,6 +48,7 @@
 #import "UITableViewCell+Separator.h"
 #import "UIView+Snapshot.h"
 #import "UIViewController+Extra.h"
+#import "WKWebView+H5Pay.h"
 #import "ZXAlertView.h"
 #import "ZXAudioDevice.h"
 #import "ZXAuthorizationHelper.h"

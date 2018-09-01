@@ -33,6 +33,7 @@ pod "ZXToolbox"
 * NSString+Pinyin
 * NSString+Unicode
 * NSString+URLEncoding
+* WKWebView+H5Pay
 
 ## UIKit
 

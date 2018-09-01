@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.4.5"
+  s.version      = "1.4.6"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -131,6 +131,12 @@ Pod::Spec.new do |s|
   s.subspec "UIViewController+Extra" do |ss|
     ss.source_files  = "UIKit/UIViewController+Extra/*.{h,m}"
     ss.public_header_files = "UIKit/UIViewController+Extra/*.h"
+  end
+
+  s.subspec "WKWebView+H5Pay" do |ss|
+    ss.source_files  = "Foundation/WKWebView+H5Pay/*.{h,m}"
+    ss.public_header_files = "Foundation/WKWebView+H5Pay/*.h"
+    ss.weak_framework = "WebKit"
   end
 
   s.subspec "ZXAlertView" do |ss|
