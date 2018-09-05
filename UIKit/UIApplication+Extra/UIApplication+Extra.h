@@ -1,5 +1,5 @@
 //
-// UIApplication+BadgeNumber.h
+// UIApplication+Extra.h
 //
 // Copyright (c) 2018 Zhao Xin (https://github.com/xinyzhao/ZXToolbox)
 //
@@ -23,7 +23,14 @@
 //
 #import <UIKit/UIKit.h>
 
-@interface UIApplication (BadgeNumber)
+@interface UIApplication (Extra)
+
+/**
+ 打开应用设置界面
+
+ @return 成功则返回YES，否则为NO
+ */
+- (BOOL)openSettingsURL;
 
 /*
  * 重置APP角标数量，并且保留系统通知栏内的推送通知

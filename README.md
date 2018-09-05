@@ -37,7 +37,7 @@ pod "ZXToolbox"
 
 ## UIKit
 
-* UIApplication+BadgeNumber
+* UIApplication+Extra
 * UIApplicationIdleTimer
 * UIColor+Extra
 * UIImage+Extra

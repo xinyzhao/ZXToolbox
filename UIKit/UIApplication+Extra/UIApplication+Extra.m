@@ -1,5 +1,5 @@
 //
-// UIApplication+BadgeNumber.m
+// UIApplication+Extra.m
 //
 // Copyright (c) 2018 Zhao Xin (https://github.com/xinyzhao/ZXToolbox)
 //
@@ -22,12 +22,25 @@
 // THE SOFTWARE.
 //
 
-#import "UIApplication+BadgeNumber.h"
+#import "UIApplication+Extra.h"
 
 @implementation UIApplication (BadgeNumber)
 
+- (BOOL)openSettingsURL {
+    NSURL *url = nil;
+    if(@available(iOS 8.0, *)) {
+        url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
+    } else {
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"prefs:root==%@", [NSBundle mainBundle].infoDictionary[@"CFBundleIdentifier"]]];
+    }
+    if([[UIApplication sharedApplication] canOpenURL:url]) {
+        return [[UIApplication sharedApplication] openURL:url];
+    }
+    return NO;
+}
+
 - (void)resetBageNumber {
-    if(@available(iOS 11.0, *)){
+    if(@available(iOS 11.0, *)) {
         [UIApplication sharedApplication].applicationIconBadgeNumber = -1;
     } else {
         UILocalNotification *clearEpisodeNotification = [[UILocalNotification alloc] init];

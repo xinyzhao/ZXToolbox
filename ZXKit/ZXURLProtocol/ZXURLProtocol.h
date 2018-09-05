@@ -41,12 +41,12 @@
  @param startLoading Starts protocol-specific loading of a request.
  @param stopLoading Stops protocol-specific loading of a request.
  */
-+ (void)registerSchemes:(NSArray *)schemes customRequest:(BOOL (^)(NSURLRequest *request))customRequest canonicalRequest:(NSURLRequest * (^)(NSURLRequest *request))canonicalRequest startLoading:(void (^)(ZXURLProtocol *protocol))startLoading stopLoading:(void (^)(ZXURLProtocol *protocol))stopLoading API_AVAILABLE(macosx(10.10), ios(8.0));
++ (void)registerSchemes:(NSArray *)schemes customRequest:(BOOL (^)(NSURLRequest *request))customRequest canonicalRequest:(NSURLRequest * (^)(NSURLRequest *request))canonicalRequest startLoading:(void (^)(ZXURLProtocol *protocol))startLoading stopLoading:(void (^)(ZXURLProtocol *protocol))stopLoading NS_AVAILABLE_IOS(8_0);
 
 /**
  Unregister schemes
  */
-+ (void)unregisterSchemes API_AVAILABLE(macosx(10.10), ios(8.0));
++ (void)unregisterSchemes NS_AVAILABLE_IOS(8_0);
 
 /**
  Get mimetype with file extension
@@ -64,6 +64,6 @@
  has determined should be used for the given response if the
  response is to be stored in a cache.
  */
-- (void)loadDataWithFile:(NSString *)path cacheStoragePolicy:(NSURLCacheStoragePolicy)policy API_AVAILABLE(macosx(10.10), ios(8.0));
+- (void)loadDataWithFile:(NSString *)path cacheStoragePolicy:(NSURLCacheStoragePolicy)policy NS_AVAILABLE_IOS(8_0);
 
 @end
