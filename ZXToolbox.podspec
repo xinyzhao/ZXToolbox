@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.4.8"
+  s.version      = "1.4.9"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -121,6 +121,11 @@ Pod::Spec.new do |s|
   s.subspec "UITableViewCell+Separator" do |ss|
     ss.source_files  = "UIKit/UITableViewCell+Separator/*.{h,m}"
     ss.public_header_files = "UIKit/UITableViewCell+Separator/*.h"
+  end
+
+  s.subspec "UITextField+Extra" do |ss|
+    ss.source_files  = "UIKit/UITextField+Extra/*.{h,m}"
+    ss.public_header_files = "UIKit/UITextField+Extra/*.h"
   end
 
   s.subspec "UIView+Snapshot" do |ss|

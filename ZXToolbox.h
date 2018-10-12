@@ -46,6 +46,7 @@
 #import "UIImage+Extra.h"
 #import "UINetworkActivityIndicator.h"
 #import "UITableViewCell+Separator.h"
+#import "UITextField+Extra.h"
 #import "UIView+Snapshot.h"
 #import "UIViewController+Extra.h"
 #import "WKWebView+H5Pay.h"
