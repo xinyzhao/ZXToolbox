@@ -25,13 +25,14 @@
 
 #import "QRCodeScanner.h"
 
-@interface QRCodeScanner () <AVCaptureMetadataOutputObjectsDelegate, UIAlertViewDelegate>
+@interface QRCodeScanner () <AVCaptureMetadataOutputObjectsDelegate, AVCaptureVideoDataOutputSampleBufferDelegate, UIAlertViewDelegate>
 @property (nonatomic, strong) AVCaptureDevice *device;
 @property (nonatomic, strong) AVCaptureDeviceInput *input;
 @property (nonatomic, strong) AVCaptureMetadataOutput *output;
 @property (nonatomic, strong) AVCaptureSession *session;
 @property (nonatomic, strong) AVCaptureVideoPreviewLayer *preview;
-@property (nonatomic, copy)   QRCodeScannerOutput outputBlock;
+@property (nonatomic, copy)   void(^brightnessBlock)(float brightness);
+@property (nonatomic, copy)   void(^outputBlock)(NSArray<NSString *> *outputs);
 
 @end
 
@@ -44,13 +45,24 @@
         _session.sessionPreset = AVCaptureSessionPresetHigh;
         //
         _device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+        //
         _input = [AVCaptureDeviceInput deviceInputWithDevice:_device error:nil];
-        [_session addInput:_input];
+        if ([_session canAddInput:_input]) {
+            [_session addInput:_input];
+        }
         //
         _output = [[AVCaptureMetadataOutput alloc] init];
-        [_session addOutput:_output];
+        if ([_session canAddOutput:_output]) {
+            [_session addOutput:_output];
+        }
         [_output setMetadataObjectsDelegate:self queue:dispatch_get_main_queue()];
         [_output setMetadataObjectTypes:_output.availableMetadataObjectTypes];
+        //
+        AVCaptureVideoDataOutput *output = [[AVCaptureVideoDataOutput alloc] init];
+        if ([_session canAddOutput:output]) {
+            [_session addOutput:output];
+        }
+        [output setSampleBufferDelegate:self queue:dispatch_get_main_queue()];
         //
         if (preview) {
             _preview = [AVCaptureVideoPreviewLayer layerWithSession:_session];
@@ -70,8 +82,13 @@
 
 #pragma mark Scanning
 
-- (void)startScanning:(QRCodeScannerOutput)output {
-    self.outputBlock = output;
+- (void)startScanning:(void(^)(NSArray<NSString *> *outputs))output {
+    [self startScanning:nil output:output];
+}
+
+- (void)startScanning:(void (^)(float))brightness output:(void (^)(NSArray<NSString *> *))output {
+    self.brightnessBlock = [brightness copy];
+    self.outputBlock = [output copy];
     [_session startRunning];
 }
 
@@ -115,6 +132,19 @@
     //
     if (_outputBlock && results.count > 0) {
         _outputBlock(results);
+    }
+}
+
+#pragma mark <AVCaptureVideoDataOutputSampleBufferDelegate>
+
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputSampleBuffer:(CMSampleBufferRef)sampleBuffer fromConnection:(AVCaptureConnection *)connection {
+    CFDictionaryRef metadataDict = CMCopyDictionaryOfAttachments(NULL,sampleBuffer, kCMAttachmentMode_ShouldPropagate);
+    NSDictionary *metadata = [[NSMutableDictionary alloc] initWithDictionary:(__bridge NSDictionary*)metadataDict];
+    CFRelease(metadataDict);
+    NSDictionary *exif = [[metadata objectForKey:(NSString *)kCGImagePropertyExifDictionary] mutableCopy];
+    float brightness = [[exif objectForKey:(NSString *)kCGImagePropertyExifBrightnessValue] floatValue];
+    if (self.brightnessBlock) {
+        self.brightnessBlock(brightness);
     }
 }
 

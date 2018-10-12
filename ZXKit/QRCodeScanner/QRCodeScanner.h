@@ -23,14 +23,8 @@
 //
 
 #import <AVFoundation/AVFoundation.h>
+#import <ImageIO/ImageIO.h>
 #import <UIKit/UIKit.h>
-
-/**
- QRCode Scanner Output handler block
-
- @param results Scanning output results
- */
-typedef void(^QRCodeScannerOutput)(NSArray<NSString *> *results);
 
 /**
  QRCodeScanner
@@ -55,7 +49,15 @@ typedef void(^QRCodeScannerOutput)(NSArray<NSString *> *results);
 
  @param output Output handler
  */
-- (void)startScanning:(QRCodeScannerOutput)output;
+- (void)startScanning:(void(^)(NSArray<NSString *> *outputs))output;
+
+/**
+ Start scanning
+ 
+ @param brightness Brightness handler
+ @param output output Output handler
+ */
+- (void)startScanning:(void(^)(float brightness))brightness output:(void(^)(NSArray<NSString *> *outputs))output;
 
 /**
  Stop scanning
