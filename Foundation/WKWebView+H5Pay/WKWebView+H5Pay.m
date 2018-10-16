@@ -32,7 +32,7 @@
     NSURL *url = navigationAction.request.URL;
     if ([url.host isEqualToString:@"wx.tenpay.com"]) {
         NSString *refererKey = @"Referer";
-        NSString *refererValue = [refererForWeixin containsString:@"://"] ? refererForWeixin : [refererForWeixin stringByAppendingString:@"://"];
+        NSString *refererValue = [refererForWeixin containsString:@"://"] ? refererForWeixin : (URLScheme ? [NSString stringWithFormat:@"%@.%@://", URLScheme,  refererForWeixin] : refererForWeixin);
         NSDictionary *headers = [navigationAction.request allHTTPHeaderFields];
         BOOL hasReferer = [[headers objectForKey:refererKey] isEqualToString:refererValue];
         if (hasReferer) {
