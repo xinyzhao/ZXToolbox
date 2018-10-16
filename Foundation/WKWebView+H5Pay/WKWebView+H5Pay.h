@@ -34,11 +34,11 @@ WK_EXTERN API_AVAILABLE(macosx(10.10), ios(8.0))
 
  @param navigationAction navigationAction
  @param decisionHandler decisionHandler
- @param refererForWeixin 微信H5支付域名，支持多个APP使用同一个支付域名并且可以正确返回到APP：
-        * 不带 scheme 的支付域名，如 pay.cn，
-        * URLScheme 参数不为空，如 app
-        * APP 需要注册格式为 app.pay.cn 的 URLScheme
- @param URLScheme APP 注册的 URLScheme，用于支付完成或取消后返回APP
+ @param refererForWeixin 微信H5支付域名
+        支持多个APP使用同一个支付域名并且可以正确返回到APP，条件为：
+        * 不带 scheme 的顶级域名，如 pay.cn，
+        * APP 需要注册格式为 app.pay.cn 的 URLScheme 并传入 refererForWeixin，其中app可为任意名称
+ @param URLScheme APP 注册的 URLScheme，用于支付宝返回APP
  @return 返回YES说明进入支付流程，NO则说明非支付请求，需要用户自行处理，比如 decisionHandler(WKNavigationActionPolicyAllow)
  */
 - (BOOL)decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(void (^)(WKNavigationActionPolicy))decisionHandler refererForWeixin:(NSString *)refererForWeixin URLScheme:(NSString *)URLScheme;
