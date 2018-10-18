@@ -25,11 +25,11 @@
 #import <UIKit/UIKit.h>
 
 @interface ZXScrollLabel : UILabel
-@property (nonatomic, readonly) NSArray *allTexts;
+@property (nonatomic, strong) NSArray *textArray;
 @property (nonatomic, assign) NSTimeInterval haltTime; // Default is 0 sec., halt time of each text
-@property (nonatomic, assign) double scrollSpeed; // Default is 30 in pixels per second.
+@property (nonatomic, assign) double scrollingSpeed; // Default is width/6 in pixels per second.
 
-- (void)addTexts:(NSArray *)texts;
-- (void)removeAllTexts;
+- (void)startScrolling;
+- (void)stopScrolling;
 
 @end

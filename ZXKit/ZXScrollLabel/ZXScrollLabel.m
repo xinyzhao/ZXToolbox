@@ -26,14 +26,13 @@
 
 @interface ZXScrollLabel ()
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) NSMutableArray *textArray;
-@property (nonatomic, strong) NSMutableArray *textRects;
+
 @property (nonatomic, strong) UILabel *currentLabel;
 @property (nonatomic, strong) UILabel *nextLabel;
 @property (nonatomic, strong) UILabel *prevLabel;
 
 @property (nonatomic, assign) BOOL isScrolling;
-@property (nonatomic, assign) BOOL isResetting;
+@property (nonatomic, assign) BOOL isStop;
 
 @end
 
@@ -59,12 +58,11 @@
 
 - (void)addObservers {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(scrollLabels)
+                                             selector:@selector(scrollingLabels)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(scrollLabels)
+                                             selector:@selector(scrollingLabels)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
 }
@@ -82,20 +80,6 @@
     return _scrollView;
 }
 
-- (NSMutableArray *)textArray {
-    if (_textArray == nil) {
-        _textArray = [[NSMutableArray alloc] init];
-    }
-    return _textArray;
-}
-
-- (NSMutableArray *)textRects {
-    if (_textRects == nil) {
-        _textRects = [[NSMutableArray alloc] init];
-    }
-    return _textRects;
-}
-
 - (NSTimeInterval)haltTime {
     if (_haltTime < 0.01f) {
         return 0.f;
@@ -103,14 +87,14 @@
     return _haltTime;
 }
 
-- (double)scrollSpeed {
-    if (_scrollSpeed < 0.01f) {
-        return 30.f;
+- (double)scrollingSpeed {
+    if (_scrollingSpeed < 0.01f) {
+        return self.bounds.size.width / 6;
     }
-    return _scrollSpeed;
+    return _scrollingSpeed;
 }
 
-- (UILabel *)newLabelAtIndex:(NSInteger)index {
+- (UILabel *)labelAtIndex:(NSInteger)index {
     UILabel *label = nil;
     if (index < 0) {
         index = self.textArray.count + index;
@@ -121,12 +105,11 @@
     if (index >= 0 && index < self.textArray.count) {
         label = [[UILabel alloc] initWithFrame:self.bounds];
         label.font = self.font;
+        label.textColor = self.textColor;
         label.shadowColor = self.shadowColor;
         label.shadowOffset = self.shadowOffset;
         label.textAlignment = self.textAlignment;
-        label.textColor = self.textColor;
         [self setTextForLabel:label atIndex:index];
-        [self setFrameForLabel:label atIndex:index];
         [self.scrollView addSubview:label];
     }
     return label;
@@ -142,100 +125,55 @@
     if (index >= 0 && index < self.textArray.count) {
         label.tag = index;
         label.text = self.textArray[index];
+        CGRect rect = self.bounds;
+        rect.size.width = FLT_MAX;
+        rect.size.width = [label sizeThatFits:rect.size].width;
+        rect.size.width = ceilf(rect.size.width / self.bounds.size.width) * self.bounds.size.width;
+        label.bounds = rect;
     } else {
-        label.text = 0;
+        label.text = nil;
     }
-}
-
-- (void)setFrameForLabel:(UILabel *)label atIndex:(NSInteger)index {
-    if (index < 0) {
-        index = self.textRects.count + index;
-    }
-    if (index >= self.textRects.count) {
-        index = 0;
-    }
-    if (index >= 0 && index < self.textRects.count) {
-        label.frame = [self.textRects[index] CGRectValue];
-    }
-}
-
-- (NSArray *)allTexts {
-    return [self.textArray copy];
-}
-
-- (void)addTexts:(NSArray *)texts {
-    if (texts.count > 0) {
-        [self.textArray addObjectsFromArray:texts];
-        //
-        [self layoutLabels];
-        [self scrollLabels];
-    }
-}
-
-- (void)removeAllTexts {
-    [self.textArray removeAllObjects];
-    self.isResetting = YES;
-}
-
-- (void)removeLabels {
-    self.scrollView.contentOffset = CGPointZero;
-    [self.currentLabel removeFromSuperview];
-    [self.nextLabel removeFromSuperview];
-    self.currentLabel = nil;
-    self.nextLabel = nil;
-    self.prevLabel = nil;
 }
 
 - (void)setFrame:(CGRect)frame {
     [super setFrame:frame];
     //
     self.scrollView.frame = self.bounds;
-    [self resetLabels];
 }
 
 - (void)setBounds:(CGRect)bounds {
     [super setBounds:bounds];
     //
     self.scrollView.frame = self.bounds;
-    [self resetLabels];
 }
 
-- (void)resetLabels {
-    [self layoutLabels];
-    self.isResetting = YES;
+- (void)startScrolling {
+    self.isStop = NO;
+    [self scrollingLabels];
 }
 
-- (void)layoutLabels {
-    [self.textRects removeAllObjects];
-    //
-    CGFloat offset = self.bounds.size.width;
-    for (NSString *text in self.textArray) {
-        self.text = text;
-        CGRect rect = self.bounds;
-        rect.origin.x = offset;
-        rect.size.width = FLT_MAX;
-        rect.size.width = [self sizeThatFits:rect.size].width;
-        rect.size.width = ceilf(rect.size.width / self.bounds.size.width) * self.bounds.size.width;
-        [self.textRects addObject:@(rect)];
-        offset += rect.size.width;
-    }
-    //
-    self.text = nil;
+- (void)stopScrolling {
+    self.isStop = YES;
 }
 
-- (void)scrollLabels {
-    if (self.isScrolling) {
+- (void)scrollingLabels {
+    if (self.isScrolling || self.isStop) {
         return;
     }
     //
-    if (self.isResetting) {
-        [self removeLabels];
-        self.isResetting = NO;
-    }
-    //
     if (self.currentLabel == nil) {
-        self.currentLabel = [self newLabelAtIndex:0];
-        self.nextLabel = [self newLabelAtIndex:1];
+        self.currentLabel = [self labelAtIndex:0];
+        {
+            CGRect frame = self.currentLabel.frame;
+            frame.origin.x = self.frame.size.width;
+            self.currentLabel.frame = frame;
+        }
+        self.nextLabel = [self labelAtIndex:1];
+        {
+            CGRect frame = self.nextLabel.frame;
+            frame.origin.x = self.currentLabel.frame.origin.x + self.currentLabel.frame.size.width;
+            self.nextLabel.frame = frame;
+        }
     } else {
         self.prevLabel = self.currentLabel;
         self.currentLabel = self.nextLabel;
@@ -246,7 +184,7 @@
         self.isScrolling = YES;
         //
         CGPoint offset = CGPointMake(self.currentLabel.frame.origin.x, 0);
-        NSTimeInterval duration = ABS(offset.x - self.prevLabel.frame.origin.x) / self.scrollSpeed;
+        NSTimeInterval duration = ABS(offset.x - self.prevLabel.frame.origin.x) / self.scrollingSpeed;
         NSTimeInterval delay = self.haltTime;
         //
         __weak typeof(self) weakSelf = self;
@@ -256,13 +194,8 @@
         [UIView animateWithDuration:duration delay:0.01 options:UIViewAnimationOptionCurveLinear animations:^{
             scrollView.contentOffset = offset;
         } completion:^(BOOL finished) {
-            if (!finished) {
-                [weakSelf setFrameForLabel:currentLabel atIndex:currentLabel.tag];
-                [scrollView setContentOffset:CGPointMake(currentLabel.frame.origin.x, 0)];
-            }
             [weakSelf setTextForLabel:nextLabel atIndex:currentLabel.tag + 1];
-            [weakSelf setFrameForLabel:nextLabel atIndex:nextLabel.tag];
-            if (nextLabel.frame.origin.x <= currentLabel.frame.origin.x) {
+            {
                 CGRect frame = nextLabel.frame;
                 frame.origin.x = currentLabel.frame.origin.x + currentLabel.frame.size.width;
                 nextLabel.frame = frame;
