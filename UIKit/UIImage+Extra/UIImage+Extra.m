@@ -38,29 +38,34 @@ UIImage * UIImageCombineToRect(UIImage *image1, UIImage *image2, CGRect rect) {
     return result;
 }
 
-NSData * UIImageCompressToData(UIImage *image, NSUInteger length) {
-    if (length < 1024) {
-        length = 1024;
-        NSLog(@">[COMPRESS] Not less than %d bytes", (int)length);
+NSData * UIImageCompressToData(UIImage *image, NSUInteger bytes) {
+    if (bytes < 1024) {
+        bytes = 1024;
+        NSLog(@">[COMPRESS] Not less than %d bytes", (int)bytes);
     }
     NSData *data = UIImageJPEGRepresentation(image, 1.f);
-    NSLog(@">[IMAGE] size:%@ bytes:%d",
-          NSStringFromCGSize(image.size), (int)data.length);
+    NSLog(@">[IMAGE] size:%@ bytes:%d", NSStringFromCGSize(image.size), (int)data.length);
     int retry = 0;
-    while (data.length > length) {
-        CGFloat quality = (CGFloat)length / data.length;
-        if (quality < 0.5f) {
-            quality = 0.5f;
+    while (data.length > bytes) {
+        CGFloat quality = (float)bytes / data.length;
+        if (quality < 0.1f) {
+            quality = 0.1f;
         }
         data = UIImageJPEGRepresentation(image, quality);
-        if (data.length > length) {
-            CGSize size = UIImageSizeToScale(image, quality);
+        if (data.length > bytes) {
+            float scale = (float)bytes / data.length;
+            if (scale < 0.1f) {
+                scale = 0.1f;
+            }
+            CGSize size = UIImageSizeToScale(image, scale);
             image = UIImageScaleToSize(image, size);
+            data = UIImageJPEGRepresentation(image, 1.f);
         }
         retry++;
     }
     NSLog(@">[COMPRESSED] size:%@ bytes:%d retry:%d",
           NSStringFromCGSize(image.size), (int)data.length, retry);
+    [data writeToFile:@"/Users/xyz/Pictures/3@2x.jpg" atomically:YES];
     return data;
 }
 
@@ -328,8 +333,8 @@ UIImage * UIImageToThumbnail(UIImage *image, CGSize size, BOOL scaleAspectFill) 
     return UIImageCombineToRect(self, image, rect);
 }
 
-- (NSData *)compressToData:(NSUInteger)length {
-    return UIImageCompressToData(self, length);
+- (NSData *)compressToData:(NSUInteger)bytes {
+    return UIImageCompressToData(self, bytes);
 }
 
 - (UIImage *)croppingToRect:(CGRect)rect {
