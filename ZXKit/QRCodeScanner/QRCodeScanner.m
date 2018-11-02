@@ -100,20 +100,35 @@
     return _session.isRunning;
 }
 
-#pragma mark AVCaptureTorchMode
+#pragma mark AVCaptureDeviceTorch
 
-- (void)setTorchMode:(AVCaptureTorchMode)torchMode {
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    if ([device hasTorch]) {
-        [device lockForConfiguration:nil];
-        [device setTorchMode:torchMode];
-        [device unlockForConfiguration];
+- (BOOL)hasTorch {
+    return [_device hasTorch];
+}
+
+- (BOOL)isTorchAvailable {
+    return [_device hasTorch] && [_device isTorchAvailable];
+}
+
+- (void)setTorchLevel:(float)torchLevel {
+    NSError *error = nil;
+    if ([_device hasTorch] && [_device isTorchAvailable]) {
+        torchLevel = torchLevel < 0.0 ? 0.0 : torchLevel > 1.0 ? 1.0 : torchLevel;
+        [_device lockForConfiguration:nil];
+        if (torchLevel > 0.0) {
+            [_device setTorchModeOnWithLevel:torchLevel error:&error];
+        } else {
+            [_device setTorchMode:AVCaptureTorchModeOff];
+        }
+        [_device unlockForConfiguration];
+    }
+    if (error) {
+        NSLog(@"setTorchLevel:%.f error: %@", torchLevel, error.localizedDescription);
     }
 }
 
-- (AVCaptureTorchMode)torchMode {
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
-    return device.torchMode;
+- (float)torchLevel {
+    return _device.torchLevel;
 }
 
 #pragma mark <AVCaptureMetadataOutputObjectsDelegate>

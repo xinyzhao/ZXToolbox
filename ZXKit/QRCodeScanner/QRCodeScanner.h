@@ -30,10 +30,24 @@
  QRCodeScanner
  */
 @interface QRCodeScanner : NSObject
+
 /**
- torchMode Default AVCaptureTorchModeOff
+ Indicates whether the receiver has a torch.
  */
-@property (nonatomic, assign) AVCaptureTorchMode torchMode;
+@property(nonatomic, readonly) BOOL hasTorch;
+
+/**
+ Indicates whether the receiver's torch is currently available for use.
+ */
+@property(nonatomic, readonly) BOOL isTorchAvailable;
+
+@property(nonatomic, readonly, getter=isTorchActive) BOOL torchActive;
+
+/**
+ Sets the current mode of the receiver's torch to AVCaptureTorchModeOn at the specified level.
+ The value from 0.0 (off) -> 1.0 (full), check AVCaptureMaxAvailableTorchLevel
+ */
+@property (nonatomic, assign) float torchLevel;
 
 /**
  initialzes with preview and capture rect
