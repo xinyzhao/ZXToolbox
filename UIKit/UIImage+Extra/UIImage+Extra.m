@@ -228,8 +228,10 @@ UIImage * UIImageToGrayscale(UIImage *image) {
     //
     if (context) {
         CGContextDrawImage(context, CGRectMake(0, 0, image.size.width, image.size.height), image.CGImage);
-        UIImage *grayImage = [UIImage imageWithCGImage:CGBitmapContextCreateImage(context)];
+        CGImageRef cgImage = CGBitmapContextCreateImage(context);
+        UIImage *grayImage = [UIImage imageWithCGImage:cgImage];
         CGContextRelease(context);
+        CGImageRelease(cgImage);
         return grayImage;
     }
     //

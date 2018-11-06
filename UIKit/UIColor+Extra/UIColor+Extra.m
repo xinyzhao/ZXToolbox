@@ -36,10 +36,10 @@ UIColor* UIColorFromHEX(NSString *string, CGFloat alpha) {
 }
 
 UIColor* UIColorFromRGB(NSInteger value, CGFloat alpha) {
-    CGFloat a = 1.f;
-    if ((value & 0xff000000)) {
-        a = ((value & 0xff000000) >> 24) / 255.f;
-    }
+//    CGFloat a = 1.f;
+//    if ((value & 0xff000000)) {
+//        a = ((value & 0xff000000) >> 24) / 255.f;
+//    }
     CGFloat r = ((value & 0x00ff0000) >> 16) / (double)255.f;
     CGFloat g = ((value & 0x0000ff00) >> 8) / (double)255.f;
     CGFloat b = (value & 0x000000ff) / (double)255.f;

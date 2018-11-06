@@ -291,14 +291,12 @@ void floorAndCeiling(double const *in_values, size_t in_count, double *out_min, 
 - (void)moveToNearestPoint:(CGPoint)point {
     if (self.points.count > 0) {
         id object = nil;
-        CGPoint nearest = CGPointZero;
         CGFloat distance = FLT_MAX;
         for (id obj in self.points) {
             CGPoint p = [obj CGPointValue];
             CGFloat d = ABS(p.x - point.x);
             if (d < distance) {
                 object = obj;
-                nearest = p;
                 distance = d;
             }
         }
