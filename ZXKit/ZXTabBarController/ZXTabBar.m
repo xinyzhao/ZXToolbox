@@ -29,7 +29,7 @@
 - (CGSize)sizeThatFits:(CGSize)size {
     CGSize s = [super sizeThatFits:size];
     if (_customHeight > 0.f) {
-        s.height = _customHeight;
+        s.height += _customHeight - 49.f;
     }
     return s;
 }
