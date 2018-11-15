@@ -88,7 +88,7 @@
         } completion:^(BOOL finished) {
             UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:weakSelf action:@selector(onTapBackground:)];
             tap.delegate = weakSelf;
-            [weakSelf addGestureRecognizer:tap];
+            weakSelf.gestureRecognizers = @[tap];
         }];
     }
 }
