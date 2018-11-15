@@ -1,5 +1,5 @@
 //
-// ZXHashValue.h
+// ZXCommonCryptor.h
 //
 // Copyright (c) 2018 Zhao Xin (https://github.com/xinyzhao/ZXToolbox)
 //
@@ -23,38 +23,19 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CommonCrypto/CommonCryptor.h>
 
-@interface ZXHashValue : NSObject
+@protocol ZXCommonCryptor <NSObject>
 
-- (instancetype)initWithData:(NSData *)data;
-- (instancetype)initWithString:(NSString *)string;
-- (instancetype)initWithFileAtPath:(NSString *)path;
-- (instancetype)initWithURL:(NSURL *)URL;
-
-- (NSData *)MD5Data;
-- (NSString *)MD5String;
-
-- (NSData *)SHA1Data;
-- (NSString *)SHA1String;
+- (NSData *)encryptedDataUsingCCAlgorithm:(CCAlgorithm)algorithm key:(id)key;
+- (NSData *)decryptedDataUsingCCAlgorithm:(CCAlgorithm)algorithm key:(id)key;
 
 @end
 
-@interface NSData (ZXHashValue)
-
-- (NSData *)MD5Data;
-- (NSString *)MD5String;
-
-- (NSData *)SHA1Data;
-- (NSString *)SHA1String;
+@interface NSData (ZXCommonCryptor) <ZXCommonCryptor>
 
 @end
 
-@interface NSString (ZXHashValue)
-
-- (NSData *)MD5Data;
-- (NSString *)MD5String;
-
-- (NSData *)SHA1Data;
-- (NSString *)SHA1String;
+@interface NSString (ZXCommonCryptor) <ZXCommonCryptor>
 
 @end

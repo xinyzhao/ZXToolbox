@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.5.7"
+  s.version      = "1.5.8"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -181,8 +181,13 @@ Pod::Spec.new do |s|
     ss.public_header_files = "ZXKit/ZXCircularProgressView/*.h"
   end
 
+  s.subspec "ZXCommonCrypto" do |ss|
+    ss.source_files  = "ZXKit/ZXCommonCrypto/*.{h,m}"
+    ss.public_header_files = "ZXKit/ZXCommonCrypto/*.h"
+  end
+
   s.subspec "ZXDownloadManager" do |ss|
-  	ss.dependency 'ZXToolbox/ZXHashValue'
+  	ss.dependency 'ZXToolbox/ZXCommonCrypto'
     ss.source_files  = "ZXKit/ZXDownloadManager/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXDownloadManager/*.h"
   end
@@ -197,11 +202,6 @@ Pod::Spec.new do |s|
     ss.public_header_files = "ZXKit/ZXHaloLabel/*.h"
   end
 
-  s.subspec "ZXHashValue" do |ss|
-    ss.source_files  = "ZXKit/ZXHashValue/*.{h,m}"
-    ss.public_header_files = "ZXKit/ZXHashValue/*.h"
-  end
-
   s.subspec "ZXHTTPClient" do |ss|
     ss.source_files  = "ZXKit/ZXHTTPClient/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXHTTPClient/*.h"
@@ -209,7 +209,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "ZXImageView" do |ss|
-    ss.dependency 'ZXToolbox/ZXHashValue'
+    ss.dependency 'ZXToolbox/ZXCommonCrypto'
     ss.dependency 'ZXToolbox/ZXURLSession'
     ss.source_files  = "ZXKit/ZXImageView/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXImageView/*.h"

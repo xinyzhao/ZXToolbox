@@ -58,10 +58,10 @@ pod "ZXToolbox"
 * ZXBadgeLabel
 * ZXBrightnessView
 * ZXCircularProgressView
+* ZXCommonCrypto
 * ZXDownloadManager
 * ZXDrawingView
 * ZXHaloLabel
-* ZXHashValue
 * ZXHTTPClient
 * ZXImageView
 * ZXLineChartView

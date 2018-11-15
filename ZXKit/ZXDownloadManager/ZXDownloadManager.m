@@ -23,7 +23,7 @@
 //
 
 #import "ZXDownloadManager.h"
-#import "ZXHashValue.h"
+#import "ZXCommonDigest.h"
 
 @interface ZXDownloadManager () <NSURLSessionDelegate, NSURLSessionDataDelegate>
 @property (nonatomic, strong) NSURLSession *session;
@@ -83,7 +83,7 @@
 }
 
 - (ZXDownloadTask *)downloadTaskForURL:(NSURL *)URL {
-    NSString *taskIdentifier = [[[ZXHashValue alloc] initWithString:URL.absoluteString] SHA1String];
+    NSString *taskIdentifier = [[[ZXCommonDigest alloc] initWithString:URL.absoluteString] SHA1String];
     return [self.downloadTasks objectForKey:taskIdentifier];
 }
 

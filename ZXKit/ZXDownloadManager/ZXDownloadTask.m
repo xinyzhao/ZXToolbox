@@ -23,7 +23,7 @@
 //
 
 #import "ZXDownloadTask.h"
-#import "ZXHashValue.h"
+#import "ZXCommonDigest.h"
 
 @interface ZXDownloadObserver : NSObject
 @property (nonatomic, weak) NSObject *observer;
@@ -55,7 +55,7 @@
     if (self) {
         _observers = [[NSMutableDictionary alloc] init];
         _taskURL = [URL copy];
-        _taskIdentifier = [[[ZXHashValue alloc] initWithString:URL.absoluteString] SHA1String];
+        _taskIdentifier = [[[ZXCommonDigest alloc] initWithString:URL.absoluteString] SHA1String];
         //
         BOOL isDirectory = NO;
         if (path == nil) {
