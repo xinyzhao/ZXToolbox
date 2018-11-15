@@ -23,7 +23,7 @@
 //
 
 #import "ZXDownloadManager.h"
-#import "ZXCommonDigest.h"
+#import "ZXCommonCrypto.h"
 
 @interface ZXDownloadManager () <NSURLSessionDelegate, NSURLSessionDataDelegate>
 @property (nonatomic, strong) NSURLSession *session;

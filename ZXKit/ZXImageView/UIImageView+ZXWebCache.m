@@ -24,7 +24,7 @@
 
 #import "UIImageView+ZXWebCache.h"
 #import <objc/runtime.h>
-#import "ZXCommonDigest.h"
+#import "ZXCommonCrypto.h"
 #import "ZXURLSession.h"
 
 @implementation UIImageView (ZXWebCache)

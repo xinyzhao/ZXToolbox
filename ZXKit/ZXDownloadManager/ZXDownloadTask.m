@@ -23,7 +23,7 @@
 //
 
 #import "ZXDownloadTask.h"
-#import "ZXCommonDigest.h"
+#import "ZXCommonCrypto.h"
 
 @interface ZXDownloadObserver : NSObject
 @property (nonatomic, weak) NSObject *observer;
