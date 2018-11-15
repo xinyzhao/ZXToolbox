@@ -23,6 +23,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CommonCrypto/CommonCrypto.h>
 
 @protocol ZXCommonCryptor <NSObject>
 

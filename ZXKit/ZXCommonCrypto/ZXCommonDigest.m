@@ -23,7 +23,6 @@
 //
 
 #import "ZXCommonDigest.h"
-#import <CommonCrypto/CommonDigest.h>
 
 @interface ZXCommonDigest ()
 @property (nonatomic, strong) NSData *data;

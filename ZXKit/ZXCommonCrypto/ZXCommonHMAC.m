@@ -23,7 +23,6 @@
 //
 
 #import "ZXCommonHMAC.h"
-#import <CommonCrypto/CommonHMAC.h>
 
 @implementation NSData (ZXCommonHMAC)
 

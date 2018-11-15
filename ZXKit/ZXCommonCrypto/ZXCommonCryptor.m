@@ -23,7 +23,6 @@
 //
 
 #import "ZXCommonCryptor.h"
-#import <CommonCrypto/CommonCryptor.h>
 
 @implementation NSData (ZXCommonCryptor)
 
