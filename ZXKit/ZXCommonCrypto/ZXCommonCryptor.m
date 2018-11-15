@@ -23,6 +23,7 @@
 //
 
 #import "ZXCommonCryptor.h"
+#import <CommonCrypto/CommonCryptor.h>
 
 @implementation NSData (ZXCommonCryptor)
 
@@ -213,7 +214,7 @@ static void FixKeyLengths(CCAlgorithm algorithm, NSMutableData *keyData, NSMutab
 
 #pragma mark ZXCommonCryptor
 
-- (NSData *)encryptedDataUsingCCAlgorithm:(CCAlgorithm)algorithm key:(id)key {
+- (NSData *)encryptedDataUsingCCAlgorithm:(uint32_t)algorithm key:(id)key {
     CCCryptorStatus status = kCCSuccess;
     NSData *result = [self encryptUsingAlgorithm:algorithm
                                              key:key
@@ -227,7 +228,7 @@ static void FixKeyLengths(CCAlgorithm algorithm, NSMutableData *keyData, NSMutab
     return result;
 }
 
-- (NSData *)decryptedDataUsingCCAlgorithm:(CCAlgorithm)algorithm key:(id)key {
+- (NSData *)decryptedDataUsingCCAlgorithm:(uint32_t)algorithm key:(id)key {
     CCCryptorStatus status = kCCSuccess;
     NSData *result = [self decryptUsingAlgorithm:algorithm
                                              key:key
@@ -245,12 +246,12 @@ static void FixKeyLengths(CCAlgorithm algorithm, NSMutableData *keyData, NSMutab
 
 @implementation NSString (ZXCommonCryptor)
 
-- (NSData *)encryptedDataUsingCCAlgorithm:(CCAlgorithm)algorithm key:(id)key {
+- (NSData *)encryptedDataUsingCCAlgorithm:(uint32_t)algorithm key:(id)key {
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
     return [data encryptedDataUsingCCAlgorithm:algorithm key:key];
 }
 
-- (NSData *)decryptedDataUsingCCAlgorithm:(CCAlgorithm)algorithm key:(id)key {
+- (NSData *)decryptedDataUsingCCAlgorithm:(uint32_t)algorithm key:(id)key {
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
     return [data decryptedDataUsingCCAlgorithm:algorithm key:key];
 }

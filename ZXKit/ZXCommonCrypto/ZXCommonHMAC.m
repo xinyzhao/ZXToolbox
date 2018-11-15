@@ -23,11 +23,12 @@
 //
 
 #import "ZXCommonHMAC.h"
+#import <CommonCrypto/CommonHMAC.h>
 
 @implementation NSData (ZXCommonHMAC)
 
 // Reference https://github.com/Gurpartap/AESCrypt-ObjC/blob/master/NSData+CommonCrypto.m
-- (NSData *)dataUsingHMACAlgorithm:(CCHmacAlgorithm)algorithm key:(id)key {
+- (NSData *)dataUsingHMACAlgorithm:(uint32_t)algorithm key:(id)key {
     NSData *data = nil;
     if (key == nil || [key isKindOfClass:NSData.class] || [key isKindOfClass:NSString.class]) {
         NSData *keyData = nil;
@@ -46,7 +47,7 @@
     return data;
 }
 
-- (NSString *)stringUsingHMACAlgorithm:(CCHmacAlgorithm)algorithm key:(id)key {
+- (NSString *)stringUsingHMACAlgorithm:(uint32_t)algorithm key:(id)key {
     NSMutableString *str = [[NSMutableString alloc] init];
     NSData *data = [self dataUsingHMACAlgorithm:algorithm key:key];
     if (data) {
@@ -62,12 +63,12 @@
 
 @implementation NSString (ZXCommonHMAC)
 
-- (NSData *)dataUsingHMACAlgorithm:(CCHmacAlgorithm)algorithm key:(id)key {
+- (NSData *)dataUsingHMACAlgorithm:(uint32_t)algorithm key:(id)key {
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
     return [data dataUsingHMACAlgorithm:algorithm key:key];
 }
 
-- (NSString *)stringUsingHMACAlgorithm:(CCHmacAlgorithm)algorithm key:(id)key {
+- (NSString *)stringUsingHMACAlgorithm:(uint32_t)algorithm key:(id)key {
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
     return [data stringUsingHMACAlgorithm:algorithm key:key];
 }

@@ -23,13 +23,26 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CommonCrypto/CommonCrypto.h>
 
 @protocol ZXCommonHMAC <NSObject>
 
-- (NSData *)dataUsingHMACAlgorithm:(CCHmacAlgorithm)algorithm key:(id)key;
+/**
+ HMAC with CCHmacAlgorithm for key
 
-- (NSString *)stringUsingHMACAlgorithm:(CCHmacAlgorithm)algorithm key:(id)key;
+ @param algorithm CCHmacAlgorithm
+ @param key HMAC key
+ @return HMAC data
+ */
+- (NSData *)dataUsingHMACAlgorithm:(uint32_t)algorithm key:(id)key;
+
+/**
+ HMAC with CCHmacAlgorithm for key
+
+ @param algorithm CCHmacAlgorithm
+ @param key HMAC key
+ @return HMAC string
+ */
+- (NSString *)stringUsingHMACAlgorithm:(uint32_t)algorithm key:(id)key;
 
 @end
 

@@ -23,12 +23,26 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <CommonCrypto/CommonCrypto.h>
 
 @protocol ZXCommonCryptor <NSObject>
 
-- (NSData *)encryptedDataUsingCCAlgorithm:(CCAlgorithm)algorithm key:(id)key;
-- (NSData *)decryptedDataUsingCCAlgorithm:(CCAlgorithm)algorithm key:(id)key;
+/**
+ Encrypt with algorithm for key
+
+ @param algorithm CCAlgorithm in CommonCryptor
+ @param key encrypt key
+ @return encrypted data
+ */
+- (NSData *)encryptedDataUsingCCAlgorithm:(uint32_t)algorithm key:(id)key;
+
+/**
+ Decrypt with algorithm for key
+
+ @param algorithm CCAlgorithm in CommonCryptor
+ @param key encrypt key
+ @return decrypted data
+ */
+- (NSData *)decryptedDataUsingCCAlgorithm:(uint32_t)algorithm key:(id)key;
 
 @end
 
