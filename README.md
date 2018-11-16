@@ -71,6 +71,7 @@ pod "ZXToolbox"
 * ZXPageView
 * ZXPhotoLibrary
 * ZXPlayerViewController
+* ZXPopoverView
 * ZXPopoverWindow
 * ZXRefreshView
 * ZXScriptMessageHandler

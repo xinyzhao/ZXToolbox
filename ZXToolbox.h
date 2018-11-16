@@ -69,6 +69,7 @@
 #import "ZXPageView.h"
 #import "ZXPhotoLibrary.h"
 #import "ZXPlayerViewController.h"
+#import "ZXPopoverView.h"
 #import "ZXPopoverWindow.h"
 #import "ZXRefreshView.h"
 #import "ZXScriptMessageHandler.h"

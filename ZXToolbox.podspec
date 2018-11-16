@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.5.8"
+  s.version      = "1.5.9"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -254,6 +254,11 @@ Pod::Spec.new do |s|
     ss.source_files  = "ZXKit/ZXPlayerViewController/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXPlayerViewController/*.h"
     ss.frameworks = "AVFoundation", "MediaPlayer"
+  end
+
+  s.subspec "ZXPopoverView" do |ss|
+    ss.source_files  = "ZXKit/ZXPopoverView/*.{h,m}"
+    ss.public_header_files = "ZXKit/ZXPopoverView/*.h"
   end
 
   s.subspec "ZXPopoverWindow" do |ss|
