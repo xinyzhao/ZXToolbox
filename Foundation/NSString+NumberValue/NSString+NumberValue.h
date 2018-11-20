@@ -26,6 +26,8 @@
 
 @interface NSString (NumberValue)
 
++ (NSNumber *)numberFromString:(NSString *)string;
+
 + (NSString *)stringWithNumber:(NSNumber *)number;
 + (NSString *)stringWithNumber:(NSNumber *)number format:(NSString *)format;
 
@@ -40,5 +42,48 @@
 @property (readonly) unsigned long unsignedLongValue;
 @property (readonly) unsigned long long unsignedLongLongValue;
 @property (readonly) NSUInteger unsignedIntegerValue;
+
+/**
+ Convert a numeric string of baseIn to a numeric string of baseOut.
+ Reference https://github.com/MikeMcl/bignumber.js/blob/master/bignumber.js
+ 
+ Eg. [NSString stringWithValue:@"255" baseIn:10 baseOut:16 uppercase:NO] returns @"ff".
+ Eg. [NSString stringWithValue:@"ff" baseIn:16 baseOut:10 uppercase:NO] returns @"255".
+ 
+ @param value The numeric value, a NSNumber or NSString object
+ @param baseIn from base
+ @param baseOut to base
+ @param uppercase Pass true to use uppercase letters to represent numerals greater than 9, or false to use lowercase letters.
+ @return The string of base baseOut
+ */
+
++ (NSString *)stringWithValue:(id)value baseIn:(int)baseIn baseOut:(int)baseOut uppercase:(BOOL)uppercase;
+
+
+/**
+ Convert a numeric string from baseIn to base 10.
+
+ @param value The numeric value, a NSNumber or NSString object
+ @param radix The base to use for the string representation. radix must be at least 2 and at most 36.
+ @param uppercase Pass true to use uppercase letters to represent numerals greater than 9, or false to use lowercase letters.
+ @return The string of base radix
+ */
++ (NSString *)stringWithValue:(id)value radix:(int)radix uppercase:(BOOL)uppercase;
+
+/**
+ Converting from base 10 to baseOut.
+
+ @param radix The base to use for the string representation. radix must be at least 2 and at most 36.
+ @param uppercase Pass true to use uppercase letters to represent numerals greater than 9, or false to use lowercase letters.
+ @return The string of base radix
+ */
+- (NSString *)stringByRadix:(int)radix uppercase:(BOOL)uppercase;
+
+/**
+ Reverse the string
+
+ @return NSString
+ */
+- (NSString *)stringByReversed;
 
 @end
