@@ -93,7 +93,11 @@
     from.size.height = view.frame.size.height;
     //
     CGRect to = from;
-    to.origin.y = self.popoverView.frame.size.height - view.frame.size.height;
+    if (@available(iOS 11.0, *)) {
+        to.origin.y = self.safeAreaLayoutGuide.layoutFrame.origin.y + self.safeAreaLayoutGuide.layoutFrame.size.height - view.frame.size.height;
+    } else {
+        to.origin.y = self.frame.size.height - view.frame.size.height;
+    }
     //
     [self presentView:view from:from to:to animated:flag completion:completion];
 }
