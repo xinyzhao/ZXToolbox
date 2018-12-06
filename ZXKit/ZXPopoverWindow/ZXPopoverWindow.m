@@ -33,6 +33,15 @@
 
 @implementation ZXPopoverWindow
 
++ (instancetype)sharedWindow {
+    static ZXPopoverWindow *window;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        window = [[ZXPopoverWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+    });
+    return window;
+}
+
 - (instancetype)initWithCoder:(NSCoder *)coder
 {
     self = [super initWithCoder:coder];

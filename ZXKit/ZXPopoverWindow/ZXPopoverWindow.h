@@ -54,6 +54,13 @@
 @property (nonatomic, copy) void (^touchedBackgroundBlock)(void);
 
 /**
+ A shared window
+
+ @return ZXPoperWindow
+ */
++ (instancetype)sharedWindow;
+
+/**
  Present view in window
 
  @param view Present view
