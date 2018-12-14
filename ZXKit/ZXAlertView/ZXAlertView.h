@@ -68,40 +68,53 @@ typedef NS_ENUM(NSInteger, ZXAlertActionStyle) {
 @end
 
 /**
+ ZXAlertViewStyle
+ */
+typedef NS_ENUM(NSInteger, ZXAlertViewStyle) {
+    ZXAlertViewStyleActionSheet = 0,
+    ZXAlertViewStyleAlert,
+};
+
+/**
  ZXAlertView
  */
 @interface ZXAlertView : UIView
 /**
  Title for alert view
  */
-@property (nonatomic, strong) NSString *title;
+@property (nonatomic, readonly) NSString *title;
 /**
  Message for alert view
  */
-@property (nonatomic, strong) NSString *message;
+@property (nonatomic, readonly) NSString *message;
+/**
+ Style for alert view
+ */
+@property (nonatomic, readonly) ZXAlertViewStyle style;
 
 /**
  Like UIAlertView, compatible with iOS 7,8
-
+ 
  @param title Title for alert view
  @param message Message for alert view
+ @param style UIAlertViewStyle for alert view
  @param cancelAction Cancel action, the style is UIAlertActionStyleCancel
- @param otherActions Other actions, end with nil
- @return Instance
+ @param otherAction Other action, end with nil
+ @return The alert view
  */
-- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message cancelAction:(ZXAlertAction *)cancelAction otherActions:(ZXAlertAction *)otherActions, ... NS_REQUIRES_NIL_TERMINATION;
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message style:(ZXAlertViewStyle)style cancelAction:(ZXAlertAction *)cancelAction otherAction:(ZXAlertAction *)otherAction, ... NS_REQUIRES_NIL_TERMINATION;
 
 /**
- Like UIActionSheet, compatible with iOS 7,8
-
- @param title Title for alert view
- @param message Message for alert view
- @param cancelAction Cancel action, the style is UIAlertActionStyleCancel
- @param destructiveAction Destructive action, the style is ZXAlertActionStyleDestructive
- @param otherActions Other actions, end with nil
- @return Instance
+ Add action for alert view
  */
-- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message cancelAction:(ZXAlertAction *)cancelAction destructiveAction:(ZXAlertAction *)destructiveAction otherActions:(ZXAlertAction *)otherActions, ... NS_REQUIRES_NIL_TERMINATION;
+- (void)addAction:(ZXAlertAction *)action;
+
+/**
+ All actions for alert view
+ 
+ @return The actions
+ */
+@property (nonatomic, readonly) NSArray<ZXAlertAction *> *actions;
 
 /**
  Add UITextField for alert view

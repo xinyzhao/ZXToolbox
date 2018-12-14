@@ -54,182 +54,96 @@ typedef void (^ZXAlertActionHandler)(ZXAlertAction *action);
 @property (nonatomic, strong) UIAlertController *alertController NS_AVAILABLE_IOS(8_0);
 @property (nonatomic, strong) UIAlertView *alertView;
 @property (nonatomic, strong) UIActionSheet *actionSheet;
+@property (nonatomic, strong) NSArray<UITextField *> *textFields;
 
 @end
 
 @implementation ZXAlertView
-@synthesize textFields = _textFields;
 
-- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message cancelAction:(ZXAlertAction *)cancelAction otherActions:(ZXAlertAction *)otherActions, ... {
+- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message style:(ZXAlertViewStyle)style cancelAction:(ZXAlertAction *)cancelAction otherAction:(ZXAlertAction *)otherAction, ... {
     self = [super init];
     if (self) {
-        self.title = title;
-        self.message = message;
+        _title = [title copy];
+        _message = [message copy];
+        _style = style;
         //
         if (@available(iOS 8.0, *)) {
-            //
-            self.alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleAlert];
-            //
-            if (cancelAction) {
-                UIAlertAction *alertAction = [UIAlertAction actionWithTitle:cancelAction.title style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                    if (cancelAction.handler) {
-                        cancelAction.handler(cancelAction);
-                    }
-                }];
-                [self.alertController addAction:alertAction];
-            }
-            //
-            if (otherActions) {
-                UIAlertAction *alertAction = [UIAlertAction actionWithTitle:otherActions.title style:(NSInteger)otherActions.style handler:^(UIAlertAction * _Nonnull action) {
-                    if (otherActions.handler) {
-                        otherActions.handler(otherActions);
-                    }
-                }];
-                [self.alertController addAction:alertAction];
-                //
-                va_list vaList;
-                va_start(vaList, otherActions);
-                id obj;
-                while ((obj = va_arg(vaList, id))) {
-                    if ([obj isKindOfClass:[ZXAlertAction class]]) {
-                        ZXAlertAction *otherAction = obj;
-                        UIAlertAction *alertAction = [UIAlertAction actionWithTitle:otherAction.title style:(NSInteger)otherAction.style handler:^(UIAlertAction * _Nonnull action) {
-                            if (otherAction.handler) {
-                                otherAction.handler(otherAction);
-                            }
-                        }];
-                        [self.alertController addAction:alertAction];
-                    }
-                }
-                va_end(vaList);
-            }
-            
+            self.alertController = [UIAlertController alertControllerWithTitle:_title message:_message preferredStyle:(NSInteger)style];
         } else {
             //
-            self.alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:cancelAction.title otherButtonTitles:nil];
-            [self.alertView insertSubview:self atIndex:0];
-            //
-            self.alertActions = [NSMutableArray array];
-            if (cancelAction) {
-                [self.alertActions addObject:cancelAction];
+            if (_style == ZXAlertViewStyleAlert) {
+                self.alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:cancelAction.title otherButtonTitles:nil];
+                [self.alertView insertSubview:self atIndex:0];
+            } else if (_style == ZXAlertViewStyleActionSheet) {
+                self.actionSheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:cancelAction.title destructiveButtonTitle:nil otherButtonTitles:nil];
+                [self.actionSheet insertSubview:self atIndex:0];
             }
+        }
+        //
+        if (cancelAction) {
+            cancelAction.style = ZXAlertActionStyleCancel;
+            [self addAction:cancelAction];
+        }
+        //
+        if (otherAction) {
+            [self addAction:otherAction];
             //
-            if (otherActions) {
-                [self.alertActions addObject:otherActions];
-                [self.alertView addButtonWithTitle:otherActions.title ? otherActions.title : @""];
-                //
-                va_list vaList;
-                va_start(vaList, otherActions);
-                id obj;
-                while ((obj = va_arg(vaList, id))) {
-                    if ([obj isKindOfClass:[ZXAlertAction class]]) {
-                        ZXAlertAction *otherAction = obj;
-                        [self.alertActions addObject:obj];
-                        [self.alertView addButtonWithTitle:otherAction.title];
-                    }
+            va_list vaList;
+            va_start(vaList, otherAction);
+            id obj;
+            while ((obj = va_arg(vaList, id))) {
+                if ([obj isKindOfClass:[ZXAlertAction class]]) {
+                    ZXAlertAction *action = obj;
+                    [self addAction:action];
                 }
-                va_end(vaList);
             }
+            va_end(vaList);
         }
     }
     //
     return self;
 }
 
-- (instancetype)initWithTitle:(NSString *)title message:(NSString *)message cancelAction:(ZXAlertAction *)cancelAction destructiveAction:(ZXAlertAction *)destructiveAction otherActions:(ZXAlertAction *)otherActions, ... {
-    self = [super init];
-    if (self) {
-        self.title = title;
-        self.message = message;
+#pragma mark Actions
+
+- (void)addAction:(ZXAlertAction *)action {
+    if (action) {
+        if (self.alertActions == nil) {
+            self.alertActions = [[NSMutableArray alloc] init];
+        }
+        [self.alertActions addObject:action];
         //
         if (@available(iOS 8.0, *)) {
-            //
-            self.alertController = [UIAlertController alertControllerWithTitle:title message:message preferredStyle:UIAlertControllerStyleActionSheet];
-            //
-            if (cancelAction) {
-                UIAlertAction *alertAction = [UIAlertAction actionWithTitle:cancelAction.title style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                    if (cancelAction.handler) {
-                        cancelAction.handler(cancelAction);
-                    }
-                }];
-                [self.alertController addAction:alertAction];
-            }
-            //
-            if (destructiveAction) {
-                UIAlertAction *alertAction = [UIAlertAction actionWithTitle:destructiveAction.title style:UIAlertActionStyleDestructive handler:^(UIAlertAction * _Nonnull action) {
-                    if (destructiveAction.handler) {
-                        destructiveAction.handler(destructiveAction);
-                    }
-                }];
-                [self.alertController addAction:alertAction];
-            }
-            //
-            if (otherActions) {
-                UIAlertAction *alertAction = [UIAlertAction actionWithTitle:otherActions.title style:(NSInteger)otherActions.style handler:^(UIAlertAction * _Nonnull action) {
-                    if (otherActions.handler) {
-                        otherActions.handler(otherActions);
-                    }
-                }];
-                [self.alertController addAction:alertAction];
-                //
-                va_list vaList;
-                va_start(vaList, otherActions);
-                id obj;
-                while ((obj = va_arg(vaList, id))) {
-                    if ([obj isKindOfClass:[ZXAlertAction class]]) {
-                        ZXAlertAction *otherAction = obj;
-                        UIAlertAction *alertAction = [UIAlertAction actionWithTitle:otherAction.title style:(NSInteger)otherAction.style handler:^(UIAlertAction * _Nonnull action) {
-                            if (otherAction.handler) {
-                                otherAction.handler(otherAction);
-                            }
-                        }];
-                        [self.alertController addAction:alertAction];
-                    }
+            UIAlertAction *obj = [UIAlertAction actionWithTitle:action.title style:(NSInteger)action.style handler:^(UIAlertAction * _Nonnull a) {
+                if (action.handler) {
+                    action.handler(action);
                 }
-                va_end(vaList);
+            }];
+            [self.alertController addAction:obj];
+        } else if (self.actionSheet) {
+            [self.actionSheet addButtonWithTitle:action.title ? action.title : @""];
+            if (action.style == ZXAlertActionStyleDestructive) {
+                NSInteger index = [self.alertActions indexOfObject:action];
+                self.actionSheet.destructiveButtonIndex = index;
             }
-            
-        } else {
-            //
-            self.actionSheet = [[UIActionSheet alloc] initWithTitle:title delegate:self cancelButtonTitle:cancelAction.title destructiveButtonTitle:destructiveAction.title otherButtonTitles:nil];
-            [self.actionSheet insertSubview:self atIndex:0];
-            //
-            self.alertActions = [NSMutableArray array];
-            if (destructiveAction) {
-                [self.alertActions addObject:destructiveAction];
-            }
-            //
-            if (otherActions) {
-                [self.alertActions addObject:otherActions];
-                [self.actionSheet addButtonWithTitle:otherActions.title ? otherActions.title : @""];
-                //
-                va_list vaList;
-                va_start(vaList, otherActions);
-                id obj;
-                while ((obj = va_arg(vaList, id))) {
-                    if ([obj isKindOfClass:[ZXAlertAction class]]) {
-                        ZXAlertAction *otherAction = obj;
-                        [self.alertActions addObject:obj];
-                        [self.actionSheet addButtonWithTitle:otherAction.title];
-                    }
-                }
-                va_end(vaList);
-            }
-            //
-            if (cancelAction) {
-                [self.alertActions addObject:cancelAction];
-            }
+        } else if (self.alertView) {
+            [self.alertView addButtonWithTitle:action.title ? action.title : @""];
         }
     }
-    //
-    return self;
 }
+
+- (NSArray<ZXAlertAction *> *)actions {
+    return [self.alertActions copy];
+}
+
+#pragma mark textFields
 
 - (void)addTextField:(void (^)(UITextField *textField))configurationHandler {
     if (@available(iOS 8.0, *)) {
+        __weak typeof(self) weakSelf = self;
         [self.alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
             if (textField) {
-                self->_textFields = [self.textFields arrayByAddingObject:textField];
+                weakSelf.textFields = [weakSelf.textFields arrayByAddingObject:textField];
             }
             if (configurationHandler) {
                 configurationHandler(textField);
@@ -247,12 +161,7 @@ typedef void (^ZXAlertActionHandler)(ZXAlertAction *action);
     }
 }
 
-- (NSArray<UITextField *> *)textFields {
-    if (_textFields == nil) {
-        _textFields = [[NSArray alloc] init];
-    }
-    return _textFields;
-}
+#pragma mark Show
 
 - (void)showInViewController:(UIViewController *)viewController {
     [self showInViewController:viewController sourceView:nil];
