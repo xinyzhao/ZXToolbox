@@ -65,7 +65,6 @@ NSData * UIImageCompressToData(UIImage *image, NSUInteger bytes) {
     }
     NSLog(@">[COMPRESSED] size:%@ bytes:%d retry:%d",
           NSStringFromCGSize(image.size), (int)data.length, retry);
-    [data writeToFile:@"/Users/xyz/Pictures/3@2x.jpg" atomically:YES];
     return data;
 }
 
