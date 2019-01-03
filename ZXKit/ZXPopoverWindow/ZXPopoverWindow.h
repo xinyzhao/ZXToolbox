@@ -61,24 +61,31 @@
 + (instancetype)sharedWindow;
 
 /**
- Present view in window
-
- @param view Present view
+ Present view
+ 
+ @param view presention view
+ @param animated animated
+ @param completion completion block
  */
-- (void)presentView:(UIView *)view;
+- (void)presentView:(UIView *)view animated:(BOOL)animated completion:(void (^)(void))completion;
 
 /**
- Present view in window
-
- @param view Present view
- @param from From frame
- @param to To frame
+ Present view
+ 
+ @param view presention view
+ @param from from point
+ @param to to point
+ @param animated animated
+ @param completion completion block
  */
-- (void)presentView:(UIView *)view from:(CGRect)from to:(CGRect)to;
+- (void)presentView:(UIView *)view from:(CGRect)from to:(CGRect)to animated:(BOOL)animated completion:(void(^)(void))completion;
 
 /**
- Dismiss window
+ Dismiss view
+ 
+ @param flag animated
+ @param completion completion block
  */
-- (void)dismiss;
+- (void)dismissViewAnimated:(BOOL)flag completion:(void(^)(void))completion;
 
 @end

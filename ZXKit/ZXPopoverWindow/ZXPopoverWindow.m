@@ -64,7 +64,9 @@
     return self;
 }
 
-- (void)presentView:(UIView *)view {
+#pragma mark Present && Dismiss
+
+- (void)presentView:(UIView *)view animated:(BOOL)flag completion:(void (^)(void))completion {
     CGRect from = self.frame;
     from.origin.y = self.frame.size.height;
     from.size.height = view.frame.size.height;
@@ -76,10 +78,10 @@
         to.origin.y = self.frame.size.height - view.frame.size.height;
     }
     //
-    [self presentView:view from:from to:to];
+    [self presentView:view from:from to:to animated:flag completion:completion];
 }
 
-- (void)presentView:(UIView *)view from:(CGRect)from to:(CGRect)to {
+- (void)presentView:(UIView *)view from:(CGRect)from to:(CGRect)to animated:(BOOL)animated completion:(void(^)(void))completion {
     if (_presentedView) {
         [_presentedView removeFromSuperview];
     }
@@ -94,30 +96,47 @@
         [self setBackgroundColor:[UIColor clearColor]];
         [self setHidden:NO];
         //
-        __weak typeof(self) weakSelf = self;
-        [UIView animateWithDuration:_presentingDuration animations:^{
-            weakSelf.backgroundColor = weakSelf.presentedBackgroundColor;
-            weakSelf.presentedView.frame = self->_toFrame;
-        } completion:^(BOOL finished) {
-            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:weakSelf action:@selector(onTapBackground:)];
-            tap.delegate = weakSelf;
-            weakSelf.gestureRecognizers = @[tap];
-        }];
+        if (animated) {
+            __weak typeof(self) weakSelf = self;
+            [UIView animateWithDuration:_presentingDuration animations:^{
+                weakSelf.backgroundColor = weakSelf.presentedBackgroundColor;
+                weakSelf.presentedView.frame = self->_toFrame;
+            } completion:^(BOOL finished) {
+                UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:weakSelf action:@selector(onTapBackground:)];
+                tap.delegate = weakSelf;
+                weakSelf.gestureRecognizers = @[tap];
+                //
+                if (completion) {
+                    completion();
+                }
+            }];
+        } else {
+            if (completion) {
+                completion();
+            }
+        }
+        
     }
 }
 
-- (void)dismiss {
+- (void)dismissViewAnimated:(BOOL)animated completion:(void(^)(void))completion {
     _isPresented = NO;
     __weak typeof(self) weakSelf = self;
-    [UIView animateWithDuration:_dismissingDuration animations:^{
-        weakSelf.backgroundColor = [UIColor clearColor];
-        weakSelf.presentedView.frame = self->_fromFrame;
-    } completion:^(BOOL finished) {
-        if (!self->_isPresented) {
-            [weakSelf.presentedView removeFromSuperview];
-            weakSelf.hidden = YES;
+    if (animated) {
+        [UIView animateWithDuration:_dismissingDuration animations:^{
+            weakSelf.backgroundColor = [UIColor clearColor];
+            weakSelf.presentedView.frame = self->_fromFrame;
+        } completion:^(BOOL finished) {
+            if (!self->_isPresented) {
+                [weakSelf.presentedView removeFromSuperview];
+                weakSelf.hidden = YES;
+            }
+        }];
+    } else {
+        if (completion) {
+            completion();
         }
-    }];
+    }
 }
 
 #pragma mark <UIGestureRecognizerDelegate>
