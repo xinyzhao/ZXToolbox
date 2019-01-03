@@ -111,6 +111,13 @@
                 }
             }];
         } else {
+            self.backgroundColor = self.presentedBackgroundColor;
+            self.presentedView.frame = _toFrame;
+            //
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onTapBackground:)];
+            tap.delegate = self;
+            self.gestureRecognizers = @[tap];
+            //
             if (completion) {
                 completion();
             }
@@ -133,6 +140,9 @@
             }
         }];
     } else {
+        [self.presentedView removeFromSuperview];
+        self.hidden = YES;
+        //
         if (completion) {
             completion();
         }

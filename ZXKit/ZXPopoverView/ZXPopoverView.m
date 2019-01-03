@@ -133,6 +133,13 @@
                 }
             }];
         } else {
+            self.popoverView.backgroundColor = self.popoverView.presentedBackgroundColor;
+            self.popoverView.presentedView.frame = self.popoverView.toFrame;
+            //
+            UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self.popoverView action:@selector(onTapBackground:)];
+            tap.delegate = self.popoverView;
+            self.popoverView.gestureRecognizers = @[tap];
+            //
             if (completion) {
                 completion();
             }
@@ -158,6 +165,9 @@
             }
         }];
     } else {
+        [self.popoverView.presentedView removeFromSuperview];
+        [self.popoverView removeFromSuperview];
+        //
         if (completion) {
             completion();
         }
