@@ -37,12 +37,13 @@
         if (value < limit) {
             NSString *format = integerFormat ? integerFormat : @"#";
             format = [format stringByAppendingString:self.decimalSeparator];
-            for (int j = 0; j < decimalDigits - i; j++) {
+            int digits = decimalDigits - i > 0 ? decimalDigits - i : 0;
+            for (int j = 0; j < digits; j++) {
                 format = [format stringByAppendingString:@"#"];
             }
             self.positiveFormat = format;
             if (paddingZeros) {
-                self.minimumFractionDigits = i;
+                self.minimumFractionDigits = digits;
             }
             break;
         }
