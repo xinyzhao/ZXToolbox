@@ -28,6 +28,7 @@ pod "ZXToolbox"
 * NSDate+Extra
 * NSFileManager+Extra
 * NSLog+Extra
+* NSNumberFormatter+Extra
 * NSObject+Extra
 * NSString+NumberValue
 * NSString+Pinyin

@@ -31,6 +31,7 @@
 #import "NSDate+Extra.h"
 #import "NSFileManager+Extra.h"
 #import "NSLog+Extra.h"
+#import "NSNumberFormatter+Extra.h"
 #import "NSObject+Extra.h"
 #import "NSString+Base64Encoding.h"
 #import "NSString+NumberValue.h"
