@@ -106,6 +106,7 @@
     if (self.popoverView.presentedView) {
         [self.popoverView.presentedView removeFromSuperview];
     }
+    self.popoverView.presentingView = self;
     self.popoverView.presentedView = view;
     self.popoverView.fromFrame = from;
     self.popoverView.toFrame = to;
@@ -158,6 +159,7 @@
             if (!weakSelf.popoverView.isPresented) {
                 [weakSelf.popoverView.presentedView removeFromSuperview];
                 [weakSelf.popoverView removeFromSuperview];
+                weakSelf.popoverView.presentingView = nil;
             }
             //
             if (completion) {
@@ -167,6 +169,7 @@
     } else {
         [self.popoverView.presentedView removeFromSuperview];
         [self.popoverView removeFromSuperview];
+        self.popoverView.presentingView = nil;
         //
         if (completion) {
             completion();

@@ -39,6 +39,11 @@
 @property (nonatomic, strong) UIColor *presentedBackgroundColor;
 
 /**
+ Presenting View
+ */
+@property (nonatomic, weak) UIView *presentingView;
+
+/**
  Presenting duration of animation, default 0.3 secend
  */
 @property (nonatomic, assign) NSTimeInterval presentingDuration;
