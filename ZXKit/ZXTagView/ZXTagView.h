@@ -64,6 +64,11 @@
 @property (nonatomic, copy) void (^selectedBlock)(NSInteger index, UIView *view, UIView *prevView);
 
 /**
+ Number of tags
+ */
+@property (nonatomic, readonly) NSInteger numberOfTags;
+
+/**
  Add tag view with an action block
 
  @param view The tag view

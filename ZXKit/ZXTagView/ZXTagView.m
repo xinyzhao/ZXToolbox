@@ -71,6 +71,10 @@
     return _tagViews;
 }
 
+- (NSInteger)numberOfTags {
+    return self.tagViews.count;
+}
+
 - (void)addTagView:(UIView *)view {
     if (view) {
         [self.tagViews addObject:view];
