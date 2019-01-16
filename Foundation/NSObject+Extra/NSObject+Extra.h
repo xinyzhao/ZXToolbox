@@ -23,17 +23,69 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <objc/runtime.h>
 
+/**
+ NSObject (Extra)
+ */
 @interface NSObject (Extra)
 
-+ (void)swizzleMethod:(SEL)originalSelector with:(SEL)swizzledSelector;
+/**
+ 替换类方法
+
+ @param originalSelector 原始方法
+ @param swizzledSelector 替换方法
+ */
 + (void)swizzleClassMethod:(SEL)originalSelector with:(SEL)swizzledSelector;
 
+/**
+ 替换实例方法
+
+ @param originalSelector 原始方法
+ @param swizzledSelector 替换方法
+ */
++ (void)swizzleMethod:(SEL)originalSelector with:(SEL)swizzledSelector;
+
+/**
+ 替换代理方法，这里需要注意两点
+ 1.如果代理实现了originalSelector，直接使用swizzledSelector进行替换，
+   需要在swizzledSelector内再次调用swizzledSelector方法；
+ 2.如果代理没有实现originalSelector，则需要self实现originalSelector方法，
+   originalSelector内部不需要调用originalSelector方法。
+
+ @param originalSelector 原始方法
+ @param swizzledSelector 替换方法
+ @param originalClass 原始Class
+ */
+- (void)swizzleMethod:(SEL)originalSelector with:(SEL)swizzledSelector class:(Class)originalClass;
+
+/**
+ 类同 respondsToSelector
+
+ @param selector 方法选择器
+ @return BOOL
+ */
 - (BOOL)respondsToMethod:(SEL)selector;
 
+/**
+ 执行指定的方法
+
+ @param selector 选择器
+ */
 - (void)performMethod:(SEL)selector;
+/**
+ 执行指定的方法
+
+ @param selector 选择器
+ @param object 对象
+ */
 - (void)performMethod:(SEL)selector withObject:(id)object;
+/**
+ 执行指定的方法
+
+ @param selector 选择器
+ @param object1 对象1
+ @param object2 对象2
+ */
 - (void)performMethod:(SEL)selector withObject:(id)object1 withObject:(id)object2;
 
 @end

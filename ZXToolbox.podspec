@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.6.9"
+  s.version      = "1.7.0"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -241,6 +241,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "ZXPageView" do |ss|
+    ss.dependency 'ZXToolbox/NSObject+Extra'
     ss.source_files  = "ZXKit/ZXPageView/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXPageView/*.h"
   end

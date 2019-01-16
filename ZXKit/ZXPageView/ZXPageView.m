@@ -23,10 +23,13 @@
 //
 
 #import "ZXPageView.h"
+#import "NSObject+Extra.h"
 
-@interface ZXPageView () <NSCacheDelegate>
+@interface ZXPageView () <NSCacheDelegate, UIScrollViewDelegate>
 @property (nonatomic, strong) NSCache *pageViews;
 @property (nonatomic, assign) NSTimeInterval timestamp;
+
+@property (nonatomic, readonly) CGRect scales;
 
 - (void)initView;
 
@@ -47,7 +50,7 @@
 @end
 
 @implementation ZXPageView
-@synthesize delegate = _delegate;
+@dynamic delegate;
 
 #pragma mark Initialization
 
@@ -70,17 +73,18 @@
 }
 
 - (void)initView {
-    self.direction = ZXPageViewDirectionHorizontal;
-    self.orientation = ZXPageViewOrientationEndless;
-    self.pageViews = [[NSCache alloc] init];
-    self.pageViews.delegate = self;
-    self.pagingEnabled = YES;
+    self.clipsToBounds = YES;
+    self.pagingEnabled = NO;
     self.showsVerticalScrollIndicator = NO;
     self.showsHorizontalScrollIndicator = NO;
+    self.direction = ZXPageViewDirectionHorizontal;
+    self.orientation = ZXPageViewOrientationEndless;
+    self.pageScaleFactor = CGPointMake(1.f, 1.f);
+    self.pageViews = [[NSCache alloc] init];
+    self.pageViews.delegate = self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self stopPaging];
 }
 
@@ -140,7 +144,8 @@
 
 - (void)reloadData {
     [self.pageViews removeAllObjects];
-    [self setNeedsLayout];
+    [self layoutIfNeeded];
+    self.currentPage = _currentPage;
 }
 
 #pragma mark Page Setter
@@ -152,9 +157,9 @@
 - (void)setCurrentPage:(NSInteger)currentPage animated:(BOOL)animated {
     CGPoint offset = CGPointZero;
     if (_direction == ZXPageViewDirectionHorizontal) {
-        offset.x = currentPage * self.frame.size.width;
+        offset.x = currentPage * self.scales.size.width - self.scales.origin.x;
     } else {
-        offset.y = currentPage * self.frame.size.height;
+        offset.y = currentPage * self.scales.size.height - self.scales.origin.y;
     }
     [self setContentOffset:offset animated:animated];
 }
@@ -169,9 +174,9 @@
 - (NSInteger)contentPage {
     NSInteger page = 0;
     if (_direction == ZXPageViewDirectionHorizontal) {
-        page = roundf(self.contentOffset.x / self.frame.size.width);
+        page = floorf((self.contentOffset.x + self.bounds.size.width / 2) / self.scales.size.width);
     } else {
-        page = roundf(self.contentOffset.y / self.frame.size.height);
+        page = floorf((self.contentOffset.y + self.bounds.size.height / 2) / self.scales.size.height);
     }
     return page;
 }
@@ -213,12 +218,12 @@
 - (UIView *)subviewForPageAtIndex:(NSInteger)index {
     UIView *view = [self.pageViews objectForKey:@(index)];
     if (view == nil && (_orientation == ZXPageViewOrientationEndless || (index >= 0 && index < _numberOfPages))) {
-        if ([_delegate respondsToSelector:@selector(pageView:subviewForPageAtIndex:)]) {
+        if ([self.delegate respondsToSelector:@selector(pageView:subviewForPageAtIndex:)]) {
             if (index >= 0 && index < _numberOfPages) {
-                view = [_delegate pageView:self subviewForPageAtIndex:index];
+                view = [self.delegate pageView:self subviewForPageAtIndex:index];
             } else {
                 NSInteger pageIndex = [self correctPage:index];
-                view = [_delegate pageView:self subviewForPageAtIndex:pageIndex];
+                view = [self.delegate pageView:self subviewForPageAtIndex:pageIndex];
             }
             if (view) {
                 view.tag = index;
@@ -264,7 +269,45 @@
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
 
+#pragma mark Scale
+
+- (CGRect)scales {
+    CGRect rect = self.bounds;
+    rect.size.width *= _pageScaleFactor.x;
+    rect.size.height *= _pageScaleFactor.y;
+    rect.origin.x = (self.bounds.size.width - rect.size.width) / 2;
+    rect.origin.y = (self.bounds.size.height - rect.size.height) / 2;
+    return rect;
+}
+
+- (void)centeringPage {
+    self.currentPage = self.contentPage;
+}
+
+- (CGPoint)contentOffsetForPage:(NSInteger)page {
+    CGPoint offset = CGPointZero;
+    if (_direction == ZXPageViewDirectionHorizontal) {
+        offset.x = page * self.scales.size.width - (self.bounds.size.width - self.scales.size.width) / 2;
+    } else {
+        offset.y = page * self.scales.size.height - (self.bounds.size.height - self.scales.size.height) / 2;
+    }
+    return offset;
+}
+
 #pragma mark Overrides
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self swizzleMethod:@selector(setDelegate:) with:@selector(page_setDelegate:)];
+    });
+}
+
+- (void)page_setDelegate:(id<UIScrollViewDelegate>)delegate {
+    [self page_setDelegate:delegate];
+    //
+    [self swizzleMethod:@selector(scrollViewWillEndDragging:withVelocity:targetContentOffset:) with:@selector(pageViewWillEndDragging:withVelocity:targetContentOffset:) class:[delegate class]];
+}
 
 - (void)layoutSubviews {
     [super layoutSubviews];
@@ -295,13 +338,38 @@
 
 - (void)setFrame:(NSInteger)page forPageAtIndex:(NSInteger)index {
     if (_orientation == ZXPageViewOrientationEndless || (page >= 0 && page < _numberOfPages)) {
-        CGRect frame = self.frame;
+        CGRect frame = self.scales;
         if (_direction == ZXPageViewDirectionHorizontal) {
-            frame.origin = CGPointMake(page * self.frame.size.width, 0);
+            frame.origin.x = page * frame.size.width;
         } else {
-            frame.origin = CGPointMake(0, page * self.frame.size.height);
+            frame.origin.y = page * frame.size.height;
         }
         UIView *view = [self subviewForPageAtIndex:index];
+        if (!CGPointEqualToPoint(_pageScaleFactor, CGPointMake(1.f, 1.f))) {
+            CGPoint scale = self.contentOffset;
+            scale.x += self.bounds.size.width / 2;
+            scale.y += self.bounds.size.height / 2;
+            scale.x -= frame.origin.x + frame.size.width / 2;
+            scale.y -= frame.origin.y + frame.size.height / 2;
+            scale.x /= self.bounds.size.width;
+            scale.y /= self.bounds.size.height;
+            scale.x = fabs(cos(scale.x * M_PI / 4));
+            scale.y = fabs(cos(scale.y * M_PI / 4));
+            //
+            if (_direction == ZXPageViewDirectionHorizontal) {
+                frame.size.height *= scale.x;
+            } else {
+                frame.size.width *= scale.y;
+            }
+            frame.origin.x += (self.scales.size.width - frame.size.width) / 2;
+            frame.origin.y += (self.scales.size.height - frame.size.height) / 2;
+        }
+        //
+        frame.origin.x += _pageInset.left;
+        frame.origin.y += _pageInset.top;
+        frame.size.width -= _pageInset.left + _pageInset.right;
+        frame.size.height -= _pageInset.top + _pageInset.bottom;
+        //
         view.frame = frame;
     }
 }
@@ -315,12 +383,48 @@
         if (_currentPage != correctPage) {
             _currentPage = correctPage;
             //
-            if ([_delegate respondsToSelector:@selector(pageView:willDisplaySubview:forPageAtIndex:)]) {
-                [_delegate pageView:self willDisplaySubview:self.currentView forPageAtIndex:_currentPage];
+            if ([self.delegate respondsToSelector:@selector(pageView:willDisplaySubview:forPageAtIndex:)]) {
+                [self.delegate pageView:self willDisplaySubview:self.currentView forPageAtIndex:_currentPage];
             }
         }
     }
 }
+
+#pragma mark <UIScrollViewDelegate>
+
+- (void)scrollViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    if ([scrollView isKindOfClass:[ZXPageView class]]) {
+        scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
+        ZXPageView *pageView = (ZXPageView *)scrollView;
+        NSInteger page = [pageView contentPage];
+        if (pageView.direction == ZXPageViewDirectionHorizontal) {
+            if (velocity.x > 0.f) {
+                page++;
+            } else if (velocity.x < 0.f) {
+                page--;
+            }
+        } else {
+            if (velocity.y > 0.f) {
+                page++;
+            } else if (velocity.y < 0.f) {
+                page--;
+            }
+        }
+        CGPoint offset = [pageView contentOffsetForPage:page];
+        targetContentOffset->x = offset.x;
+        targetContentOffset->y = offset.y;
+    }
+}
+
+- (void)pageViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
+    [self pageViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset];
+    //
+    if ([scrollView isKindOfClass:[ZXPageView class]]) {
+        ZXPageView *pageView = (ZXPageView *)scrollView;
+        [pageView scrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset];
+    }
+}
+
 
 #pragma mark <NSCacheDelegate>
 
@@ -334,4 +438,3 @@
 }
 
 @end
-

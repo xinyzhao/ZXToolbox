@@ -82,11 +82,11 @@ typedef NS_ENUM(NSInteger, ZXPageViewOrientation) {
  */
 @property (nonatomic, assign) ZXPageViewDirection direction;
 /**
- Current page, default 0
+ Current page, default is 0
  */
 @property (nonatomic, assign) NSInteger currentPage;
 /**
- The number of pages, default 0
+ The number of pages, default is 0
  */
 @property (nonatomic, assign) NSInteger numberOfPages;
 /**
@@ -97,6 +97,14 @@ typedef NS_ENUM(NSInteger, ZXPageViewOrientation) {
  Orientation, default ZXPageViewOrientationEndless
  */
 @property (nonatomic, assign) ZXPageViewOrientation orientation;
+/**
+ Scale factor for page, default is {1.0, 1.0}
+ */
+@property (nonatomic, assign) CGPoint pageScaleFactor;
+/**
+ Inset for page
+ */
+@property (nonatomic, assign) UIEdgeInsets pageInset;
 
 /**
  Set current page with animated
@@ -120,3 +128,4 @@ typedef NS_ENUM(NSInteger, ZXPageViewOrientation) {
 - (void)reloadData;
 
 @end
+
