@@ -61,12 +61,12 @@ typedef NS_ENUM(NSInteger, ZXPageViewDirection) {
 };
 
 /**
- Orientation of scrolling
+ Paging mode
  */
-typedef NS_ENUM(NSInteger, ZXPageViewOrientation) {
-    ZXPageViewOrientationEndless, // End to end, both of orientation
-    ZXPageViewOrientationForward, // Left to right on horizontal, up to down on vertical
-    //ZXPageViewOrientationReverse, // Right to left on horizontal, down to up on vertical, doesn't yet support
+typedef NS_ENUM(NSInteger, ZXPagingMode) {
+    ZXPagingModeEndless, // End to end, both of orientation
+    ZXPagingModeForward, // Left to right on horizontal, up to down on vertical
+    //ZXPagingModeReverse, // Right to left on horizontal, down to up on vertical, doesn't yet support
 };
 
 /**
@@ -94,9 +94,9 @@ typedef NS_ENUM(NSInteger, ZXPageViewOrientation) {
  */
 @property (nonatomic, assign) NSTimeInterval timeInterval;
 /**
- Orientation, default ZXPageViewOrientationEndless
+ Orientation, default ZXPagingModeEndless
  */
-@property (nonatomic, assign) ZXPageViewOrientation orientation;
+@property (nonatomic, assign) ZXPagingMode pagingMode;
 /**
  Scale factor for page, default is {1.0, 1.0}
  */

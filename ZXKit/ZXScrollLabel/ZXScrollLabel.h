@@ -26,8 +26,9 @@
 
 @interface ZXScrollLabel : UILabel
 @property (nonatomic, strong) NSArray *textArray;
-@property (nonatomic, assign) NSTimeInterval haltTime; // Default is 0 sec., halt time of each text
-@property (nonatomic, assign) double scrollingSpeed; // Default is width/6 in pixels per second.
+@property (nonatomic, assign) IBInspectable double haltTime; // Default is 0 sec., halt time of each text
+@property (nonatomic, assign) IBInspectable double scrollingSpeed; // Default is width/6 in pixels per second.
+@property (nonatomic, getter=isVerticalScrolling) IBInspectable BOOL verticalScrolling; // Default is NO
 
 - (void)startScrolling;
 - (void)stopScrolling;

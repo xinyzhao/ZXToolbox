@@ -80,7 +80,7 @@
     self.showsVerticalScrollIndicator = NO;
     self.showsHorizontalScrollIndicator = NO;
     self.direction = ZXPageViewDirectionHorizontal;
-    self.orientation = ZXPageViewOrientationEndless;
+    self.pagingMode = ZXPagingModeEndless;
     self.pageScaleFactor = CGPointMake(1.f, 1.f);
     self.pageViews = [[NSCache alloc] init];
     self.pageViews.delegate = self;
@@ -97,10 +97,10 @@
     [self setNeedsLayout];
 }
 
-#pragma mark Orientation
+#pragma mark Paging mode
 
-- (void)setOrientation:(ZXPageViewOrientation)orientation {
-    _orientation = orientation;
+- (void)setPagingMode:(ZXPagingMode)pagingMode {
+    _pagingMode = pagingMode;
     [self setNeedsLayout];
 }
 
@@ -114,25 +114,25 @@
     if (_numberOfPages > 1) {
         if (_direction == ZXPageViewDirectionHorizontal) {
             CGFloat width = self.frame.size.width;
-            if (_orientation == ZXPageViewOrientationEndless) {
+            if (_pagingMode == ZXPagingModeEndless) {
                 width *= floorf(FLT_MAX / width);
                 self.contentInset = UIEdgeInsetsMake(0, width, 0, width);
-            } else if (_orientation == ZXPageViewOrientationForward) {
+            } else if (_pagingMode == ZXPagingModeForward) {
                 width *= _numberOfPages;
                 self.contentInset = UIEdgeInsetsMake(0, 0, 0, width);
-//            } else if (_orientation == ZXPageViewOrientationReverse) {
+//            } else if (_pagingMode == ZXPagingModeReverse) {
 //                width *= _numberOfPages;
 //                self.contentInset = UIEdgeInsetsMake(0, width, 0, 0);
             }
         } else if (_direction == ZXPageViewDirectionVertical) {
             CGFloat height = self.frame.size.height;
-            if (_orientation == ZXPageViewOrientationEndless) {
+            if (_pagingMode == ZXPagingModeEndless) {
                 height *= floorf(FLT_MAX / height);
                 self.contentInset = UIEdgeInsetsMake(height, 0, height, 0);
-            } else if (_orientation == ZXPageViewOrientationForward) {
+            } else if (_pagingMode == ZXPagingModeForward) {
                 height *= _numberOfPages;
                 self.contentInset = UIEdgeInsetsMake(0, 0, height, 0);
-//            } else if (_orientation == ZXPageViewOrientationReverse) {
+//            } else if (_pagingMode == ZXPagingModeReverse) {
 //                height *= _numberOfPages;
 //                self.contentInset = UIEdgeInsetsMake(height, 0, 0, 0);
             }
@@ -219,7 +219,7 @@
 
 - (UIView *)subviewForPageAtIndex:(NSInteger)index {
     UIView *view = [self.pageViews objectForKey:@(index)];
-    if (view == nil && (_orientation == ZXPageViewOrientationEndless || (index >= 0 && index < _numberOfPages))) {
+    if (view == nil && (_pagingMode == ZXPagingModeEndless || (index >= 0 && index < _numberOfPages))) {
         if ([self.delegate respondsToSelector:@selector(pageView:subviewForPageAtIndex:)]) {
             if (index >= 0 && index < _numberOfPages) {
                 view = [self.delegate pageView:self subviewForPageAtIndex:index];
@@ -325,7 +325,7 @@
 }
 
 - (void)setFrame:(NSInteger)page forPageAtIndex:(NSInteger)index {
-    if (_orientation == ZXPageViewOrientationEndless || (page >= 0 && page < _numberOfPages)) {
+    if (_pagingMode == ZXPagingModeEndless || (page >= 0 && page < _numberOfPages)) {
         CGRect frame = self.scales;
         if (_direction == ZXPageViewDirectionHorizontal) {
             frame.origin.x = page * frame.size.width;

@@ -80,7 +80,7 @@
     return _scrollView;
 }
 
-- (NSTimeInterval)haltTime {
+- (double)haltTime {
     if (_haltTime < 0.01f) {
         return 0.f;
     }
@@ -106,9 +106,11 @@
         label = [[UILabel alloc] initWithFrame:self.bounds];
         label.font = self.font;
         label.textColor = self.textColor;
+        label.textAlignment = self.textAlignment;
         label.shadowColor = self.shadowColor;
         label.shadowOffset = self.shadowOffset;
-        label.textAlignment = self.textAlignment;
+        label.lineBreakMode = self.lineBreakMode;
+        label.numberOfLines = self.numberOfLines;
         [self setTextForLabel:label atIndex:index];
         [self.scrollView addSubview:label];
     }
@@ -126,9 +128,16 @@
         label.tag = index;
         label.text = self.textArray[index];
         CGRect rect = self.bounds;
-        rect.size.width = FLT_MAX;
-        rect.size.width = [label sizeThatFits:rect.size].width;
-        rect.size.width = ceilf(rect.size.width / self.bounds.size.width) * self.bounds.size.width;
+        if (self.isVerticalScrolling) {
+            if (self.numberOfLines > 1) {
+                rect.size.height = FLT_MAX;
+                rect.size.height = ceilf([label sizeThatFits:rect.size].height);
+            }
+        } else {
+            rect.size.width = FLT_MAX;
+            rect.size.width = [label sizeThatFits:rect.size].width;
+            rect.size.width = ceilf(rect.size.width / self.bounds.size.width) * self.bounds.size.width;
+        }
         label.bounds = rect;
     } else {
         label.text = nil;
@@ -165,13 +174,21 @@
         self.currentLabel = [self labelAtIndex:0];
         {
             CGRect frame = self.currentLabel.frame;
-            frame.origin.x = self.frame.size.width;
+            if (self.isVerticalScrolling) {
+                frame.origin.y = self.frame.size.height;
+            } else {
+                frame.origin.x = self.frame.size.width;
+            }
             self.currentLabel.frame = frame;
         }
         self.nextLabel = [self labelAtIndex:1];
         {
             CGRect frame = self.nextLabel.frame;
-            frame.origin.x = self.currentLabel.frame.origin.x + self.currentLabel.frame.size.width;
+            if (self.isVerticalScrolling) {
+                frame.origin.y = self.currentLabel.frame.origin.y + self.currentLabel.frame.size.height;
+            } else {
+                frame.origin.x = self.currentLabel.frame.origin.x + self.currentLabel.frame.size.width;
+            }
             self.nextLabel.frame = frame;
         }
     } else {
@@ -183,9 +200,16 @@
     if (self.currentLabel) {
         self.isScrolling = YES;
         //
-        CGPoint offset = CGPointMake(self.currentLabel.frame.origin.x, 0);
-        NSTimeInterval duration = ABS(offset.x - self.prevLabel.frame.origin.x) / self.scrollingSpeed;
+        CGPoint offset = self.currentLabel.frame.origin;
+        NSTimeInterval duration = 0.f;
         NSTimeInterval delay = self.haltTime;
+        if (self.isVerticalScrolling) {
+            offset.x = 0.f;
+            duration = ABS(offset.y - self.prevLabel.frame.origin.y) / self.scrollingSpeed;
+        } else {
+            offset.y = 0.f;
+            duration = ABS(offset.x - self.prevLabel.frame.origin.x) / self.scrollingSpeed;
+        }
         //
         __weak typeof(self) weakSelf = self;
         __weak typeof(self.scrollView) scrollView = self.scrollView;
@@ -197,7 +221,11 @@
             [weakSelf setTextForLabel:nextLabel atIndex:currentLabel.tag + 1];
             {
                 CGRect frame = nextLabel.frame;
-                frame.origin.x = currentLabel.frame.origin.x + currentLabel.frame.size.width;
+                if (self.isVerticalScrolling) {
+                    frame.origin.y = currentLabel.frame.origin.y + currentLabel.frame.size.height;
+                } else {
+                    frame.origin.x = currentLabel.frame.origin.x + currentLabel.frame.size.width;
+                }
                 nextLabel.frame = frame;
             }
             weakSelf.isScrolling = NO;
