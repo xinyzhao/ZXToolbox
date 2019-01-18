@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.7.0"
+  s.version      = "1.7.1"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -129,6 +129,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "UITextField+Extra" do |ss|
+    ss.dependency 'ZXToolbox/NSObject+Extra'
     ss.source_files  = "UIKit/UITextField+Extra/*.{h,m}"
     ss.public_header_files = "UIKit/UITextField+Extra/*.h"
   end

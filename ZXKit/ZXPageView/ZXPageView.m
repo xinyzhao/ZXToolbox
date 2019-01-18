@@ -47,6 +47,8 @@
 - (void)nextPaging;
 - (void)stopPaging;
 
+- (CGPoint)contentOffsetForPage:(NSInteger)page;
+
 @end
 
 @implementation ZXPageView
@@ -280,31 +282,17 @@
     return rect;
 }
 
-- (void)centeringPage {
-    self.currentPage = self.contentPage;
-}
-
-- (CGPoint)contentOffsetForPage:(NSInteger)page {
-    CGPoint offset = CGPointZero;
-    if (_direction == ZXPageViewDirectionHorizontal) {
-        offset.x = page * self.scales.size.width - (self.bounds.size.width - self.scales.size.width) / 2;
-    } else {
-        offset.y = page * self.scales.size.height - (self.bounds.size.height - self.scales.size.height) / 2;
-    }
-    return offset;
-}
-
 #pragma mark Overrides
 
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        [self swizzleMethod:@selector(setDelegate:) with:@selector(page_setDelegate:)];
+        [self swizzleMethod:@selector(setDelegate:) with:@selector(setPageViewDelegate:)];
     });
 }
 
-- (void)page_setDelegate:(id<UIScrollViewDelegate>)delegate {
-    [self page_setDelegate:delegate];
+- (void)setPageViewDelegate:(id<ZXPageViewDelegate>)delegate {
+    [self setPageViewDelegate:delegate];
     //
     [self swizzleMethod:@selector(scrollViewWillEndDragging:withVelocity:targetContentOffset:) with:@selector(pageViewWillEndDragging:withVelocity:targetContentOffset:) class:[delegate class]];
 }
@@ -372,6 +360,18 @@
         //
         view.frame = frame;
     }
+}
+
+#pragma mark contentOffset
+
+- (CGPoint)contentOffsetForPage:(NSInteger)page {
+    CGPoint offset = CGPointZero;
+    if (_direction == ZXPageViewDirectionHorizontal) {
+        offset.x = page * self.scales.size.width - (self.bounds.size.width - self.scales.size.width) / 2;
+    } else {
+        offset.y = page * self.scales.size.height - (self.bounds.size.height - self.scales.size.height) / 2;
+    }
+    return offset;
 }
 
 - (void)setContentOffset:(CGPoint)contentOffset {

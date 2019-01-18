@@ -35,4 +35,9 @@
  */
 @property (nonatomic, copy) void (^mobileNumberDidCompleted)(UITextField *textField, NSString *unformattedText);
 
+/**
+ 占位符颜色
+ */
+@property (nonatomic, strong) IBInspectable UIColor *placeholderColor;
+
 @end

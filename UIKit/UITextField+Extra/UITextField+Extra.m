@@ -23,9 +23,17 @@
 //
 
 #import "UITextField+Extra.h"
+#import "NSObject+Extra.h"
 #import <objc/runtime.h>
 
 @implementation UITextField (Extra)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self swizzleMethod:@selector(setPlaceholder:) with:@selector(setPlaceholderText:)];
+    });
+}
 
 - (void)setMobileNumberFormat:(NSString *)mobileNumberFormat {
     objc_setAssociatedObject(self, @selector(mobileNumberFormat), mobileNumberFormat, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -113,6 +121,27 @@
             // 长度
             [self setMobileNumberLength:textField.text.length];
         }
+    }
+}
+
+- (void)setPlaceholderColor:(UIColor *)placeholderColor {
+    objc_setAssociatedObject(self, @selector(placeholderColor), placeholderColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    if (placeholderColor == nil) {
+        self.attributedPlaceholder = nil;
+    } else if (self.placeholder) {
+        self.attributedPlaceholder = [[NSAttributedString alloc] initWithString:self.placeholder attributes:@{NSForegroundColorAttributeName:placeholderColor}];
+    }
+}
+
+- (UIColor *)placeholderColor {
+    return objc_getAssociatedObject(self, @selector(placeholderColor));
+}
+
+- (void)setPlaceholderText:(NSString *)text {
+    [self setPlaceholderText:text];
+    //
+    if (text && self.placeholderColor) {
+        self.attributedPlaceholder = [[NSAttributedString alloc] initWithString:text attributes:@{NSForegroundColorAttributeName:self.placeholderColor}];
     }
 }
 
