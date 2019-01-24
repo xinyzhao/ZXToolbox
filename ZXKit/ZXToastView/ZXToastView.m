@@ -31,6 +31,8 @@
 @property (nonatomic, getter=isRunning) BOOL running;
 @property (nonatomic, getter=isRunaway) BOOL runaway;
 
+@property (nonatomic, readonly) UIVisualEffectView *effectView NS_AVAILABLE_IOS(8_0);
+
 @end
 
 @implementation ZXToastView
@@ -54,11 +56,17 @@
         self.duration = 3.0;
         self.fadeDuration = 0.2;
         self.position = ZXToastPositionCenter;
-        self.tapToDismiss = YES;
-        self.touchsLocked = YES;
+        self.dismissWhenTouchInside = YES;
+        self.captureWhenTouchOutside = YES;
         //
-        _bubbleView = [[UIView alloc] initWithFrame:CGRectZero];
-        _bubbleView.backgroundColor = [UIColor colorWithWhite:0.0 alpha:0.8];
+        if (@available(iOS 8.0, *)) {
+            UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+            _bubbleView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
+            _bubbleView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.6];
+        } else {
+            _bubbleView = [[UIView alloc] initWithFrame:CGRectZero];
+            _bubbleView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
+        }
         [self addSubview:_bubbleView];
     }
     return self;
@@ -68,7 +76,12 @@
     self = [self initWithText:text];
     if (self) {
         _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        [self.bubbleView addSubview:_activityView];
+        if (@available(iOS 8.0, *)) {
+            _activityView.color = [UIColor colorWithWhite:0 alpha:0.7];
+            [self.effectView.contentView addSubview:_activityView];
+        } else {
+            [self.bubbleView addSubview:_activityView];
+        }
     }
     return self;
 }
@@ -81,9 +94,14 @@
             _textLabel.font = [UIFont boldSystemFontOfSize:16.0];
             _textLabel.numberOfLines = 0;
             _textLabel.textAlignment = NSTextAlignmentLeft;
-            _textLabel.textColor = [UIColor whiteColor];
             _textLabel.text = text;
-            [self.bubbleView addSubview:_textLabel];
+            if (@available(iOS 8.0, *)) {
+                _textLabel.textColor = [UIColor colorWithWhite:0 alpha:0.7];
+                [self.effectView.contentView addSubview:_textLabel];
+            } else {
+                _textLabel.textColor = [UIColor whiteColor];
+                [self.bubbleView addSubview:_textLabel];
+            }
         }
     }
     return self;
@@ -107,10 +125,26 @@
             _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0.0, 0.0, 40.0, 40.0)];
             _imageView.contentMode = UIViewContentModeScaleAspectFit;
             _imageView.image = image;
-            [self.bubbleView addSubview:_imageView];
+            if (@available(iOS 8.0, *)) {
+                [self.effectView.contentView addSubview:_imageView];
+            } else {
+                [self.bubbleView addSubview:_imageView];
+            }
         }
     }
     return self;
+}
+
+#pragma mark Effect
+
+- (UIVisualEffectView *)effectView {
+    return (UIVisualEffectView *)_bubbleView;
+}
+
+- (void)setEffectStyle:(UIBlurEffectStyle)effectStyle {
+    _effectStyle = effectStyle;
+    //
+    self.effectView.effect = [UIBlurEffect effectWithStyle:_effectStyle];
 }
 
 #pragma mark Size
@@ -185,7 +219,7 @@
             break;
     }
     //
-    if (self.touchsLocked) {
+    if (self.captureWhenTouchOutside) {
         self.frame = CGRectMake(0, 0, size.width, size.height);
         self.bubbleView.frame = toastFrame;
     } else {
@@ -227,7 +261,7 @@
     //
     [self sizeToFit:view.bounds.size];
     //
-    if (self.isTapToDismiss && self.activityView == nil) {
+    if (self.dismissWhenTouchInside && self.activityView == nil) {
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onBubble:)];
         self.bubbleView.gestureRecognizers = @[tap];
         self.bubbleView.exclusiveTouch = YES;
@@ -237,7 +271,7 @@
     }
     //
     self.alpha = 0.0;
-    self.userInteractionEnabled = self.touchsLocked || self.bubbleView.userInteractionEnabled;
+    self.userInteractionEnabled = self.captureWhenTouchOutside || self.bubbleView.userInteractionEnabled;
     [view addSubview:self];
     //
     ZXToastView *toastView = [[ZXToastView toastQueue] firstObject];
@@ -255,10 +289,10 @@
     //
     if (toastView) {
         if (toastView.isRunning && !toastView.isRunaway) {
-            [toastView hide];
+            [toastView hideAnimated:NO];
         }
     } else {
-        [self show];
+        [self showAnimated:YES];
     }
 }
 
@@ -272,7 +306,7 @@
     }
 }
 
-- (void)show {
+- (void)showAnimated:(BOOL)animated {
     if (self.isRunning) {
         return;
     }
@@ -283,22 +317,31 @@
     }
     //
     __weak typeof(self) weakSelf = self;
-    [UIView animateWithDuration:_fadeDuration
-                          delay:0.0
-                        options:(UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionAllowUserInteraction)
-                     animations:^{
-                         weakSelf.alpha = 1.0;
-                     } completion:^(BOOL finished) {
-                         if (weakSelf && weakSelf.activityView == nil) {
-                             weakSelf.timer = [NSTimer timerWithTimeInterval:weakSelf.duration target:weakSelf selector:@selector(hideTimer:) userInfo:nil repeats:NO];
-                             [[NSRunLoop mainRunLoop] addTimer:weakSelf.timer forMode:NSRunLoopCommonModes];
-                         }
-                     }];
+    void (^completion)(void) = ^{
+        weakSelf.alpha = 1.0;
+        if (weakSelf && weakSelf.activityView == nil) {
+            weakSelf.timer = [NSTimer timerWithTimeInterval:weakSelf.duration target:weakSelf selector:@selector(hideTimer:) userInfo:nil repeats:NO];
+            [[NSRunLoop mainRunLoop] addTimer:weakSelf.timer forMode:NSRunLoopCommonModes];
+        }
+    };
+    //
+    if (animated) {
+        [UIView animateWithDuration:_fadeDuration
+                              delay:0.0
+                            options:(UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionAllowUserInteraction)
+                         animations:^{
+                             weakSelf.alpha = 1.0;
+                         } completion:^(BOOL finished) {
+                             completion();
+                         }];
+    } else {
+        completion();
+    }
 }
 
 #pragma mark Hide
 
-- (void)hide {
+- (void)hideAnimated:(BOOL)animated {
     if (!self.isRunning || self.isRunaway) {
         return;
     }
@@ -310,25 +353,33 @@
     }
     //
     __weak typeof(self) weakSelf = self;
-    [UIView animateWithDuration:_fadeDuration
-                          delay:0.0
-                        options:(UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionBeginFromCurrentState)
-                     animations:^{
-                         weakSelf.alpha = 0.0;
-                     } completion:^(BOOL finished) {
-                         [weakSelf removeFromSuperview];
-                         [[ZXToastView toastQueue] removeObject:weakSelf];
-                         weakSelf.runaway = NO;
-                         //
-                         ZXToastView *toastView = [[ZXToastView toastQueue] lastObject];
-                         if (toastView) {
-                             [toastView show];
-                         }
-                     }];
+    void (^completion)(void) = ^{
+        [weakSelf removeFromSuperview];
+        [[ZXToastView toastQueue] removeObject:weakSelf];
+        weakSelf.runaway = NO;
+        //
+        ZXToastView *toastView = [[ZXToastView toastQueue] lastObject];
+        if (toastView) {
+            [toastView showAnimated:animated];
+        }
+    };
+    //
+    if (animated) {
+        [UIView animateWithDuration:_fadeDuration
+                              delay:0.0
+                            options:(UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionBeginFromCurrentState)
+                         animations:^{
+                             weakSelf.alpha = 0.0;
+                         } completion:^(BOOL finished) {
+                             completion();
+                         }];
+    } else {
+        completion();
+    }
 }
 
 - (void)hideTimer:(NSTimer *)timer {
-    [self hide];
+    [self hideAnimated:YES];
 }
 
 + (void)hideAllToast {
@@ -340,14 +391,14 @@
     }
     [[ZXToastView toastQueue] removeAllObjects];
     if (toastView.isRunning && !toastView.isRunaway) {
-        [toastView hide];
+        [toastView hideAnimated:YES];
     }
 }
 
 #pragma mark Touchs
 
 - (IBAction)onBubble:(id)sender {
-    [self hide];
+    [self hideAnimated:YES];
 }
 
 @end

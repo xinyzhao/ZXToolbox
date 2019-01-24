@@ -50,6 +50,11 @@ typedef NS_ENUM(NSInteger, ZXToastPosition) {
 @property (nonatomic, readonly) UIView *bubbleView;
 
 /**
+ Blur effect style for bubbleView
+ */
+@property (nonatomic, readwrite) UIBlurEffectStyle effectStyle NS_AVAILABLE_IOS(8_0);
+
+/**
  The activity view
  */
 @property (nonatomic, readonly) UIActivityIndicatorView *activityView;
@@ -97,12 +102,12 @@ typedef NS_ENUM(NSInteger, ZXToastPosition) {
 /**
  Tap to dismiss on toast views, default is YES
  */
-@property (nonatomic, getter=isTapToDismiss) BOOL tapToDismiss;
+@property (nonatomic, assign) BOOL dismissWhenTouchInside;
 
 /**
- All touchs locked in toast views, default is YES
+ Capture all touchs when toast view presenting, default is YES
  */
-@property (nonatomic, getter=isTouchsLocked) BOOL touchsLocked;
+@property (nonatomic, assign) BOOL captureWhenTouchOutside;
 
 /**
  Init toast activity view
@@ -158,8 +163,10 @@ typedef NS_ENUM(NSInteger, ZXToastPosition) {
 
 /**
  Hide the toast
+
+ @param animated animated
  */
-- (void)hide;
+- (void)hideAnimated:(BOOL)animated;
 
 /**
  Hide all toast

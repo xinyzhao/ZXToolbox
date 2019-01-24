@@ -138,6 +138,10 @@
                 [weakSelf.presentedView removeFromSuperview];
                 weakSelf.hidden = YES;
             }
+            //
+            if (completion) {
+                completion();
+            }
         }];
     } else {
         [self.presentedView removeFromSuperview];
