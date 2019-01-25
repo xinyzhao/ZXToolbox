@@ -29,6 +29,7 @@
 - (NSString *)stringFromNumber:(NSNumber *)number integerFormat:(NSString *)integerFormat decimalDigits:(int)decimalDigits paddingZeros:(BOOL)paddingZeros {
     NSString *string = nil;
     NSString *positiveFormat = self.positiveFormat;
+    NSInteger minimumFractionDigits = self.minimumFractionDigits;
     //
     NSInteger limit = 1;
     NSInteger value = ABS([number intValue]);
@@ -51,6 +52,7 @@
     //
     string = [self stringFromNumber:number];
     self.positiveFormat = positiveFormat;
+    self.minimumFractionDigits = minimumFractionDigits;
     return string;
 }
 
