@@ -26,33 +26,35 @@
 
 @implementation NSNumberFormatter (Extra)
 
-- (NSString *)stringFromNumber:(NSNumber *)number integerFormat:(NSString *)integerFormat decimalDigits:(int)decimalDigits paddingZeros:(BOOL)paddingZeros {
+- (NSString *)stringFromNumber:(NSNumber *)number
+                 integerFormat:(NSString *)integerFormat
+                minimumDecimal:(NSUInteger)minimumDecimal
+                maximumDecimal:(NSUInteger)maximumDecimal
+                  paddingZeros:(BOOL)paddingZeros {
     NSString *string = nil;
     NSString *positiveFormat = self.positiveFormat;
-    NSInteger minimumFractionDigits = self.minimumFractionDigits;
     //
     NSInteger limit = 1;
-    NSInteger value = ABS([number intValue]);
-    for (int i = 0; i < decimalDigits; i++) {
+    NSInteger value = ABS([number integerValue]);
+    NSInteger digit = minimumDecimal;
+    for (NSInteger i = 0; i < maximumDecimal; i++) {
         limit *= 10;
-        if (value < limit) {
-            NSString *format = integerFormat ? integerFormat : @"#";
-            format = [format stringByAppendingString:self.decimalSeparator];
-            int digits = decimalDigits - i > 0 ? decimalDigits - i : 0;
-            for (int j = 0; j < digits; j++) {
-                format = [format stringByAppendingString:@"#"];
-            }
-            self.positiveFormat = format;
-            if (paddingZeros) {
-                self.minimumFractionDigits = digits;
-            }
+        if (value <= limit) {
+            digit = MAX(minimumDecimal, maximumDecimal - i > 0 ? maximumDecimal - i : 0);
             break;
         }
+    }
+    if (digit > 0) {
+        NSString *format = integerFormat ? integerFormat : @"0";
+        format = [format stringByAppendingString:self.decimalSeparator];
+        for (NSInteger j = 0; j < digit; j++) {
+            format = [format stringByAppendingString:paddingZeros ? @"0" : @"#"];
+        }
+        self.positiveFormat = format;
     }
     //
     string = [self stringFromNumber:number];
     self.positiveFormat = positiveFormat;
-    self.minimumFractionDigits = minimumFractionDigits;
     return string;
 }
 

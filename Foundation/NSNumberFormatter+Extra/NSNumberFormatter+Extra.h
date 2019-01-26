@@ -26,6 +26,10 @@
 
 @interface NSNumberFormatter (Extra)
 
-- (NSString *)stringFromNumber:(NSNumber *)number integerFormat:(NSString *)integer decimalDigits:(int)decimalDigits paddingZeros:(BOOL)paddingZeros;
+- (NSString *)stringFromNumber:(NSNumber *)number
+                 integerFormat:(NSString *)integerFormat
+                minimumDecimal:(NSUInteger)minimumDecimal
+                maximumDecimal:(NSUInteger)maximumDecimal
+                  paddingZeros:(BOOL)paddingZeros;
 
 @end

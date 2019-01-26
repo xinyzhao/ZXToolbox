@@ -144,7 +144,12 @@
         rect.size.width = rect.origin.x - _spacingForItems;
         rect.size.height = 0;
     }
+    BOOL reselect = self.contentSize.width != rect.size.width;
     self.contentSize = rect.size;
+    //
+    if (reselect) {
+        self.selectedIndex = _selectedIndex;
+    }
 }
 
 - (void)setSelectedIndex:(NSInteger)selectedIndex {
@@ -157,10 +162,16 @@
         if (!_isMultiLine) {
             CGPoint offset = CGPointZero;
             offset.x = view.frame.origin.x + view.bounds.size.width / 2 - self.bounds.size.width / 2;
-            if (offset.x < -self.contentInset.left) {
-                offset.x = -self.contentInset.left;
-            } else if (offset.x > self.contentSize.width - self.bounds.size.width + self.contentInset.right) {
-                offset.x = self.contentSize.width - self.bounds.size.width + self.contentInset.right;
+            CGFloat left = -self.contentInset.left;
+            CGFloat right = self.contentSize.width + self.contentInset.right - self.bounds.size.width;
+            if (offset.x < left) {
+                offset.x = left;
+            } else if (right > 0) {
+                if (offset.x > right) {
+                    offset.x = right;
+                }
+            } else {
+                offset.x = left;
             }
             [self setContentOffset:offset animated:animated];
         }
