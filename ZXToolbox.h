@@ -46,6 +46,7 @@
 #import "UIColor+Extra.h"
 #import "UIImage+Extra.h"
 #import "UINetworkActivityIndicator.h"
+#import "UIScrollView+Extra.h"
 #import "UITableViewCell+Separator.h"
 #import "UITextField+Extra.h"
 #import "UIView+Snapshot.h"
