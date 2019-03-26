@@ -135,13 +135,12 @@
             break;
     }
     //
-    __weak typeof(self) weakSelf = self;
     NSArray *observers = [self.observers allValues];
+    NSString *path = state == ZXDownloadStateCompleted ? self.localFilePath : nil;
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *path = state == ZXDownloadStateCompleted ? weakSelf.localFilePath : nil;
         for (ZXDownloadObserver *observer in observers) {
             if (observer.state) {
-                observer.state(weakSelf.state, path, error);
+                observer.state(state, path, error);
             }
         }
     });

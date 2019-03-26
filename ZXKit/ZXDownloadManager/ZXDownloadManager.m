@@ -75,9 +75,9 @@
                 [request setValue:[NSString stringWithFormat:@"bytes=%lld-", task.totalBytesWritten] forHTTPHeaderField:@"Range"];
             }
             task.dataTask = [self.session dataTaskWithRequest:request];
-            //
-            [self.downloadTasks setObject:task forKey:task.taskIdentifier];
         }
+        //
+        [self.downloadTasks setObject:task forKey:task.taskIdentifier];
     }
     return task;
 }
@@ -114,6 +114,11 @@
         task.state == ZXDownloadStateCancelled ||
         task.state == ZXDownloadStateCompleted) {
         task.state = task.state;
+        //
+        if (task.state == ZXDownloadStateCancelled ||
+            task.state == ZXDownloadStateCompleted) {
+            [self.downloadTasks removeObjectForKey:task.taskIdentifier];
+        }
         return NO;
     }
     //
@@ -156,9 +161,7 @@
 
 - (void)resumeAllDownloads {
     for (ZXDownloadTask *task in [self.downloadTasks allValues]) {
-        if (task.state == ZXDownloadStateSuspended) {
-            [self resumeDownloadTask:task];
-        }
+        [self resumeDownloadTask:task];
     }
 }
 
