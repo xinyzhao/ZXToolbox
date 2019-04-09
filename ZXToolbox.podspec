@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.7.7"
+  s.version      = "1.7.8"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -46,6 +46,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "NSLog+Extra" do |ss|
+    ss.dependency 'ZXToolbox/NSDate+Extra'
     ss.source_files  = "Foundation/NSLog+Extra/*.{h,m}"
     ss.public_header_files = "Foundation/NSLog+Extra/*.h"
   end

@@ -24,13 +24,15 @@
 
 #ifdef __OBJC__
 
+#import "NSDate+Extra.h"
+
 // The __FILE__ lastPathComponent
 #ifndef __FILENAME__
-#define __FILENAME__ [[[NSString stringWithCString:__FILE__ encoding:NSUTF8StringEncoding] lastPathComponent] cStringUsingEncoding:NSUTF8StringEncoding]
+#define __FILENAME__ [[[NSString stringWithCString:__FILE__ encoding:NSUTF8StringEncoding] lastPathComponent] UTF8String]
 #endif
 
 // NSLogA will always output like NSLog
-#define NSLogA(format, ...) NSLog(@"%@\n%s (%s:%d)", [NSString stringWithFormat:format, ##__VA_ARGS__], __FUNCTION__, __FILENAME__, __LINE__)
+#define NSLogA(format, ...) printf("%s [%s:%d] %s\n%s\n", [[[NSDate date] stringWithFormat:@"yyyy-MM-dd HH:mm:ss.SSSZ"] UTF8String], __FILENAME__, __LINE__, __FUNCTION__, [[NSString stringWithFormat:format, ##__VA_ARGS__] UTF8String])
 
 // NSLogD will output like NSLog only when the DEBUG variable is set
 #ifdef DEBUG
