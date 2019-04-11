@@ -24,36 +24,32 @@ pod "ZXToolbox"
 
 * Base64Encoding
 * JSONObject
-* NSArray+Extra
-* NSDate+Extra
-* NSFileManager+Extra
-* NSLog+Extra
-* NSNumberFormatter+Extra
-* NSObject+Extra
+* NSArray+ZXToolbox
+* NSDate+ZXToolbox
+* NSFileManager+ZXToolbox
+* NSLog+ZXToolbox
+* NSNumberFormatter+ZXToolbox
+* NSObject+ZXToolbox
 * NSString+NumberValue
 * NSString+Pinyin
 * NSString+Unicode
 * NSString+URLEncoding
-* WKWebView+H5Pay
 
 ## UIKit
 
-* UIApplication+Extra
+* UIApplication+ZXToolbox
 * UIApplicationIdleTimer
-* UIColor+Extra
-* UIImage+Extra
+* UIColor+ZXToolbox
+* UIImage+ZXToolbox
 * UINetworkActivityIndicator
-* UIScrollView+Extra
+* UIScrollView+ZXToolbox
 * UITableViewCell+Separator
-* UITextField+Extra
-* UIView+Snapshot
-* UIViewController+Extra
+* UITextField+ZXToolbox
+* UIView+ZXToolbox
+* UIViewController+ZXToolbox
 
 ## ZXKit
 
-* QRCodeGenerator
-* QRCodeReader
-* QRCodeScanner
 * ZXAlertView
 * ZXAudioDevice
 * ZXAuthorizationHelper
@@ -75,6 +71,9 @@ pod "ZXToolbox"
 * ZXPlayerViewController
 * ZXPopoverView
 * ZXPopoverWindow
+* ZXQRCodeGenerator
+* ZXQRCodeReader
+* ZXQRCodeScanner
 * ZXRefreshView
 * ZXScriptMessageHandler
 * ZXScrollLabel

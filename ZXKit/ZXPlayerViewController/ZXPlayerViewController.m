@@ -1,7 +1,7 @@
 //
 // ZXPlayerViewController.m
 //
-// Copyright (c) 2018 Zhao Xin (https://github.com/xinyzhao/ZXToolbox)
+// Copyright (c) 2019 Zhao Xin (https://github.com/xinyzhao/ZXToolbox)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,8 +23,8 @@
 //
 
 #import "ZXPlayerViewController.h"
-#import "UIViewController+Extra.h"
-#import "NSObject+Extra.h"
+#import "UIViewController+ZXToolbox.h"
+#import "NSObject+ZXToolbox.h"
 
 @implementation ZXPlayerViewController
 

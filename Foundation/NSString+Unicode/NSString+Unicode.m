@@ -1,7 +1,7 @@
 //
 // NSString+Unicode.m
 //
-// Copyright (c) 2018 Zhao Xin (https://github.com/xinyzhao/ZXToolbox)
+// Copyright (c) 2019 Zhao Xin (https://github.com/xinyzhao/ZXToolbox)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,7 +23,7 @@
 //
 
 #import "NSString+Unicode.h"
-#import "NSObject+Extra.h"
+#import "NSObject+ZXToolbox.h"
 
 @implementation NSString (Unicode)
 

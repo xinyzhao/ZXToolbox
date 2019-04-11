@@ -1,7 +1,7 @@
 //
 // ZXToolbox.h
 //
-// Copyright (c) 2018 Zhao Xin (https://github.com/xinyzhao/ZXToolbox)
+// Copyright (c) 2019 Zhao Xin (https://github.com/xinyzhao/ZXToolbox)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,32 +26,28 @@
 #define ZXToolbox_h
 
 #import "JSONObject.h"
-#import "NSArray+Extra.h"
+#import "NSArray+ZXToolbox.h"
 #import "NSData+Base64Encoding.h"
-#import "NSDate+Extra.h"
-#import "NSFileManager+Extra.h"
-#import "NSLog+Extra.h"
-#import "NSNumberFormatter+Extra.h"
-#import "NSObject+Extra.h"
+#import "NSDate+ZXToolbox.h"
+#import "NSFileManager+ZXToolbox.h"
+#import "NSLog+ZXToolbox.h"
+#import "NSNumberFormatter+ZXToolbox.h"
+#import "NSObject+ZXToolbox.h"
 #import "NSString+Base64Encoding.h"
 #import "NSString+NumberValue.h"
 #import "NSString+Pinyin.h"
 #import "NSString+Unicode.h"
 #import "NSString+URLEncoding.h"
-#import "QRCodeGenerator.h"
-#import "QRCodeReader.h"
-#import "QRCodeScanner.h"
-#import "UIApplication+Extra.h"
+#import "UIApplication+ZXToolbox.h"
 #import "UIApplicationIdleTimer.h"
-#import "UIColor+Extra.h"
-#import "UIImage+Extra.h"
+#import "UIColor+ZXToolbox.h"
+#import "UIImage+ZXToolbox.h"
 #import "UINetworkActivityIndicator.h"
-#import "UIScrollView+Extra.h"
+#import "UIScrollView+ZXToolbox.h"
 #import "UITableViewCell+Separator.h"
-#import "UITextField+Extra.h"
-#import "UIView+Snapshot.h"
-#import "UIViewController+Extra.h"
-#import "WKWebView+H5Pay.h"
+#import "UITextField+ZXToolbox.h"
+#import "UIView+ZXToolbox.h"
+#import "UIViewController+ZXToolbox.h"
 #import "ZXAlertView.h"
 #import "ZXAudioDevice.h"
 #import "ZXAuthorizationHelper.h"
@@ -73,6 +69,9 @@
 #import "ZXPlayerViewController.h"
 #import "ZXPopoverView.h"
 #import "ZXPopoverWindow.h"
+#import "ZXQRCodeGenerator.h"
+#import "ZXQRCodeReader.h"
+#import "ZXQRCodeScanner.h"
 #import "ZXRefreshView.h"
 #import "ZXScriptMessageHandler.h"
 #import "ZXScrollLabel.h"

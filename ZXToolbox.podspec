@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.7.8"
+  s.version      = "1.7.9"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -30,35 +30,35 @@ Pod::Spec.new do |s|
     ss.public_header_files = "Foundation/JSONObject/*.h"
   end
 
-  s.subspec "NSArray+Extra" do |ss|
-    ss.source_files  = "Foundation/NSArray+Extra/*.{h,m}"
-    ss.public_header_files = "Foundation/NSArray+Extra/*.h"
+  s.subspec "NSArray+ZXToolbox" do |ss|
+    ss.source_files  = "Foundation/NSArray+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "Foundation/NSArray+ZXToolbox/*.h"
   end
 
-  s.subspec "NSDate+Extra" do |ss|
-    ss.source_files  = "Foundation/NSDate+Extra/*.{h,m}"
-    ss.public_header_files = "Foundation/NSDate+Extra/*.h"
+  s.subspec "NSDate+ZXToolbox" do |ss|
+    ss.source_files  = "Foundation/NSDate+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "Foundation/NSDate+ZXToolbox/*.h"
   end
 
-  s.subspec "NSFileManager+Extra" do |ss|
-    ss.source_files  = "Foundation/NSFileManager+Extra/*.{h,m}"
-    ss.public_header_files = "Foundation/NSFileManager+Extra/*.h"
+  s.subspec "NSFileManager+ZXToolbox" do |ss|
+    ss.source_files  = "Foundation/NSFileManager+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "Foundation/NSFileManager+ZXToolbox/*.h"
   end
 
-  s.subspec "NSLog+Extra" do |ss|
-    ss.dependency 'ZXToolbox/NSDate+Extra'
-    ss.source_files  = "Foundation/NSLog+Extra/*.{h,m}"
-    ss.public_header_files = "Foundation/NSLog+Extra/*.h"
+  s.subspec "NSLog+ZXToolbox" do |ss|
+    ss.dependency 'ZXToolbox/NSDate+ZXToolbox'
+    ss.source_files  = "Foundation/NSLog+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "Foundation/NSLog+ZXToolbox/*.h"
   end
 
-  s.subspec "NSNumberFormatter+Extra" do |ss|
-    ss.source_files  = "Foundation/NSNumberFormatter+Extra/*.{h,m}"
-    ss.public_header_files = "Foundation/NSNumberFormatter+Extra/*.h"
+  s.subspec "NSNumberFormatter+ZXToolbox" do |ss|
+    ss.source_files  = "Foundation/NSNumberFormatter+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "Foundation/NSNumberFormatter+ZXToolbox/*.h"
   end
 
-  s.subspec "NSObject+Extra" do |ss|
-    ss.source_files  = "Foundation/NSObject+Extra/*.{h,m}"
-    ss.public_header_files = "Foundation/NSObject+Extra/*.h"
+  s.subspec "NSObject+ZXToolbox" do |ss|
+    ss.source_files  = "Foundation/NSObject+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "Foundation/NSObject+ZXToolbox/*.h"
   end
 
   s.subspec "NSString+NumberValue" do |ss|
@@ -72,7 +72,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "NSString+Unicode" do |ss|
-    ss.dependency 'ZXToolbox/NSObject+Extra'
+    ss.dependency 'ZXToolbox/NSObject+ZXToolbox'
     ss.source_files  = "Foundation/NSString+Unicode/*.{h,m}"
     ss.public_header_files = "Foundation/NSString+Unicode/*.h"
   end
@@ -82,25 +82,9 @@ Pod::Spec.new do |s|
     ss.public_header_files = "Foundation/NSString+URLEncoding/*.h"
   end
 
-  s.subspec "QRCodeGenerator" do |ss|
-    ss.source_files  = "ZXKit/QRCodeGenerator/*.{h,m}"
-    ss.public_header_files = "ZXKit/QRCodeGenerator/*.h"
-  end
-
-  s.subspec "QRCodeReader" do |ss|
-    ss.source_files  = "ZXKit/QRCodeReader/*.{h,m}"
-    ss.public_header_files = "ZXKit/QRCodeReader/*.h"
-  end
-
-  s.subspec "QRCodeScanner" do |ss|
-    ss.source_files  = "ZXKit/QRCodeScanner/*.{h,m}"
-    ss.public_header_files = "ZXKit/QRCodeScanner/*.h"
-    ss.frameworks = "AVFoundation", "ImageIO"
-  end
-
-  s.subspec "UIApplication+Extra" do |ss|
-    ss.source_files  = "UIKit/UIApplication+Extra/*.{h,m}"
-    ss.public_header_files = "UIKit/UIApplication+Extra/*.h"
+  s.subspec "UIApplication+ZXToolbox" do |ss|
+    ss.source_files  = "UIKit/UIApplication+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "UIKit/UIApplication+ZXToolbox/*.h"
   end
 
   s.subspec "UIApplicationIdleTimer" do |ss|
@@ -108,14 +92,14 @@ Pod::Spec.new do |s|
     ss.public_header_files = "UIKit/UIApplicationIdleTimer/*.h"
   end
 
-  s.subspec "UIColor+Extra" do |ss|
-    ss.source_files  = "UIKit/UIColor+Extra/*.{h,m}"
-    ss.public_header_files = "UIKit/UIColor+Extra/*.h"
+  s.subspec "UIColor+ZXToolbox" do |ss|
+    ss.source_files  = "UIKit/UIColor+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "UIKit/UIColor+ZXToolbox/*.h"
   end
 
-  s.subspec "UIImage+Extra" do |ss|
-    ss.source_files  = "UIKit/UIImage+Extra/*.{h,m}"
-    ss.public_header_files = "UIKit/UIImage+Extra/*.h"
+  s.subspec "UIImage+ZXToolbox" do |ss|
+    ss.source_files  = "UIKit/UIImage+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "UIKit/UIImage+ZXToolbox/*.h"
     ss.frameworks = "CoreGraphics", "ImageIO"
   end
 
@@ -124,9 +108,9 @@ Pod::Spec.new do |s|
     ss.public_header_files = "UIKit/UINetworkActivityIndicator/*.h"
   end
 
-  s.subspec "UIScrollView+Extra" do |ss|
-    ss.source_files  = "UIKit/UIScrollView+Extra/*.{h,m}"
-    ss.public_header_files = "UIKit/UIScrollView+Extra/*.h"
+  s.subspec "UIScrollView+ZXToolbox" do |ss|
+    ss.source_files  = "UIKit/UIScrollView+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "UIKit/UIScrollView+ZXToolbox/*.h"
   end
 
   s.subspec "UITableViewCell+Separator" do |ss|
@@ -134,28 +118,20 @@ Pod::Spec.new do |s|
     ss.public_header_files = "UIKit/UITableViewCell+Separator/*.h"
   end
 
-  s.subspec "UITextField+Extra" do |ss|
-    ss.dependency 'ZXToolbox/NSObject+Extra'
-    ss.source_files  = "UIKit/UITextField+Extra/*.{h,m}"
-    ss.public_header_files = "UIKit/UITextField+Extra/*.h"
+  s.subspec "UITextField+ZXToolbox" do |ss|
+    ss.dependency 'ZXToolbox/NSObject+ZXToolbox'
+    ss.source_files  = "UIKit/UITextField+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "UIKit/UITextField+ZXToolbox/*.h"
   end
 
-  s.subspec "UIView+Snapshot" do |ss|
-    ss.source_files  = "UIKit/UIView+Snapshot/*.{h,m}"
-    ss.public_header_files = "UIKit/UIView+Snapshot/*.h"
+  s.subspec "UIView+ZXToolbox" do |ss|
+    ss.source_files  = "UIKit/UIView+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "UIKit/UIView+ZXToolbox/*.h"
   end
 
-  s.subspec "UIViewController+Extra" do |ss|
-    ss.source_files  = "UIKit/UIViewController+Extra/*.{h,m}"
-    ss.public_header_files = "UIKit/UIViewController+Extra/*.h"
-  end
-
-  s.subspec "WKWebView+H5Pay" do |ss|
-    ss.dependency 'ZXToolbox/NSString+URLEncoding'
-    ss.dependency 'ZXToolbox/JSONObject'
-    ss.source_files  = "Foundation/WKWebView+H5Pay/*.{h,m}"
-    ss.public_header_files = "Foundation/WKWebView+H5Pay/*.h"
-    ss.weak_framework = "WebKit"
+  s.subspec "UIViewController+ZXToolbox" do |ss|
+    ss.source_files  = "UIKit/UIViewController+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "UIKit/UIViewController+ZXToolbox/*.h"
   end
 
   s.subspec "ZXAlertView" do |ss|
@@ -182,7 +158,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "ZXBrightnessView" do |ss|
-  	ss.dependency 'ZXToolbox/UIColor+Extra'
+  	ss.dependency 'ZXToolbox/UIColor+ZXToolbox'
     ss.source_files  = "ZXKit/ZXBrightnessView/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXBrightnessView/*.h"
     ss.resources = "ZXKit/ZXBrightnessView/ZXBrightnessView.bundle"
@@ -248,7 +224,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "ZXPageView" do |ss|
-    ss.dependency 'ZXToolbox/NSObject+Extra'
+    ss.dependency 'ZXToolbox/NSObject+ZXToolbox'
     ss.source_files  = "ZXKit/ZXPageView/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXPageView/*.h"
   end
@@ -261,8 +237,8 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "ZXPlayerViewController" do |ss|
-    ss.dependency 'ZXToolbox/NSObject+Extra'
-    ss.dependency 'ZXToolbox/UIViewController+Extra'
+    ss.dependency 'ZXToolbox/NSObject+ZXToolbox'
+    ss.dependency 'ZXToolbox/UIViewController+ZXToolbox'
     ss.dependency 'ZXToolbox/ZXBrightnessView'
     ss.source_files  = "ZXKit/ZXPlayerViewController/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXPlayerViewController/*.h"
@@ -277,6 +253,22 @@ Pod::Spec.new do |s|
   s.subspec "ZXPopoverWindow" do |ss|
     ss.source_files  = "ZXKit/ZXPopoverWindow/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXPopoverWindow/*.h"
+  end
+
+  s.subspec "ZXQRCodeGenerator" do |ss|
+    ss.source_files  = "ZXKit/ZXQRCodeGenerator/*.{h,m}"
+    ss.public_header_files = "ZXKit/ZXQRCodeGenerator/*.h"
+  end
+
+  s.subspec "ZXQRCodeReader" do |ss|
+    ss.source_files  = "ZXKit/ZXQRCodeReader/*.{h,m}"
+    ss.public_header_files = "ZXKit/ZXQRCodeReader/*.h"
+  end
+
+  s.subspec "ZXQRCodeScanner" do |ss|
+    ss.source_files  = "ZXKit/ZXQRCodeScanner/*.{h,m}"
+    ss.public_header_files = "ZXKit/ZXQRCodeScanner/*.h"
+    ss.frameworks = "AVFoundation", "ImageIO"
   end
 
   s.subspec "ZXRefreshView" do |ss|
