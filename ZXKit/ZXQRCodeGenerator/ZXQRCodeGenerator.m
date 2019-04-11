@@ -50,7 +50,7 @@ NSString *const ZXQRCodeCorrectionLevelHigh     = @"H";
 + (UIImage *)imageWithData:(NSData *)data size:(CGSize)size color:(UIColor *)color backgroundColor:(UIColor *)backgroundColor correctionLevel:(NSString *)correctionLevel {
     if (data.length > 0) {
         // 生成
-        CIFilter *qrcodeFilter = [CIFilter filterWithName:@"CIZXQRCodeGenerator"];
+        CIFilter *qrcodeFilter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
         [qrcodeFilter setValue:data forKey:@"inputMessage"];
         [qrcodeFilter setValue:correctionLevel?:@"M" forKey:@"inputCorrectionLevel"];
         // 上色
