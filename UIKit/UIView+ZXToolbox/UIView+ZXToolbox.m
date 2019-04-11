@@ -1,7 +1,8 @@
 //
 // UIView+ZXToolbox.m
+// https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019 Zhao Xin (https://github.com/xinyzhao/ZXToolbox)
+// Copyright (c) 2019 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,19 +26,6 @@
 #import "UIView+ZXToolbox.h"
 
 @implementation UIView (ZXToolbox)
-
-- (void)setIntrinsicContentSize:(CGSize)intrinsicContentSize {
-    objc_setAssociatedObject(self, @selector(intrinsicContentSize), NSStringFromCGSize(intrinsicContentSize), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
-    [self invalidateIntrinsicContentSize];
-}
-
-- (CGSize)intrinsicContentSize {
-    NSString *size = objc_getAssociatedObject(self, @selector(intrinsicContentSize));
-    if (size) {
-        return CGSizeFromString(size);
-    }
-    return UILayoutFittingCompressedSize;
-}
 
 - (UIImage *)captureImage {
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, 0);
