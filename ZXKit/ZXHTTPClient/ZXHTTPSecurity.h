@@ -1,7 +1,8 @@
 //
 // ZXHTTPSecurity.h
+// https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019 Zhao Xin (https://github.com/xinyzhao/ZXToolbox)
+// Copyright (c) 2019 Zhao Xin
 //
 // Reference AFSecurityPolicy in AFNetworking
 // https://github.com/AFNetworking/AFNetworking
