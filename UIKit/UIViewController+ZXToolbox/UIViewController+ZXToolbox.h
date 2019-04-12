@@ -29,6 +29,9 @@
 @property(nonatomic, readonly) UIViewController *topViewController; // The top view controller on the stack.
 @property(nonatomic, readonly) UIViewController *visibleViewController; // Return modal view controller if it exists. Otherwise the top view controller.
 
+@property(nonatomic, strong) UIView *topLayoutView;
+@property(nonatomic, strong) UIView *bottomLayoutView;
+
 - (UIViewController *)endViewController; // Implementation of topViewController
 - (UIViewController *)topmostViewController; // Implementation of visibleViewController
 

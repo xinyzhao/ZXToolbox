@@ -24,8 +24,53 @@
 //
 
 #import "UIViewController+ZXToolbox.h"
+#import <objc/runtime.h>
 
 @implementation UIViewController (ZXToolbox)
+
+- (void)setTopLayoutView:(UIView *)topLayoutView {
+    objc_setAssociatedObject(self, @selector(topLayoutView), topLayoutView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (UIView *)topLayoutView {
+    UIView *view = objc_getAssociatedObject(self, @selector(topLayoutView));
+    if (view == nil) {
+        view = [[UIView alloc] initWithFrame:CGRectZero];
+        view.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.view addSubview:view];
+        //
+        NSLayoutConstraint *left = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1 constant:0];
+        NSLayoutConstraint *right = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1 constant:0];
+        NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeTop multiplier:1 constant:0];
+        NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
+        [self.view addConstraints:@[left, right, top, bottom]];
+        //
+        self.topLayoutView = view;
+    }
+    return view;
+}
+
+- (void)setBottomLayoutView:(UIView *)bottomLayoutView {
+    objc_setAssociatedObject(self, @selector(bottomLayoutView), bottomLayoutView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (UIView *)bottomLayoutView {
+    UIView *view = objc_getAssociatedObject(self, @selector(bottomLayoutView));
+    if (view == nil) {
+        view = [[UIView alloc] initWithFrame:CGRectZero];
+        view.translatesAutoresizingMaskIntoConstraints = NO;
+        [self.view addSubview:view];
+        //
+        NSLayoutConstraint *left = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1 constant:0];
+        NSLayoutConstraint *right = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1 constant:0];
+        NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.bottomLayoutGuide attribute:NSLayoutAttributeTop multiplier:1 constant:0];
+        NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.bottomLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
+        [self.view addConstraints:@[left, right, top, bottom]];
+        //
+        self.bottomLayoutView = view;
+    }
+    return view;
+}
 
 #pragma mark - Back Bar Button Item
 
