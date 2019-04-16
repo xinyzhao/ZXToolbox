@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.8.2"
+  s.version      = "1.8.3"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -90,6 +90,11 @@ Pod::Spec.new do |s|
   s.subspec "UIApplicationIdleTimer" do |ss|
     ss.source_files  = "UIKit/UIApplicationIdleTimer/*.{h,m}"
     ss.public_header_files = "UIKit/UIApplicationIdleTimer/*.h"
+  end
+
+  s.subspec "UIButton+ZXToolbox" do |ss|
+    ss.source_files  = "UIKit/UIButton+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "UIKit/UIButton+ZXToolbox/*.h"
   end
 
   s.subspec "UIColor+ZXToolbox" do |ss|

@@ -41,6 +41,7 @@
 #import "NSString+URLEncoding.h"
 #import "UIApplication+ZXToolbox.h"
 #import "UIApplicationIdleTimer.h"
+#import "UIButton+ZXToolbox.h"
 #import "UIColor+ZXToolbox.h"
 #import "UIImage+ZXToolbox.h"
 #import "UINetworkActivityIndicator.h"

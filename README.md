@@ -39,6 +39,7 @@ pod "ZXToolbox"
 
 * UIApplication+ZXToolbox
 * UIApplicationIdleTimer
+* UIButton+ZXToolbox
 * UIColor+ZXToolbox
 * UIImage+ZXToolbox
 * UINetworkActivityIndicator
