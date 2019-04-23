@@ -43,6 +43,7 @@ pod "ZXToolbox"
 * UIColor+ZXToolbox
 * UIImage+ZXToolbox
 * UINetworkActivityIndicator
+* UIScreen+ZXToolbox
 * UIScrollView+ZXToolbox
 * UITableViewCell+Separator
 * UITextField+ZXToolbox

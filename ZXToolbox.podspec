@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.8.3"
+  s.version      = "1.8.4"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -111,6 +111,11 @@ Pod::Spec.new do |s|
   s.subspec "UINetworkActivityIndicator" do |ss|
     ss.source_files  = "UIKit/UINetworkActivityIndicator/*.{h,m}"
     ss.public_header_files = "UIKit/UINetworkActivityIndicator/*.h"
+  end
+
+  s.subspec "UIScreen+ZXToolbox" do |ss|
+    ss.source_files  = "UIKit/UIScreen+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "UIKit/UIScreen+ZXToolbox/*.h"
   end
 
   s.subspec "UIScrollView+ZXToolbox" do |ss|

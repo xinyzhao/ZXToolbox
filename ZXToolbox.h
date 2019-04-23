@@ -45,6 +45,7 @@
 #import "UIColor+ZXToolbox.h"
 #import "UIImage+ZXToolbox.h"
 #import "UINetworkActivityIndicator.h"
+#import "UIScreen+ZXToolbox.h"
 #import "UIScrollView+ZXToolbox.h"
 #import "UITableViewCell+Separator.h"
 #import "UITextField+ZXToolbox.h"
