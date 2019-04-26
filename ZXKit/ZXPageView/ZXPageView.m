@@ -148,7 +148,7 @@
 - (void)reloadData {
     [self.pageViews removeAllObjects];
     [self layoutIfNeeded];
-    self.currentPage = _currentPage;
+    [self setCurrentPage:_currentPage animated:NO];
 }
 
 #pragma mark Page Setter
