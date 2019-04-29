@@ -329,7 +329,7 @@
 }
 
 - (BOOL)isMuted {
-    return self.player.muted;
+    return self.player.isMuted;
 }
 
 #pragma mark <NSKeyValueObserving>
