@@ -314,6 +314,24 @@
     }
 }
 
+#pragma mark Volume
+
+- (void)setVolume:(float)volume {
+    self.player.volume = volume;
+}
+
+- (float)volume {
+    return self.player.volume;
+}
+
+- (void)setMuted:(BOOL)muted {
+    self.player.muted = muted;
+}
+
+- (BOOL)isMuted {
+    return self.player.muted;
+}
+
 #pragma mark <NSKeyValueObserving>
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {

@@ -56,6 +56,9 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 @property (nonatomic, readonly) UIImage *previewImage;
 @property (nonatomic, readonly) NSURL *URL;
 
+@property (nonatomic, assign) float volume NS_AVAILABLE(10_7, 7_0);
+@property (nonatomic, getter=isMuted) BOOL muted NS_AVAILABLE(10_7, 7_0);
+
 + (instancetype)playerWithURL:(NSURL *)URL;
 
 - (instancetype)initWithURL:(NSURL *)URL;
