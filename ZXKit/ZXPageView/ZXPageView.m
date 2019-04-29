@@ -80,6 +80,7 @@
     self.pagingEnabled = NO;
     self.showsVerticalScrollIndicator = NO;
     self.showsHorizontalScrollIndicator = NO;
+    self.decelerationRate = UIScrollViewDecelerationRateFast;
     self.direction = ZXPageViewDirectionHorizontal;
     self.pagingMode = ZXPagingModeEndless;
     self.pageScaleFactor = CGPointMake(1.f, 1.f);
