@@ -418,12 +418,11 @@
 }
 
 - (void)pageViewWillEndDragging:(UIScrollView *)scrollView withVelocity:(CGPoint)velocity targetContentOffset:(inout CGPoint *)targetContentOffset {
-    [self pageViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset];
-    //
     if ([scrollView isKindOfClass:[ZXPageView class]]) {
         ZXPageView *pageView = (ZXPageView *)scrollView;
         [pageView scrollViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset];
     }
+    [self pageViewWillEndDragging:scrollView withVelocity:velocity targetContentOffset:targetContentOffset];
 }
 
 
