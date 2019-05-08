@@ -27,7 +27,6 @@ pod "ZXToolbox"
 * NSArray+ZXToolbox
 * NSDate+ZXToolbox
 * NSFileManager+ZXToolbox
-* NSLog+ZXToolbox
 * NSNumberFormatter+ZXToolbox
 * NSObject+ZXToolbox
 * NSString+NumberValue
@@ -82,6 +81,7 @@ pod "ZXToolbox"
 * ZXTabBarController
 * ZXTagView
 * ZXToastView
+* ZXToolbox+Macros
 * ZXURLProtocol
 * ZXURLSession
 

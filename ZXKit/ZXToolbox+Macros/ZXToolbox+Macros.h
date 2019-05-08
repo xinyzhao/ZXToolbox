@@ -1,5 +1,5 @@
 //
-// NSLog+ZXToolbox.h
+// ZXToolbox+Macros.h
 // https://github.com/xinyzhao/ZXToolbox
 //
 // Copyright (c) 2019 Zhao Xin
@@ -42,4 +42,4 @@
 #define NSLogD(format, ...)
 #endif
 
-#endif //__OBJC__
+#endif // __OBJC__

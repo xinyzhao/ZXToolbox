@@ -30,7 +30,7 @@
 @property (nonatomic, strong) AVPlayer *player;
 @property (nonatomic, strong) AVPlayerItem *playerItem;
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
-@property (nonatomic, strong) id playerObserver;
+@property (nonatomic, strong) id timeObserver;
 
 @property (nonatomic, weak) UIView *attachView;
 @property (nonatomic, strong) ZXBrightnessView *brightnessView;
@@ -56,6 +56,7 @@
     if (self) {
         _isPlaying = NO;
         _status = ZXPlaybackStatusBuffering;
+        _playbackTimeInterval = 1.0;
         _URL = [URL copy];
         if (_URL) {
             AVURLAsset *asset = [AVURLAsset URLAssetWithURL:_URL options:nil];
@@ -75,15 +76,7 @@
             if (@available(iOS 10.0, *)) {
                 _player.automaticallyWaitsToMinimizeStalling = NO;
             }
-            __weak typeof(self) weakSelf = self;
             [_player addObserver:self forKeyPath:@"rate" options:(NSKeyValueObservingOptionNew) context:nil];
-            _playerObserver = [_player addPeriodicTimeObserverForInterval:CMTimeMake(1, 30) queue:dispatch_get_main_queue() usingBlock:^(CMTime time) {
-                if (weakSelf.status == ZXPlaybackStatusPlaying) {
-                    if (weakSelf.playbackTime) {
-                        weakSelf.playbackTime(weakSelf.currentTime, weakSelf.duration);
-                    }
-                }
-            }];
             //
             _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
         }
@@ -141,6 +134,37 @@
     }
 }
 
+#pragma mark Time Observer
+
+- (void)addTimeObserver {
+    if (self.player.status == AVPlayerStatusReadyToPlay) {
+        [self removeTimeObserver];
+        //
+        __weak typeof(self) weakSelf = self;
+        if (_playbackTimeInterval > 0.001) {
+            // Invoke callback every _playbackTimeInterval second
+            CMTime interval = CMTimeMakeWithSeconds(_playbackTimeInterval, NSEC_PER_SEC);
+            // Queue on which to invoke the callback
+            dispatch_queue_t mainQueue = dispatch_get_main_queue();
+            // Add time observer
+            self.timeObserver = [self.player addPeriodicTimeObserverForInterval:interval queue:mainQueue usingBlock:^(CMTime time) {
+                if (weakSelf.status == ZXPlaybackStatusPlaying) {
+                    if (weakSelf.playbackTime) {
+                        weakSelf.playbackTime(CMTimeGetSeconds(time), weakSelf.duration);
+                    }
+                }
+            }];
+        }
+    }
+}
+
+- (void)removeTimeObserver {
+    if (self.timeObserver) {
+        [self.player removeTimeObserver:self.timeObserver];
+        self.timeObserver = nil;
+    }
+}
+
 #pragma mark Properties
 
 - (void)setPlaybackStatus:(void (^)(ZXPlaybackStatus))playbackStatus {
@@ -148,6 +172,12 @@
     if (_playbackStatus) {
         _playbackStatus(_status);
     }
+}
+
+- (void)setPlaybackTimeInterval:(NSTimeInterval)playbackTimeInterval {
+    _playbackTimeInterval = playbackTimeInterval;
+    //
+    [self addTimeObserver];
 }
 
 - (void)setStatus:(ZXPlaybackStatus)status {
@@ -252,12 +282,10 @@
 - (void)stop {
     [self pause];
     //
+    [self removeTimeObserver];
+    //
     if (_player) {
         [_player removeObserver:self forKeyPath:@"rate"];
-        if (_playerObserver) {
-            [_player removeTimeObserver:_playerObserver];
-            _playerObserver = nil;
-        }
         _player = nil;
     }
     //
@@ -329,7 +357,7 @@
 }
 
 - (BOOL)isMuted {
-    return self.player.isMuted;
+    return self.player.muted;
 }
 
 #pragma mark <NSKeyValueObserving>
@@ -337,6 +365,9 @@
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     if ([keyPath isEqualToString:@"status"]) {
         AVPlayerStatus status = [[change objectForKey:@"new"] integerValue];
+        if (status == AVPlayerStatusReadyToPlay) {
+            [self addTimeObserver];
+        }
         if (_playerStatus) {
             _playerStatus(status, _playerItem.error);
         }

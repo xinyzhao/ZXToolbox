@@ -47,6 +47,7 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 
 @property (nonatomic, copy) void (^playbackStatus)(ZXPlaybackStatus status);
 @property (nonatomic, copy) void (^playbackTime)(NSTimeInterval time, NSTimeInterval duration);
+@property (nonatomic, assign) NSTimeInterval playbackTimeInterval;
 
 @property (nonatomic, readonly) UIPanGestureRecognizer *panGestureRecognizer;
 @property (nonatomic, assign) CGFloat seekingFactor; // 0 - 1, 0 mean is disabled, default is 0.5

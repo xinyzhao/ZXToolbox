@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.8.7"
+  s.version      = "1.8.8"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -43,12 +43,6 @@ Pod::Spec.new do |s|
   s.subspec "NSFileManager+ZXToolbox" do |ss|
     ss.source_files  = "Foundation/NSFileManager+ZXToolbox/*.{h,m}"
     ss.public_header_files = "Foundation/NSFileManager+ZXToolbox/*.h"
-  end
-
-  s.subspec "NSLog+ZXToolbox" do |ss|
-    ss.dependency 'ZXToolbox/NSDate+ZXToolbox'
-    ss.source_files  = "Foundation/NSLog+ZXToolbox/*.{h,m}"
-    ss.public_header_files = "Foundation/NSLog+ZXToolbox/*.h"
   end
 
   s.subspec "NSNumberFormatter+ZXToolbox" do |ss|
@@ -312,6 +306,12 @@ Pod::Spec.new do |s|
   s.subspec "ZXToastView" do |ss|
     ss.source_files  = "ZXKit/ZXToastView/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXToastView/*.h"
+  end
+
+  s.subspec "ZXToolbox+Macros" do |ss|
+    ss.dependency 'ZXToolbox/NSDate+ZXToolbox'
+    ss.source_files  = "ZXKit/ZXToolbox+Macros/*.{h,m}"
+    ss.public_header_files = "ZXKit/ZXToolbox+Macros/*.h"
   end
 
   s.subspec "ZXURLProtocol" do |ss|

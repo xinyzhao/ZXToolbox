@@ -31,7 +31,6 @@
 #import "NSData+Base64Encoding.h"
 #import "NSDate+ZXToolbox.h"
 #import "NSFileManager+ZXToolbox.h"
-#import "NSLog+ZXToolbox.h"
 #import "NSNumberFormatter+ZXToolbox.h"
 #import "NSObject+ZXToolbox.h"
 #import "NSString+Base64Encoding.h"
@@ -81,6 +80,7 @@
 #import "ZXTabBarController.h"
 #import "ZXTagView.h"
 #import "ZXToastView.h"
+#import "ZXToolbox+Macros.h"
 #import "ZXURLProtocol.h"
 #import "ZXURLSession.h"
 
