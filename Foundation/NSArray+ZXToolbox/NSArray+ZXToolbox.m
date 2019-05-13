@@ -28,32 +28,86 @@
 
 @implementation NSArray (ZXToolbox)
 
+static inline void static_swizzle_method(Class class, SEL old, SEL new) {
+    Method oldMethod = class_getInstanceMethod(class, old);
+    Method newMethod = class_getInstanceMethod(class, new);
+    method_exchangeImplementations(oldMethod, newMethod);
+}
+
 + (void)load {
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        Class class = objc_getClass("__NSArrayI");
-        Method originalMethod = class_getInstanceMethod(class, @selector(objectAtIndex:));
-        Method swizzledMethod = class_getInstanceMethod(class, @selector(objectByIndex:));
-        method_exchangeImplementations(originalMethod, swizzledMethod);
-        //
-        if (@available(iOS 11.0, *)) {
-            Method originalMethod = class_getInstanceMethod(class, @selector(objectAtIndexedSubscript:));
-            Method swizzledMethod = class_getInstanceMethod(class, @selector(objectByIndexedSubscript:));
-            method_exchangeImplementations(originalMethod, swizzledMethod);
-        }
+        static_swizzle_method(objc_getClass("__NSArrayI"), @selector(objectAtIndex:), @selector(objectByIndex:));
+        static_swizzle_method(objc_getClass("__NSArray0"), @selector(objectAtIndex:), @selector(objectByIndex0:));
+        static_swizzle_method(objc_getClass("__NSSingleObjectArrayI"), @selector(objectAtIndex:), @selector(objectByIndex1:));
+        static_swizzle_method(objc_getClass("__NSArrayI"), @selector(objectAtIndexedSubscript:), @selector(objectByIndexedSubscript:));
+        static_swizzle_method(objc_getClass("__NSArray0"), @selector(objectAtIndexedSubscript:), @selector(objectByIndexedSubscript0:));
+        static_swizzle_method(objc_getClass("__NSSingleObjectArrayI"), @selector(objectAtIndexedSubscript:), @selector(objectByIndexedSubscript1:));
     });
 }
 
 - (id)objectByIndex:(NSUInteger)index {
     if (index < self.count) {
         return [self objectByIndex:index];
+    } else if (self.count > 0) {
+        NSLog(@"%s: index %d beyond bounds [0...%d]", __func__, (int)index, (int)self.count - 1);
+    } else {
+        NSLog(@"%s: index %d beyond bounds for empty array", __func__, (int)index);
     }
     return nil;
 }
 
-- (id)objectByIndexedSubscript:(NSUInteger)idx {
-    if (idx < self.count) {
-        return [self objectByIndexedSubscript:idx];
+- (id)objectByIndex0:(NSUInteger)index {
+    if (index < self.count) {
+        return [self objectByIndex0:index];
+    } else if (self.count > 0) {
+        NSLog(@"%s: index %d beyond bounds [0...%d]", __func__, (int)index, (int)self.count - 1);
+    } else {
+        NSLog(@"%s: index %d beyond bounds for empty array", __func__, (int)index);
+    }
+    return nil;
+}
+
+- (id)objectByIndex1:(NSUInteger)index {
+    if (index < self.count) {
+        return [self objectByIndex1:index];
+    } else if (self.count > 0) {
+        NSLog(@"%s: index %d beyond bounds [0...%d]", __func__, (int)index, (int)self.count - 1);
+    } else {
+        NSLog(@"%s: index %d beyond bounds for empty array", __func__, (int)index);
+    }
+    return nil;
+}
+
+- (id)objectByIndexedSubscript:(NSUInteger)index {
+    if (index < self.count) {
+        return [self objectByIndexedSubscript:index];
+    } else if (self.count > 0) {
+        NSLog(@"%s: index %d beyond bounds [0...%d]", __func__, (int)index, (int)self.count - 1);
+    } else {
+        NSLog(@"%s: index %d beyond bounds for empty array", __func__, (int)index);
+    }
+    return nil;
+}
+
+- (id)objectByIndexedSubscript0:(NSUInteger)index {
+    if (index < self.count) {
+        return [self objectByIndexedSubscript0:index];
+    } else if (self.count > 0) {
+        NSLog(@"%s: index %d beyond bounds [0...%d]", __func__, (int)index, (int)self.count - 1);
+    } else {
+        NSLog(@"%s: index %d beyond bounds for empty array", __func__, (int)index);
+    }
+    return nil;
+}
+
+- (id)objectByIndexedSubscript1:(NSUInteger)index {
+    if (index < self.count) {
+        return [self objectByIndexedSubscript1:index];
+    } else if (self.count > 0) {
+        NSLog(@"%s: index %d beyond bounds [0...%d]", __func__, (int)index, (int)self.count - 1);
+    } else {
+        NSLog(@"%s: index %d beyond bounds for empty array", __func__, (int)index);
     }
     return nil;
 }
@@ -66,30 +120,49 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         Class class = objc_getClass("__NSArrayM");
-        Method originalMethod = class_getInstanceMethod(class, @selector(objectAtIndex:));
-        Method swizzledMethod = class_getInstanceMethod(class, @selector(objectByIndex:));
-        method_exchangeImplementations(originalMethod, swizzledMethod);
-        //
-        if (@available(iOS 11.0, *)) {
-            Method originalMethod = class_getInstanceMethod(class, @selector(objectAtIndexedSubscript:));
-            Method swizzledMethod = class_getInstanceMethod(class, @selector(objectByIndexedSubscript:));
-            method_exchangeImplementations(originalMethod, swizzledMethod);
-        }
+        // objectAtIndex
+        Method objectAtIndex = class_getInstanceMethod(class, @selector(objectAtIndex:));
+        Method objectByIndex = class_getInstanceMethod(class, @selector(objectByIndex:));
+        method_exchangeImplementations(objectAtIndex, objectByIndex);
+        // objectAtIndexedSubscript
+        Method objectAtIndexedSubscript = class_getInstanceMethod(class, @selector(objectAtIndexedSubscript:));
+        Method objectByIndexedSubscript = class_getInstanceMethod(class, @selector(objectByIndexedSubscript:));
+        method_exchangeImplementations(objectAtIndexedSubscript, objectByIndexedSubscript);
+        // insertObject:atIndex
+        Method insertObjectAtIndex = class_getInstanceMethod(class, @selector(insertObject:atIndex:));
+        Method insertObjectByIndex = class_getInstanceMethod(class, @selector(insertObject:byIndex:));
+        method_exchangeImplementations(insertObjectAtIndex, insertObjectByIndex);
     });
 }
 
 - (id)objectByIndex:(NSUInteger)index {
     if (index < self.count) {
         return [self objectByIndex:index];
+    } else if (self.count > 0) {
+        NSLog(@"%s: index %d beyond bounds [0...%d]", __func__, (int)index, (int)self.count - 1);
+    } else {
+        NSLog(@"%s: index %d beyond bounds for empty array", __func__, (int)index);
     }
     return nil;
 }
 
-- (id)objectByIndexedSubscript:(NSUInteger)idx {
-    if (idx < self.count) {
-        return [self objectByIndexedSubscript:idx];
+- (id)objectByIndexedSubscript:(NSUInteger)index {
+    if (index < self.count) {
+        return [self objectByIndexedSubscript:index];
+    } else if (self.count > 0) {
+        NSLog(@"%s: index %d beyond bounds [0...%d]", __func__, (int)index, (int)self.count - 1);
+    } else {
+        NSLog(@"%s: index %d beyond bounds for empty array", __func__, (int)index);
     }
     return nil;
+}
+
+- (void)insertObject:(id)anObject byIndex:(NSUInteger)index {
+    if (anObject) {
+        [self insertObject:anObject byIndex:index];
+    } else {
+        NSLog(@"%s: object cannot be nil", __func__);
+    }
 }
 
 @end

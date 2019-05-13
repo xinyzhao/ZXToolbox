@@ -37,4 +37,7 @@
 
 @interface NSMutableArray (ZXToolbox)
 
+/// Same as [NSMutableArray insertObject:atIndex:]
+- (void)insertObject:(id)anObject byIndex:(NSUInteger)index;
+
 @end
