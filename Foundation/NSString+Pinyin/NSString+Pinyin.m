@@ -89,8 +89,7 @@ NSString* NSStringPinyinAcronym(NSString *string) {
 NSString* NSStringPinyinFirstLetter(NSString *string) {
     NSString *initial = nil;
     if (string.length > 0) {
-        NSString *str = [string substringToIndex:1];
-        NSString *py = NSStringPinyinTransform(str, NSStringPinyinStripDiacritics);
+        NSString *py = NSStringPinyinTransform(string, NSStringPinyinStripDiacritics);
         if (py.length > 0) {
             initial = [py substringToIndex:1];
         }

@@ -31,19 +31,19 @@ typedef void(^CLAuthorizationHandler)(CLAuthorizationStatus status);
 @property (nonatomic, strong) CLLocationManager *locationManager;
 @property (nonatomic, copy) CLAuthorizationHandler locationHandler;
 
-+ (instancetype)defaultManager;
++ (instancetype)defaultHelper;
 
 @end
 
 @implementation ZXAuthorizationHelper
 
-+ (instancetype)defaultManager {
-    static ZXAuthorizationHelper *authManager = nil;
++ (instancetype)defaultHelper {
+    static ZXAuthorizationHelper *helper = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        authManager = [[ZXAuthorizationHelper alloc] init];
+        helper = [[ZXAuthorizationHelper alloc] init];
     });
-    return authManager;
+    return helper;
 }
 
 + (void)requestAuthorizationForCamera:(void(^)(AVAuthorizationStatus status))handler {
@@ -96,17 +96,17 @@ typedef void(^CLAuthorizationHandler)(CLAuthorizationStatus status);
         CLAuthorizationStatus status = [CLLocationManager authorizationStatus];
         if (status == kCLAuthorizationStatusNotDetermined) {
             if (@available(iOS 8.0, *)) {
-                ZXAuthorizationHelper *manager = [ZXAuthorizationHelper defaultManager];
-                if (manager.locationManager == nil) {
-                    manager.locationManager = [[CLLocationManager alloc] init];
+                ZXAuthorizationHelper *helper = [ZXAuthorizationHelper defaultHelper];
+                if (helper.locationManager == nil) {
+                    helper.locationManager = [[CLLocationManager alloc] init];
                 }
-                manager.locationManager.delegate = manager;
-                manager.locationHandler = handler;
+                helper.locationManager.delegate = helper;
+                helper.locationHandler = handler;
                 //
                 if (always) {
-                    [manager.locationManager requestAlwaysAuthorization];
+                    [helper.locationManager requestAlwaysAuthorization];
                 } else {
-                    [manager.locationManager requestWhenInUseAuthorization];
+                    [helper.locationManager requestWhenInUseAuthorization];
                 }
             }
         } else if (handler) {
