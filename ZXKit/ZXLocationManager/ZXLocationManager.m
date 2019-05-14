@@ -25,6 +25,11 @@
 
 #import "ZXLocationManager.h"
 
+@interface ZXLocationManager ()
+@property (nonatomic, strong) void (^statusBlock)(CLAuthorizationStatus status);
+
+@end
+
 @implementation ZXLocationManager
 
 - (instancetype)init
@@ -49,6 +54,8 @@
         switch (status) {
             case kCLAuthorizationStatusNotDetermined:
                 if (@available(iOS 8.0, *)) {
+                    self.statusBlock = [completion copy];
+                    //
                     if (_alwaysAuthorization) {
                         [self.locationManager requestAlwaysAuthorization];
                     } else {
@@ -60,13 +67,10 @@
                     }
                 }
                 break;
-            case kCLAuthorizationStatusAuthorizedAlways:
-            case kCLAuthorizationStatusAuthorizedWhenInUse:
+            default:
                 if (completion) {
                     completion(status);
                 }
-                break;
-            default:
                 break;
         }
     }
@@ -116,18 +120,8 @@
 }
 
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-    switch (status) {
-        case kCLAuthorizationStatusNotDetermined:
-            if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
-                [self.locationManager requestWhenInUseAuthorization];
-            }
-            break;
-        case kCLAuthorizationStatusAuthorizedAlways:
-        case kCLAuthorizationStatusAuthorizedWhenInUse:
-            [self.locationManager startUpdatingLocation];
-            break;
-        default:
-            break;
+    if (_statusBlock) {
+        _statusBlock(status);
     }
 }
 
