@@ -100,13 +100,19 @@
 
 #pragma mark <CLLocationManagerDelegate>
 
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
+    if (_statusBlock) {
+        _statusBlock(status);
+    }
+}
+
 - (void)locationManager:(CLLocationManager *)manager
      didUpdateLocations:(NSArray<CLLocation *> *)locations {
     // location
     _location = [locations firstObject];
     // geocoder
     [[[CLGeocoder alloc] init] reverseGeocodeLocation:_location completionHandler:^(NSArray *array, NSError *error){
-        CLPlacemark *placemark = [array firstObject];
+        CLPlacemark *placemark = [array lastObject];
         if (placemark) {
             [self setValue:placemark forKey:@"placemark"];
         } else {
@@ -119,10 +125,9 @@
     }];
 }
 
-- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status {
-    if (_statusBlock) {
-        _statusBlock(status);
-    }
+- (void)locationManager:(CLLocationManager *)manager
+       didFailWithError:(NSError *)error {
+    NSLog(@"%@", error.localizedDescription);
 }
 
 @end
