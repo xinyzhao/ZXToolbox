@@ -45,7 +45,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Request a single location update.
  */
-- (void)requestLocation;
+- (void)requestLocation API_AVAILABLE(ios(9.0), macos(10.14));
 
 /**
  Start updating locations.
