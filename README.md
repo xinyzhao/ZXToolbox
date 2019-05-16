@@ -79,6 +79,7 @@ pod "ZXToolbox"
 * ZXRefreshView
 * ZXScriptMessageHandler
 * ZXScrollLabel
+* ZXTabBar
 * ZXTabBarController
 * ZXTagView
 * ZXToastView

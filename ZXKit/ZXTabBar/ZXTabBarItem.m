@@ -1,5 +1,5 @@
 //
-// ZXTabBar.m
+// ZXTabBarItem.m
 // https://github.com/xinyzhao/ZXToolbox
 //
 // Copyright (c) 2019 Zhao Xin
@@ -23,16 +23,8 @@
 // THE SOFTWARE.
 //
 
-#import "ZXTabBar.h"
+#import "ZXTabBarItem.h"
 
-@implementation ZXTabBar
-
-- (CGSize)sizeThatFits:(CGSize)size {
-    CGSize s = [super sizeThatFits:size];
-    if (_customHeight > 0.f) {
-        s.height += _customHeight - 49.f;
-    }
-    return s;
-}
+@implementation ZXTabBarItem
 
 @end

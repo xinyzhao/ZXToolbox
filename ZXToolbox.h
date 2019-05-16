@@ -78,6 +78,7 @@
 #import "ZXRefreshView.h"
 #import "ZXScriptMessageHandler.h"
 #import "ZXScrollLabel.h"
+#import "ZXTabBar.h"
 #import "ZXTabBarController.h"
 #import "ZXTagView.h"
 #import "ZXToastView.h"

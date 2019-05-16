@@ -24,9 +24,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "ZXTabBarItem.h"
 
-IB_DESIGNABLE
 @interface ZXTabBar : UITabBar
-@property (nonatomic, assign) IBInspectable CGFloat customHeight; // default is 0, specified the height of tabBar if great than 0
+
+/// Custom height of tabBar if great than 0, default is 0
+@property (nonatomic, assign) IBInspectable CGFloat customHeight;
 
 @end
