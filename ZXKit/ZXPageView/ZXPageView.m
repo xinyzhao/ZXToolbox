@@ -85,6 +85,7 @@
     self.pagingMode = ZXPagingModeEndless;
     self.pageScaleFactor = CGPointMake(1.f, 1.f);
     self.pageViews = [[NSCache alloc] init];
+    self.pageViews.countLimit = 3;
     self.pageViews.delegate = self;
 }
 
@@ -430,12 +431,7 @@
 #pragma mark <NSCacheDelegate>
 
 - (void)cache:(NSCache *)cache willEvictObject:(id)obj {
-    UIView *pageView = obj;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (pageView.superview) {
-            [pageView removeFromSuperview];
-        }
-    });
+    NSLog(@"cache:willEvictObject:%@", obj);
 }
 
 @end
