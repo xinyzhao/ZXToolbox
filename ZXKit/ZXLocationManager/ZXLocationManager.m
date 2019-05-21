@@ -26,6 +26,9 @@
 #import "ZXLocationManager.h"
 
 @interface ZXLocationManager ()
+@property (nonatomic, strong) CLLocationManager *locationManager;
+@property (nonatomic, strong) CLLocation *location;
+@property (nonatomic, strong) CLPlacemark *placemark;
 @property (nonatomic, strong) void (^statusBlock)(CLAuthorizationStatus status);
 
 @end
@@ -40,10 +43,6 @@
         self.locationManager.delegate = self;
     }
     return self;
-}
-
-- (NSString *)province {
-    return _placemark.administrativeArea ? _placemark.administrativeArea : _placemark.locality;
 }
 
 #pragma mark Location Service
@@ -109,18 +108,18 @@
 - (void)locationManager:(CLLocationManager *)manager
      didUpdateLocations:(NSArray<CLLocation *> *)locations {
     // location
-    _location = [locations firstObject];
+    self.location = [locations lastObject];
     // geocoder
     [[[CLGeocoder alloc] init] reverseGeocodeLocation:_location completionHandler:^(NSArray *array, NSError *error){
         CLPlacemark *placemark = [array lastObject];
         if (placemark) {
-            [self setValue:placemark forKey:@"placemark"];
+            self.placemark = placemark;
         } else {
             NSLog(@"%@", error.localizedDescription);
         }
         //
         if (self.didUpdateLocation) {
-            self.didUpdateLocation(self.location, self.placemark, self.province);
+            self.didUpdateLocation(self.location, self.placemark);
         }
     }];
 }
@@ -128,6 +127,34 @@
 - (void)locationManager:(CLLocationManager *)manager
        didFailWithError:(NSError *)error {
     NSLog(@"%@", error.localizedDescription);
+}
+
+@end
+
+@implementation CLPlacemark (ZXLocationManager)
+
+- (NSString *)province {
+    return self.administrativeArea ? self.administrativeArea : self.locality;
+}
+
+- (NSString *)city {
+    return self.locality;
+}
+
+- (NSString *)district {
+    return self.subLocality;
+}
+
+- (NSString *)street {
+    return self.thoroughfare;
+}
+
+- (NSString *)streetNumber {
+    return self.subThoroughfare;
+}
+
+- (NSString *)address {
+    return self.addressDictionary[@"FormattedAddressLines"];
 }
 
 @end

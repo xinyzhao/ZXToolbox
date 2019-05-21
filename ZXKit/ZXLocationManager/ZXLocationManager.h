@@ -30,17 +30,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZXLocationManager : NSObject <CLLocationManagerDelegate>
 /// Location manager
-@property (nonatomic, strong) CLLocationManager *locationManager;
-/// Default is WhenInUse authorization
-@property (nonatomic, assign) BOOL alwaysAuthorization;
+@property (nonatomic, readonly) CLLocationManager *locationManager;
 /// Current location
 @property (nonatomic, readonly) CLLocation *location;
 /// Represents placemark data for a geographic location.
 @property (nonatomic, readonly) CLPlacemark *placemark;
-/// Province, the first administrative area of PRC
-@property (nonatomic, readonly) NSString *province;
+/// Default is WhenInUse authorization
+@property (nonatomic, assign) BOOL alwaysAuthorization;
+
 /// Invoked when new locations are available.
-@property (nonatomic, copy) void (^didUpdateLocation)(CLLocation *location, CLPlacemark *placemark, NSString *province);
+@property (nonatomic, copy) void (^didUpdateLocation)(CLLocation * _Nonnull location, CLPlacemark * _Nullable placemark);
 
 /**
  Request a single location update.
@@ -56,6 +55,22 @@ NS_ASSUME_NONNULL_BEGIN
  Stop updating locations.
  */
 - (void)stopUpdatingLocation;
+
+@end
+
+@interface CLPlacemark (ZXLocationManager)
+/// The first administrative area of PRC
+@property (nonatomic, readonly) NSString *province;
+/// The second administrative area of PRC
+@property (nonatomic, readonly) NSString *city;
+/// The third administrative area of PRC
+@property (nonatomic, readonly) NSString *district;
+/// The street name
+@property (nonatomic, readonly) NSString *street;
+/// The street number
+@property (nonatomic, readonly) NSString *streetNumber;
+/// The formatted address
+@property (nonatomic, readonly) NSString *address;
 
 @end
 
