@@ -24,8 +24,30 @@
 //
 
 #import "UIView+ZXToolbox.h"
+#import "NSObject+ZXToolbox.h"
+#import <objc/runtime.h>
 
 @implementation UIView (ZXToolbox)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self swizzleMethod:@selector(intrinsicContentSize) with:@selector(internalContentSize)];
+    });
+}
+
+- (void)setInternalContentSize:(CGSize)internalContentSize {
+    objc_setAssociatedObject(self, @selector(internalContentSize), NSStringFromCGSize(internalContentSize), OBJC_ASSOCIATION_COPY_NONATOMIC);
+    [self invalidateIntrinsicContentSize];
+}
+
+- (CGSize)internalContentSize {
+    NSString *str = objc_getAssociatedObject(self, @selector(internalContentSize));
+    if (str) {
+        return CGSizeFromString(str);
+    }
+    return [self internalContentSize];
+}
 
 - (UIImage *)captureImage {
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, 0);

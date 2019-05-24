@@ -430,8 +430,10 @@
 
 #pragma mark <NSCacheDelegate>
 
+#ifdef DEBUG
 - (void)cache:(NSCache *)cache willEvictObject:(id)obj {
     NSLog(@"cache:willEvictObject:%@", obj);
 }
+#endif
 
 @end

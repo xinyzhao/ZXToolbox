@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.9.5"
+  s.version      = "1.9.6"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -129,6 +129,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "UIView+ZXToolbox" do |ss|
+    ss.dependency 'ZXToolbox/NSObject+ZXToolbox'
     ss.source_files  = "UIKit/UIView+ZXToolbox/*.{h,m}"
     ss.public_header_files = "UIKit/UIView+ZXToolbox/*.h"
   end

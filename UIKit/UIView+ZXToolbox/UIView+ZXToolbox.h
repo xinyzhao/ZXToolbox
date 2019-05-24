@@ -29,6 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIView (ZXToolbox)
 
+// Same as intrinsicContentSize, default is UILayoutFittingExpandedSize
+@property (nonatomic, assign) IBInspectable CGSize internalContentSize;
+
 /**
  Capture the view snapshot image
  
