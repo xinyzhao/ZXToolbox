@@ -61,7 +61,6 @@
 #import "ZXDrawingView.h"
 #import "ZXHaloLabel.h"
 #import "ZXHTTPClient.h"
-#import "ZXImageView.h"
 #import "ZXLineChartView.h"
 #import "ZXLocationManager.h"
 #import "ZXNavigationController.h"

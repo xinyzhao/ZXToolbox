@@ -62,7 +62,6 @@ pod "ZXToolbox"
 * ZXDrawingView
 * ZXHaloLabel
 * ZXHTTPClient
-* ZXImageView
 * ZXLineChartView
 * ZXLocationManager
 * ZXNavigationController
