@@ -27,17 +27,4 @@
 
 @interface NSArray (ZXToolbox)
 
-/// Same as [NSArray objectAtIndex:]
-- (id)objectByIndex:(NSUInteger)index;
-
-/// Same as [NSArray objectAtIndexedSubscript:]
-- (id)objectByIndexedSubscript:(NSUInteger)idx;
-
-@end
-
-@interface NSMutableArray (ZXToolbox)
-
-/// Same as [NSMutableArray insertObject:atIndex:]
-- (void)insertObject:(id)anObject byIndex:(NSUInteger)index;
-
 @end
