@@ -63,6 +63,7 @@ pod "ZXToolbox"
 * ZXHaloLabel
 * ZXHTTPClient
 * ZXLineChartView
+* ZXLocalAuthentication
 * ZXLocationManager
 * ZXNavigationController
 * ZXNetworkTrafficMonitor

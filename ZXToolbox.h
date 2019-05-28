@@ -62,6 +62,7 @@
 #import "ZXHaloLabel.h"
 #import "ZXHTTPClient.h"
 #import "ZXLineChartView.h"
+#import "ZXLocalAuthentication.h"
 #import "ZXLocationManager.h"
 #import "ZXNavigationController.h"
 #import "ZXNetworkTrafficMonitor.h"

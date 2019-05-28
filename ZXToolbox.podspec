@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.9.8"
+  s.version      = "1.9.9"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -204,6 +204,12 @@ Pod::Spec.new do |s|
   s.subspec "ZXLineChartView" do |ss|
     ss.source_files  = "ZXKit/ZXLineChartView/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXLineChartView/*.h"
+  end
+
+  s.subspec "ZXLocalAuthentication" do |ss|
+    ss.source_files  = "ZXKit/ZXLocalAuthentication/*.{h,m}"
+    ss.public_header_files = "ZXKit/ZXLocalAuthentication/*.h"
+    ss.weak_framework = "LocalAuthentication"
   end
   
   s.subspec "ZXLocationManager" do |ss|
