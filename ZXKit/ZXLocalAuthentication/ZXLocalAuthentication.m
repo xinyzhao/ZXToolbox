@@ -81,11 +81,15 @@
     if (error == nil) {
         NSInteger code = LAErrorTouchIDNotAvailable;
         NSDictionary *userInfo = @{NSLocalizedDescriptionKey:@"Authentication could not start, because Touch ID is not available on the device."};
-        if (@available(iOS 9.0, *)) {
+        if (@available(iOS 11.0, *)) {
             code = LAErrorBiometryNotAvailable;
             userInfo = @{NSLocalizedDescriptionKey:@"Authentication could not start, because biometry is not available on the device."};
         }
-        error = [NSError errorWithDomain:LAErrorDomain code:code userInfo:userInfo];
+        if (@available(iOS 8.3, *)) {
+            error = [NSError errorWithDomain:LAErrorDomain code:code userInfo:userInfo];
+        } else {
+            error = [NSError errorWithDomain:@"com.apple.LocalAuthentication" code:code userInfo:userInfo];
+        }
     }
     //
     if (reply) {
