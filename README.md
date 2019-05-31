@@ -76,12 +76,12 @@ pod "ZXToolbox"
 * ZXQRCodeGenerator
 * ZXQRCodeReader
 * ZXQRCodeScanner
-* ZXRefreshView
 * ZXScriptMessageHandler
 * ZXScrollLabel
 * ZXTabBar
 * ZXTabBarController
 * ZXTagView
+* ZXTimer
 * ZXToastView
 * ZXToolbox+Macros
 * ZXURLProtocol

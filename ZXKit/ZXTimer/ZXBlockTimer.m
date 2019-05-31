@@ -1,5 +1,5 @@
 //
-// ZXRefreshHeaderView.h
+// ZXBlockTimer.m
 // https://github.com/xinyzhao/ZXToolbox
 //
 // Copyright (c) 2019 Zhao Xin
@@ -23,19 +23,44 @@
 // THE SOFTWARE.
 //
 
-#import "ZXRefreshDefinitions.h"
+#import "ZXBlockTimer.h"
 
-@interface ZXRefreshHeaderView : UIView <ZXRefreshProtocol>
-@property (nonatomic, assign) CGFloat contentHeight; // Default 40
-@property (nonatomic, assign) CGFloat contentInset;  // Default 0
-@property (nonatomic, assign) CGFloat contentOffset; // Default 0
-
-+ (instancetype)headerWithRefreshingBlock:(ZXRefreshingBlock)refreshingBlock;
-
-- (BOOL)isRefreshing;
+@interface ZXBlockTimer ()
+@property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, copy) void (^block)(NSTimer *timer);
 
 @end
 
-@interface UIView (ZXRefreshHeaderView)
-@property (nonatomic, strong) ZXRefreshHeaderView *refreshHeaderView;
+@implementation ZXBlockTimer
+
++ (instancetype)timerWithTimeInterval:(NSTimeInterval)interval repeats:(BOOL)repeats block:(void (^)(NSTimer *timer))block {
+    ZXBlockTimer *timer = [[[self class] alloc] init];
+    timer.block = block;
+    timer.timer = [NSTimer timerWithTimeInterval:interval target:timer selector:@selector(onTimer:) userInfo:nil repeats:repeats];
+    return timer;
+}
+
++ (instancetype)scheduledTimerWithTimeInterval:(NSTimeInterval)interval repeats:(BOOL)repeats block:(void (^)(NSTimer *timer))block {
+    ZXBlockTimer *timer = [[[self class] alloc] init];
+    timer.block = block;
+    timer.timer = [NSTimer scheduledTimerWithTimeInterval:interval target:timer selector:@selector(onTimer:) userInfo:nil repeats:repeats];
+    return timer;
+}
+
+- (void)onTimer:(NSTimer *)timer {
+    if (_block) {
+        _block(timer);
+    }
+}
+
+- (void)invalidate {
+    if (self.timer.isValid) {
+        [self.timer invalidate];
+    }
+}
+
+- (void)dealloc {
+    NSLog(@"%s", __func__);
+}
+
 @end

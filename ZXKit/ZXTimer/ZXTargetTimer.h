@@ -1,5 +1,5 @@
 //
-// ZXRefreshView.h
+// ZXTargetTimer.h
 // https://github.com/xinyzhao/ZXToolbox
 //
 // Copyright (c) 2019 Zhao Xin
@@ -23,9 +23,19 @@
 // THE SOFTWARE.
 //
 
-#ifndef ZXRefreshView_h
-#define ZXRefreshView_h
+#import <Foundation/Foundation.h>
 
-#import "ZXRefreshProgressHeader.h"
+NS_ASSUME_NONNULL_BEGIN
 
-#endif /* ZXRefreshView_h */
+@interface ZXTargetTimer : NSObject
+@property (nonatomic, readonly) NSTimer *timer;
+
++ (instancetype)timerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(nullable id)userInfo repeats:(BOOL)yesOrNo;
+
++ (instancetype)scheduledTimerWithTimeInterval:(NSTimeInterval)ti target:(id)aTarget selector:(SEL)aSelector userInfo:(nullable id)userInfo repeats:(BOOL)yesOrNo;
+
+- (void)invalidate;
+
+@end
+
+NS_ASSUME_NONNULL_END

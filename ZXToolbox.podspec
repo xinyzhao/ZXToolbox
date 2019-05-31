@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "1.9.9"
+  s.version      = "2.0.0"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -234,7 +234,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "ZXPageView" do |ss|
-    ss.dependency 'ZXToolbox/NSObject+ZXToolbox'
+    ss.dependency 'ZXToolbox/ZXTimer'
     ss.source_files  = "ZXKit/ZXPageView/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXPageView/*.h"
   end
@@ -281,12 +281,6 @@ Pod::Spec.new do |s|
     ss.frameworks = "AVFoundation", "ImageIO"
   end
 
-  s.subspec "ZXRefreshView" do |ss|
-  	ss.dependency 'ZXToolbox/ZXCircularProgressView'
-    ss.source_files  = "ZXKit/ZXRefreshView/*.{h,m}"
-    ss.public_header_files = "ZXKit/ZXRefreshView/*.h"
-  end
-
   s.subspec "ZXScriptMessageHandler" do |ss|
     ss.ios.deployment_target = '8.0'
     ss.source_files  = "ZXKit/ZXScriptMessageHandler/*.{h,m}"
@@ -312,6 +306,11 @@ Pod::Spec.new do |s|
   s.subspec "ZXTagView" do |ss|
     ss.source_files  = "ZXKit/ZXTagView/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXTagView/*.h"
+  end
+
+  s.subspec "ZXTimer" do |ss|
+    ss.source_files  = "ZXKit/ZXTimer/*.{h,m}"
+    ss.public_header_files = "ZXKit/ZXTimer/*.h"
   end
 
   s.subspec "ZXToastView" do |ss|

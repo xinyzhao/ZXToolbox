@@ -1,5 +1,5 @@
 //
-// ZXRefreshDefinitions.h
+// ZXBlockTimer.h
 // https://github.com/xinyzhao/ZXToolbox
 //
 // Copyright (c) 2019 Zhao Xin
@@ -23,33 +23,19 @@
 // THE SOFTWARE.
 //
 
-#ifndef ZXRefreshDefinitions_h
-#define ZXRefreshDefinitions_h
+#import <Foundation/Foundation.h>
 
-#import <UIKit/UIKit.h>
+NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^ZXRefreshingBlock)(void);
+@interface ZXBlockTimer : NSObject
+@property (nonatomic, readonly) NSTimer *timer;
 
-typedef NS_ENUM(NSInteger, ZXRefreshState)
-{
-    ZXRefreshStateIdle,
-    ZXRefreshStatePulling,
-    ZXRefreshStateWillRefreshing,
-    ZXRefreshStateRefreshing,
-};
++ (instancetype)timerWithTimeInterval:(NSTimeInterval)interval repeats:(BOOL)repeats block:(void (^)(NSTimer *timer))block;
 
-@protocol ZXRefreshProtocol <NSObject>
++ (instancetype)scheduledTimerWithTimeInterval:(NSTimeInterval)interval repeats:(BOOL)repeats block:(void (^)(NSTimer *timer))block;
 
-- (BOOL)attachToView:(UIView *)view;
-- (BOOL)detach;
-
-- (void)setPullingProgress:(CGFloat)progress;
-
-- (BOOL)beginRefreshing;
-- (BOOL)endRefreshing;
-
-- (void)updateContentSize;
+- (void)invalidate;
 
 @end
 
-#endif /* ZXRefreshDefinitions_h */
+NS_ASSUME_NONNULL_END

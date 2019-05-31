@@ -30,7 +30,7 @@
 /**
  ZXPageViewDelegate
  */
-@protocol ZXPageViewDelegate <NSObject, UIScrollViewDelegate>
+@protocol ZXPageViewDelegate <NSObject>
 @required
 /**
  Make an UIView object for page
@@ -73,39 +73,27 @@ typedef NS_ENUM(NSInteger, ZXPagingMode) {
 /**
  ZXPageView
  */
-@interface ZXPageView : UIScrollView
-/**
- Delegate, see ZXPageViewDelegate
- */
-@property (nonatomic, weak) id <ZXPageViewDelegate> delegate;
-/**
- Direction, default is ZXPageViewDirectionHorizontal
- */
+@interface ZXPageView : UIView
+/// Delegate, see ZXPageViewDelegate
+@property (nonatomic, weak) id<ZXPageViewDelegate> delegate;
+/// Direction, default is ZXPageViewDirectionHorizontal
 @property (nonatomic, assign) ZXPageViewDirection direction;
-/**
- Current page, default is 0
- */
+/// Current page, default is 0
 @property (nonatomic, assign) NSInteger currentPage;
-/**
- The number of pages, default is 0
- */
+/// The number of pages, default is 0
 @property (nonatomic, assign) NSInteger numberOfPages;
-/**
- Time interval for auto-paging, default 0 mean no auto-paging
- */
+/// Time interval for auto-paging, default 0 mean no auto-paging
 @property (nonatomic, assign) NSTimeInterval timeInterval;
-/**
- Orientation, default ZXPagingModeEndless
- */
+/// Orientation, default ZXPagingModeEndless
 @property (nonatomic, assign) ZXPagingMode pagingMode;
-/**
- Scale factor for page, default is {1.0, 1.0}
- */
+/// Scale factor for page, default is {1.0, 1.0}
 @property (nonatomic, assign) CGPoint pageScaleFactor;
-/**
- Inset for page
- */
+/// Inset for page
 @property (nonatomic, assign) UIEdgeInsets pageInset;
+/// Make an UIView object for page, instead of delegate methods
+@property (nonatomic, copy) UIView * (^subviewForPageAtIndex)(NSInteger index);
+/// The subview will display, instead of delegate methods
+@property (nonatomic, copy) void (^willDisplaySubviewForPageAtIndex)(NSInteger index);
 
 /**
  Set current page with animated

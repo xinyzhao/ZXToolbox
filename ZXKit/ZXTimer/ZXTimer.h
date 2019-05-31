@@ -1,5 +1,5 @@
 //
-// ZXRefreshProgressHeader.h
+// ZXTimer.h
 // https://github.com/xinyzhao/ZXToolbox
 //
 // Copyright (c) 2019 Zhao Xin
@@ -23,18 +23,6 @@
 // THE SOFTWARE.
 //
 
-#import "ZXRefreshHeaderView.h"
+#import "ZXBlockTimer.h"
+#import "ZXTargetTimer.h"
 
-/// 环形进度视图
-@class ZXCircularProgressView;
-
-/// 进度刷新视图
-@interface ZXRefreshProgressHeader : ZXRefreshHeaderView
-/// 环形进度视图
-@property (nonatomic, strong) ZXCircularProgressView *progressView;
-/// 环形半径, 默认 16
-@property (nonatomic, assign) CGFloat circularRadius;
-/// 动画时间, 默认 0.8秒
-@property (nonatomic, assign) CGFloat animationDuration;
-
-@end
