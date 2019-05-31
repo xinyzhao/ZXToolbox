@@ -26,9 +26,9 @@
 #import "ZXPageView.h"
 #import "ZXTimer.h"
 
-@interface ZXPageView () <NSCacheDelegate, UIScrollViewDelegate>
+@interface ZXPageView () <UIScrollViewDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) NSCache *pageViews;
+@property (nonatomic, strong) NSMutableDictionary *pageViews;
 @property (nonatomic, assign) NSInteger currentIndex;
 @property (nonatomic, assign) NSTimeInterval timestamp;
 @property (nonatomic, strong) ZXTargetTimer *timer;
@@ -71,9 +71,7 @@
     self.scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
     [self addSubview:self.scrollView];
     
-    self.pageViews = [[NSCache alloc] init];
-    self.pageViews.countLimit = 3;
-    self.pageViews.delegate = self;
+    self.pageViews = [[NSMutableDictionary alloc] init];
 }
 
 - (void)dealloc {
@@ -99,12 +97,17 @@
 
 - (void)setNumberOfPages:(NSInteger)numberOfPages {
     _numberOfPages = numberOfPages;
-    //
-    if (_numberOfPages == 2) {
-        self.pageViews.countLimit = 4;
-    } else {
-        self.pageViews.countLimit = 3;
-    }
+    [self setNeedsLayout];
+}
+
+- (void)setDirection:(ZXPageViewDirection)direction {
+    _direction = direction;
+    [self setNeedsLayout];
+}
+
+- (void)setPagingMode:(ZXPagingMode)pagingMode {
+    _pagingMode = pagingMode;
+    [self setNeedsLayout];
 }
 
 #pragma mark Getter
@@ -122,13 +125,15 @@
 }
 
 - (NSInteger)correctPage:(NSInteger)page {
-    if (page < 0) {
-        page = ABS(page) % _numberOfPages;
-        if (page != 0) {
-            page = _numberOfPages - page;
+    if (_numberOfPages > 0) {
+        if (page < 0) {
+            page = ABS(page) % _numberOfPages;
+            if (page != 0) {
+                page = _numberOfPages - page;
+            }
+        } else if (page >= _numberOfPages) {
+            page = page % _numberOfPages;
         }
-    } else if (page >= _numberOfPages) {
-        page = page % _numberOfPages;
     }
     return page;
 }
@@ -173,34 +178,30 @@
  CGFLOAT_MAX 在 iOS 10.3 中指向 DBL_MAX，会导致NaN错误
  */
 - (void)resetEdgeInset {
-    if (_numberOfPages > 0) {
-        if (_direction == ZXPageViewDirectionHorizontal) {
-            CGFloat width = self.bounds.size.width;
-            if (_pagingMode == ZXPagingModeEndless) {
-                width *= floorf(FLT_MAX / width);
-                self.scrollView.contentInset = UIEdgeInsetsMake(0, width, 0, width);
-            } else if (_pagingMode == ZXPagingModeForward) {
-                width *= _numberOfPages;
-                self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, width);
+    if (_direction == ZXPageViewDirectionHorizontal) {
+        CGFloat width = self.bounds.size.width;
+        if (_pagingMode == ZXPagingModeEndless) {
+            width *= floorf(FLT_MAX / width);
+            self.scrollView.contentInset = UIEdgeInsetsMake(0, width, 0, width);
+        } else if (_pagingMode == ZXPagingModeForward) {
+            width *= _numberOfPages;
+            self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, width);
 //            } else if (_pagingMode == ZXPagingModeReverse) {
 //                width *= _numberOfPages;
 //                self.scrollView.contentInset = UIEdgeInsetsMake(0, width, 0, 0);
-            }
-        } else if (_direction == ZXPageViewDirectionVertical) {
-            CGFloat height = self.bounds.size.height;
-            if (_pagingMode == ZXPagingModeEndless) {
-                height *= floorf(FLT_MAX / height);
-                self.scrollView.contentInset = UIEdgeInsetsMake(height, 0, height, 0);
-            } else if (_pagingMode == ZXPagingModeForward) {
-                height *= _numberOfPages;
-                self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, height, 0);
+        }
+    } else if (_direction == ZXPageViewDirectionVertical) {
+        CGFloat height = self.bounds.size.height;
+        if (_pagingMode == ZXPagingModeEndless) {
+            height *= floorf(FLT_MAX / height);
+            self.scrollView.contentInset = UIEdgeInsetsMake(height, 0, height, 0);
+        } else if (_pagingMode == ZXPagingModeForward) {
+            height *= _numberOfPages;
+            self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, height, 0);
 //            } else if (_pagingMode == ZXPagingModeReverse) {
 //                height *= _numberOfPages;
 //                self.scrollView.contentInset = UIEdgeInsetsMake(height, 0, 0, 0);
-            }
         }
-    } else {
-        self.scrollView.contentInset = UIEdgeInsetsZero;
     }
 }
 
@@ -284,6 +285,9 @@
 }
 
 - (void)reloadData {
+    for (UIView *view in [self.pageViews allValues]) {
+        [view removeFromSuperview];
+    }
     [self.pageViews removeAllObjects];
     [self layoutIfNeeded];
     [self setCurrentPage:self.currentPage animated:NO];
@@ -310,6 +314,35 @@
         }
     }
     return view;
+}
+
+- (NSDictionary *)visiablePages {
+    NSMutableDictionary *pages = [[NSMutableDictionary alloc] init];
+    NSMutableArray *keys = [[NSMutableArray alloc] init];
+    NSInteger index = [self contentPage];
+    [keys addObject:@([self correctIndex:index - 1])];
+    [keys addObject:@([self correctIndex:index + 1])];
+    [keys addObject:@([self correctIndex:index])];
+    for (id key in keys) {
+        UIView *view = [self.pageViews objectForKey:key];
+        if (view) {
+            [pages setObject:view forKey:key];
+        }
+    }
+    return [pages copy];
+}
+
+- (void)removePageViews {
+    NSDictionary *pages = [self visiablePages];
+    NSArray *keys = [pages allKeys];
+    for (id key in self.pageViews.allKeys) {
+        if (![keys containsObject:key]) {
+            //NSLog(@"%s %d", __func__, [key intValue]);
+            [self.pageViews removeObjectForKey:key];
+            UIView *view = [pages objectForKey:key];
+            [view removeFromSuperview];
+        }
+    }
 }
 
 #pragma mark Auto paging
@@ -351,6 +384,8 @@
             } else if ([self.delegate respondsToSelector:@selector(pageView:willDisplaySubview:forPageAtIndex:)]) {
                 [self.delegate pageView:self willDisplaySubview:self.currentView forPageAtIndex:page];
             }
+            //
+            [self removePageViews];
         }
     }
 }
@@ -375,13 +410,6 @@
         targetContentOffset->x = offset.x;
         targetContentOffset->y = offset.y;
     }
-}
-
-#pragma mark <NSCacheDelegate>
-
-- (void)cache:(NSCache *)cache willEvictObject:(id)obj {
-    //NSLog(@"cache:willEvictObject:%@", obj);
-    [(UIView *)obj removeFromSuperview];
 }
 
 @end
