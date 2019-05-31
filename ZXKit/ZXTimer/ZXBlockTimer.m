@@ -32,6 +32,7 @@
 @end
 
 @implementation ZXBlockTimer
+@synthesize timer = _timer;
 
 + (instancetype)timerWithTimeInterval:(NSTimeInterval)interval repeats:(BOOL)repeats block:(void (^)(NSTimer *timer))block {
     ZXBlockTimer *timer = [[[self class] alloc] init];
