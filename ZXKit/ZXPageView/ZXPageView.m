@@ -86,12 +86,7 @@
 }
 
 - (void)setCurrentPage:(NSInteger)currentPage animated:(BOOL)animated {
-    CGPoint offset = CGPointZero;
-    if (_direction == ZXPageViewDirectionHorizontal) {
-        offset.x = currentPage * self.scaleBounds.size.width - self.scaleBounds.origin.x;
-    } else {
-        offset.y = currentPage * self.scaleBounds.size.height - self.scaleBounds.origin.y;
-    }
+    CGPoint offset = [self contentOffsetForPage:currentPage];
     [self.scrollView setContentOffset:offset animated:animated];
 }
 
@@ -179,28 +174,28 @@
  */
 - (void)resetEdgeInset {
     if (_direction == ZXPageViewDirectionHorizontal) {
-        CGFloat width = self.bounds.size.width;
+        CGFloat width = self.scaleBounds.size.width;
         if (_pagingMode == ZXPagingModeEndless) {
             width *= floorf(FLT_MAX / width);
             self.scrollView.contentInset = UIEdgeInsetsMake(0, width, 0, width);
         } else if (_pagingMode == ZXPagingModeForward) {
             width *= _numberOfPages;
             self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, 0, width);
-//            } else if (_pagingMode == ZXPagingModeReverse) {
-//                width *= _numberOfPages;
-//                self.scrollView.contentInset = UIEdgeInsetsMake(0, width, 0, 0);
+//        } else if (_pagingMode == ZXPagingModeReverse) {
+//            width *= _numberOfPages;
+//            self.scrollView.contentInset = UIEdgeInsetsMake(0, width, 0, 0);
         }
     } else if (_direction == ZXPageViewDirectionVertical) {
-        CGFloat height = self.bounds.size.height;
+        CGFloat height = self.scaleBounds.size.height;
         if (_pagingMode == ZXPagingModeEndless) {
             height *= floorf(FLT_MAX / height);
             self.scrollView.contentInset = UIEdgeInsetsMake(height, 0, height, 0);
         } else if (_pagingMode == ZXPagingModeForward) {
             height *= _numberOfPages;
             self.scrollView.contentInset = UIEdgeInsetsMake(0, 0, height, 0);
-//            } else if (_pagingMode == ZXPagingModeReverse) {
-//                height *= _numberOfPages;
-//                self.scrollView.contentInset = UIEdgeInsetsMake(height, 0, 0, 0);
+//        } else if (_pagingMode == ZXPagingModeReverse) {
+//            height *= _numberOfPages;
+//            self.scrollView.contentInset = UIEdgeInsetsMake(height, 0, 0, 0);
         }
     }
 }
@@ -217,11 +212,8 @@
     if (_numberOfPages > 0) {
         NSInteger contentPage = [self contentPage];
         [self setFrameForPage:contentPage];
-        //
         [self setFrameForPage:contentPage - 1];
         [self setFrameForPage:contentPage + 1];
-        //
-        _timestamp = [[NSDate date] timeIntervalSince1970];
     }
 }
 
@@ -276,10 +268,21 @@
 
 - (CGPoint)contentOffsetForPage:(NSInteger)page {
     CGPoint offset = CGPointZero;
+    CGRect bounds = self.scaleBounds;
     if (_direction == ZXPageViewDirectionHorizontal) {
-        offset.x = page * self.scaleBounds.size.width - (self.bounds.size.width - self.scaleBounds.size.width) / 2;
+        offset.x = page * bounds.size.width - (self.bounds.size.width - bounds.size.width) / 2;
+        if (_pagingMode == ZXPagingModeForward) {
+            if (offset.x < 0) {
+                offset.x = 0;
+            }
+        }
     } else {
-        offset.y = page * self.scaleBounds.size.height - (self.bounds.size.height - self.scaleBounds.size.height) / 2;
+        offset.y = page * bounds.size.height - (self.bounds.size.height - bounds.size.height) / 2;
+        if (_pagingMode == ZXPagingModeForward) {
+            if (offset.y < 0) {
+                offset.y = 0;
+            }
+        }
     }
     return offset;
 }
@@ -386,6 +389,10 @@
             }
             //
             [self removePageViews];
+            //
+            _timestamp = [[NSDate date] timeIntervalSince1970];
+        } else if (!CGPointEqualToPoint(_pageScaleFactor, CGPointMake(1.f, 1.f))) {
+            [self layoutPageView];
         }
     }
 }
