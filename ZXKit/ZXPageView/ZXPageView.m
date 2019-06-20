@@ -29,6 +29,7 @@
 @interface ZXPageView () <UIScrollViewDelegate>
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) NSMutableDictionary *pageViews;
+@property (nonatomic, strong) NSCache *pageCache;
 @property (nonatomic, assign) NSInteger currentIndex;
 @property (nonatomic, assign) NSTimeInterval timestamp;
 @property (nonatomic, strong) ZXTargetTimer *timer;
@@ -72,6 +73,7 @@
     [self addSubview:self.scrollView];
     
     self.pageViews = [[NSMutableDictionary alloc] init];
+    self.pageCache = [[NSCache alloc] init];
 }
 
 - (void)dealloc {
@@ -292,6 +294,7 @@
         [view removeFromSuperview];
     }
     [self.pageViews removeAllObjects];
+    [self.pageCache removeAllObjects];
     [self layoutIfNeeded];
     [self setCurrentPage:self.currentPage animated:NO];
 }
@@ -304,6 +307,15 @@
 
 - (UIView *)subviewForPageAtIndex:(NSInteger)index {
     UIView *view = [self.pageViews objectForKey:@(index)];
+    if (view == nil) {
+        view = [self.pageCache objectForKey:@(index)];
+        if (view) {
+            [self.pageViews setObject:view forKey:@(index)];
+            [self.pageCache removeObjectForKey:@(index)];
+            [self.scrollView addSubview:view];
+            //NSLog(@"%s %d", __func__, (int)index);
+        }
+    }
     if (view == nil) {
         NSInteger page = [self correctPage:index];
         if (self.subviewForPageAtIndex) {
@@ -319,32 +331,25 @@
     return view;
 }
 
-- (NSDictionary *)visiablePages {
-    NSMutableDictionary *pages = [[NSMutableDictionary alloc] init];
+- (NSArray *)keysForVisiblePages {
     NSMutableArray *keys = [[NSMutableArray alloc] init];
     NSInteger index = [self contentPage];
     [keys addObject:@([self correctIndex:index - 1])];
     [keys addObject:@([self correctIndex:index + 1])];
     [keys addObject:@([self correctIndex:index])];
-    for (id key in keys) {
-        UIView *view = [self.pageViews objectForKey:key];
-        if (view) {
-            [pages setObject:view forKey:key];
-        }
-    }
-    return [pages copy];
+    return [keys copy];
 }
 
 - (void)removePageViews {
-    NSDictionary *pages = [self visiablePages];
-    NSArray *keys = [pages allKeys];
-    for (id key in self.pageViews.allKeys) {
-        if (![keys containsObject:key]) {
-            //NSLog(@"%s %d", __func__, [key intValue]);
-            [self.pageViews removeObjectForKey:key];
-            UIView *view = [pages objectForKey:key];
-            [view removeFromSuperview];
-        }
+    NSArray *keys = [self keysForVisiblePages];
+    NSMutableArray *allKeys = [self.pageViews.allKeys mutableCopy];
+    [allKeys removeObjectsInArray:keys];
+    for (id key in allKeys) {
+        //NSLog(@"%s %d", __func__, [key intValue]);
+        UIView *view = [self.pageViews objectForKey:key];
+        [self.pageCache setObject:view forKey:key];
+        [self.pageViews removeObjectForKey:key];
+        [view removeFromSuperview];
     }
 }
 
