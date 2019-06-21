@@ -77,6 +77,7 @@
 #import "ZXQRCodeScanner.h"
 #import "ZXScriptMessageHandler.h"
 #import "ZXScrollLabel.h"
+#import "ZXStackView.h"
 #import "ZXTabBar.h"
 #import "ZXTabBarController.h"
 #import "ZXTagView.h"

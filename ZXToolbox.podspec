@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "2.0.1"
+  s.version      = "2.0.2"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -291,6 +291,11 @@ Pod::Spec.new do |s|
   s.subspec "ZXScrollLabel" do |ss|
     ss.source_files  = "ZXKit/ZXScrollLabel/*.{h,m}"
     ss.public_header_files = "ZXKit/ZXScrollLabel/*.h"
+  end
+
+  s.subspec "ZXStackView" do |ss|
+    ss.source_files  = "ZXKit/ZXStackView/*.{h,m}"
+    ss.public_header_files = "ZXKit/ZXStackView/*.h"
   end
 
   s.subspec "ZXTabBar" do |ss|

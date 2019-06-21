@@ -78,6 +78,7 @@ pod "ZXToolbox"
 * ZXQRCodeScanner
 * ZXScriptMessageHandler
 * ZXScrollLabel
+* ZXStackView
 * ZXTabBar
 * ZXTabBarController
 * ZXTagView
