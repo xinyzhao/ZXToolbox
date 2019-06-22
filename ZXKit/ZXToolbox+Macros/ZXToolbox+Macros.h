@@ -42,4 +42,9 @@
 #define NSLogD(format, ...)
 #endif
 
+#define NSStringFromCGRect2(rect) [NSString stringWithFormat:@"{x:%.2f, y:%.2f, w:%.2f, h:%.2f}", rect.origin.x, rect.origin.y, rect.size.width, rect.size.height]
+#define NSStringFromCGPoint2(point) [NSString stringWithFormat:@"{x:%.2f, y:%.2f}", point.x, point.y]
+#define NSStringFromCGSize2(size) [NSString stringWithFormat:@"{w:%.2f, h:%.2f}", size.width, size.height]
+#define NSStringFromUIEdgeInsets2(inset) [NSString stringWithFormat:@"{l:%.2f, t:%.2f, r:%.2f, b:%.2f}", inset.left, inset.top, inset.right, inset.bottom]
+
 #endif // __OBJC__

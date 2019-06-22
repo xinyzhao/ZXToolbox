@@ -67,6 +67,10 @@
     self.scrollView.decelerationRate = UIScrollViewDecelerationRateFast;
     [self addSubview:self.scrollView];
     //
+    if (@available(iOS 11.0, *)) {
+        self.scrollView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    }
+    //
     self.alignment = ZXStackViewAlignmentLeading;
     self.numberOfStacks = 2;
     self.stackViews = [[NSMutableDictionary alloc] init];
@@ -289,7 +293,7 @@
     //
     self.stackView.frame = self.bounds;
     self.scrollView.frame = self.bounds;
-    self.currentView.frame = [self subviewFrameForIndex:0];
+    self.currentView.frame = [self subviewFrameForIndex:self.contentIndex];
     [self layoutSubviews:self.scrollView.contentOffset];
 }
 
