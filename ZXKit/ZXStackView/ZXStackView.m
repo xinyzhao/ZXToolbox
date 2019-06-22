@@ -68,6 +68,7 @@
     [self addSubview:self.scrollView];
     //
     self.alignment = ZXStackViewAlignmentLeading;
+    self.numberOfStacks = 2;
     self.stackViews = [[NSMutableDictionary alloc] init];
     self.stackCache = [[NSCache alloc] init];
 }
@@ -76,44 +77,11 @@
     NSLog(@"%s", __func__);
 }
 
-#pragma mark Load
-
-- (void)reloadData {
-    if (self.currentView) {
-        [self.currentView removeFromSuperview];
-        self.currentView = nil;
-    }
-    for (UIView *view in [self.stackViews allValues]) {
-        [view removeFromSuperview];
-    }
-    [self.stackViews removeAllObjects];
-    [self.stackCache removeAllObjects];
-    //
-    [self loadSubviews];
-    [self setCurrentIndex:0 animated:NO];
-}
-
-- (void)loadSubviews {
-    CGRect frame = [self subviewFrameForIndex:0];
-    NSInteger count = MIN(_numberOfStacks, _numberOfSubviews);
-    for (NSInteger i = 0; i < count; i++) {
-        NSInteger index = [self correctIndex:_currentIndex + i];
-        UIView *view = [self subviewForIndex:index];
-        view.transform = CGAffineTransformIdentity;
-        view.frame = frame;
-        if (i == _currentIndex) {
-            [self.scrollView addSubview:view];
-        } else {
-            [self.stackView insertSubview:view atIndex:0];
-        }
-    }
-    [self layoutSubviews:CGPointZero];
-}
-
 #pragma mark Setter
 
 - (void)setAlignment:(ZXStackViewAlignment)alignment {
     _alignment = alignment;
+    //
     switch (_alignment) {
         case ZXStackViewAlignmentLeading:
         case ZXStackViewAlignmentTrailing:
@@ -148,6 +116,39 @@
             break;
     }
     [self.scrollView setContentOffset:offset animated:animated];
+}
+
+- (void)setContentInset:(UIEdgeInsets)contentInset {
+    _contentInset = contentInset;
+    [self setNeedsLayout];
+}
+
+- (void)setNumberOfStacks:(NSUInteger)numberOfStacks {
+    if (numberOfStacks < 2) {
+        _numberOfStacks = 2;
+    } else {
+        _numberOfStacks = numberOfStacks;
+    }
+    [self setNeedsLayout];
+}
+
+- (void)setNumberOfSubviews:(NSUInteger)numberOfSubviews {
+    _numberOfSubviews = numberOfSubviews;
+    if (_numberOfSubviews > 1) {
+        self.alignment = _alignment;
+    } else {
+        self.scrollView.contentInset = UIEdgeInsetsZero;
+    }
+}
+
+- (void)setScaleFactor:(CGFloat)scaleFactor {
+    _scaleFactor = scaleFactor;
+    [self setNeedsLayout];
+}
+
+- (void)setTailSpacing:(CGFloat)tailSpacing {
+    _tailSpacing = tailSpacing;
+    [self setNeedsLayout];
 }
 
 #pragma mark Getter
@@ -249,13 +250,47 @@
     return rect;
 }
 
-#pragma mark Layout
+#pragma mark Load & Layout
+
+- (void)reloadData {
+    if (self.currentView) {
+        [self.currentView removeFromSuperview];
+        self.currentView = nil;
+    }
+    for (UIView *view in [self.stackViews allValues]) {
+        [view removeFromSuperview];
+    }
+    [self.stackViews removeAllObjects];
+    [self.stackCache removeAllObjects];
+    //
+    [self loadSubviews];
+    [self setCurrentIndex:0 animated:NO];
+}
+
+- (void)loadSubviews {
+    CGRect frame = [self subviewFrameForIndex:0];
+    NSInteger count = MIN(_numberOfStacks, _numberOfSubviews);
+    for (NSInteger i = 0; i < count; i++) {
+        NSInteger index = [self correctIndex:_currentIndex + i];
+        UIView *view = [self subviewForIndex:index];
+        view.transform = CGAffineTransformIdentity;
+        view.frame = frame;
+        if (i == _currentIndex) {
+            [self.scrollView addSubview:view];
+        } else {
+            [self.stackView insertSubview:view atIndex:0];
+        }
+    }
+    [self setNeedsLayout];
+}
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     //
     self.stackView.frame = self.bounds;
     self.scrollView.frame = self.bounds;
+    self.currentView.frame = [self subviewFrameForIndex:0];
+    [self layoutSubviews:self.scrollView.contentOffset];
 }
 
 - (void)layoutSubviews:(CGPoint)offset {
@@ -263,6 +298,17 @@
     CGRect frame = [self subviewFrameForIndex:0];
     CGFloat scale = 0.f;
     CGFloat spacing = 0.f;
+    //
+    switch (_alignment) {
+        case ZXStackViewAlignmentLeading:
+        case ZXStackViewAlignmentTrailing:
+            offset.x -= self.currentView.frame.origin.x - self.contentInset.left;
+            break;
+        case ZXStackViewAlignmentTop:
+        case ZXStackViewAlignmentBottom:
+            offset.y -= self.currentView.frame.origin.y - self.contentInset.top;
+            break;
+    }
     //
     for (NSInteger i = 1; i < count; i++) {
         UIView *view = [self subviewForIndex:_currentIndex + i];
@@ -303,7 +349,6 @@
                 break;
             }
         }
-        NSLog(@">>[%d] x:%.2f y:%.2f w:%.2f h:%.2f o:%.2f x:%.2f", (int)i, view.frame.origin.x, view.frame.origin.y, view.frame.size.width, view.frame.size.height, offset.x, scale);
     }
 }
 
@@ -314,7 +359,7 @@
     NSInteger correctIndex = [self correctIndex:contentIndex];
     NSInteger count = MIN(_numberOfStacks, _numberOfSubviews);
     //
-    if (_currentIndex != correctIndex) {
+    if (count > 0 && _currentIndex != correctIndex) {
         BOOL isAhead = NO;
         switch (_alignment) {
             case ZXStackViewAlignmentLeading:
@@ -335,31 +380,31 @@
             [self.currentView removeFromSuperview];
             [self.stackCache setObject:self.currentView forKey:@(_currentIndex)];
             // 移除堆叠视图的顶层并加入到滚动视图，成为顶层视图
-            UIView *view = [self subviewForIndex:correctIndex];
-            [view removeFromSuperview];
-            view.transform = CGAffineTransformIdentity;
-            view.frame = [self subviewFrameForIndex:contentIndex];
-            [self.scrollView addSubview:view];
-            self.currentView = view;
+            self.currentView = [self subviewForIndex:correctIndex];
+            self.currentView.transform = CGAffineTransformIdentity;
+            self.currentView.frame = [self subviewFrameForIndex:contentIndex];
+            [self.stackViews removeObjectForKey:@(correctIndex)];
+            [self.scrollView addSubview:self.currentView];
             _currentIndex = correctIndex;
             // 补充堆叠视图的底层
             contentIndex = _currentIndex + count - 1;
             correctIndex = [self correctIndex:contentIndex];
-            view = [self subviewForIndex:correctIndex];
+            UIView *view = [self subviewForIndex:correctIndex];
+            [self.stackCache removeObjectForKey:@(correctIndex)];
+            [self.stackViews setObject:view forKey:@(correctIndex)];
             [self.stackView insertSubview:view atIndex:0];
         } else { // 反向移动
             // 把顶层视图从滚动视图上移除并加入到堆叠视图顶层
             [self.currentView removeFromSuperview];
-            self.currentView.frame = [self subviewFrameForIndex:0];
             [self.stackView addSubview:self.currentView];
             [self.stackViews setObject:self.currentView forKey:@(_currentIndex)];
             // 把最后1个视图加入到滚动视图，成为顶层视图
-            UIView *view = [self subviewForIndex:correctIndex];
-            [view removeFromSuperview];
-            view.transform = CGAffineTransformIdentity;
-            view.frame = [self subviewFrameForIndex:contentIndex];
-            [self.scrollView addSubview:view];
-            self.currentView = view;
+            self.currentView = [self subviewForIndex:correctIndex];
+            self.currentView.transform = CGAffineTransformIdentity;
+            self.currentView.frame = [self subviewFrameForIndex:contentIndex];
+            [self.scrollView addSubview:self.currentView];
+            [self.stackViews removeObjectForKey:@(correctIndex)];
+            [self.stackCache removeObjectForKey:@(correctIndex)];
             _currentIndex = correctIndex;
             // 如果堆叠视图底层不是最后1个视图，移除并加入到cache
             contentIndex = _currentIndex + count;
@@ -376,19 +421,7 @@
         }
     }
     //
-    CGPoint offset = scrollView.contentOffset;
-    switch (_alignment) {
-        case ZXStackViewAlignmentLeading:
-        case ZXStackViewAlignmentTrailing:
-            offset.x -= self.currentView.frame.origin.x - self.contentInset.left;
-            break;
-        case ZXStackViewAlignmentTop:
-        case ZXStackViewAlignmentBottom:
-            offset.y -= self.currentView.frame.origin.y - self.contentInset.top;
-            break;
-
-    }
-    [self layoutSubviews:offset];
+    [self layoutSubviews:scrollView.contentOffset];
 }
 
 @end

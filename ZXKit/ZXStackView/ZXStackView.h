@@ -43,7 +43,7 @@ typedef NS_ENUM(NSInteger, ZXStackViewAlignment) {
 @interface ZXStackView : UIView
 /// Alignment of subviews, default is ZXStackViewAlignmentLeading
 @property (nonatomic, assign) ZXStackViewAlignment alignment;
-/// Number of stacks to display
+/// Number of subviews to display, default and minimum is 2.
 @property (nonatomic, assign) NSUInteger numberOfStacks;
 /// Number of subviews
 @property (nonatomic, assign) NSUInteger numberOfSubviews;
