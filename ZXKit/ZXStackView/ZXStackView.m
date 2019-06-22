@@ -267,8 +267,9 @@
     [self.stackViews removeAllObjects];
     [self.stackCache removeAllObjects];
     //
+    _currentIndex = 0;
     [self loadSubviews];
-    [self setCurrentIndex:0 animated:NO];
+    [self setCurrentIndex:_currentIndex animated:NO];
 }
 
 - (void)loadSubviews {
