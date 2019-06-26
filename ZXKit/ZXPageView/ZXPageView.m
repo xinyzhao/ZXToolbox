@@ -90,6 +90,7 @@
 - (void)setCurrentPage:(NSInteger)currentPage animated:(BOOL)animated {
     CGPoint offset = [self contentOffsetForPage:currentPage];
     [self.scrollView setContentOffset:offset animated:animated];
+    [self layoutPageView];
 }
 
 - (void)setNumberOfPages:(NSInteger)numberOfPages {
@@ -295,8 +296,7 @@
     }
     [self.pageViews removeAllObjects];
     [self.pageCache removeAllObjects];
-    [self layoutIfNeeded];
-    [self setCurrentPage:self.currentPage animated:NO];
+    [self setCurrentPage:0 animated:NO];
 }
 
 #pragma mark Page View
