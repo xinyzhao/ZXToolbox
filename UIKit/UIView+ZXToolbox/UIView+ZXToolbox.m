@@ -62,4 +62,52 @@
     return [self captureImage];
 }
 
+- (id)subviewForTag:(NSInteger)tag {
+    UIView *subview = nil;
+    for (UIView *view in self.subviews) {
+        if (view.tag == tag) {
+            subview = view;
+            break;
+        }
+        //
+        subview = [view subviewForTag:tag];
+        if (subview) {
+            break;
+        }
+    }
+    return subview;
+}
+
+- (id)subviewForTag:(NSInteger)tag isKindOfClass:(Class)aClass {
+    UIView *subview = nil;
+    for (UIView *view in self.subviews) {
+        if (view.tag == tag && [view isKindOfClass:aClass]) {
+            subview = view;
+            break;
+        }
+        //
+        subview = [view subviewForTag:tag isKindOfClass:aClass];
+        if (subview) {
+            break;
+        }
+    }
+    return subview;
+}
+
+- (id)subviewForTag:(NSInteger)tag isMemberOfClass:(Class)aClass {
+    UIView *subview = nil;
+    for (UIView *view in self.subviews) {
+        if (view.tag == tag && [view isMemberOfClass:aClass]) {
+            subview = view;
+            break;
+        }
+        //
+        subview = [view subviewForTag:tag isMemberOfClass:aClass];
+        if (subview) {
+            break;
+        }
+    }
+    return subview;
+}
+
 @end
