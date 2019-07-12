@@ -23,8 +23,9 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
 #import "ZXTabBarItem.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface ZXTabBar : UITabBar
 
@@ -32,3 +33,5 @@
 @property (nonatomic, assign) IBInspectable CGFloat customHeight;
 
 @end
+
+NS_ASSUME_NONNULL_END

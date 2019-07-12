@@ -28,7 +28,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /**
- Alignment of stack
+ Alignment of stack view
  */
 typedef NS_ENUM(NSInteger, ZXStackViewAlignment) {
     ZXStackViewAlignmentLeading,

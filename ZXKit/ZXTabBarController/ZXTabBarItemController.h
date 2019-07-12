@@ -1,5 +1,5 @@
 //
-// ZXTabBarController.h
+// ZXTabBarItemController.h
 // https://github.com/xinyzhao/ZXToolbox
 //
 // Copyright (c) 2019 Zhao Xin
@@ -23,21 +23,14 @@
 // THE SOFTWARE.
 //
 
-#import "ZXTabBarItemController.h"
+#import <UIKit/UIKit.h>
 
-@interface ZXTabBarController : UITabBarController
-@property (nonatomic, assign) IBInspectable BOOL originalItemImage; // Always draw the original image of item
-@property (nonatomic, strong) IBInspectable UIColor *selectedItemColor;
+NS_ASSUME_NONNULL_BEGIN
 
-@end
-
-@interface UITabBarController (ZXTabBarController)
-
-- (void)setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated;
-- (void)setSelectedIndex:(NSUInteger)selectedIndex duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion;
-
-- (void)setSelectedViewController:(__kindof UIViewController *)selectedViewController animated:(BOOL)animated;
-- (void)setSelectedViewController:(__kindof UIViewController *)selectedViewController duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion;
+@interface ZXTabBarItemController : UIViewController
+@property (nonatomic, strong) IBInspectable NSString *storyboardID;
+@property (nonatomic, strong) IBInspectable NSString *storyboardName;
 
 @end
 
+NS_ASSUME_NONNULL_END

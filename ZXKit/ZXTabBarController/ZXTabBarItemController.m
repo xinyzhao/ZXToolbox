@@ -1,5 +1,5 @@
 //
-// ZXTabBarController.h
+// ZXTabBarItemController.m
 // https://github.com/xinyzhao/ZXToolbox
 //
 // Copyright (c) 2019 Zhao Xin
@@ -25,19 +25,15 @@
 
 #import "ZXTabBarItemController.h"
 
-@interface ZXTabBarController : UITabBarController
-@property (nonatomic, assign) IBInspectable BOOL originalItemImage; // Always draw the original image of item
-@property (nonatomic, strong) IBInspectable UIColor *selectedItemColor;
+@interface ZXTabBarItemController ()
 
 @end
 
-@interface UITabBarController (ZXTabBarController)
+@implementation ZXTabBarItemController
 
-- (void)setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated;
-- (void)setSelectedIndex:(NSUInteger)selectedIndex duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion;
-
-- (void)setSelectedViewController:(__kindof UIViewController *)selectedViewController animated:(BOOL)animated;
-- (void)setSelectedViewController:(__kindof UIViewController *)selectedViewController duration:(NSTimeInterval)duration options:(UIViewAnimationOptions)options completion:(void (^)(BOOL finished))completion;
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    // Do any additional setup after loading the view.
+}
 
 @end
-

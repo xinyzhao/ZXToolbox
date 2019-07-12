@@ -23,6 +23,10 @@
 // THE SOFTWARE.
 //
 
+#ifndef ZXTimer_h
+#define ZXTimer_h
+
 #import "ZXBlockTimer.h"
 #import "ZXTargetTimer.h"
 
+#endif /* ZXTimer_h */

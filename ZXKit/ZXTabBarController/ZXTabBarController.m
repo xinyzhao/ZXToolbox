@@ -76,22 +76,7 @@
 
 @end
 
-@implementation ZXTabBarItemController
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    // Do any additional setup after loading the view.
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-@end
-
-
-@implementation UITabBarController (SetSelectedAnimated)
+@implementation UITabBarController (ZXTabBarController)
 
 - (void)setSelectedIndex:(NSUInteger)selectedIndex animated:(BOOL)animated {
     if (animated && selectedIndex != self.selectedIndex) {
