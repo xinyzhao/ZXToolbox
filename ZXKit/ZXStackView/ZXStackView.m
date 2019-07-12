@@ -104,19 +104,20 @@
 }
 
 - (void)setCurrentIndex:(NSInteger)currentIndex animated:(BOOL)animated {
+    NSInteger index = self.contentIndex + (currentIndex - _currentIndex);
     CGPoint offset = CGPointZero;
     switch (_alignment) {
         case ZXStackViewAlignmentLeading:
-            offset = CGPointMake(currentIndex * self.bounds.size.width, 0);
+            offset = CGPointMake(index * self.bounds.size.width, 0);
             break;
         case ZXStackViewAlignmentTrailing:
-            offset = CGPointMake(-currentIndex * self.bounds.size.width, 0);
+            offset = CGPointMake(-index * self.bounds.size.width, 0);
             break;
         case ZXStackViewAlignmentTop:
-            offset = CGPointMake(0, currentIndex * self.bounds.size.width);
+            offset = CGPointMake(0, index * self.bounds.size.height);
             break;
         case ZXStackViewAlignmentBottom:
-            offset = CGPointMake(0, -currentIndex * self.bounds.size.width);
+            offset = CGPointMake(0, -index * self.bounds.size.height);
             break;
     }
     [self.scrollView setContentOffset:offset animated:animated];
