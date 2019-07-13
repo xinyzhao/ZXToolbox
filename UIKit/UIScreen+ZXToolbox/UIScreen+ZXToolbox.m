@@ -28,11 +28,17 @@
 @implementation UIScreen (ZXToolbox)
 
 + (CGFloat)adaptHeight:(CGFloat)height forBaseWidth:(CGFloat)width {
-    return ceilf(height / (width / [UIScreen mainScreen].bounds.size.width));
+    if (width) {
+        return height / (width / [UIScreen mainScreen].bounds.size.width);
+    }
+    return height;
 }
 
 + (CGFloat)adaptWidth:(CGFloat)width forBaseHeight:(CGFloat)height {
-    return ceilf(width / (height / [UIScreen mainScreen].bounds.size.height));
+    if (height) {
+        return width / (height / [UIScreen mainScreen].bounds.size.height);
+    }
+    return width;
 }
 
 @end
