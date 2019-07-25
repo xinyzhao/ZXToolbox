@@ -292,6 +292,9 @@
 		7000AD1822E9C22F00651E44 /* ZXHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHTTPClient.m; sourceTree = "<group>"; };
 		7000AD1922E9C22F00651E44 /* ZXHTTPSecurity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHTTPSecurity.h; sourceTree = "<group>"; };
 		7000AD1A22E9C22F00651E44 /* ZXHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXHTTPClient.h; sourceTree = "<group>"; };
+		7000ADA622E9D16D00651E44 /* ZXToolbox.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ZXToolbox.podspec; sourceTree = "<group>"; };
+		7000ADA722E9D16D00651E44 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		7000ADA822E9D16D00651E44 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,6 +311,9 @@
 		7000AC3D22E9C1CC00651E44 = {
 			isa = PBXGroup;
 			children = (
+				7000ADA722E9D16D00651E44 /* LICENSE */,
+				7000ADA822E9D16D00651E44 /* README.md */,
+				7000ADA622E9D16D00651E44 /* ZXToolbox.podspec */,
 				7000AC4922E9C1CC00651E44 /* ZXToolbox */,
 				7000AC4822E9C1CC00651E44 /* Products */,
 			);

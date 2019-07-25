@@ -3,16 +3,73 @@ My development kit for iOS
 
 ## Requirements
 
-* Requires iOS 7.0 or later
+* Requires iOS 8.0 or later
 * Requires Automatic Reference Counting (ARC)
 
-## Installation
+## Installation with CocoaPods
 
-ZXToolbox is available through [CocoaPods](https://cocoapods.org/pods/ZXToolbox). To install it, simply add the following line to your Podfile:
+Install [CocoaPods](http://cocoapods.org/) with the following command:
 
 ```
+$ gem install cocoapods
+```
+
+Create a [Podfile](http://guides.cocoapods.org/using/the-podfile.html) into your project folder:
+
+```
+$ touch Podfile
+```
+
+Add the following line to your `Podfile`:
+
+```
+platform :ios, '8.0'
+
+target 'TargetName' do
 pod "ZXToolbox"
+end
 ```
+
+Then, run the following command:
+
+```
+$ pod install
+```
+
+or
+
+```
+$ pod update
+```
+
+## Installation with Carthage
+
+Install [Carthage](https://github.com/Carthage/Carthage) with Homebrew using the following command:
+
+```
+$ brew update
+$ brew install carthage
+```
+
+Create a [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile) into your project folder:
+
+```
+$ touch Cratfile
+```
+
+Add the following line to your `Cartfile`:
+
+```
+github "xinyzhao/ZXToolbox"
+```
+
+Then, run carthage to build the framework
+
+```
+$ carthage update --platform iOS
+```
+
+Drag the built ZXToolbox.framework into your Xcode project.
 
 ## Usage
 
