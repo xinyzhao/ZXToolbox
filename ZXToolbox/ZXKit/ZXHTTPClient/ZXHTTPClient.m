@@ -25,6 +25,7 @@
 
 #import "ZXHTTPClient.h"
 #import <sys/utsname.h>
+#import <UIKit/UIKit.h>
 
 @interface ZXHTTPClient ()
 

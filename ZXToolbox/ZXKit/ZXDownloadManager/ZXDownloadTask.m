@@ -28,7 +28,7 @@
 
 @interface ZXDownloadObserver : NSObject
 @property (nonatomic, weak) NSObject *observer;
-@property (nonatomic, copy) void(^progress)(int64_t receivedSize, int64_t expectedSize, CGFloat progress);
+@property (nonatomic, copy) void(^progress)(int64_t receivedSize, int64_t expectedSize, float progress);
 @property (nonatomic, copy) void(^state)(ZXDownloadState state, NSString *localFilePath, NSError *error);
 
 @end
@@ -39,7 +39,7 @@
 
 @interface ZXDownloadTask ()
 @property (nonatomic, strong) NSMutableDictionary *observers;
-@property (nonatomic, assign) CGFloat progress;
+@property (nonatomic, assign) float progress;
 @property (nonatomic, strong) NSString *streamFilePath;
 @property (nonatomic, strong) NSOutputStream *outputStream;
 
@@ -83,7 +83,7 @@
 
 - (void)addObserver:(NSObject *)observer
               state:(void(^)(ZXDownloadState state, NSString *filePath, NSError *error))state
-           progress:(void(^)(int64_t receivedSize, int64_t expectedSize, CGFloat progress))progress {
+           progress:(void(^)(int64_t receivedSize, int64_t expectedSize, float progress))progress {
     ZXDownloadObserver *taskObserver = [[ZXDownloadObserver alloc] init];
     taskObserver.observer = observer;
     taskObserver.state = state;
@@ -165,7 +165,7 @@
     }
 }
 
-- (void)setProgress:(CGFloat)progress {
+- (void)setProgress:(float)progress {
     _progress = progress;
     //
     __weak typeof(self) weakSelf = self;

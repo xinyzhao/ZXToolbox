@@ -23,8 +23,15 @@
 // THE SOFTWARE.
 //
 
-#ifndef ZXToolbox_h
-#define ZXToolbox_h
+#import <UIKit/UIKit.h>
+
+//! Project version number for ZXToolbox.
+FOUNDATION_EXPORT double ZXToolboxVersionNumber;
+
+//! Project version string for ZXToolbox.
+FOUNDATION_EXPORT const unsigned char ZXToolboxVersionString[];
+
+// In this header, you should import all the public headers of your framework using statements like #import <ZXToolbox/PublicHeader.h>
 
 #import "JSONObject.h"
 #import "NSArray+ZXToolbox.h"
@@ -86,5 +93,3 @@
 #import "ZXToolbox+Macros.h"
 #import "ZXURLProtocol.h"
 #import "ZXURLSession.h"
-
-#endif /* ZXToolbox_h */

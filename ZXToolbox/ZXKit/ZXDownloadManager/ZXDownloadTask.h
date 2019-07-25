@@ -103,7 +103,7 @@ typedef NS_ENUM(NSInteger, ZXDownloadState) {
  */
 - (void)addObserver:(NSObject *_Nonnull)observer
               state:(void(^_Nullable)(ZXDownloadState state, NSString *_Nullable localFilePath, NSError *_Nullable error))state
-           progress:(void(^_Nullable)(int64_t receivedSize, int64_t expectedSize, CGFloat progress))progress;
+           progress:(void(^_Nullable)(int64_t receivedSize, int64_t expectedSize, float progress))progress;
 
 /**
  Remove observer
