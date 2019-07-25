@@ -17,8 +17,8 @@ Pod::Spec.new do |s|
   # s.library   = "iconv"
   # s.libraries = "iconv", "xml2"
 
-  s.source_files  = "ZXToolbox.h"
-  s.public_header_files = "ZXToolbox.h"
+  s.source_files  = "ZXToolbox/ZXToolbox.h"
+  s.public_header_files = "ZXToolbox/ZXToolbox.h"
 
   s.subspec "Base64Encoding" do |ss|
     ss.source_files  = "ZXToolbox/Foundation/Base64Encoding/*.{h,m}"
