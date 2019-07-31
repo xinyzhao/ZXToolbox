@@ -170,44 +170,36 @@
 
 #pragma mark View Controller
 
-- (UIViewController *)topViewController {
-    return [self endViewController];
-}
-
-- (UIViewController *)visibleViewController {
-    return [self topmostViewController];
-}
-
-- (UIViewController *)endViewController {
+- (UIViewController *)topViewControllerX {
     UIViewController *vc = self;
     if ([self isKindOfClass:[UITabBarController class]]) {
         vc = ((UITabBarController *)self).selectedViewController;
-        vc = [vc endViewController];
+        vc = [vc topViewControllerX];
     } else if ([self isKindOfClass:[UINavigationController class]]) {
         vc = ((UINavigationController *)self).topViewController;
-        vc = [vc endViewController];
+        vc = [vc topViewControllerX];
     } else if (self.presentingViewController) {
         vc = self.presentingViewController;
-        vc = [vc endViewController];
+        vc = [vc topViewControllerX];
     }
     return vc;
 }
 
-- (UIViewController *)topmostViewController {
+- (UIViewController *)visibleViewControllerZ {
     UIViewController *vc = self;
     if ([self isKindOfClass:[UITabBarController class]]) {
         vc = ((UITabBarController *)self).selectedViewController;
-        vc = [vc topmostViewController];
+        vc = [vc visibleViewControllerZ];
     } else if ([self isKindOfClass:[UINavigationController class]]) {
         vc = ((UINavigationController *)self).topViewController;
-        vc = [vc topmostViewController];
+        vc = [vc visibleViewControllerZ];
     } else if (self.presentedViewController) {
         if ([self.presentedViewController isBeingDismissed] ||
             [self.presentedViewController isMovingFromParentViewController]) {
             return self;
         }
         vc = self.presentedViewController;
-        vc = [vc topmostViewController];
+        vc = [vc visibleViewControllerZ];
     }
     return vc;
 }

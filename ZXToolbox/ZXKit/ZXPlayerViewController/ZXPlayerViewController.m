@@ -125,8 +125,8 @@
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientationsForPlayerViewController:(nullable UIWindow *)window {
-    if ([window.rootViewController.topmostViewController isKindOfClass:[ZXPlayerViewController class]]) {
-        return window.rootViewController.topmostViewController.supportedInterfaceOrientations;
+    if ([window.rootViewController.visibleViewControllerZ isKindOfClass:[ZXPlayerViewController class]]) {
+        return window.rootViewController.visibleViewControllerZ.supportedInterfaceOrientations;
     }
     return [self supportedInterfaceOrientationsForPlayerViewController:window];
 }
