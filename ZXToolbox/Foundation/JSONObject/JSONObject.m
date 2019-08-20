@@ -39,7 +39,7 @@
     NSError *error;
     NSData *data = [NSJSONSerialization dataWithJSONObject:obj options:opt error:&error];
     if (error) {
-        NSLog(@"%s %@", __func__, error.localizedDescription);
+        NSLog(@"%s %@\n>>Object: %@", __func__, error.localizedDescription, obj);
     }
     return data;
 }
@@ -64,7 +64,7 @@
     NSError *error;
     id object = [NSJSONSerialization JSONObjectWithData:data options:opt error:&error];
     if (error) {
-        NSLog(@"%s %@", __func__, error.localizedDescription);
+        NSLog(@"%s %@>>Data: %@", __func__, error.localizedDescription, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
     }
     return object;
 }
