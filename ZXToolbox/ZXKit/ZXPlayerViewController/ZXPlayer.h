@@ -60,6 +60,8 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 @property (nonatomic, assign) float volume NS_AVAILABLE(10_7, 7_0);
 @property (nonatomic, getter=isMuted) BOOL muted NS_AVAILABLE(10_7, 7_0);
 
+@property (nonatomic, copy) AVLayerVideoGravity videoGravity;
+
 + (instancetype)playerWithURL:(NSURL *)URL;
 
 - (instancetype)initWithURL:(NSURL *)URL;

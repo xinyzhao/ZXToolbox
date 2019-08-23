@@ -79,6 +79,7 @@
             [_player addObserver:self forKeyPath:@"rate" options:(NSKeyValueObservingOptionNew) context:nil];
             //
             _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
+            _playerLayer.videoGravity = self.videoGravity;
         }
         //
         _brightnessFactor = 0.5;
@@ -165,7 +166,7 @@
     }
 }
 
-#pragma mark Properties
+#pragma mark Setter
 
 - (void)setPlaybackStatus:(void (^)(ZXPlaybackStatus))playbackStatus {
     _playbackStatus = [playbackStatus copy];
@@ -220,6 +221,15 @@
     }
 }
 
+- (void)setVideoGravity:(AVLayerVideoGravity)videoGravity {
+    _videoGravity = [videoGravity copy];
+    if (self.playerLayer) {
+        self.playerLayer.videoGravity = _videoGravity;
+    }
+}
+
+#pragma mark Getter
+
 - (UIImage *)previewImage {
     UIImage *image = nil;
     if (self.playerItem.asset) {
@@ -237,8 +247,6 @@
     return image;
 }
 
-#pragma mark Playing
-
 - (BOOL)isReadToPlay {
     return _playerItem.status == AVPlayerItemStatusReadyToPlay;
 }
@@ -254,6 +262,8 @@
 - (BOOL)isEnded {
     return _status == ZXPlaybackStatusEnded;
 }
+
+#pragma mark Playing
 
 - (void)play {
     _isPlaying = YES;
