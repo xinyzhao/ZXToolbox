@@ -125,18 +125,18 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     //
-    __block CGRect rect = CGRectZero;
-    [self.tagViews enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        rect.size = obj.bounds.size;
-        if (self->_isMultiLine) {
-            if (rect.origin.x + rect.size.width + self->_spacingForItems + self.contentInset.left + self.contentInset.right > self.frame.size.width) {
+    CGRect rect = CGRectZero;
+    for (UIView *view in self.tagViews) {
+        rect.size = view.bounds.size;
+        if (_isMultiLine) {
+            if (rect.origin.x + rect.size.width + _spacingForItems + self.contentInset.left + self.contentInset.right > self.bounds.size.width) {
                 rect.origin.x = 0;
-                rect.origin.y += rect.size.height + self->_spacingForLines;
+                rect.origin.y += rect.size.height + _spacingForLines;
             }
         }
-        obj.frame = rect;
-        rect.origin.x += rect.size.width + self->_spacingForItems;
-    }];
+        view.frame = rect;
+        rect.origin.x += rect.size.width + _spacingForItems;
+    }
     //
     if (_isMultiLine) {
         rect.size.width = 0;
@@ -145,7 +145,7 @@
         rect.size.width = rect.origin.x - _spacingForItems;
         rect.size.height = 0;
     }
-    BOOL reselect = self.contentSize.width != rect.size.width;
+    BOOL reselect = !CGSizeEqualToSize(self.contentSize, rect.size);
     self.contentSize = rect.size;
     //
     if (reselect) {
