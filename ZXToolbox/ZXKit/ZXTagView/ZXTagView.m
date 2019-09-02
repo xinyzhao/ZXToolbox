@@ -129,7 +129,11 @@
     for (UIView *view in self.tagViews) {
         rect.size = view.bounds.size;
         if (_isMultiLine) {
-            if (rect.origin.x + rect.size.width + _spacingForItems + self.contentInset.left + self.contentInset.right > self.bounds.size.width) {
+            CGFloat width = rect.origin.x + rect.size.width + self.contentInset.left + self.contentInset.right;
+            if (view != [self.tagViews firstObject]) {
+                width += _spacingForItems;
+            }
+            if (width > self.bounds.size.width) {
                 rect.origin.x = 0;
                 rect.origin.y += rect.size.height + _spacingForLines;
             }
