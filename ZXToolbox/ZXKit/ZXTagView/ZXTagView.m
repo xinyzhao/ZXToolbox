@@ -116,6 +116,7 @@
 }
 
 - (void)removeAllTags {
+    _selectedIndex = -1;
     [self.tagViews enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         [obj removeFromSuperview];
     }];
@@ -125,22 +126,18 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     //
-    CGRect rect = CGRectZero;
-    for (UIView *view in self.tagViews) {
-        rect.size = view.bounds.size;
-        if (_isMultiLine) {
-            CGFloat width = rect.origin.x + rect.size.width + self.contentInset.left + self.contentInset.right;
-            if (view != [self.tagViews firstObject]) {
-                width += _spacingForItems;
-            }
-            if (width > self.bounds.size.width) {
+    __block CGRect rect = CGRectZero;
+    [self.tagViews enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+        rect.size = obj.bounds.size;
+        if (self->_isMultiLine) {
+            if (rect.origin.x + rect.size.width + self->_spacingForItems + self.contentInset.left + self.contentInset.right > self.frame.size.width) {
                 rect.origin.x = 0;
-                rect.origin.y += rect.size.height + _spacingForLines;
+                rect.origin.y += rect.size.height + self->_spacingForLines;
             }
         }
-        view.frame = rect;
-        rect.origin.x += rect.size.width + _spacingForItems;
-    }
+        obj.frame = rect;
+        rect.origin.x += rect.size.width + self->_spacingForItems;
+    }];
     //
     if (_isMultiLine) {
         rect.size.width = 0;
@@ -149,7 +146,7 @@
         rect.size.width = rect.origin.x - _spacingForItems;
         rect.size.height = 0;
     }
-    BOOL reselect = !CGSizeEqualToSize(self.contentSize, rect.size);
+    BOOL reselect = self.contentSize.width != rect.size.width;
     self.contentSize = rect.size;
     //
     if (reselect) {
