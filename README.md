@@ -54,7 +54,7 @@ $ brew install carthage
 Create a [Cartfile](https://github.com/Carthage/Carthage/blob/master/Documentation/Artifacts.md#cartfile) into your project folder:
 
 ```
-$ touch Cratfile
+$ touch Cartfile
 ```
 
 Add the following line to your `Cartfile`:

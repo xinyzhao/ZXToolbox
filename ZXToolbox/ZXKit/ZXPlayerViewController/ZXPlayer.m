@@ -416,7 +416,9 @@
 #pragma mark Notifications
 
 - (void)playerItemDidPlayToEndTime:(NSNotification *)notification {
-    self.status = ZXPlaybackStatusEnded;
+    if (notification.object == self.playerItem) {
+        self.status = ZXPlaybackStatusEnded;
+    }
 }
 
 #pragma mark Gestures
