@@ -25,24 +25,22 @@
 
 #import "NSString+URLEncoding.h"
 
-NSString *NSStringWithURLEncoding(NSString *string, NSStringEncoding encoding) {
-    NSString *str = CFBridgingRelease(CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)string, NULL, CFSTR(":/?#[]@!$ &'()*+,;=\"<>%{}|\\^~`"), CFStringConvertNSStringEncodingToEncoding(encoding)));
-    return str;
+NSString * NSStringWithURLEncoding(NSString *string) {
+    return [string stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet];
 }
 
-NSString *NSStringWithURLDecoding(NSString *string, NSStringEncoding encoding) {
-    NSString *str = CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapesUsingEncoding(NULL, (__bridge CFStringRef)string, CFSTR(""), CFStringConvertNSStringEncodingToEncoding(encoding)));
-    return str;
+NSString * NSStringWithURLDecoding(NSString *string) {
+    return [string stringByRemovingPercentEncoding];
 }
 
 @implementation NSString (URLEncode)
 
-- (NSString*)stringByURLEncoding:(NSStringEncoding)encoding {
-    return NSStringWithURLEncoding(self, encoding);
+- (NSString *)stringByURLEncoding {
+    return NSStringWithURLEncoding(self);
 }
 
-- (NSString*)stringByURLDecoding:(NSStringEncoding)encoding {
-    return NSStringWithURLDecoding(self, encoding);
+- (NSString *)stringByURLDecoding {
+    return NSStringWithURLDecoding(self);
 }
 
 @end
