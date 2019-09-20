@@ -32,7 +32,7 @@
  @param encoding NSStringEncoding
  @return Encoded NSString
  */
-extern NSString *NSStringWithURLEncoding(NSString *string, NSStringEncoding encoding);
+extern NSString * NSStringWithURLEncoding(NSString *string);
 
 /**
  Decoding string
@@ -41,7 +41,7 @@ extern NSString *NSStringWithURLEncoding(NSString *string, NSStringEncoding enco
  @param encoding NSStringEncoding
  @return Decoded string
  */
-extern NSString *NSStringWithURLDecoding(NSString *string, NSStringEncoding encoding);
+extern NSString * NSStringWithURLDecoding(NSString *string);
 
 /**
  NSString (URLEncoding)
@@ -51,17 +51,15 @@ extern NSString *NSStringWithURLDecoding(NSString *string, NSStringEncoding enco
 /**
  Encoding string
 
- @param encoding NSStringEncoding
  @return Encoded NSString
  */
-- (NSString*)stringByURLEncoding:(NSStringEncoding)encoding;
+- (NSString *)stringByURLEncoding;
 
 /**
  Decoding string
 
- @param encoding NSStringEncoding
  @return Decoded NSString
  */
-- (NSString*)stringByURLDecoding:(NSStringEncoding)encoding;
+- (NSString *)stringByURLDecoding;
 
 @end
