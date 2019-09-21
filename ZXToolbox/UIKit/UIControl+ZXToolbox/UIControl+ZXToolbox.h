@@ -30,8 +30,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIControl (ZXToolbox)
 
 /**
- If true, through UIControl.enabled property to activate the timeInterval,
- otherwise, through UIControl.userInteractionEnabled property to activate the timeInterval.
+ If true, through UIControl.userInteractionEnabled property to activate the timeInterval,
+ otherwise, through UIControl.enabled property to activate the timeInterval.
  */
 @property (nonatomic, assign) BOOL timeIntervalByUserInteractionEnabled; // Default is NO
 
