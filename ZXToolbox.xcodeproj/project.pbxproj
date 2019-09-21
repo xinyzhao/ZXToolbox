@@ -147,6 +147,8 @@
 		7000ADA322E9C22F00651E44 /* ZXHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AD1822E9C22F00651E44 /* ZXHTTPClient.m */; };
 		7000ADA422E9C22F00651E44 /* ZXHTTPSecurity.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AD1922E9C22F00651E44 /* ZXHTTPSecurity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000ADA522E9C22F00651E44 /* ZXHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AD1A22E9C22F00651E44 /* ZXHTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70988F372335F3B30002A8A3 /* UIControl+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */; };
+		70988F382335F3B30002A8A3 /* UIControl+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -295,6 +297,8 @@
 		7000ADA622E9D16D00651E44 /* ZXToolbox.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ZXToolbox.podspec; sourceTree = "<group>"; };
 		7000ADA722E9D16D00651E44 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		7000ADA822E9D16D00651E44 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+ZXToolbox.h"; sourceTree = "<group>"; };
+		70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+ZXToolbox.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -466,6 +470,7 @@
 				7000AC8422E9C22E00651E44 /* UIApplicationIdleTimer */,
 				7000AC9022E9C22E00651E44 /* UIButton+ZXToolbox */,
 				7000AC8722E9C22E00651E44 /* UIColor+ZXToolbox */,
+				70988F342335F3B30002A8A3 /* UIControl+ZXToolbox */,
 				7000AC9622E9C22E00651E44 /* UIImage+ZXToolbox */,
 				7000AC7822E9C22E00651E44 /* UINetworkActivityIndicator */,
 				7000AC8A22E9C22E00651E44 /* UIScreen+ZXToolbox */,
@@ -971,6 +976,15 @@
 			path = ZXHTTPClient;
 			sourceTree = "<group>";
 		};
+		70988F342335F3B30002A8A3 /* UIControl+ZXToolbox */ = {
+			isa = PBXGroup;
+			children = (
+				70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */,
+				70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */,
+			);
+			path = "UIControl+ZXToolbox";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1008,6 +1022,7 @@
 				7000AD7E22E9C22F00651E44 /* ZXBadgeLabel.h in Headers */,
 				7000AD4E22E9C22F00651E44 /* ZXBlockTimer.h in Headers */,
 				7000AD5322E9C22F00651E44 /* ZXBrightnessView.h in Headers */,
+				70988F372335F3B30002A8A3 /* UIControl+ZXToolbox.h in Headers */,
 				7000AD7122E9C22F00651E44 /* ZXCircularProgressView.h in Headers */,
 				7000AD5E22E9C22F00651E44 /* ZXCommonCrypto.h in Headers */,
 				7000AD5C22E9C22F00651E44 /* ZXCommonCryptor.h in Headers */,
@@ -1128,6 +1143,7 @@
 				7000AD6022E9C22F00651E44 /* ZXPageIndicatorView.m in Sources */,
 				7000AD3D22E9C22F00651E44 /* UIApplicationIdleTimer.m in Sources */,
 				7000AD4422E9C22F00651E44 /* UIButton+ZXToolbox.m in Sources */,
+				70988F382335F3B30002A8A3 /* UIControl+ZXToolbox.m in Sources */,
 				7000AD7022E9C22F00651E44 /* ZXPhotoLibrary.m in Sources */,
 				7000AD8B22E9C22F00651E44 /* ZXTabBarItem.m in Sources */,
 				7000AD7C22E9C22F00651E44 /* ZXTagView.m in Sources */,

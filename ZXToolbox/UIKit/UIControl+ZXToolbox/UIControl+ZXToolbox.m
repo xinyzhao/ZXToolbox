@@ -34,7 +34,7 @@
 void onTimeIntervalForControlEvents(id obj, SEL sel) {
     NSString *cmd = NSStringFromSelector(sel);
     NSString *str = [[cmd componentsSeparatedByString:@"_"] lastObject];
-    UIControlEvents controlEvents = [str unsignedLongValue];
+    UIControlEvents controlEvents = [str integerValue];
     SEL selector = NSSelectorFromString(kTimeIntervalForControlEvents1);
     IMP imp = [obj methodForSelector:selector];
     if (imp) {
