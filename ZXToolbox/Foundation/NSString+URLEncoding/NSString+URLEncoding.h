@@ -29,7 +29,6 @@
  Encoding string
 
  @param string Original string
- @param encoding NSStringEncoding
  @return Encoded NSString
  */
 extern NSString * NSStringWithURLEncoding(NSString *string);
@@ -38,7 +37,6 @@ extern NSString * NSStringWithURLEncoding(NSString *string);
  Decoding string
 
  @param string Encoded string
- @param encoding NSStringEncoding
  @return Decoded string
  */
 extern NSString * NSStringWithURLDecoding(NSString *string);
