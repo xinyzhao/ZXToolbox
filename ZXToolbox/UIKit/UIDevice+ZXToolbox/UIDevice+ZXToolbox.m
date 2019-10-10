@@ -49,7 +49,7 @@
     static NSString *modelName;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSBundle *mainBundle = [NSBundle mainBundle];
+        NSBundle *mainBundle = [NSBundle bundleForClass:[self class]];
         NSString *bundlePath = [mainBundle pathForResource:@"UIDevice+ZXToolbox" ofType:@"bundle"];
         NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
         NSString *file = [bundle pathForResource:@"UIDevice+ZXToolbox" ofType:@"plist"];
