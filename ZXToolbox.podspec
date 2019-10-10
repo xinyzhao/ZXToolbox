@@ -102,6 +102,7 @@ Pod::Spec.new do |s|
   end
   
   s.subspec "UIDevice+ZXToolbox" do |ss|
+    ss.dependency 'ZXToolbox/ZXToolbox+Macros'
     ss.source_files  = "ZXToolbox/UIKit/UIDevice+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/UIKit/UIDevice+ZXToolbox/*.h"
     ss.resources = "ZXToolbox/UIKit/UIDevice+ZXToolbox/UIDevice+ZXToolbox.bundle"

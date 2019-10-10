@@ -47,10 +47,10 @@
 #define NSStringFromCGSize2(size) [NSString stringWithFormat:@"{w:%.2f, h:%.2f}", size.width, size.height]
 #define NSStringFromUIEdgeInsets2(inset) [NSString stringWithFormat:@"{l:%.2f, t:%.2f, r:%.2f, b:%.2f}", inset.left, inset.top, inset.right, inset.bottom]
 
-// Bundle file
-#define ZXToolboxBundleFile(bundle, file) [bundle stringByAppendingPathComponent:file]
-
 // Frameworks bundle file
-#define ZXToolboxFrameworkBundleFile(bundle, file) [[NSString stringWithFormat:@"Frameworks/ZXToolbox.framework/%@", bundle] stringByAppendingPathComponent:file]
+#define ZXToolboxFrameworkBundleFile(bundle, file) [[NSBundle mainBundle] pathForResource:file ofType:nil inDirectory:[NSString stringWithFormat:@"Frameworks/ZXToolbox.framework/%@", bundle]]
+
+// Bundle file
+#define ZXToolboxBundleFile(bundle, file) ([[NSBundle mainBundle] pathForResource:file ofType:nil inDirectory:bundle] ?: ZXToolboxFrameworkBundleFile(bundle, file))
 
 #endif // __OBJC__

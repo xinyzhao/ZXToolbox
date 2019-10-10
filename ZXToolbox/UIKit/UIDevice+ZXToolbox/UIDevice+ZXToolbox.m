@@ -24,6 +24,7 @@
 //
 
 #import "UIDevice+ZXToolbox.h"
+#import "ZXToolbox+Macros.h"
 #import <sys/utsname.h>
 
 @implementation UIDevice (ZXToolbox)
@@ -49,10 +50,7 @@
     static NSString *modelName;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSBundle *mainBundle = [NSBundle bundleForClass:[self class]];
-        NSString *bundlePath = [mainBundle pathForResource:@"UIDevice+ZXToolbox" ofType:@"bundle"];
-        NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
-        NSString *file = [bundle pathForResource:@"UIDevice+ZXToolbox" ofType:@"plist"];
+        NSString *file = ZXToolboxBundleFile(@"UIDevice+ZXToolbox.bundle", @"UIDevice+ZXToolbox.plist");
         if (file) {
             NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:file];
             modelName = [dict objectForKey:UIDevice.modelType];
