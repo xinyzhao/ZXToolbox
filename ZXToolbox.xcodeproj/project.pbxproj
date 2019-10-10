@@ -149,6 +149,9 @@
 		7000ADA522E9C22F00651E44 /* ZXHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AD1A22E9C22F00651E44 /* ZXHTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70988F372335F3B30002A8A3 /* UIControl+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */; };
 		70988F382335F3B30002A8A3 /* UIControl+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */; };
+		70F673CA234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */; };
+		70F673CB234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F673C8234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m */; };
+		70F673CE234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 70F673CD234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -299,6 +302,9 @@
 		7000ADA822E9D16D00651E44 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+ZXToolbox.h"; sourceTree = "<group>"; };
 		70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+ZXToolbox.m"; sourceTree = "<group>"; };
+		70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+ZXToolbox.h"; sourceTree = "<group>"; };
+		70F673C8234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+ZXToolbox.m"; sourceTree = "<group>"; };
+		70F673CD234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = "UIDevice+ZXToolbox.bundle"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -471,6 +477,7 @@
 				7000AC9022E9C22E00651E44 /* UIButton+ZXToolbox */,
 				7000AC8722E9C22E00651E44 /* UIColor+ZXToolbox */,
 				70988F342335F3B30002A8A3 /* UIControl+ZXToolbox */,
+				70F673C6234EDCA4009A6FF2 /* UIDevice+ZXToolbox */,
 				7000AC9622E9C22E00651E44 /* UIImage+ZXToolbox */,
 				7000AC7822E9C22E00651E44 /* UINetworkActivityIndicator */,
 				7000AC8A22E9C22E00651E44 /* UIScreen+ZXToolbox */,
@@ -985,6 +992,16 @@
 			path = "UIControl+ZXToolbox";
 			sourceTree = "<group>";
 		};
+		70F673C6234EDCA4009A6FF2 /* UIDevice+ZXToolbox */ = {
+			isa = PBXGroup;
+			children = (
+				70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */,
+				70F673C8234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m */,
+				70F673CD234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle */,
+			);
+			path = "UIDevice+ZXToolbox";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -1044,6 +1061,7 @@
 				7000AD8522E9C22F00651E44 /* ZXPlayer.h in Headers */,
 				7000AD8722E9C22F00651E44 /* ZXPlayerViewController.h in Headers */,
 				7000AD6F22E9C22F00651E44 /* ZXPhotoLibrary.h in Headers */,
+				70F673CA234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h in Headers */,
 				7000AD5722E9C22F00651E44 /* ZXPopoverView.h in Headers */,
 				7000AD5222E9C22F00651E44 /* ZXPopoverWindow.h in Headers */,
 				7000AD7322E9C22F00651E44 /* ZXQRCodeGenerator.h in Headers */,
@@ -1126,6 +1144,7 @@
 			files = (
 				7000AD2322E9C22F00651E44 /* NSString+Pinyin.md in Resources */,
 				7000AD5422E9C22F00651E44 /* ZXBrightnessView.bundle in Resources */,
+				70F673CE234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1138,6 +1157,7 @@
 			files = (
 				7000AD7222E9C22F00651E44 /* ZXCircularProgressView.m in Sources */,
 				7000AD8622E9C22F00651E44 /* ZXPlayerViewController.m in Sources */,
+				70F673CB234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m in Sources */,
 				7000AD5122E9C22F00651E44 /* ZXPopoverWindow.m in Sources */,
 				7000AD2B22E9C22F00651E44 /* NSString+Base64Encoding.m in Sources */,
 				7000AD6022E9C22F00651E44 /* ZXPageIndicatorView.m in Sources */,

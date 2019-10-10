@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "2.1.5"
+  s.version      = "2.1.6"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -100,7 +100,13 @@ Pod::Spec.new do |s|
     ss.source_files  = "ZXToolbox/UIKit/UIControl+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/UIKit/UIControl+ZXToolbox/*.h"
   end
-
+  
+  s.subspec "UIDevice+ZXToolbox" do |ss|
+    ss.source_files  = "ZXToolbox/UIKit/UIDevice+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/UIKit/UIDevice+ZXToolbox/*.h"
+    ss.resources = "ZXToolbox/UIKit/UIDevice+ZXToolbox/UIDevice+ZXToolbox.bundle"
+  end
+  
   s.subspec "UIImage+ZXToolbox" do |ss|
     ss.source_files  = "ZXToolbox/UIKit/UIImage+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/UIKit/UIImage+ZXToolbox/*.h"

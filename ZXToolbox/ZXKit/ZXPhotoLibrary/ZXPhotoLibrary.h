@@ -27,6 +27,7 @@
 #import <CoreGraphics/CoreGraphics.h>
 #import <ImageIO/ImageIO.h>
 #import <Photos/Photos.h>
+#import <UIKit/UIKit.h>
 
 @class ZXPhotoGroup;
 @class ZXPhotoAsset;

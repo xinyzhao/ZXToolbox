@@ -98,6 +98,7 @@ Drag the built ZXToolbox.framework into your Xcode project.
 * UIButton+ZXToolbox
 * UIColor+ZXToolbox
 * UIControl+ZXToolbox.h
+* UIDevice+ZXToolbox
 * UIImage+ZXToolbox
 * UINetworkActivityIndicator
 * UIScreen+ZXToolbox
