@@ -65,10 +65,7 @@
         label.text = @"亮度";
         [self addSubview:label];
         //
-        NSBundle *mainBundle = [NSBundle bundleForClass:[self class]];
-        NSString *bundlePath = [mainBundle pathForResource:@"ZXBrightnessView" ofType:@"bundle"];
-        NSBundle *bundle = [NSBundle bundleWithPath:bundlePath];
-        NSString *file = [bundle pathForResource:@"brightness@2x" ofType:@"png"];
+        NSString *file = ZXToolboxBundleFile(@"ZXBrightnessView.bundle", @"brightness@2x.png");
         UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 75, 75)];
         imageView.image = [UIImage imageWithContentsOfFile:file];
         imageView.contentMode = UIViewContentModeScaleToFill;

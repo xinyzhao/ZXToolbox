@@ -176,6 +176,7 @@ Pod::Spec.new do |s|
 
   s.subspec "ZXBrightnessView" do |ss|
   	ss.dependency 'ZXToolbox/UIColor+ZXToolbox'
+    ss.dependency 'ZXToolbox/ZXToolbox+Macros'
     ss.source_files  = "ZXToolbox/ZXKit/ZXBrightnessView/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXBrightnessView/*.h"
     ss.resources = "ZXToolbox/ZXKit/ZXBrightnessView/ZXBrightnessView.bundle"
