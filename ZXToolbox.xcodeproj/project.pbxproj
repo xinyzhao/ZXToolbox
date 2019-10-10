@@ -147,9 +147,9 @@
 		7000ADA322E9C22F00651E44 /* ZXHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AD1822E9C22F00651E44 /* ZXHTTPClient.m */; };
 		7000ADA422E9C22F00651E44 /* ZXHTTPSecurity.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AD1922E9C22F00651E44 /* ZXHTTPSecurity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000ADA522E9C22F00651E44 /* ZXHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AD1A22E9C22F00651E44 /* ZXHTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		70988F372335F3B30002A8A3 /* UIControl+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */; };
+		70988F372335F3B30002A8A3 /* UIControl+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70988F382335F3B30002A8A3 /* UIControl+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */; };
-		70F673CA234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */; };
+		70F673CA234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70F673CB234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F673C8234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m */; };
 		70F673CE234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 70F673CD234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle */; };
 /* End PBXBuildFile section */
