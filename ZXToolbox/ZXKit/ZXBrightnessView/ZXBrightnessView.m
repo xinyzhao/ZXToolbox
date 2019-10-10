@@ -25,6 +25,7 @@
 
 #import "ZXBrightnessView.h"
 #import "UIColor+ZXToolbox.h"
+#import "ZXToolbox+Macros.h"
 
 @interface ZXBrightnessView ()
 @property (nonatomic, strong) UIView *levelView;
