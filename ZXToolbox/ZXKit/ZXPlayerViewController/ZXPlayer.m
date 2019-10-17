@@ -243,8 +243,8 @@
     if (self.playerItem.asset) {
         AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:self.playerItem.asset];
         generator.appliesPreferredTrackTransform = YES;
-        generator.requestedTimeToleranceBefore = kCMTimeZero;
-        generator.requestedTimeToleranceAfter = kCMTimeZero;
+        //generator.requestedTimeToleranceBefore = kCMTimeZero;
+        //generator.requestedTimeToleranceAfter = kCMTimeZero;
         CMTime actualTime;
         NSError *error = nil;
         CGImageRef imageRef = [generator copyCGImageAtTime:time actualTime:&actualTime error:&error];
@@ -347,10 +347,10 @@
         if (time > duration) {
             time = duration;
         }
-        CMTime toTime = CMTimeMakeWithSeconds(floor(time), 1000);
+        CMTime toTime = CMTimeMakeWithSeconds(floor(time), 1);
         //
         __weak typeof(self) weakSelf = self;
-        [_playerItem seekToTime:toTime toleranceBefore:kCMTimeZero toleranceAfter:kCMTimeZero completionHandler:^(BOOL finished) {
+        [_playerItem seekToTime:toTime toleranceBefore:CMTimeMake(1,1) toleranceAfter:CMTimeMake(1,1) completionHandler:^(BOOL finished) {
             if (weakSelf.playbackTime) {
                 weakSelf.playbackTime(time, duration);
             }
