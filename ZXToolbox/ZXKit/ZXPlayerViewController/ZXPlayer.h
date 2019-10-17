@@ -75,4 +75,6 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 
 - (void)seekToTime:(NSTimeInterval)time pauseAndPlay:(BOOL)pauseAndPlay;
 
+- (UIImage *)imageAtTime:(NSTimeInterval)time;
+
 @end
