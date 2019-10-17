@@ -54,7 +54,6 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 @property (nonatomic, assign) CGFloat brightnessFactor; // 0 - 1, 0 mean is disabled, default is 0.5
 @property (nonatomic, assign) CGFloat volumeFactor; // 0 - 1, 0 mean is disabled, default is 0.5
 
-@property (nonatomic, readonly) UIImage *previewImage;
 @property (nonatomic, readonly) NSURL *URL;
 
 @property (nonatomic, assign) float volume NS_AVAILABLE(10_7, 7_0);
@@ -75,6 +74,8 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 
 - (void)seekToTime:(NSTimeInterval)time pauseAndPlay:(BOOL)pauseAndPlay;
 
-- (UIImage *)imageAtTime:(NSTimeInterval)time;
+@property (nonatomic, readonly) UIImage *previewImage;
+@property (nonatomic, readonly) UIImage *currentImage;
+- (UIImage *)imageAtTime:(CMTime)time;
 
 @end

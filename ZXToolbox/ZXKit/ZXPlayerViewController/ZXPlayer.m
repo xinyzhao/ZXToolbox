@@ -231,18 +231,21 @@
 #pragma mark Getter
 
 - (UIImage *)previewImage {
-    return [self imageAtTime:0];
+    return [self imageAtTime:CMTimeMakeWithSeconds(0, 1000)];
 }
 
-- (UIImage *)imageAtTime:(NSTimeInterval)time {
+- (UIImage *)currentImage {
+    return [self imageAtTime:self.playerItem.currentTime];
+}
+
+- (UIImage *)imageAtTime:(CMTime)time {
     UIImage *image = nil;
     if (self.playerItem.asset) {
         AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:self.playerItem.asset];
         generator.appliesPreferredTrackTransform = YES;
-        CMTime atTime = CMTimeMakeWithSeconds(time, 1000);
         CMTime actualTime;
         NSError *error = nil;
-        CGImageRef imageRef = [generator copyCGImageAtTime:atTime actualTime:&actualTime error:&error];
+        CGImageRef imageRef = [generator copyCGImageAtTime:time actualTime:&actualTime error:&error];
         if (imageRef) {
             image = [[UIImage alloc] initWithCGImage:imageRef];
             CGImageRelease(imageRef);
