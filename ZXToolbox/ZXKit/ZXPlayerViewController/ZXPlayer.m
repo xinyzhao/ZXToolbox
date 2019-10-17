@@ -248,9 +248,7 @@
         CMTime actualTime = kCMTimeZero;
         NSError *error = nil;
         CGImageRef imageRef = [generator copyCGImageAtTime:time actualTime:&actualTime error:&error];
-#ifdef DEBUG
         NSLog(@"copyCGImageAtTime:%.2f actualTime:%.2f error:%@", CMTimeGetSeconds(time), CMTimeGetSeconds(actualTime), error);
-#endif
         if (imageRef) {
             image = [[UIImage alloc] initWithCGImage:imageRef];
             CGImageRelease(imageRef);
