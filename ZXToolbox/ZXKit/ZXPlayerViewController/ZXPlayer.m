@@ -346,35 +346,20 @@
 }
 
 - (UIImage *)currentImage {
-    CMTime time = _player.currentItem.currentTime;
+    return [self imageAtTime:self.playerItem.currentTime];
+}
+
+- (UIImage *)imageAtTime:(CMTime)time {
     CMTime actualTime = kCMTimeZero;
     CVPixelBufferRef pixelBuffer = [_videoOutput copyPixelBufferForItemTime:time itemTimeForDisplay:&actualTime];
     NSLog(@"copyPixelBufferForItemTime:%.2f(%lld/%d) actualTime:%.2f(%lld/%d)", CMTimeGetSeconds(time), time.value, time.timescale, CMTimeGetSeconds(actualTime), actualTime.value, actualTime.timescale);
     CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBuffer];
-    CIContext *ciContext = [CIContext contextWithOptions:nil];
+    CVBufferRelease(pixelBuffer);
+    CIContext *ciContext = [CIContext context];
     CGImageRef cgImage = [ciContext createCGImage:ciImage fromRect:CGRectMake(0, 0, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer))];
     UIImage *uiImage = [UIImage imageWithCGImage:cgImage];
     CGImageRelease(cgImage);
     return uiImage;
-}
-
-- (UIImage *)imageAtTime:(CMTime)time {
-    UIImage *image = nil;
-    if (self.playerItem.asset) {
-        AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:self.playerItem.asset];
-        generator.appliesPreferredTrackTransform = YES;
-        generator.requestedTimeToleranceBefore = kCMTimeZero;
-        generator.requestedTimeToleranceAfter = kCMTimeZero;
-        CMTime actualTime = kCMTimeZero;
-        NSError *error = nil;
-        CGImageRef imageRef = [generator copyCGImageAtTime:time actualTime:&actualTime error:&error];
-        NSLog(@"copyCGImageAtTime:%.2f(%lld/%d) actualTime:%.2f(%lld/%d) error:%@", CMTimeGetSeconds(time), time.value, time.timescale, CMTimeGetSeconds(actualTime), actualTime.value, actualTime.timescale, error);
-        if (imageRef) {
-            image = [[UIImage alloc] initWithCGImage:imageRef];
-            CGImageRelease(imageRef);
-        }
-    }
-    return image;
 }
 
 #pragma mark Volume
