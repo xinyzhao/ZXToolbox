@@ -31,6 +31,7 @@
 @property (nonatomic, strong) AVPlayerItem *playerItem;
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
 @property (nonatomic, strong) id timeObserver;
+@property (nonatomic, strong) AVPlayerItemVideoOutput *videoOutput;
 
 @property (nonatomic, weak) UIView *attachView;
 @property (nonatomic, strong) ZXBrightnessView *brightnessView;
@@ -69,6 +70,9 @@
             [_playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
             [_playerItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidPlayToEndTime:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
+            //
+            _videoOutput = [[AVPlayerItemVideoOutput alloc] init];
+            [_playerItem addOutput:_videoOutput];
             //
             _player = [AVPlayer playerWithPlayerItem:_playerItem];
         }
@@ -230,33 +234,6 @@
 
 #pragma mark Getter
 
-- (UIImage *)previewImage {
-    return [self imageAtTime:CMTimeMakeWithSeconds(0, 1000)];
-}
-
-- (UIImage *)currentImage {
-    return [self imageAtTime:self.playerItem.currentTime];
-}
-
-- (UIImage *)imageAtTime:(CMTime)time {
-    UIImage *image = nil;
-    if (self.playerItem.asset) {
-        AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:self.playerItem.asset];
-        generator.appliesPreferredTrackTransform = YES;
-        generator.requestedTimeToleranceBefore = kCMTimeZero;
-        generator.requestedTimeToleranceAfter = kCMTimeZero;
-        CMTime actualTime = kCMTimeZero;
-        NSError *error = nil;
-        CGImageRef imageRef = [generator copyCGImageAtTime:time actualTime:&actualTime error:&error];
-        NSLog(@"copyCGImageAtTime:%.2f(%lld/%d) actualTime:%.2f(%lld/%d) error:%@", CMTimeGetSeconds(time), time.value, time.timescale, CMTimeGetSeconds(actualTime), actualTime.value, actualTime.timescale, error);
-        if (imageRef) {
-            image = [[UIImage alloc] initWithCGImage:imageRef];
-            CGImageRelease(imageRef);
-        }
-    }
-    return image;
-}
-
 - (BOOL)isReadToPlay {
     return _playerItem.status == AVPlayerItemStatusReadyToPlay;
 }
@@ -360,6 +337,44 @@
             }
         }];
     }
+}
+
+#pragma mark Image
+
+- (UIImage *)previewImage {
+    return [self imageAtTime:CMTimeMakeWithSeconds(0, 1000)];
+}
+
+- (UIImage *)currentImage {
+    CMTime time = _player.currentItem.currentTime;
+    CMTime actualTime = kCMTimeZero;
+    CVPixelBufferRef pixelBuffer = [_videoOutput copyPixelBufferForItemTime:time itemTimeForDisplay:&actualTime];
+    NSLog(@"copyPixelBufferForItemTime:%.2f(%lld/%d) actualTime:%.2f(%lld/%d)", CMTimeGetSeconds(time), time.value, time.timescale, CMTimeGetSeconds(actualTime), actualTime.value, actualTime.timescale);
+    CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBuffer];
+    CIContext *ciContext = [CIContext contextWithOptions:nil];
+    CGImageRef cgImage = [ciContext createCGImage:ciImage fromRect:CGRectMake(0, 0, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer))];
+    UIImage *uiImage = [UIImage imageWithCGImage:cgImage];
+    CGImageRelease(cgImage);
+    return uiImage;
+}
+
+- (UIImage *)imageAtTime:(CMTime)time {
+    UIImage *image = nil;
+    if (self.playerItem.asset) {
+        AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:self.playerItem.asset];
+        generator.appliesPreferredTrackTransform = YES;
+        generator.requestedTimeToleranceBefore = kCMTimeZero;
+        generator.requestedTimeToleranceAfter = kCMTimeZero;
+        CMTime actualTime = kCMTimeZero;
+        NSError *error = nil;
+        CGImageRef imageRef = [generator copyCGImageAtTime:time actualTime:&actualTime error:&error];
+        NSLog(@"copyCGImageAtTime:%.2f(%lld/%d) actualTime:%.2f(%lld/%d) error:%@", CMTimeGetSeconds(time), time.value, time.timescale, CMTimeGetSeconds(actualTime), actualTime.value, actualTime.timescale, error);
+        if (imageRef) {
+            image = [[UIImage alloc] initWithCGImage:imageRef];
+            CGImageRelease(imageRef);
+        }
+    }
+    return image;
 }
 
 #pragma mark Volume
