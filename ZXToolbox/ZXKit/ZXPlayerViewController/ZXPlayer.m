@@ -243,12 +243,12 @@
     if (self.playerItem.asset) {
         AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:self.playerItem.asset];
         generator.appliesPreferredTrackTransform = YES;
-        //generator.requestedTimeToleranceBefore = kCMTimeZero;
-        //generator.requestedTimeToleranceAfter = kCMTimeZero;
+        generator.requestedTimeToleranceBefore = CMTimeMake(time.value, time.timescale);
+        generator.requestedTimeToleranceAfter = CMTimeMake(time.value, time.timescale);
         CMTime actualTime = kCMTimeZero;
         NSError *error = nil;
         CGImageRef imageRef = [generator copyCGImageAtTime:time actualTime:&actualTime error:&error];
-        NSLog(@"copyCGImageAtTime:%.2f actualTime:%.2f error:%@", CMTimeGetSeconds(time), CMTimeGetSeconds(actualTime), error);
+        NSLog(@"copyCGImageAtTime:%.2f(%lld/%d) actualTime:%.2f(%lld/%d) error:%@", CMTimeGetSeconds(time), time.value, time.timescale, CMTimeGetSeconds(actualTime), actualTime.value, actualTime.timescale, error);
         if (imageRef) {
             image = [[UIImage alloc] initWithCGImage:imageRef];
             CGImageRelease(imageRef);
