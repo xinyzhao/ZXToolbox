@@ -243,8 +243,8 @@
     if (self.playerItem.asset) {
         AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:self.playerItem.asset];
         generator.appliesPreferredTrackTransform = YES;
-        generator.requestedTimeToleranceBefore = CMTimeMake(time.value, time.timescale);
-        generator.requestedTimeToleranceAfter = CMTimeMake(time.value, time.timescale);
+        generator.requestedTimeToleranceBefore = kCMTimeZero;
+        generator.requestedTimeToleranceAfter = kCMTimeZero;
         CMTime actualTime = kCMTimeZero;
         NSError *error = nil;
         CGImageRef imageRef = [generator copyCGImageAtTime:time actualTime:&actualTime error:&error];
