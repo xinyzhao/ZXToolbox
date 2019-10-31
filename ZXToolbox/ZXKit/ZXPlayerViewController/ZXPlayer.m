@@ -38,15 +38,11 @@
 @property (nonatomic, strong) UISlider *volumeSlider;
 
 @property (nonatomic, assign) ZXPlaybackStatus status;
-
-@property (nonatomic, readonly) BOOL isBuffering;
-@property (nonatomic, readonly) BOOL isSeeking;
-@property (nonatomic, readonly) BOOL isEnded;
+@property (nonatomic, assign) BOOL isPlaying;
 
 @end
 
 @implementation ZXPlayer
-@synthesize isPlaying = _isPlaying;
 
 + (instancetype)playerWithURL:(NSURL *)URL {
     return [[ZXPlayer alloc] initWithURL:URL];
@@ -55,8 +51,8 @@
 - (instancetype)initWithURL:(NSURL *)URL {
     self = [super init];
     if (self) {
-        _isPlaying = NO;
         _status = ZXPlaybackStatusBuffering;
+        _isPlaying = NO;
         _playbackTimeInterval = 1.0;
         _URL = [URL copy];
         if (_URL) {
@@ -66,7 +62,7 @@
             }
         }
         if (_playerItem) {
-            [_playerItem addObserver:self forKeyPath:@"status" options:(NSKeyValueObservingOptionNew) context:nil];
+            [_playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
             [_playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
             [_playerItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playerItemDidPlayToEndTime:) name:AVPlayerItemDidPlayToEndTimeNotification object:nil];
@@ -238,12 +234,20 @@
     return _playerItem.status == AVPlayerItemStatusReadyToPlay;
 }
 
+//- (BOOL)isPlaying {
+//    return _status == ZXPlaybackStatusPlaying;
+//}
+
 - (BOOL)isBuffering {
     return _status == ZXPlaybackStatusBuffering;
 }
 
 - (BOOL)isSeeking {
     return _status == ZXPlaybackStatusSeeking;
+}
+
+- (BOOL)isPaused {
+    return _status == ZXPlaybackStatusPaused;
 }
 
 - (BOOL)isEnded {
@@ -273,6 +277,12 @@
     //
     if (self.isReadToPlay) {
         [self.player pause];
+    }
+}
+
+- (void)resume {
+    if (self.isReadToPlay && self.isPaused) {
+        [self play];
     }
 }
 
@@ -384,12 +394,15 @@
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
     if ([keyPath isEqualToString:@"status"]) {
+        AVPlayerStatus old = [[change objectForKey:@"old"] integerValue];
         AVPlayerStatus status = [[change objectForKey:@"new"] integerValue];
-        if (status == AVPlayerStatusReadyToPlay) {
-            [self addTimeObserver];
-        }
-        if (_playerStatus) {
-            _playerStatus(status, _playerItem.error);
+        if (status != old) {
+            if (status == AVPlayerStatusReadyToPlay) {
+                [self addTimeObserver];
+            }
+            if (_playerStatus) {
+                _playerStatus(status, _playerItem.error);
+            }
         }
         
     } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {

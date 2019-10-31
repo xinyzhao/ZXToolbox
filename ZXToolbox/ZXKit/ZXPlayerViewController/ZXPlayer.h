@@ -36,11 +36,15 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 
 @interface ZXPlayer : NSObject
 
-@property (nonatomic, readonly) BOOL isReadToPlay;
-@property (nonatomic, readonly) BOOL isPlaying;
-
 @property (nonatomic, readonly) NSTimeInterval currentTime;
 @property (nonatomic, readonly) NSTimeInterval duration;
+
+@property (nonatomic, readonly) BOOL isReadToPlay;
+@property (nonatomic, readonly) BOOL isBuffering;
+@property (nonatomic, readonly) BOOL isPlaying;
+@property (nonatomic, readonly) BOOL isSeeking;
+@property (nonatomic, readonly) BOOL isPaused;
+@property (nonatomic, readonly) BOOL isEnded;
 
 @property (nonatomic, copy) void (^playerStatus)(AVPlayerStatus status, NSError *error);
 @property (nonatomic, copy) void (^loadedTime)(NSTimeInterval time, NSTimeInterval duration);
@@ -70,6 +74,7 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 
 - (void)play;
 - (void)pause;
+- (void)resume;
 - (void)stop;
 
 - (void)seekToTime:(NSTimeInterval)time pauseAndPlay:(BOOL)pauseAndPlay;
