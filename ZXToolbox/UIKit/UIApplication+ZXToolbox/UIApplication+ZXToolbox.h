@@ -33,10 +33,17 @@
  */
 - (BOOL)openSettingsURL;
 
-/*
+/**
  * 重置APP角标数量，并且保留系统通知栏内的推送通知
  * 注意：iOS8之后，必须在使用前注册用户通知 -[UIApplication registerUserNotificationSettings:]
  */
 - (void)resetBageNumber;
+
+/**
+ * 退出应用，有挂起动画，如果不需要则请直接调用exit(0)
+ * @param code 退出代码
+ * @param delay 为挂起动画预留的延迟时间
+ */
+- (void)exitWithCode:(int)code afterDelay:(double)delay;
 
 @end

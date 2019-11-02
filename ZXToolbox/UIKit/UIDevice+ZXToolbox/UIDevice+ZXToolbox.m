@@ -29,7 +29,7 @@
 
 @implementation UIDevice (ZXToolbox)
 
-+ (NSString *)modelType {
+- (NSString *)modelType {
     static NSString *modelType;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -46,14 +46,14 @@
     return modelType;
 }
 
-+ (NSString *)modelName {
+- (NSString *)modelName {
     static NSString *modelName;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         NSString *file = ZXToolboxBundleFile(@"UIDevice+ZXToolbox.bundle", @"UIDevice+ZXToolbox.plist");
         if (file) {
             NSDictionary *dict = [NSDictionary dictionaryWithContentsOfFile:file];
-            modelName = [dict objectForKey:UIDevice.modelType];
+            modelName = [dict objectForKey:self.modelType];
         } else {
             modelName = nil;
         }

@@ -30,10 +30,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIDevice (ZXToolbox)
 
 /// The  model type of device, e.g. "iPhone12,3"
-@property (class, nonatomic, readonly) NSString *modelType;
+@property (nonatomic, readonly) NSString *modelType;
 
 /// The  model name of device, e.g. "iPhone 11 Pro", supported iPhone/iPad/iPod touch series.
-@property (class, nonatomic, readonly) NSString *modelName;
+@property (nonatomic, readonly) NSString *modelName;
 
 @end
 
