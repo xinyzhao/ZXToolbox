@@ -35,6 +35,8 @@ extern NSString *const NSDateToolboxFormatTime;
 /// NSDate (ZXToolbox)
 @interface NSDate (ZXToolbox)
 
++ (NSDateFormatter *)dateFormatter;
+
 + (NSDate *)dateWithString:(NSString *)string format:(NSString *)format;
 
 - (NSString *)stringWithFormat:(NSString *)format;
@@ -58,11 +60,5 @@ extern NSString *const NSDateToolboxFormatTime;
 
 - (NSDate *)firstDayOfMonthDate; // 当月第一天
 - (NSInteger)numberOfDaysInMonth; // 当月天数
-
-@end
-
-@interface NSDateFormatter (ZXToolbox)
-
-+ (instancetype)defaultFormatter;
 
 @end

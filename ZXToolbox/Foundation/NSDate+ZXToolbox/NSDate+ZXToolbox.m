@@ -31,14 +31,23 @@ NSString *const NSDateToolboxFormatTime       = @"HH:mm:ss";
 
 @implementation NSDate (ZXToolbox)
 
++ (NSDateFormatter *)dateFormatter {
+    static NSDateFormatter *dateFormatter;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        dateFormatter = [[NSDateFormatter alloc] init];
+    });
+    return dateFormatter;
+}
+
 + (NSDate *)dateWithString:(NSString *)string format:(NSString *)format {
-    NSDateFormatter *dateFormatter = [NSDateFormatter defaultFormatter];
+    NSDateFormatter *dateFormatter = [NSDate dateFormatter];
     [dateFormatter setDateFormat:format ? format : NSDateToolboxFormatDateTime];
     return [dateFormatter dateFromString:string];
 }
 
 - (NSString *)stringWithFormat:(NSString *)format {
-    NSDateFormatter *dateFormatter = [NSDateFormatter defaultFormatter];
+    NSDateFormatter *dateFormatter = [NSDate dateFormatter];
     [dateFormatter setDateFormat:format ? format : NSDateToolboxFormatDateTime];
     return [dateFormatter stringFromDate:self];
 }
@@ -144,19 +153,6 @@ NSString *const NSDateToolboxFormatTime       = @"HH:mm:ss";
 
 - (NSInteger)numberOfDaysInMonth {
     return [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:self].length;
-}
-
-@end
-
-@implementation NSDateFormatter (ZXToolbox)
-
-+ (instancetype)defaultFormatter {
-    static NSDateFormatter *defaultFormatter;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        defaultFormatter = [[NSDateFormatter alloc] init];
-    });
-    return defaultFormatter;
 }
 
 @end
