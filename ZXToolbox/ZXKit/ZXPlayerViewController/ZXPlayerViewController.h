@@ -23,14 +23,21 @@
 // THE SOFTWARE.
 //
 
-#import "ZXPlayer.h"
+#import <UIKit/UIKit.h>
+
+@class ZXPlayer;
 
 @interface ZXPlayerViewController : UIViewController
 @property (nonatomic, strong) ZXPlayer *player;
 
-@property (nonatomic, assign) BOOL shouldAutorotate; // Default is YES
-@property (nonatomic, assign) UIInterfaceOrientationMask supportedInterfaceOrientations; // Default is UIInterfaceOrientationMaskAllButUpsideDown/UIInterfaceOrientationMaskPortrait when shouldAutorotate YES/NO
+/// Default is YES
+@property (nonatomic, assign) BOOL shouldAutorotate;
 
+/// Default is UIInterfaceOrientationMaskAllButUpsideDown/UIInterfaceOrientationMaskPortrait when shouldAutorotate YES/NO
+@property (nonatomic, assign) UIInterfaceOrientationMask supportedInterfaceOrientations;
+
+/// Initialize
+/// @param URL The media URL for player
 - (instancetype)initWithURL:(NSURL *)URL;
 
 @end

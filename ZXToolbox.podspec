@@ -114,6 +114,11 @@ Pod::Spec.new do |s|
     ss.frameworks = "CoreGraphics", "ImageIO"
   end
 
+  s.subspec "UINavigationController+ZXToolbox" do |ss|
+    ss.source_files  = "ZXToolbox/UIKit/UINavigationController+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/UIKit/UINavigationController+ZXToolbox/*.h"
+  end
+
   s.subspec "UINetworkActivityIndicator" do |ss|
     ss.source_files  = "ZXToolbox/UIKit/UINetworkActivityIndicator/*.{h,m}"
     ss.public_header_files = "ZXToolbox/UIKit/UINetworkActivityIndicator/*.h"
@@ -259,13 +264,19 @@ Pod::Spec.new do |s|
     ss.weak_framework = "Photos"
   end
 
+  s.subspec "ZXPlayer" do |ss|
+    ss.dependency 'ZXToolbox/ZXBrightnessView'
+    ss.source_files  = "ZXToolbox/ZXKit/ZXPlayer/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/ZXKit/ZXPlayer/*.h"
+    ss.frameworks = "AVFoundation", "MediaPlayer"
+  end
+
   s.subspec "ZXPlayerViewController" do |ss|
     ss.dependency 'ZXToolbox/NSObject+ZXToolbox'
     ss.dependency 'ZXToolbox/UIViewController+ZXToolbox'
-    ss.dependency 'ZXToolbox/ZXBrightnessView'
+    ss.dependency 'ZXToolbox/ZXPlayer'
     ss.source_files  = "ZXToolbox/ZXKit/ZXPlayerViewController/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXPlayerViewController/*.h"
-    ss.frameworks = "AVFoundation", "MediaPlayer"
   end
 
   s.subspec "ZXPopoverView" do |ss|

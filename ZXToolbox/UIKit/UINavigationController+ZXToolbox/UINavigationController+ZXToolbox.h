@@ -1,5 +1,5 @@
 //
-// UIViewController+ZXToolbox.h
+// UINavigationController+ZXToolbox.h
 // https://github.com/xinyzhao/ZXToolbox
 //
 // Copyright (c) 2019 Zhao Xin
@@ -25,18 +25,24 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UIViewController (ZXToolbox) <UIGestureRecognizerDelegate>
+NS_ASSUME_NONNULL_BEGIN
 
-/// The top view controller on the stack.
-@property(nonatomic, readonly) UIViewController *zx_topViewController;
+@interface UINavigationController (ZXToolbox)
 
-/// Return modal view controller if it exists. Otherwise the top view controller.
-@property(nonatomic, readonly) UIViewController *zx_visibleViewController;
+/// The previous viewController
+@property(nonatomic, readonly) UIViewController *prevViewController;
 
-/// The top-layout view
-@property(nonatomic, strong) UIView *zx_topLayoutView;
+/// The root viewController
+@property(nonatomic, readonly) UIViewController *rootViewController;
 
-/// The bottom-layout view
-@property(nonatomic, strong) UIView *zx_bottomLayoutView;
+/// Set font for title
+/// @param font UIFont
+- (void)setTitleFont:(UIFont *)font;
+
+/// Set color for title
+/// @param color UIColor
+- (void)setTitleColor:(UIColor *)color;
 
 @end
+
+NS_ASSUME_NONNULL_END

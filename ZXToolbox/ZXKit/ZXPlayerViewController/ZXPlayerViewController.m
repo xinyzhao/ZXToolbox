@@ -24,6 +24,7 @@
 //
 
 #import "ZXPlayerViewController.h"
+#import "ZXPlayer.h"
 #import "UIViewController+ZXToolbox.h"
 #import "NSObject+ZXToolbox.h"
 
@@ -125,8 +126,8 @@
 }
 
 - (UIInterfaceOrientationMask)supportedInterfaceOrientationsForPlayerViewController:(nullable UIWindow *)window {
-    if ([window.rootViewController.visibleViewControllerZ isKindOfClass:[ZXPlayerViewController class]]) {
-        return window.rootViewController.visibleViewControllerZ.supportedInterfaceOrientations;
+    if ([window.rootViewController.zx_visibleViewController isKindOfClass:[ZXPlayerViewController class]]) {
+        return window.rootViewController.zx_visibleViewController.supportedInterfaceOrientations;
     }
     return [self supportedInterfaceOrientationsForPlayerViewController:window];
 }

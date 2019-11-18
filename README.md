@@ -100,6 +100,7 @@ Drag the built ZXToolbox.framework into your Xcode project.
 * UIControl+ZXToolbox.h
 * UIDevice+ZXToolbox
 * UIImage+ZXToolbox
+* UINavigationController+ZXToolbox
 * UINetworkActivityIndicator
 * UIScreen+ZXToolbox
 * UIScrollView+ZXToolbox
@@ -129,6 +130,7 @@ Drag the built ZXToolbox.framework into your Xcode project.
 * ZXPageIndicatorView
 * ZXPageView
 * ZXPhotoLibrary
+* ZXPlayer
 * ZXPlayerViewController
 * ZXPopoverView
 * ZXPopoverWindow

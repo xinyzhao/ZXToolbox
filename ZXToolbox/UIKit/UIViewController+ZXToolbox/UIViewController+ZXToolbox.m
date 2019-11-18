@@ -28,12 +28,12 @@
 
 @implementation UIViewController (ZXToolbox)
 
-- (void)setTopLayoutView:(UIView *)topLayoutView {
-    objc_setAssociatedObject(self, @selector(topLayoutView), topLayoutView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setZx_topLayoutView:(UIView *)topLayoutView {
+    objc_setAssociatedObject(self, @selector(zx_topLayoutView), topLayoutView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (UIView *)topLayoutView {
-    UIView *view = objc_getAssociatedObject(self, @selector(topLayoutView));
+- (UIView *)zx_topLayoutView {
+    UIView *view = objc_getAssociatedObject(self, @selector(zx_topLayoutView));
     if (view == nil) {
         view = [[UIView alloc] initWithFrame:CGRectZero];
         view.translatesAutoresizingMaskIntoConstraints = NO;
@@ -45,17 +45,17 @@
         NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
         [self.view addConstraints:@[left, right, top, bottom]];
         //
-        self.topLayoutView = view;
+        self.zx_topLayoutView = view;
     }
     return view;
 }
 
-- (void)setBottomLayoutView:(UIView *)bottomLayoutView {
-    objc_setAssociatedObject(self, @selector(bottomLayoutView), bottomLayoutView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setZx_bottomLayoutView:(UIView *)bottomLayoutView {
+    objc_setAssociatedObject(self, @selector(zx_bottomLayoutView), bottomLayoutView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (UIView *)bottomLayoutView {
-    UIView *view = objc_getAssociatedObject(self, @selector(bottomLayoutView));
+- (UIView *)zx_bottomLayoutView {
+    UIView *view = objc_getAssociatedObject(self, @selector(zx_bottomLayoutView));
     if (view == nil) {
         view = [[UIView alloc] initWithFrame:CGRectZero];
         view.translatesAutoresizingMaskIntoConstraints = NO;
@@ -67,139 +67,43 @@
         NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.bottomLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
         [self.view addConstraints:@[left, right, top, bottom]];
         //
-        self.bottomLayoutView = view;
+        self.zx_bottomLayoutView = view;
     }
     return view;
 }
 
-#pragma mark - Back Bar Button Item
-
-- (void)setBackItemImage:(UIImage *)image {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithImage:image
-                                                                             style:self.navigationItem.backBarButtonItem.style
-                                                                            target:self
-                                                                            action:@selector(onBack:)];
-}
-
-- (void)setBackItemImage:(UIImage *)image title:(NSString *)title {
-    //
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    button.tintColor = self.navigationController.navigationBar.tintColor;
-    button.titleLabel.font = [UIFont systemFontOfSize:[UIFont labelFontSize]];
-    CGSize size = [title sizeWithAttributes:@{NSFontAttributeName:button.titleLabel.font}];
-    button.frame = CGRectMake(0, 0, size.width + image.size.width, self.navigationController.navigationBar.frame.size.height);
-    [button setTitle:title forState:UIControlStateNormal];
-    [button setTitleColor:button.tintColor forState:UIControlStateNormal];
-    [button setTitleEdgeInsets:UIEdgeInsetsMake(0, -8, 0, 0)];
-    [button setImage:image forState:UIControlStateNormal];
-    [button setImageEdgeInsets:UIEdgeInsetsMake(0, -8, 0, 0)];
-    [button addTarget:self action:@selector(onBack:) forControlEvents:UIControlEventTouchUpInside];
-    //
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:button];
-}
-
-- (void)setBackItemTitle:(NSString *)title {
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:title
-                                                                             style:self.navigationItem.backBarButtonItem.style
-                                                                            target:self
-                                                                            action:@selector(onBack:)];
-}
-
-- (void)setBackItemTarget:(id)target action:(SEL)action {
-    if ([self.navigationItem.leftBarButtonItem.customView isKindOfClass:[UIButton class]]) {
-        UIButton *button = (UIButton *)self.navigationItem.leftBarButtonItem.customView;
-        [button.allTargets enumerateObjectsUsingBlock:^(id  _Nonnull obj, BOOL * _Nonnull stop) {
-            id target = obj;
-            NSArray *actions = [button actionsForTarget:obj forControlEvent:UIControlEventTouchUpInside];
-            [actions enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                SEL action = NSSelectorFromString(obj);
-                [button removeTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
-            }];
-        }];
-        [button addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
-    } else {
-        self.navigationItem.leftBarButtonItem.target = target;
-        self.navigationItem.leftBarButtonItem.action = action;
-    }
-}
-
-- (void)setBackItemTintColor:(UIColor *)color {
-    if ([self.navigationItem.leftBarButtonItem.customView isKindOfClass:[UIButton class]]) {
-        UIButton *button = (UIButton *)self.navigationItem.leftBarButtonItem.customView;
-        button.tintColor = color;
-        [button setTitleColor:button.tintColor forState:UIControlStateNormal];
-    } else {
-        self.navigationItem.leftBarButtonItem.tintColor = color;
-    }
-}
-
-- (void)setBackItemTitleFont:(UIFont *)font {
-    if ([self.navigationItem.leftBarButtonItem.customView isKindOfClass:[UIButton class]]) {
-        UIButton *button = (UIButton *)self.navigationItem.leftBarButtonItem.customView;
-        button.titleLabel.font = font;
-    }
-}
-
-#pragma mark - Title
-
-- (void)setTitleFont:(UIFont *)font {
-    NSMutableDictionary *attributes = [self.navigationController.navigationBar.titleTextAttributes mutableCopy];
-    if (font) {
-        if (attributes == nil) {
-            attributes = [NSMutableDictionary dictionary];
-        }
-        [attributes setObject:font forKey:NSFontAttributeName];
-    } else if (attributes) {
-        [attributes removeObjectForKey:NSFontAttributeName];
-    }
-    self.navigationController.navigationBar.titleTextAttributes = attributes;
-}
-
-- (void)setTitleColor:(UIColor *)color {
-    NSMutableDictionary *attributes = [self.navigationController.navigationBar.titleTextAttributes mutableCopy];
-    if (color) {
-        if (attributes == nil) {
-            attributes = [NSMutableDictionary dictionary];
-        }
-        [attributes setObject:color forKey:NSForegroundColorAttributeName];
-    } else if (attributes) {
-        [attributes removeObjectForKey:NSForegroundColorAttributeName];
-    }
-    self.navigationController.navigationBar.titleTextAttributes = attributes;
-}
-
 #pragma mark View Controller
 
-- (UIViewController *)topViewControllerX {
+- (UIViewController *)zx_topViewController {
     UIViewController *vc = self;
     if ([self isKindOfClass:[UITabBarController class]]) {
         vc = ((UITabBarController *)self).selectedViewController;
-        vc = [vc topViewControllerX];
+        vc = [vc zx_topViewController];
     } else if ([self isKindOfClass:[UINavigationController class]]) {
         vc = ((UINavigationController *)self).topViewController;
-        vc = [vc topViewControllerX];
+        vc = [vc zx_topViewController];
     } else if (self.presentingViewController) {
         vc = self.presentingViewController;
-        vc = [vc topViewControllerX];
+        vc = [vc zx_topViewController];
     }
     return vc;
 }
 
-- (UIViewController *)visibleViewControllerZ {
+- (UIViewController *)zx_visibleViewController {
     UIViewController *vc = self;
     if ([self isKindOfClass:[UITabBarController class]]) {
         vc = ((UITabBarController *)self).selectedViewController;
-        vc = [vc visibleViewControllerZ];
+        vc = [vc zx_visibleViewController];
     } else if ([self isKindOfClass:[UINavigationController class]]) {
         vc = ((UINavigationController *)self).topViewController;
-        vc = [vc visibleViewControllerZ];
+        vc = [vc zx_visibleViewController];
     } else if (self.presentedViewController) {
         if ([self.presentedViewController isBeingDismissed] ||
             [self.presentedViewController isMovingFromParentViewController]) {
             return self;
         }
         vc = self.presentedViewController;
-        vc = [vc visibleViewControllerZ];
+        vc = [vc zx_visibleViewController];
     }
     return vc;
 }
@@ -213,7 +117,7 @@
 /**
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    // 显示/隐藏 状态栏
+    // 动画显示/隐藏 状态栏
     [UIView animateWithDuration:UINavigationControllerHideShowBarDuration animations:^{
         [self setNeedsStatusBarAppearanceUpdate];
     }];
@@ -226,12 +130,6 @@
     // 导航栏透明并取消分隔线
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
-    // 只显示文字
-    [self setBackItemTitle:@"返回"];
-    // 只显示图标
-    [self setBackItemImage:[UIImage imageNamed:@"返回按钮"]];
-    // 显示图标和文字
-    [self setBackItemImage:[UIImage imageNamed:@"返回按钮"] title:@"返回"];
 }
 
 #pragma mark - Status Bar
@@ -247,23 +145,5 @@
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
     return UIStatusBarAnimationFade;
 }*/
-
-@end
-
-@implementation UINavigationController (ZXToolbox)
-
-- (UIViewController *)prevViewController {
-    if (self.topViewController) {
-        NSInteger index = [self.viewControllers indexOfObject:self.topViewController] - 1;
-        if (index >= 0) {
-            return self.viewControllers[index];
-        }
-    }
-    return nil;
-}
-
-- (UIViewController *)rootViewController {
-    return [self.viewControllers firstObject];
-}
 
 @end

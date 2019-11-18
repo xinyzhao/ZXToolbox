@@ -147,6 +147,8 @@
 		7000ADA322E9C22F00651E44 /* ZXHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AD1822E9C22F00651E44 /* ZXHTTPClient.m */; };
 		7000ADA422E9C22F00651E44 /* ZXHTTPSecurity.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AD1922E9C22F00651E44 /* ZXHTTPSecurity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000ADA522E9C22F00651E44 /* ZXHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AD1A22E9C22F00651E44 /* ZXHTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7040F6CB23824182009EFB1F /* UINavigationController+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7040F6C923824182009EFB1F /* UINavigationController+ZXToolbox.h */; };
+		7040F6CC23824182009EFB1F /* UINavigationController+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 7040F6CA23824182009EFB1F /* UINavigationController+ZXToolbox.m */; };
 		70988F372335F3B30002A8A3 /* UIControl+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70988F382335F3B30002A8A3 /* UIControl+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */; };
 		70F673CA234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -300,6 +302,8 @@
 		7000ADA622E9D16D00651E44 /* ZXToolbox.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ZXToolbox.podspec; sourceTree = "<group>"; };
 		7000ADA722E9D16D00651E44 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		7000ADA822E9D16D00651E44 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		7040F6C923824182009EFB1F /* UINavigationController+ZXToolbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+ZXToolbox.h"; sourceTree = "<group>"; };
+		7040F6CA23824182009EFB1F /* UINavigationController+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+ZXToolbox.m"; sourceTree = "<group>"; };
 		70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+ZXToolbox.h"; sourceTree = "<group>"; };
 		70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+ZXToolbox.m"; sourceTree = "<group>"; };
 		70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+ZXToolbox.h"; sourceTree = "<group>"; };
@@ -479,6 +483,7 @@
 				70988F342335F3B30002A8A3 /* UIControl+ZXToolbox */,
 				70F673C6234EDCA4009A6FF2 /* UIDevice+ZXToolbox */,
 				7000AC9622E9C22E00651E44 /* UIImage+ZXToolbox */,
+				7040F6C82382414F009EFB1F /* UINavigationController+ZXToolbox */,
 				7000AC7822E9C22E00651E44 /* UINetworkActivityIndicator */,
 				7000AC8A22E9C22E00651E44 /* UIScreen+ZXToolbox */,
 				7000AC8D22E9C22E00651E44 /* UIScrollView+ZXToolbox */,
@@ -620,7 +625,8 @@
 				7000ACB522E9C22F00651E44 /* ZXPageIndicatorView */,
 				7000ACBB22E9C22F00651E44 /* ZXPageView */,
 				7000ACCD22E9C22F00651E44 /* ZXPhotoLibrary */,
-				7000ACEE22E9C22F00651E44 /* ZXPlayerViewController */,
+				7000ACEE22E9C22F00651E44 /* ZXPlayer */,
+				7040F6CD23824410009EFB1F /* ZXPlayerViewController */,
 				7000ACAA22E9C22F00651E44 /* ZXPopoverView */,
 				7000ACA322E9C22F00651E44 /* ZXPopoverWindow */,
 				7000ACD322E9C22F00651E44 /* ZXQRCodeGenerator */,
@@ -866,15 +872,13 @@
 			path = ZXAudioDevice;
 			sourceTree = "<group>";
 		};
-		7000ACEE22E9C22F00651E44 /* ZXPlayerViewController */ = {
+		7000ACEE22E9C22F00651E44 /* ZXPlayer */ = {
 			isa = PBXGroup;
 			children = (
 				7000ACEF22E9C22F00651E44 /* ZXPlayer.h */,
 				7000ACF222E9C22F00651E44 /* ZXPlayer.m */,
-				7000ACF122E9C22F00651E44 /* ZXPlayerViewController.h */,
-				7000ACF022E9C22F00651E44 /* ZXPlayerViewController.m */,
 			);
-			path = ZXPlayerViewController;
+			path = ZXPlayer;
 			sourceTree = "<group>";
 		};
 		7000ACF322E9C22F00651E44 /* ZXTabBar */ = {
@@ -983,6 +987,24 @@
 			path = ZXHTTPClient;
 			sourceTree = "<group>";
 		};
+		7040F6C82382414F009EFB1F /* UINavigationController+ZXToolbox */ = {
+			isa = PBXGroup;
+			children = (
+				7040F6C923824182009EFB1F /* UINavigationController+ZXToolbox.h */,
+				7040F6CA23824182009EFB1F /* UINavigationController+ZXToolbox.m */,
+			);
+			path = "UINavigationController+ZXToolbox";
+			sourceTree = "<group>";
+		};
+		7040F6CD23824410009EFB1F /* ZXPlayerViewController */ = {
+			isa = PBXGroup;
+			children = (
+				7000ACF122E9C22F00651E44 /* ZXPlayerViewController.h */,
+				7000ACF022E9C22F00651E44 /* ZXPlayerViewController.m */,
+			);
+			path = ZXPlayerViewController;
+			sourceTree = "<group>";
+		};
 		70988F342335F3B30002A8A3 /* UIControl+ZXToolbox */ = {
 			isa = PBXGroup;
 			children = (
@@ -1021,6 +1043,7 @@
 				7000AD2222E9C22F00651E44 /* NSString+Pinyin.h in Headers */,
 				7000AD2822E9C22F00651E44 /* NSString+URLEncoding.h in Headers */,
 				7000AD1C22E9C22F00651E44 /* NSString+Unicode.h in Headers */,
+				7040F6CB23824182009EFB1F /* UINavigationController+ZXToolbox.h in Headers */,
 				7000AD4A22E9C22F00651E44 /* UIApplication+ZXToolbox.h in Headers */,
 				7000AD3C22E9C22F00651E44 /* UIApplicationIdleTimer.h in Headers */,
 				7000AD4522E9C22F00651E44 /* UIButton+ZXToolbox.h in Headers */,
@@ -1170,6 +1193,7 @@
 				7000AD8322E9C22F00651E44 /* ZXAudioDevice.m in Sources */,
 				7000AD1B22E9C22F00651E44 /* NSString+Unicode.m in Sources */,
 				7000AD8A22E9C22F00651E44 /* ZXTabBar.m in Sources */,
+				7040F6CC23824182009EFB1F /* UINavigationController+ZXToolbox.m in Sources */,
 				7000AD4222E9C22F00651E44 /* UIScrollView+ZXToolbox.m in Sources */,
 				7000AD5A22E9C22F00651E44 /* ZXCommonDigest.m in Sources */,
 				7000AD4922E9C22F00651E44 /* UIImage+ZXToolbox.m in Sources */,
@@ -1364,7 +1388,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.0;
+				MARKETING_VERSION = 2.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolbox;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1388,7 +1412,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.0;
+				MARKETING_VERSION = 2.2.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolbox;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
