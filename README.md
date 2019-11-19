@@ -105,7 +105,7 @@ Drag the built ZXToolbox.framework into your Xcode project.
 * UINetworkActivityIndicator
 * UIScreen+ZXToolbox
 * UIScrollView+ZXToolbox
-* UITableViewCell+Separator
+* UITableViewCell+ZXToolbox
 * UITextField+ZXToolbox
 * UIView+ZXToolbox
 * UIViewController+ZXToolbox

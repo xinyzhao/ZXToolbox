@@ -1,5 +1,5 @@
 //
-// UITableViewCell+Separator.h
+// UITableViewCell+ZXToolbox.h
 // https://github.com/xinyzhao/ZXToolbox
 //
 // Copyright (c) 2019 Zhao Xin
@@ -25,7 +25,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface UITableViewCell (Separator)
+@interface UITableViewCell (ZXToolbox)
 
 /**
  Default is the standard separator gray, private property in UITableViewCell.

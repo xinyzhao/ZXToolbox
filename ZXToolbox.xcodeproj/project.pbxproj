@@ -35,8 +35,8 @@
 		7000AD3322E9C22F00651E44 /* NSNumberFormatter+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AC7622E9C22E00651E44 /* NSNumberFormatter+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD3422E9C22F00651E44 /* UINetworkActivityIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AC7922E9C22E00651E44 /* UINetworkActivityIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD3522E9C22F00651E44 /* UINetworkActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AC7A22E9C22E00651E44 /* UINetworkActivityIndicator.m */; };
-		7000AD3622E9C22F00651E44 /* UITableViewCell+Separator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AC7C22E9C22E00651E44 /* UITableViewCell+Separator.m */; };
-		7000AD3722E9C22F00651E44 /* UITableViewCell+Separator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AC7D22E9C22E00651E44 /* UITableViewCell+Separator.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7000AD3622E9C22F00651E44 /* UITableViewCell+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AC7C22E9C22E00651E44 /* UITableViewCell+ZXToolbox.m */; };
+		7000AD3722E9C22F00651E44 /* UITableViewCell+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AC7D22E9C22E00651E44 /* UITableViewCell+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD3822E9C22F00651E44 /* UIViewController+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AC7F22E9C22E00651E44 /* UIViewController+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD3922E9C22F00651E44 /* UIViewController+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AC8022E9C22E00651E44 /* UIViewController+ZXToolbox.m */; };
 		7000AD3A22E9C22F00651E44 /* UIView+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AC8222E9C22E00651E44 /* UIView+ZXToolbox.m */; };
@@ -189,8 +189,8 @@
 		7000AC7622E9C22E00651E44 /* NSNumberFormatter+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumberFormatter+ZXToolbox.h"; sourceTree = "<group>"; };
 		7000AC7922E9C22E00651E44 /* UINetworkActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UINetworkActivityIndicator.h; sourceTree = "<group>"; };
 		7000AC7A22E9C22E00651E44 /* UINetworkActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UINetworkActivityIndicator.m; sourceTree = "<group>"; };
-		7000AC7C22E9C22E00651E44 /* UITableViewCell+Separator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+Separator.m"; sourceTree = "<group>"; };
-		7000AC7D22E9C22E00651E44 /* UITableViewCell+Separator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+Separator.h"; sourceTree = "<group>"; };
+		7000AC7C22E9C22E00651E44 /* UITableViewCell+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+ZXToolbox.m"; sourceTree = "<group>"; };
+		7000AC7D22E9C22E00651E44 /* UITableViewCell+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+ZXToolbox.h"; sourceTree = "<group>"; };
 		7000AC7F22E9C22E00651E44 /* UIViewController+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ZXToolbox.h"; sourceTree = "<group>"; };
 		7000AC8022E9C22E00651E44 /* UIViewController+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ZXToolbox.m"; sourceTree = "<group>"; };
 		7000AC8222E9C22E00651E44 /* UIView+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ZXToolbox.m"; sourceTree = "<group>"; };
@@ -492,7 +492,7 @@
 				7000AC7822E9C22E00651E44 /* UINetworkActivityIndicator */,
 				7000AC8A22E9C22E00651E44 /* UIScreen+ZXToolbox */,
 				7000AC8D22E9C22E00651E44 /* UIScrollView+ZXToolbox */,
-				7000AC7B22E9C22E00651E44 /* UITableViewCell+Separator */,
+				7000AC7B22E9C22E00651E44 /* UITableViewCell+ZXToolbox */,
 				7000AC9322E9C22E00651E44 /* UITextField+ZXToolbox */,
 				7000AC8122E9C22E00651E44 /* UIView+ZXToolbox */,
 				7000AC7E22E9C22E00651E44 /* UIViewController+ZXToolbox */,
@@ -509,13 +509,13 @@
 			path = UINetworkActivityIndicator;
 			sourceTree = "<group>";
 		};
-		7000AC7B22E9C22E00651E44 /* UITableViewCell+Separator */ = {
+		7000AC7B22E9C22E00651E44 /* UITableViewCell+ZXToolbox */ = {
 			isa = PBXGroup;
 			children = (
-				7000AC7D22E9C22E00651E44 /* UITableViewCell+Separator.h */,
-				7000AC7C22E9C22E00651E44 /* UITableViewCell+Separator.m */,
+				7000AC7D22E9C22E00651E44 /* UITableViewCell+ZXToolbox.h */,
+				7000AC7C22E9C22E00651E44 /* UITableViewCell+ZXToolbox.m */,
 			);
-			path = "UITableViewCell+Separator";
+			path = "UITableViewCell+ZXToolbox";
 			sourceTree = "<group>";
 		};
 		7000AC7E22E9C22E00651E44 /* UIViewController+ZXToolbox */ = {
@@ -1064,7 +1064,7 @@
 				7000AD3F22E9C22F00651E44 /* UIColor+ZXToolbox.h in Headers */,
 				7000AD4822E9C22F00651E44 /* UIImage+ZXToolbox.h in Headers */,
 				7000AD3422E9C22F00651E44 /* UINetworkActivityIndicator.h in Headers */,
-				7000AD3722E9C22F00651E44 /* UITableViewCell+Separator.h in Headers */,
+				7000AD3722E9C22F00651E44 /* UITableViewCell+ZXToolbox.h in Headers */,
 				7000AD4622E9C22F00651E44 /* UITextField+ZXToolbox.h in Headers */,
 				7000AD3B22E9C22F00651E44 /* UIView+ZXToolbox.h in Headers */,
 				7000AD3822E9C22F00651E44 /* UIViewController+ZXToolbox.h in Headers */,
@@ -1263,7 +1263,7 @@
 				7000AD2922E9C22F00651E44 /* NSString+URLEncoding.m in Sources */,
 				7000AD2422E9C22F00651E44 /* NSFileManager+ZXToolbox.m in Sources */,
 				7000AD9722E9C22F00651E44 /* ZXQRCodeScanner.m in Sources */,
-				7000AD3622E9C22F00651E44 /* UITableViewCell+Separator.m in Sources */,
+				7000AD3622E9C22F00651E44 /* UITableViewCell+ZXToolbox.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

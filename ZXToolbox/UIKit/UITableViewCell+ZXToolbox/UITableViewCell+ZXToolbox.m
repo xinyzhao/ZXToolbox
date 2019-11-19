@@ -1,5 +1,5 @@
 //
-// UITableViewCell+Separator.m
+// UITableViewCell+ZXToolbox.m
 // https://github.com/xinyzhao/ZXToolbox
 //
 // Copyright (c) 2019 Zhao Xin
@@ -23,10 +23,10 @@
 // THE SOFTWARE.
 //
 
-#import "UITableViewCell+Separator.h"
+#import "UITableViewCell+ZXToolbox.h"
 #import <objc/runtime.h>
 
-@implementation UITableViewCell (Separator)
+@implementation UITableViewCell (ZXToolbox)
 
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];

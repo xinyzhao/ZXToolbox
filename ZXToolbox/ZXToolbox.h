@@ -57,7 +57,7 @@ FOUNDATION_EXPORT const unsigned char ZXToolboxVersionString[];
 #import "UINetworkActivityIndicator.h"
 #import "UIScreen+ZXToolbox.h"
 #import "UIScrollView+ZXToolbox.h"
-#import "UITableViewCell+Separator.h"
+#import "UITableViewCell+ZXToolbox.h"
 #import "UITextField+ZXToolbox.h"
 #import "UIView+ZXToolbox.h"
 #import "UIViewController+ZXToolbox.h"

@@ -140,9 +140,9 @@ Pod::Spec.new do |s|
     ss.public_header_files = "ZXToolbox/UIKit/UIScrollView+ZXToolbox/*.h"
   end
 
-  s.subspec "UITableViewCell+Separator" do |ss|
-    ss.source_files  = "ZXToolbox/UIKit/UITableViewCell+Separator/*.{h,m}"
-    ss.public_header_files = "ZXToolbox/UIKit/UITableViewCell+Separator/*.h"
+  s.subspec "UITableViewCell+ZXToolbox" do |ss|
+    ss.source_files  = "ZXToolbox/UIKit/UITableViewCell+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/UIKit/UITableViewCell+ZXToolbox/*.h"
   end
 
   s.subspec "UITextField+ZXToolbox" do |ss|
