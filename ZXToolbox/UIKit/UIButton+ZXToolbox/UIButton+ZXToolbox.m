@@ -24,9 +24,18 @@
 //
 
 #import "UIButton+ZXToolbox.h"
+#import "NSObject+ZXToolbox.h"
 #import <objc/runtime.h>
 
 @implementation UIButton (ZXToolbox)
+
++ (void)load {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        [self swizzleMethod:@selector(setTitle:forState:) with:@selector(zx_setTitle:forState:)];
+        [self swizzleMethod:@selector(setImage:forState:) with:@selector(zx_setImage:forState:)];
+    });
+}
 
 - (void)setTitleImageLayout:(UIButtonTitleImageLayout)titleImageLayout {
     objc_setAssociatedObject(self, @selector(titleImageLayout), @(titleImageLayout), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -46,6 +55,16 @@
 - (CGFloat)titleImageSpacing {
     NSNumber *number = objc_getAssociatedObject(self, @selector(titleImageSpacing));
     return [number floatValue];
+}
+
+- (void)zx_setTitle:(nullable NSString *)title forState:(UIControlState)state {
+    [self zx_setTitle:title forState:state];
+    [self layoutTitleImage];
+}
+
+- (void)zx_setImage:(nullable UIImage *)image forState:(UIControlState)state {
+    [self zx_setImage:image forState:state];
+    [self layoutTitleImage];
 }
 
 - (void)layoutTitleImage {

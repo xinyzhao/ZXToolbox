@@ -41,30 +41,4 @@
     return [self.viewControllers firstObject];
 }
 
-- (void)setTitleFont:(UIFont *)font {
-    NSMutableDictionary *attributes = [self.navigationController.navigationBar.titleTextAttributes mutableCopy];
-    if (font) {
-        if (attributes == nil) {
-            attributes = [NSMutableDictionary dictionary];
-        }
-        [attributes setObject:font forKey:NSFontAttributeName];
-    } else if (attributes) {
-        [attributes removeObjectForKey:NSFontAttributeName];
-    }
-    self.navigationController.navigationBar.titleTextAttributes = attributes;
-}
-
-- (void)setTitleColor:(UIColor *)color {
-    NSMutableDictionary *attributes = [self.navigationController.navigationBar.titleTextAttributes mutableCopy];
-    if (color) {
-        if (attributes == nil) {
-            attributes = [NSMutableDictionary dictionary];
-        }
-        [attributes setObject:color forKey:NSForegroundColorAttributeName];
-    } else if (attributes) {
-        [attributes removeObjectForKey:NSForegroundColorAttributeName];
-    }
-    self.navigationController.navigationBar.titleTextAttributes = attributes;
-}
-
 @end

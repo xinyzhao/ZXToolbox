@@ -1,5 +1,5 @@
 //
-// UINavigationController+ZXToolbox.h
+// UINavigationBar+ZXToolbox.m
 // https://github.com/xinyzhao/ZXToolbox
 //
 // Copyright (c) 2019 Zhao Xin
@@ -23,18 +23,34 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "UINavigationBar+ZXToolbox.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation UINavigationBar (ZXToolbox)
 
-@interface UINavigationController (ZXToolbox)
+- (void)setTitleFont:(UIFont *)font {
+    NSMutableDictionary *attributes = [self.titleTextAttributes mutableCopy];
+    if (font) {
+        if (attributes == nil) {
+            attributes = [NSMutableDictionary dictionary];
+        }
+        [attributes setObject:font forKey:NSFontAttributeName];
+    } else if (attributes) {
+        [attributes removeObjectForKey:NSFontAttributeName];
+    }
+    self.titleTextAttributes = attributes;
+}
 
-/// The previous viewController
-@property(nonatomic, readonly) UIViewController *prevViewController;
-
-/// The root viewController
-@property(nonatomic, readonly) UIViewController *rootViewController;
+- (void)setTitleColor:(UIColor *)color {
+    NSMutableDictionary *attributes = [self.titleTextAttributes mutableCopy];
+    if (color) {
+        if (attributes == nil) {
+            attributes = [NSMutableDictionary dictionary];
+        }
+        [attributes setObject:color forKey:NSForegroundColorAttributeName];
+    } else if (attributes) {
+        [attributes removeObjectForKey:NSForegroundColorAttributeName];
+    }
+    self.titleTextAttributes = attributes;
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

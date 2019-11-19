@@ -1,5 +1,5 @@
 //
-// UINavigationController+ZXToolbox.h
+// UINavigationBar+ZXToolbox.h
 // https://github.com/xinyzhao/ZXToolbox
 //
 // Copyright (c) 2019 Zhao Xin
@@ -27,13 +27,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UINavigationController (ZXToolbox)
+@interface UINavigationBar (ZXToolbox)
 
-/// The previous viewController
-@property(nonatomic, readonly) UIViewController *prevViewController;
+/// Set font for title
+/// @param font UIFont
+- (void)setTitleFont:(UIFont *)font;
 
-/// The root viewController
-@property(nonatomic, readonly) UIViewController *rootViewController;
+/// Set color for title
+/// @param color UIColor
+- (void)setTitleColor:(UIColor *)color;
 
 @end
 
