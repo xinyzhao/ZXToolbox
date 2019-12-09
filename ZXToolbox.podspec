@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.homepage     = "https://github.com/xinyzhao/ZXToolbox"
   s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author             = { "xinyzhao" => "xinyzhao@qq.com" }
-  s.platform     = :ios, "7.0"
+  s.platform     = :ios, "8.0"
   s.source       = { :git => "https://github.com/xinyzhao/ZXToolbox.git", :tag => "#{s.version}" }
   s.requires_arc = true
 
