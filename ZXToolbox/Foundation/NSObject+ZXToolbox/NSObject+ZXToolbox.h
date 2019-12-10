@@ -93,6 +93,6 @@
 /// @param block 闭包
 /// @param object 传值
 /// @param delayInSeconds 等待时间
-- (void)performBlock:(void(^)(id object))block withObject:(nullable id)object afterDelay:(NSTimeInterval)delayInSeconds;
+- (void)performBlock:(void(^)(id object))block withObject:(id)object afterDelay:(NSTimeInterval)delayInSeconds;
 
 @end
