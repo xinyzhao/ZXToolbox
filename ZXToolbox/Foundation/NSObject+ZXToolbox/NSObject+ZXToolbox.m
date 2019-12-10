@@ -26,6 +26,22 @@
 #import "NSObject+ZXToolbox.h"
 #import <objc/runtime.h>
 
+@interface NSObject (zx_performAfterDelayUUIDString)
+@property (nonatomic, copy) NSString *performAfterDelayUUIDString;
+@end
+
+@implementation NSObject (zx_performAfterDelayUUIDString)
+
+- (void)setPerformAfterDelayUUIDString:(NSString *)UUIDString {
+    objc_setAssociatedObject(self, @selector(performAfterDelayUUIDString), UUIDString, OBJC_ASSOCIATION_COPY);
+}
+
+- (NSString *)performAfterDelayUUIDString {
+    return objc_getAssociatedObject(self, @selector(performAfterDelayUUIDString));
+}
+
+@end
+
 @implementation NSObject (ZXToolbox)
 
 + (void)swizzleClassMethod:(SEL)originalSelector with:(SEL)swizzledSelector {
@@ -128,6 +144,19 @@
         void (*func)(id, SEL, id, id) = (void *)imp;
         func(self, selector, object1, object2);
     }
+}
+
+- (void)performBlock:(void(^)(id object))block withObject:(nullable id)object afterDelay:(NSTimeInterval)delayInSeconds {
+    NSString *uuid = NSUUID.UUID.UUIDString;
+    self.performAfterDelayUUIDString = uuid;
+    __weak typeof(self) weakSelf = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if ([weakSelf.performAfterDelayUUIDString isEqualToString:uuid]) {
+            if (block) {
+                block(object);
+            }
+        }
+    });
 }
 
 @end
