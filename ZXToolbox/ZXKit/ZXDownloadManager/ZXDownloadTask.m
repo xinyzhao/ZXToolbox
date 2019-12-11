@@ -27,7 +27,7 @@
 #import "ZXCommonCrypto.h"
 
 @interface ZXDownloadObserver : NSObject
-@property (nonatomic, weak) NSObject *observer;
+@property (nonatomic, weak) id <NSCopying> observer;
 @property (nonatomic, copy) void(^progress)(int64_t receivedSize, int64_t expectedSize, float progress);
 @property (nonatomic, copy) void(^state)(ZXDownloadState state, NSString *localFilePath, NSError *error);
 
@@ -81,18 +81,18 @@
     return self;
 }
 
-- (void)addObserver:(NSObject *)observer
+- (void)addObserver:(id <NSCopying>)observer
               state:(void(^)(ZXDownloadState state, NSString *filePath, NSError *error))state
            progress:(void(^)(int64_t receivedSize, int64_t expectedSize, float progress))progress {
     ZXDownloadObserver *taskObserver = [[ZXDownloadObserver alloc] init];
     taskObserver.observer = observer;
     taskObserver.state = state;
     taskObserver.progress = progress;
-    [self.observers setObject:taskObserver forKey:@(observer.hash)];
+    [self.observers setObject:taskObserver forKey:observer];
 }
 
-- (void)removeObserver:(NSObject *)observer {
-    [self.observers removeObjectForKey:@(observer.hash)];
+- (void)removeObserver:(id)observer {
+    [self.observers removeObjectForKey:observer];
 }
 
 #pragma mark Files

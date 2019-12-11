@@ -101,7 +101,7 @@ typedef NS_ENUM(NSInteger, ZXDownloadState) {
  @param state A block object to be executed when the download state changed.
  @param progress A block object to be executed when the download progress changed.
  */
-- (void)addObserver:(NSObject *_Nonnull)observer
+- (void)addObserver:(id <NSCopying> _Nonnull)observer
               state:(void(^_Nullable)(ZXDownloadState state, NSString *_Nullable localFilePath, NSError *_Nullable error))state
            progress:(void(^_Nullable)(int64_t receivedSize, int64_t expectedSize, float progress))progress;
 
@@ -110,6 +110,6 @@ typedef NS_ENUM(NSInteger, ZXDownloadState) {
 
  @param observer The observer
  */
-- (void)removeObserver:(NSObject *_Nonnull)observer;
+- (void)removeObserver:(id _Nonnull)observer;
 
 @end
