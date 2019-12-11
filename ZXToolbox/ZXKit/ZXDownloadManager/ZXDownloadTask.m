@@ -27,7 +27,7 @@
 #import "ZXCommonCrypto.h"
 
 @interface ZXDownloadObserver : NSObject
-@property (nonatomic, weak) id <NSCopying> observer;
+@property (nonatomic, weak) id observer;
 @property (nonatomic, copy) void(^progress)(int64_t receivedSize, int64_t expectedSize, float progress);
 @property (nonatomic, copy) void(^state)(ZXDownloadState state, NSString *localFilePath, NSError *error);
 
@@ -38,7 +38,7 @@
 @end
 
 @interface ZXDownloadTask ()
-@property (nonatomic, strong) NSMutableDictionary *observers;
+@property (nonatomic, strong) NSMutableArray *observers;
 @property (nonatomic, assign) float progress;
 @property (nonatomic, strong) NSString *streamFilePath;
 @property (nonatomic, strong) NSOutputStream *outputStream;
@@ -54,7 +54,7 @@
 - (instancetype)initWithURL:(NSURL *)URL path:(NSString *)path {
     self = [super init];
     if (self) {
-        _observers = [[NSMutableDictionary alloc] init];
+        _observers = [[NSMutableArray alloc] init];
         _taskURL = [URL copy];
         _taskIdentifier = [[[ZXCommonDigest alloc] initWithString:URL.absoluteString] SHA1String];
         //
@@ -81,18 +81,24 @@
     return self;
 }
 
-- (void)addObserver:(id <NSCopying>)observer
+- (void)addObserver:(id)observer
               state:(void(^)(ZXDownloadState state, NSString *filePath, NSError *error))state
            progress:(void(^)(int64_t receivedSize, int64_t expectedSize, float progress))progress {
     ZXDownloadObserver *taskObserver = [[ZXDownloadObserver alloc] init];
     taskObserver.observer = observer;
     taskObserver.state = state;
     taskObserver.progress = progress;
-    [self.observers setObject:taskObserver forKey:observer];
+    [self.observers addObject:taskObserver];
 }
 
 - (void)removeObserver:(id)observer {
-    [self.observers removeObjectForKey:observer];
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    for (ZXDownloadObserver *obj in self.observers) {
+        if (obj.observer == observer) {
+            [array addObject:obj];
+        }
+    }
+    [self.observers removeObjectsInArray:array];
 }
 
 #pragma mark Files
@@ -136,10 +142,9 @@
             break;
     }
     //
-    NSArray *observers = [self.observers allValues];
     NSString *path = state == ZXDownloadStateCompleted ? self.localFilePath : nil;
     dispatch_async(dispatch_get_main_queue(), ^{
-        for (ZXDownloadObserver *observer in observers) {
+        for (ZXDownloadObserver *observer in self.observers) {
             if (observer.state) {
                 observer.state(state, path, error);
             }
@@ -169,9 +174,8 @@
     _progress = progress;
     //
     __weak typeof(self) weakSelf = self;
-    NSArray *observers = [self.observers allValues];
     dispatch_async(dispatch_get_main_queue(), ^{
-        for (ZXDownloadObserver *observer in observers) {
+        for (ZXDownloadObserver *observer in self.observers) {
             if (observer.progress) {
                 observer.progress(weakSelf.totalBytesWritten, weakSelf.totalBytesExpectedToWrite, weakSelf.progress);
             }
