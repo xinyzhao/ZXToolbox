@@ -54,6 +54,8 @@
 @end
 
 @interface ZXCommonDigest : NSObject <ZXCommonDigest>
+/// Size of read buffer, default is 4096 bytes
+@property (nonatomic, assign) NSInteger bufferSize;
 
 - (instancetype)initWithData:(NSData *)data;
 - (instancetype)initWithString:(NSString *)string;
