@@ -90,19 +90,19 @@
 
 #pragma mark Suspend
 
-- (void)suspendDownloadForURL:(NSURL *)URL {
+- (void)suspendTaskForURL:(NSURL *)URL {
     ZXDownloadTask *task = [self downloadTaskForURL:URL];
-    [self suspendDownloadTask:task];
+    [self suspendTask:task];
 }
 
-- (void)suspendDownloadTask:(ZXDownloadTask *)task {
+- (void)suspendTask:(ZXDownloadTask *)task {
     if (task) {
         task.state = ZXDownloadStateSuspended;
         [self resumeNextDowloadTask];
     }
 }
 
-- (void)suspendAllDownloads {
+- (void)suspendAllTasks {
     for (ZXDownloadTask *task in [self.downloadTasks allValues]) {
         task.state = ZXDownloadStateSuspended;
     }
@@ -110,7 +110,7 @@
 
 #pragma mark Resume
 
-- (BOOL)resumeDownloadTask:(ZXDownloadTask *)task {
+- (BOOL)resumeTask:(ZXDownloadTask *)task {
     if (task.state == ZXDownloadStateRunning ||
         task.state == ZXDownloadStateCancelled ||
         task.state == ZXDownloadStateCompleted) {
@@ -147,33 +147,33 @@
 - (void)resumeNextDowloadTask {
     for (ZXDownloadTask *task in [self.downloadTasks allValues]) {
         if (task.state == ZXDownloadStateWaiting) {
-            [self resumeDownloadTask:task];
+            [self resumeTask:task];
             break;
         }
     }
 }
 
-- (void)resumeDownloadForURL:(NSURL *)URL {
+- (void)resumeTaskForURL:(NSURL *)URL {
     ZXDownloadTask *task = [self downloadTaskForURL:URL];
     if (task) {
-        [self resumeDownloadTask:task];
+        [self resumeTask:task];
     }
 }
 
-- (void)resumeAllDownloads {
+- (void)resumeAllTasks {
     for (ZXDownloadTask *task in [self.downloadTasks allValues]) {
-        [self resumeDownloadTask:task];
+        [self resumeTask:task];
     }
 }
 
 #pragma mark Cancel
 
-- (void)cancelDownloadForURL:(NSURL *)URL {
+- (void)cancelTaskForURL:(NSURL *)URL {
     ZXDownloadTask *task = [self downloadTaskForURL:URL];
-    [self cancelDownloadTask:task];
+    [self cancelTask:task];
 }
 
-- (void)cancelDownloadTask:(ZXDownloadTask *)task {
+- (void)cancelTask:(ZXDownloadTask *)task {
     if (task) {
         task.state = ZXDownloadStateCancelled;
         [self.downloadTasks removeObjectForKey:task.taskIdentifier];
@@ -181,7 +181,7 @@
     }
 }
 
-- (void)cancelAllDownloads {
+- (void)cancelAllTasks {
     for (ZXDownloadTask *task in [self.downloadTasks allValues]) {
         task.state = ZXDownloadStateCancelled;
     }

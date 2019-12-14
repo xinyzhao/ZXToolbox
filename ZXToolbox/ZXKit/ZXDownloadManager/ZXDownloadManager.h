@@ -81,61 +81,61 @@
 - (ZXDownloadTask *_Nullable)downloadTaskWithURL:(NSURL *_Nonnull)URL inDirectory:(NSString *_Nullable)path inBackground:(BOOL)backgroundMode;
 
 /**
- Suspend download for URL
+ Suspend the download task for URL
 
  @param URL The URL
  */
-- (void)suspendDownloadForURL:(NSURL *_Nonnull)URL;
+- (void)suspendTaskForURL:(NSURL *_Nonnull)URL;
 
 /**
- Suspend download task
+ Suspend the download task
 
  @param task The task
  */
-- (void)suspendDownloadTask:(ZXDownloadTask *_Nonnull)task;
+- (void)suspendTask:(ZXDownloadTask *_Nonnull)task;
 
 /**
- Suspend all downloads
+ Suspend all download tasks
  */
-- (void)suspendAllDownloads;
+- (void)suspendAllTasks;
 
 /**
- Resume or start download for URL
+ Resume or start the download task for URL
 
  @param URL The URL
  */
-- (void)resumeDownloadForURL:(NSURL *_Nonnull)URL;
+- (void)resumeTaskForURL:(NSURL *_Nonnull)URL;
 
 /**
- Resume or start download task
+ Resume or start the download task
 
  @param task The task
  @return True resume success
  */
-- (BOOL)resumeDownloadTask:(ZXDownloadTask *_Nonnull)task;
+- (BOOL)resumeTask:(ZXDownloadTask *_Nonnull)task;
 
 /**
- Resume or start all downloads
+ Resume or start all download tasks
  */
-- (void)resumeAllDownloads;
+- (void)resumeAllTasks;
 
 /**
- Cancel download for URL
+ Cancel the download task for URL
 
  @param URL URL
  */
-- (void)cancelDownloadForURL:(NSURL *_Nonnull)URL;
+- (void)cancelTaskForURL:(NSURL *_Nonnull)URL;
 
 /**
- Cancel download task
+ Cancel the download task
 
  @param task The task
  */
-- (void)cancelDownloadTask:(ZXDownloadTask *_Nonnull)task;
+- (void)cancelTask:(ZXDownloadTask *_Nonnull)task;
 
 /**
- Cancel all downloads
+ Cancel all download tasks
  */
-- (void)cancelAllDownloads;
+- (void)cancelAllTasks;
 
 @end
