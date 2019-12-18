@@ -153,11 +153,11 @@
 		706C15B52383CF64000B45E1 /* UINavigationBar+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 706C15B32383CF64000B45E1 /* UINavigationBar+ZXToolbox.m */; };
 		70988F372335F3B30002A8A3 /* UIControl+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70988F382335F3B30002A8A3 /* UIControl+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */; };
-		70D4BD2223A9DC47000D28E2 /* UIImageView+ZXImageBroswer.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D4BD1C23A9DC47000D28E2 /* UIImageView+ZXImageBroswer.h */; };
+		70D4BD2223A9DC47000D28E2 /* UIImageView+ZXImageBroswer.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D4BD1C23A9DC47000D28E2 /* UIImageView+ZXImageBroswer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70D4BD2323A9DC47000D28E2 /* UIImageView+ZXImageBroswer.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D4BD1D23A9DC47000D28E2 /* UIImageView+ZXImageBroswer.m */; };
-		70D4BD2423A9DC47000D28E2 /* ZXImageBroswer.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D4BD1E23A9DC47000D28E2 /* ZXImageBroswer.h */; };
+		70D4BD2423A9DC47000D28E2 /* ZXImageBroswer.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D4BD1E23A9DC47000D28E2 /* ZXImageBroswer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70D4BD2523A9DC47000D28E2 /* ZXImageBroswer.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D4BD1F23A9DC47000D28E2 /* ZXImageBroswer.m */; };
-		70D4BD2623A9DC47000D28E2 /* ZXImageBroswerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D4BD2023A9DC47000D28E2 /* ZXImageBroswerCell.h */; };
+		70D4BD2623A9DC47000D28E2 /* ZXImageBroswerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D4BD2023A9DC47000D28E2 /* ZXImageBroswerCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70D4BD2723A9DC47000D28E2 /* ZXImageBroswerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D4BD2123A9DC47000D28E2 /* ZXImageBroswerCell.m */; };
 		70F673CA234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70F673CB234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F673C8234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m */; };
