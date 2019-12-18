@@ -223,7 +223,14 @@ Pod::Spec.new do |s|
     ss.public_header_files = "ZXToolbox/ZXKit/ZXHTTPClient/*.h"
     ss.frameworks = "Security"
   end
-
+  
+  s.subspec "ZXImageBroswer" do |ss|
+    ss.dependency 'ZXToolbox/ZXCommonCrypto'
+    ss.dependency 'ZXToolbox/ZXURLSession'
+    ss.source_files  = "ZXToolbox/ZXKit/ZXImageBroswer/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/ZXKit/ZXImageBroswer/*.h"
+  end
+  
   s.subspec "ZXLineChartView" do |ss|
     ss.source_files  = "ZXToolbox/ZXKit/ZXLineChartView/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXLineChartView/*.h"

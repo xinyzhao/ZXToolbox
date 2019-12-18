@@ -123,6 +123,7 @@ Drag the built ZXToolbox.framework into your Xcode project.
 * ZXDrawingView
 * ZXHaloLabel
 * ZXHTTPClient
+* ZXImageBroswer
 * ZXLineChartView
 * ZXLocalAuthentication
 * ZXLocationManager

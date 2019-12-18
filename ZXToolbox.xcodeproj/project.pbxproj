@@ -153,6 +153,12 @@
 		706C15B52383CF64000B45E1 /* UINavigationBar+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 706C15B32383CF64000B45E1 /* UINavigationBar+ZXToolbox.m */; };
 		70988F372335F3B30002A8A3 /* UIControl+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70988F382335F3B30002A8A3 /* UIControl+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */; };
+		70D4BD2223A9DC47000D28E2 /* UIImageView+ZXImageBroswer.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D4BD1C23A9DC47000D28E2 /* UIImageView+ZXImageBroswer.h */; };
+		70D4BD2323A9DC47000D28E2 /* UIImageView+ZXImageBroswer.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D4BD1D23A9DC47000D28E2 /* UIImageView+ZXImageBroswer.m */; };
+		70D4BD2423A9DC47000D28E2 /* ZXImageBroswer.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D4BD1E23A9DC47000D28E2 /* ZXImageBroswer.h */; };
+		70D4BD2523A9DC47000D28E2 /* ZXImageBroswer.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D4BD1F23A9DC47000D28E2 /* ZXImageBroswer.m */; };
+		70D4BD2623A9DC47000D28E2 /* ZXImageBroswerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D4BD2023A9DC47000D28E2 /* ZXImageBroswerCell.h */; };
+		70D4BD2723A9DC47000D28E2 /* ZXImageBroswerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D4BD2123A9DC47000D28E2 /* ZXImageBroswerCell.m */; };
 		70F673CA234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70F673CB234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F673C8234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m */; };
 		70F673CE234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 70F673CD234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle */; };
@@ -310,6 +316,12 @@
 		706C15B32383CF64000B45E1 /* UINavigationBar+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+ZXToolbox.m"; sourceTree = "<group>"; };
 		70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+ZXToolbox.h"; sourceTree = "<group>"; };
 		70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+ZXToolbox.m"; sourceTree = "<group>"; };
+		70D4BD1C23A9DC47000D28E2 /* UIImageView+ZXImageBroswer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+ZXImageBroswer.h"; sourceTree = "<group>"; };
+		70D4BD1D23A9DC47000D28E2 /* UIImageView+ZXImageBroswer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+ZXImageBroswer.m"; sourceTree = "<group>"; };
+		70D4BD1E23A9DC47000D28E2 /* ZXImageBroswer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXImageBroswer.h; sourceTree = "<group>"; };
+		70D4BD1F23A9DC47000D28E2 /* ZXImageBroswer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXImageBroswer.m; sourceTree = "<group>"; };
+		70D4BD2023A9DC47000D28E2 /* ZXImageBroswerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXImageBroswerCell.h; sourceTree = "<group>"; };
+		70D4BD2123A9DC47000D28E2 /* ZXImageBroswerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXImageBroswerCell.m; sourceTree = "<group>"; };
 		70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+ZXToolbox.h"; sourceTree = "<group>"; };
 		70F673C8234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+ZXToolbox.m"; sourceTree = "<group>"; };
 		70F673CD234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = "UIDevice+ZXToolbox.bundle"; sourceTree = "<group>"; };
@@ -622,6 +634,7 @@
 				7000ACC722E9C22F00651E44 /* ZXDrawingView */,
 				7000ACE822E9C22F00651E44 /* ZXHaloLabel */,
 				7000AD1622E9C22F00651E44 /* ZXHTTPClient */,
+				70D4BD1B23A9DC47000D28E2 /* ZXImageBroswer */,
 				7000AD0D22E9C22F00651E44 /* ZXLineChartView */,
 				7000ACC122E9C22F00651E44 /* ZXLocalAuthentication */,
 				7000ACBE22E9C22F00651E44 /* ZXLocationManager */,
@@ -1028,6 +1041,19 @@
 			path = "UIControl+ZXToolbox";
 			sourceTree = "<group>";
 		};
+		70D4BD1B23A9DC47000D28E2 /* ZXImageBroswer */ = {
+			isa = PBXGroup;
+			children = (
+				70D4BD1C23A9DC47000D28E2 /* UIImageView+ZXImageBroswer.h */,
+				70D4BD1D23A9DC47000D28E2 /* UIImageView+ZXImageBroswer.m */,
+				70D4BD1E23A9DC47000D28E2 /* ZXImageBroswer.h */,
+				70D4BD1F23A9DC47000D28E2 /* ZXImageBroswer.m */,
+				70D4BD2023A9DC47000D28E2 /* ZXImageBroswerCell.h */,
+				70D4BD2123A9DC47000D28E2 /* ZXImageBroswerCell.m */,
+			);
+			path = ZXImageBroswer;
+			sourceTree = "<group>";
+		};
 		70F673C6234EDCA4009A6FF2 /* UIDevice+ZXToolbox */ = {
 			isa = PBXGroup;
 			children = (
@@ -1059,6 +1085,7 @@
 				7000AD1C22E9C22F00651E44 /* NSString+Unicode.h in Headers */,
 				7040F6CB23824182009EFB1F /* UINavigationController+ZXToolbox.h in Headers */,
 				7000AD4A22E9C22F00651E44 /* UIApplication+ZXToolbox.h in Headers */,
+				70D4BD2223A9DC47000D28E2 /* UIImageView+ZXImageBroswer.h in Headers */,
 				7000AD3C22E9C22F00651E44 /* UIApplicationIdleTimer.h in Headers */,
 				7000AD4522E9C22F00651E44 /* UIButton+ZXToolbox.h in Headers */,
 				7000AD3F22E9C22F00651E44 /* UIColor+ZXToolbox.h in Headers */,
@@ -1071,6 +1098,7 @@
 				7000AD4022E9C22F00651E44 /* UIScreen+ZXToolbox.h in Headers */,
 				7000AD4322E9C22F00651E44 /* UIScrollView+ZXToolbox.h in Headers */,
 				7000AD6222E9C22F00651E44 /* ZXAlertView.h in Headers */,
+				70D4BD2623A9DC47000D28E2 /* ZXImageBroswerCell.h in Headers */,
 				7000AD8422E9C22F00651E44 /* ZXAudioDevice.h in Headers */,
 				7000AD6922E9C22F00651E44 /* ZXAuthorizationHelper.h in Headers */,
 				7000AD7E22E9C22F00651E44 /* ZXBadgeLabel.h in Headers */,
@@ -1080,6 +1108,7 @@
 				7000AD7122E9C22F00651E44 /* ZXCircularProgressView.h in Headers */,
 				7000AD5E22E9C22F00651E44 /* ZXCommonCrypto.h in Headers */,
 				7000AD5C22E9C22F00651E44 /* ZXCommonCryptor.h in Headers */,
+				70D4BD2423A9DC47000D28E2 /* ZXImageBroswer.h in Headers */,
 				7000AD5D22E9C22F00651E44 /* ZXCommonDigest.h in Headers */,
 				7000AD5B22E9C22F00651E44 /* ZXCommonHMAC.h in Headers */,
 				7000AD9B22E9C22F00651E44 /* ZXDownloadManager.h in Headers */,
@@ -1226,6 +1255,8 @@
 				7000AD8D22E9C22F00651E44 /* ZXURLSession.m in Sources */,
 				7000AD3922E9C22F00651E44 /* UIViewController+ZXToolbox.m in Sources */,
 				7000AD4B22E9C22F00651E44 /* UIApplication+ZXToolbox.m in Sources */,
+				70D4BD2523A9DC47000D28E2 /* ZXImageBroswer.m in Sources */,
+				70D4BD2723A9DC47000D28E2 /* ZXImageBroswerCell.m in Sources */,
 				7000AD6D22E9C22F00651E44 /* ZXScrollLabel.m in Sources */,
 				7000AD9122E9C22F00651E44 /* ZXTabBarItemController.m in Sources */,
 				7000AD2E22E9C22F00651E44 /* NSDate+ZXToolbox.m in Sources */,
@@ -1256,6 +1287,7 @@
 				7000AD2A22E9C22F00651E44 /* NSData+Base64Encoding.m in Sources */,
 				7000AD6422E9C22F00651E44 /* ZXPageView.m in Sources */,
 				7000AD5822E9C22F00651E44 /* ZXCommonCryptor.m in Sources */,
+				70D4BD2323A9DC47000D28E2 /* UIImageView+ZXImageBroswer.m in Sources */,
 				7000AD7722E9C22F00651E44 /* ZXNavigationController.m in Sources */,
 				7000AD5622E9C22F00651E44 /* ZXPopoverView.m in Sources */,
 				7000AD8022E9C22F00651E44 /* ZXQRCodeReader.m in Sources */,
@@ -1393,7 +1425,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20191211;
+				CURRENT_PROJECT_VERSION = 20191218;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1405,7 +1437,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.5;
+				MARKETING_VERSION = 2.2.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolbox;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1418,7 +1450,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20191211;
+				CURRENT_PROJECT_VERSION = 20191218;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1430,7 +1462,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.2.5;
+				MARKETING_VERSION = 2.2.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolbox;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
