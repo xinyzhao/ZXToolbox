@@ -335,7 +335,7 @@
         if (time > duration) {
             time = duration;
         }
-        CMTime toTime = CMTimeMakeWithSeconds(floor(time), 1);
+        CMTime toTime = CMTimeMakeWithSeconds(floor(time), NSEC_PER_SEC);
         //
         __weak typeof(self) weakSelf = self;
         [_playerItem seekToTime:toTime toleranceBefore:CMTimeMake(1,1) toleranceAfter:CMTimeMake(1,1) completionHandler:^(BOOL finished) {
@@ -352,7 +352,7 @@
 #pragma mark Image
 
 - (UIImage *)previewImage {
-    return [self imageAtTime:CMTimeMakeWithSeconds(0, 1000)];
+    return [self imageAtTime:CMTimeMakeWithSeconds(0, NSEC_PER_SEC)];
 }
 
 - (UIImage *)currentImage {
