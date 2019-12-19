@@ -24,9 +24,43 @@
 //
 
 #import "UIButton+ZXToolbox.h"
+#import "NSObject+ZXToolbox.h"
 #import <objc/runtime.h>
 
 @implementation UIButton (ZXToolbox)
+
++ (void)load {
+    [self swizzleMethod:@selector(setTitle:forState:) with:@selector(zx_setTitle:forState:)];
+    [self swizzleMethod:@selector(setImage:forState:) with:@selector(zx_setImage:forState:)];
+    [self swizzleMethod:@selector(setEnabled:) with:@selector(zx_setEnabled:)];
+    [self swizzleMethod:@selector(setHighlighted:) with:@selector(zx_setHighlighted:)];
+    [self swizzleMethod:@selector(setSelected:) with:@selector(zx_setSelected:)];
+}
+
+- (void)zx_setTitle:(NSString *)title forState:(UIControlState)state {
+    [self zx_setTitle:title forState:state];
+    [self layoutTitleImage];
+}
+
+- (void)zx_setImage:(UIImage *)image forState:(UIControlState)state {
+    [self zx_setImage:image forState:state];
+    [self layoutTitleImage];
+}
+
+- (void)zx_setEnabled:(BOOL)enabled {
+    [self zx_setEnabled:enabled];
+    [self layoutTitleImage];
+}
+
+- (void)zx_setHighlighted:(BOOL)highlighted {
+    [self zx_setHighlighted:highlighted];
+    [self layoutTitleImage];
+}
+
+- (void)zx_setSelected:(BOOL)selected {
+    [self zx_setSelected:selected];
+    [self layoutTitleImage];
+}
 
 - (void)setTitleImageLayout:(UIButtonTitleImageLayout)titleImageLayout {
     objc_setAssociatedObject(self, @selector(titleImageLayout), @(titleImageLayout), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
@@ -49,7 +83,14 @@
 }
 
 - (void)layoutTitleImage {
+    // no change
+    if (self.titleImageLayout == UIButtonTitleImageLayoutLeft &&
+        self.titleImageSpacing == 0) {
+        return;
+    }
     // reset
+    [self.titleLabel setText:self.currentTitle];
+    [self.imageView setImage:self.currentImage];
     [self setTitleEdgeInsets:UIEdgeInsetsZero];
     [self setImageEdgeInsets:UIEdgeInsetsZero];
     [self layoutIfNeeded];
