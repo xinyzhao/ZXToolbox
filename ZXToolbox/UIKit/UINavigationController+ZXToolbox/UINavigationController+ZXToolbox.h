@@ -30,10 +30,10 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UINavigationController (ZXToolbox)
 
 /// The previous viewController
-@property(nonatomic, readonly) UIViewController *prevViewController;
+@property(nonatomic, readonly, nullable) UIViewController *prevViewController;
 
 /// The root viewController
-@property(nonatomic, readonly) UIViewController *rootViewController;
+@property(nonatomic, readonly, nullable) UIViewController *rootViewController;
 
 @end
 

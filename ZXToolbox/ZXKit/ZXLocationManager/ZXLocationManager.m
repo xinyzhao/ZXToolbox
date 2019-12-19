@@ -27,9 +27,9 @@
 
 @interface ZXLocationManager ()
 @property (nonatomic, strong) CLLocationManager *locationManager;
-@property (nonatomic, strong) CLLocation *location;
-@property (nonatomic, strong) CLPlacemark *placemark;
-@property (nonatomic, strong) void (^statusBlock)(CLAuthorizationStatus status);
+@property (nonatomic, strong, nullable) CLLocation *location;
+@property (nonatomic, strong, nullable) CLPlacemark *placemark;
+@property (nonatomic, strong, nullable) void (^statusBlock)(CLAuthorizationStatus status);
 
 @end
 
@@ -133,27 +133,27 @@
 
 @implementation CLPlacemark (ZXLocationManager)
 
-- (NSString *)province {
+- (nullable NSString *)province {
     return self.administrativeArea ? self.administrativeArea : self.locality;
 }
 
-- (NSString *)city {
+- (nullable NSString *)city {
     return self.locality;
 }
 
-- (NSString *)district {
+- (nullable NSString *)district {
     return self.subLocality;
 }
 
-- (NSString *)street {
+- (nullable NSString *)street {
     return self.thoroughfare;
 }
 
-- (NSString *)streetNumber {
+- (nullable NSString *)streetNumber {
     return self.subThoroughfare;
 }
 
-- (NSString *)address {
+- (nullable NSString *)address {
     return self.addressDictionary[@"FormattedAddressLines"];
 }
 

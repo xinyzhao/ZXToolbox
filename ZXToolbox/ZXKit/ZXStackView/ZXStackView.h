@@ -56,9 +56,9 @@ typedef NS_ENUM(NSInteger, ZXStackViewAlignment) {
 /// Current index of subview, default is 0
 @property (nonatomic, assign) NSInteger currentIndex;
 /// Will display subview for index
-@property (nonatomic, copy) UIView * (^willDisplaySubview)(NSInteger index);
+@property (nonatomic, copy, nullable) UIView * (^willDisplaySubview)(NSInteger index);
 /// The subview did display
-@property (nonatomic, copy) void (^didDisplaySubview)(NSInteger index);
+@property (nonatomic, copy, nullable) void (^didDisplaySubview)(NSInteger index);
 
 /**
  Set current page with animated

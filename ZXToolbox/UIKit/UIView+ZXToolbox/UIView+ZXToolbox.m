@@ -49,7 +49,7 @@
     return [self internalContentSize];
 }
 
-- (UIImage *)captureImage {
+- (nullable UIImage *)captureImage {
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, 0);
     CGContextRef context = UIGraphicsGetCurrentContext();
     [self.layer renderInContext:context];
@@ -58,11 +58,11 @@
     return image;
 }
 
-- (UIImage *)snapshotImage {
+- (nullable UIImage *)snapshotImage {
     return [self captureImage];
 }
 
-- (id)subviewForTag:(NSInteger)tag {
+- (nullable id)subviewForTag:(NSInteger)tag {
     UIView *subview = nil;
     for (UIView *view in self.subviews) {
         if (view.tag == tag) {
@@ -78,7 +78,7 @@
     return subview;
 }
 
-- (id)subviewForTag:(NSInteger)tag isKindOfClass:(Class)aClass {
+- (nullable id)subviewForTag:(NSInteger)tag isKindOfClass:(Class)aClass {
     UIView *subview = nil;
     for (UIView *view in self.subviews) {
         if (view.tag == tag && [view isKindOfClass:aClass]) {
@@ -94,7 +94,7 @@
     return subview;
 }
 
-- (id)subviewForTag:(NSInteger)tag isMemberOfClass:(Class)aClass {
+- (nullable id)subviewForTag:(NSInteger)tag isMemberOfClass:(Class)aClass {
     UIView *subview = nil;
     for (UIView *view in self.subviews) {
         if (view.tag == tag && [view isMemberOfClass:aClass]) {

@@ -27,7 +27,7 @@
 
 @implementation UINavigationController (ZXToolbox)
 
-- (UIViewController *)prevViewController {
+- (nullable UIViewController *)prevViewController {
     if (self.topViewController) {
         NSInteger index = [self.viewControllers indexOfObject:self.topViewController] - 1;
         if (index >= 0) {
@@ -37,7 +37,7 @@
     return nil;
 }
 
-- (UIViewController *)rootViewController {
+- (nullable UIViewController *)rootViewController {
     return [self.viewControllers firstObject];
 }
 

@@ -37,14 +37,14 @@ NS_ASSUME_NONNULL_BEGIN
  
  @return UIImage
  */
-- (UIImage *)captureImage;
+- (nullable UIImage *)captureImage;
 
 /**
  Snapshot for view, same as captureImage
  
  @return UIImage
  */
-- (UIImage *)snapshotImage;
+- (nullable UIImage *)snapshotImage;
 
 /**
  Get instance of subview for tag, not including self
@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param tag The tag of subview
  @return The instance of subview if finded, otherwise is nil.
  */
-- (id)subviewForTag:(NSInteger)tag;
+- (nullable id)subviewForTag:(NSInteger)tag;
 
 /**
  Get instance of subview for tag, not including self
@@ -61,7 +61,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param aClass The class of subview
  @return The instance of subview if finded, otherwise is nil.
  */
-- (id)subviewForTag:(NSInteger)tag isKindOfClass:(Class)aClass;
+- (nullable id)subviewForTag:(NSInteger)tag isKindOfClass:(Class)aClass;
 
 /**
  Get instance of subview for tag, not including self
@@ -70,7 +70,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param aClass The member class of subview
  @return The instance of subview if finded, otherwise is nil.
  */
-- (id)subviewForTag:(NSInteger)tag isMemberOfClass:(Class)aClass;
+- (nullable id)subviewForTag:(NSInteger)tag isMemberOfClass:(Class)aClass;
 
 @end
 

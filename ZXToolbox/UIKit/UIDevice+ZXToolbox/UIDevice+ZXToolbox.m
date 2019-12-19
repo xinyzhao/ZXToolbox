@@ -29,7 +29,7 @@
 
 @implementation UIDevice (ZXToolbox)
 
-- (NSString *)modelType {
+- (nullable NSString *)modelType {
     static NSString *modelType;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -46,7 +46,7 @@
     return modelType;
 }
 
-- (NSString *)modelName {
+- (nullable NSString *)modelName {
     static NSString *modelName;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{

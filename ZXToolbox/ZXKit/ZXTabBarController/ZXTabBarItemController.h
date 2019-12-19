@@ -28,8 +28,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ZXTabBarItemController : UIViewController
-@property (nonatomic, strong) IBInspectable NSString *storyboardID;
-@property (nonatomic, strong) IBInspectable NSString *storyboardName;
+@property (nonatomic, strong, nullable) IBInspectable NSString *storyboardID;
+@property (nonatomic, strong, nullable) IBInspectable NSString *storyboardName;
 
 @end
 

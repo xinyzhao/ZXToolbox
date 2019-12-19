@@ -59,9 +59,10 @@
         self.position = ZXToastPositionCenter;
         self.dismissWhenTouchInside = YES;
         self.captureWhenTouchOutside = YES;
+        self.effectStyle = UIBlurEffectStyleLight;
         //
         if (@available(iOS 8.0, *)) {
-            UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:UIBlurEffectStyleLight];
+            UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:_effectStyle];
             _bubbleView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
             _bubbleView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.6];
         } else {
@@ -73,7 +74,7 @@
     return self;
 }
 
-- (instancetype)initWithActivity:(NSString *)text {
+- (instancetype)initWithActivity:(NSString * _Nullable)text {
     self = [self initWithText:text];
     if (self) {
         _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
@@ -87,7 +88,7 @@
     return self;
 }
 
-- (instancetype)initWithText:(NSString *)text {
+- (instancetype)initWithText:(NSString * _Nullable)text {
     self = [self init];
     if (self) {
         if (text) {
@@ -108,7 +109,7 @@
     return self;
 }
 
-- (instancetype)initWithText:(NSString *)text
+- (instancetype)initWithText:(NSString * _Nullable)text
                     duration:(NSTimeInterval)duration {
     self = [self initWithText:text];
     if (self) {
@@ -117,9 +118,9 @@
     return self;
 }
 
-- (instancetype)initWithText:(NSString *)text
-                    duration:(NSTimeInterval)duration
-                       image:(UIImage *)image {
+- (instancetype)initWithImage:(UIImage * _Nullable)image
+                         text:(NSString * _Nullable)text
+                     duration:(NSTimeInterval)duration {
     self = [self initWithText:text duration:duration];
     if (self) {
         if (image) {
@@ -138,11 +139,11 @@
 
 #pragma mark Effect
 
-- (UIVisualEffectView *)effectView {
+- (UIVisualEffectView *)effectView NS_AVAILABLE_IOS(8_0) {
     return (UIVisualEffectView *)_bubbleView;
 }
 
-- (void)setEffectStyle:(UIBlurEffectStyle)effectStyle {
+- (void)setEffectStyle:(UIBlurEffectStyle)effectStyle NS_AVAILABLE_IOS(8_0) {
     _effectStyle = effectStyle;
     //
     self.effectView.effect = [UIBlurEffect effectWithStyle:_effectStyle];

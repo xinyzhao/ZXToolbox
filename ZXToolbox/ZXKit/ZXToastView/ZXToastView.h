@@ -25,6 +25,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  ZXToastPosition
  */
@@ -58,17 +60,17 @@ typedef NS_ENUM(NSInteger, ZXToastPosition) {
 /**
  The activity view
  */
-@property (nonatomic, readonly) UIActivityIndicatorView *activityView;
+@property (nonatomic, readonly, nullable) UIActivityIndicatorView *activityView;
 
 /**
  The text label
  */
-@property (nonatomic, readonly) UILabel *textLabel;
+@property (nonatomic, readonly, nullable) UILabel *textLabel;
 
 /**
  The image view
  */
-@property (nonatomic, readonly) UIImageView *imageView;
+@property (nonatomic, readonly, nullable) UIImageView *imageView;
 
 /**
  Toast content insets, default is {64.0, 44.0, 64.0, 44.0}
@@ -116,7 +118,7 @@ typedef NS_ENUM(NSInteger, ZXToastPosition) {
  @param text The text to be displayed
  @return The instance
  */
-- (instancetype)initWithActivity:(NSString *)text;
+- (instancetype)initWithActivity:(NSString * _Nullable)text;
 
 /**
  Creates a new toast view
@@ -124,7 +126,7 @@ typedef NS_ENUM(NSInteger, ZXToastPosition) {
  @param text The text to be displayed
  @return The instance
  */
-- (instancetype)initWithText:(NSString *)text;
+- (instancetype)initWithText:(NSString * _Nullable)text;
 
 /**
  Creates a new toast view
@@ -133,20 +135,20 @@ typedef NS_ENUM(NSInteger, ZXToastPosition) {
  @param duration The toast duration
  @return The instance
  */
-- (instancetype)initWithText:(NSString *)text
+- (instancetype)initWithText:(NSString * _Nullable)text
                     duration:(NSTimeInterval)duration;
 
 /**
  Creates a new toast view
 
+ @param image The image
  @param text The text to be displayed
  @param duration The toast duration
- @param image The image
  @return The instance
  */
-- (instancetype)initWithText:(NSString *)text
-                    duration:(NSTimeInterval)duration
-                       image:(UIImage *)image;
+- (instancetype)initWithImage:(UIImage * _Nullable)image
+                         text:(NSString * _Nullable)text
+                     duration:(NSTimeInterval)duration;
 
 /**
  Show toast in view
@@ -160,7 +162,7 @@ typedef NS_ENUM(NSInteger, ZXToastPosition) {
  
  @param text The text to be displayed
  */
-- (void)showStatus:(NSString *)text;
+- (void)showStatus:(NSString * _Nullable)text;
 
 /**
  Hide the toast
@@ -175,3 +177,5 @@ typedef NS_ENUM(NSInteger, ZXToastPosition) {
 + (void)hideAllToast;
 
 @end
+
+NS_ASSUME_NONNULL_END
