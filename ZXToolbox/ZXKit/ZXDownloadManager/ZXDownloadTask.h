@@ -45,12 +45,12 @@ typedef NS_ENUM(NSInteger, ZXDownloadState) {
 /**
  The URL of this task
  */
-@property (nonatomic, readonly, nonnull) NSURL *taskURL;
+@property (nonatomic, readonly, nonnull) NSURL *URL;
 
 /**
  Identifier for this task
  */
-@property (nonatomic, readonly, nonnull) NSString *taskIdentifier;
+@property (nonatomic, readonly, nonnull) NSString *identifier;
 
 /**
  The local file path for this task
@@ -111,5 +111,11 @@ typedef NS_ENUM(NSInteger, ZXDownloadState) {
  @param observer The observer
  */
 - (void)removeObserver:(id _Nonnull)observer;
+
+@end
+
+@interface NSURL (ZXDownloadTask)
+
+- (nullable NSString *)taskIdentifier;
 
 @end

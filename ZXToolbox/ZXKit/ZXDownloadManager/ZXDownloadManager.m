@@ -24,7 +24,6 @@
 //
 
 #import "ZXDownloadManager.h"
-#import "ZXCommonCrypto.h"
 
 @interface ZXDownloadManager () <NSURLSessionDelegate, NSURLSessionDataDelegate>
 @property (nonatomic, strong) NSURLSession *session;
@@ -78,14 +77,13 @@
             task.dataTask = [self.session dataTaskWithRequest:request];
         }
         //
-        [self.downloadTasks setObject:task forKey:task.taskIdentifier];
+        [self.downloadTasks setObject:task forKey:task.identifier];
     }
     return task;
 }
 
 - (ZXDownloadTask *)downloadTaskForURL:(NSURL *)URL {
-    NSString *taskIdentifier = [[[ZXCommonDigest alloc] initWithString:URL.absoluteString] SHA1String];
-    return [self.downloadTasks objectForKey:taskIdentifier];
+    return [self.downloadTasks objectForKey:URL.taskIdentifier];
 }
 
 #pragma mark Suspend
@@ -118,7 +116,7 @@
         //
         if (task.state == ZXDownloadStateCancelled ||
             task.state == ZXDownloadStateCompleted) {
-            [self.downloadTasks removeObjectForKey:task.taskIdentifier];
+            [self.downloadTasks removeObjectForKey:task.identifier];
         }
         return NO;
     }
@@ -176,7 +174,7 @@
 - (void)cancelTask:(ZXDownloadTask *)task {
     if (task) {
         task.state = ZXDownloadStateCancelled;
-        [self.downloadTasks removeObjectForKey:task.taskIdentifier];
+        [self.downloadTasks removeObjectForKey:task.identifier];
         [self resumeNextDowloadTask];
     }
 }
@@ -245,7 +243,7 @@
         if ([obj respondsToSelector:@selector(URLSession:task:didCompleteWithError:)]) {
             [obj URLSession:session task:task didCompleteWithError:error];
         }
-        [self.downloadTasks removeObjectForKey:obj.taskIdentifier];
+        [self.downloadTasks removeObjectForKey:obj.identifier];
         [self resumeNextDowloadTask];
     }
 }

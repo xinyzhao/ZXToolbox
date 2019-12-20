@@ -55,8 +55,8 @@
     self = [super init];
     if (self) {
         _observers = [[NSMutableArray alloc] init];
-        _taskURL = [URL copy];
-        _taskIdentifier = [[[ZXCommonDigest alloc] initWithString:URL.absoluteString] SHA1String];
+        _URL = [URL copy];
+        _identifier = _URL.taskIdentifier;
         //
         BOOL isDirectory = NO;
         if (path == nil) {
@@ -71,7 +71,7 @@
         _totalBytesWritten = 0;
         _totalBytesExpectedToWrite = 0;
         _localFilePath = [path stringByAppendingPathComponent:[URL lastPathComponent]];
-        _streamFilePath = [path stringByAppendingPathComponent:_taskIdentifier];
+        _streamFilePath = [path stringByAppendingPathComponent:_identifier];
         if ([[NSFileManager defaultManager] fileExistsAtPath:_localFilePath]) {
             self.state = ZXDownloadStateCompleted;
         } else {
@@ -233,6 +233,30 @@
                                                  error:(error == nil ? &error : nil)];
     }
     [self setState:ZXDownloadStateCompleted withError:error];
+}
+
+@end
+
+@implementation NSURL (ZXDownloadTask)
+
+- (nullable NSString *)taskIdentifier {
+    NSMutableString *url = [[NSMutableString alloc] init];
+    if (self.scheme) {
+        [url appendFormat:@"%@://", self.scheme];
+    }
+    if (self.host) {
+        [url appendString:self.host];
+    }
+    if (self.port) {
+        [url appendFormat:@":%d", self.port.intValue];
+    }
+    if (self.path) {
+        [url appendFormat:@"/%@", self.path];
+    }
+    if (url.length) {
+        return [[[ZXCommonDigest alloc] initWithString:url] SHA1String];
+    }
+    return nil;
 }
 
 @end
