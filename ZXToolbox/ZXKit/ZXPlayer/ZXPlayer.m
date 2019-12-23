@@ -38,7 +38,7 @@
 @property (nonatomic, strong) UISlider *volumeSlider;
 
 @property (nonatomic, assign) ZXPlaybackStatus status;
-@property (nonatomic, assign) BOOL isPlaying;
+@property (nonatomic, assign) BOOL playing;
 
 @end
 
@@ -52,7 +52,7 @@
     self = [super init];
     if (self) {
         _status = ZXPlaybackStatusBuffering;
-        _isPlaying = NO;
+        _playing = NO;
         _playbackTimeInterval = 1.0;
         _URL = [URL copy];
         if (_URL) {
@@ -234,9 +234,9 @@
     return _playerItem.status == AVPlayerItemStatusReadyToPlay;
 }
 
-//- (BOOL)isPlaying {
-//    return _status == ZXPlaybackStatusPlaying;
-//}
+- (BOOL)isPlaying {
+    return _status == ZXPlaybackStatusPlaying;
+}
 
 - (BOOL)isBuffering {
     return _status == ZXPlaybackStatusBuffering;
@@ -257,7 +257,7 @@
 #pragma mark Playing
 
 - (void)play {
-    _isPlaying = YES;
+    _playing = YES;
     //
     if (self.isReadToPlay) {
         if (self.isEnded) {
@@ -273,7 +273,7 @@
 }
 
 - (void)pause {
-    _isPlaying = NO;
+    _playing = NO;
     //
     if (self.isReadToPlay) {
         [self.player pause];
@@ -414,7 +414,7 @@
         }
         
     } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
-        if (self.isPlaying) {
+        if (_playing) {
             if (_playerItem.isPlaybackBufferEmpty) {
                 self.status = ZXPlaybackStatusBuffering;
             } else {
