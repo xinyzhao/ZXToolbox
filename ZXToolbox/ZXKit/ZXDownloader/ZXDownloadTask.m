@@ -151,11 +151,7 @@
     if ([_task isKindOfClass:NSURLSessionDownloadTask.class]) {
         __weak typeof(self) weakSelf = self;
         [((NSURLSessionDownloadTask *)_task) cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
-            if (resumeData && weakSelf.cacheFilePath) {
-                NSAssert(weakSelf.cacheFilePath != nil, @"The cacheFilePath is not be nil");
-                [[NSFileManager defaultManager] removeItemAtPath:weakSelf.cacheFilePath error:nil];
-                [resumeData writeToFile:weakSelf.cacheFilePath atomically:YES];
-            }
+            [weakSelf writeResumeData:resumeData];
         }];
     } else {
         [self.task cancel];
@@ -266,11 +262,11 @@
                                                     toPath:_finalFilePath
                                                      error:&error];
         }
-        [self setState:task.state withError:error];
     } else if (error) {
         NSData *resumeData = error.userInfo[NSURLSessionDownloadTaskResumeData];
         [self writeResumeData:resumeData];
     }
+    [self setState:task.state withError:error];
 }
 
 #pragma mark <NSURLSessionDataDelegate>
