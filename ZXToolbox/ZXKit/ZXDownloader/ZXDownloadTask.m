@@ -329,9 +329,7 @@ didReceiveResponse:(NSURLResponse *)response
     NSFileManager *fileManager = [NSFileManager defaultManager];
     [fileManager removeItemAtURL:toURL error:NULL];
     [fileManager copyItemAtURL:location toURL:toURL error:&error];
-    if (error) {
-        [self setState:downloadTask.state withError:error];
-    }
+    [self setState:downloadTask.state withError:error];
 }
 
 
