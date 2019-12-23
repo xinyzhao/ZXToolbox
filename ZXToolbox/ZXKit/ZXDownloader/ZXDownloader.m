@@ -79,8 +79,14 @@
 - (void)setSession:(NSURLSession *)session {
     _session = session;
     //
-    if (!_isBackgroundDownloader) {
-        __weak typeof(self) weakSelf = self;
+    __weak typeof(self) weakSelf = self;
+    if (_isBackgroundDownloader) {
+        [_session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
+            for (NSURLSessionDownloadTask *task in downloadTasks) {
+                [weakSelf downloadTaskWithTask:task];
+            }
+        }];
+    } else {
         _runningTasks = [[NSMutableArray alloc] init];
         _waitingTasks = [[NSMutableArray alloc] init];
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
