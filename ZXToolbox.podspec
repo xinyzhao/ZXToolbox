@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "2.2.8"
+  s.version      = "2.2.9"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -203,10 +203,10 @@ Pod::Spec.new do |s|
     ss.public_header_files = "ZXToolbox/ZXKit/ZXCommonCrypto/*.h"
   end
 
-  s.subspec "ZXDownloadManager" do |ss|
+  s.subspec "ZXDownloader" do |ss|
   	ss.dependency 'ZXToolbox/ZXCommonCrypto'
-    ss.source_files  = "ZXToolbox/ZXKit/ZXDownloadManager/*.{h,m}"
-    ss.public_header_files = "ZXToolbox/ZXKit/ZXDownloadManager/*.h"
+    ss.source_files  = "ZXToolbox/ZXKit/ZXDownloader/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/ZXKit/ZXDownloader/*.h"
   end
 
   s.subspec "ZXDrawingView" do |ss|

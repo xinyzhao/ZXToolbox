@@ -68,7 +68,7 @@ FOUNDATION_EXPORT const unsigned char ZXToolboxVersionString[];
 #import "ZXBrightnessView.h"
 #import "ZXCircularProgressView.h"
 #import "ZXCommonCrypto.h"
-#import "ZXDownloadManager.h"
+#import "ZXDownloader.h"
 #import "ZXDrawingView.h"
 #import "ZXHaloLabel.h"
 #import "ZXHTTPClient.h"

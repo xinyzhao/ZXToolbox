@@ -119,7 +119,7 @@ Drag the built ZXToolbox.framework into your Xcode project.
 * ZXBrightnessView
 * ZXCircularProgressView
 * ZXCommonCrypto
-* ZXDownloadManager
+* ZXDownloader
 * ZXDrawingView
 * ZXHaloLabel
 * ZXHTTPClient
