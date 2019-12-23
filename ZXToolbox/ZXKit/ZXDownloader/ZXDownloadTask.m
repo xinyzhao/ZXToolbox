@@ -262,11 +262,12 @@
                                                     toPath:_finalFilePath
                                                      error:&error];
         }
+        [self setState:task.state withError:error];
     } else if (error) {
         NSData *resumeData = error.userInfo[NSURLSessionDownloadTaskResumeData];
         [self writeResumeData:resumeData];
+        [self setState:task.state withError:error];
     }
-    [self setState:task.state withError:error];
 }
 
 #pragma mark <NSURLSessionDataDelegate>
@@ -323,12 +324,14 @@ didReceiveResponse:(NSURLResponse *)response
 - (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
                               didFinishDownloadingToURL:(NSURL *)location
 {
-    NSError *error;
+    NSError *error = nil;
     NSURL *toURL = [NSURL fileURLWithPath:_finalFilePath];
     NSFileManager *fileManager = [NSFileManager defaultManager];
     [fileManager removeItemAtURL:toURL error:NULL];
     [fileManager copyItemAtURL:location toURL:toURL error:&error];
-    [self setState:downloadTask.state withError:error];
+    if (error) {
+        [self setState:downloadTask.state withError:error];
+    }
 }
 
 
