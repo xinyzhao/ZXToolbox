@@ -33,8 +33,6 @@
 		7000AD3122E9C22F00651E44 /* NSArray+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AC7322E9C22E00651E44 /* NSArray+ZXToolbox.m */; };
 		7000AD3222E9C22F00651E44 /* NSNumberFormatter+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AC7522E9C22E00651E44 /* NSNumberFormatter+ZXToolbox.m */; };
 		7000AD3322E9C22F00651E44 /* NSNumberFormatter+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AC7622E9C22E00651E44 /* NSNumberFormatter+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7000AD3422E9C22F00651E44 /* UINetworkActivityIndicator.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AC7922E9C22E00651E44 /* UINetworkActivityIndicator.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7000AD3522E9C22F00651E44 /* UINetworkActivityIndicator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AC7A22E9C22E00651E44 /* UINetworkActivityIndicator.m */; };
 		7000AD3622E9C22F00651E44 /* UITableViewCell+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AC7C22E9C22E00651E44 /* UITableViewCell+ZXToolbox.m */; };
 		7000AD3722E9C22F00651E44 /* UITableViewCell+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AC7D22E9C22E00651E44 /* UITableViewCell+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD3822E9C22F00651E44 /* UIViewController+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AC7F22E9C22E00651E44 /* UIViewController+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -78,8 +76,6 @@
 		7000AD5E22E9C22F00651E44 /* ZXCommonCrypto.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACB422E9C22F00651E44 /* ZXCommonCrypto.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD5F22E9C22F00651E44 /* ZXPageIndicatorView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACB622E9C22F00651E44 /* ZXPageIndicatorView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD6022E9C22F00651E44 /* ZXPageIndicatorView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACB722E9C22F00651E44 /* ZXPageIndicatorView.m */; };
-		7000AD6122E9C22F00651E44 /* ZXAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACB922E9C22F00651E44 /* ZXAlertView.m */; };
-		7000AD6222E9C22F00651E44 /* ZXAlertView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACBA22E9C22F00651E44 /* ZXAlertView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD6322E9C22F00651E44 /* ZXPageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACBC22E9C22F00651E44 /* ZXPageView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD6422E9C22F00651E44 /* ZXPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACBD22E9C22F00651E44 /* ZXPageView.m */; };
 		7000AD6522E9C22F00651E44 /* ZXLocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACBF22E9C22F00651E44 /* ZXLocationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -191,8 +187,6 @@
 		7000AC7322E9C22E00651E44 /* NSArray+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+ZXToolbox.m"; sourceTree = "<group>"; };
 		7000AC7522E9C22E00651E44 /* NSNumberFormatter+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSNumberFormatter+ZXToolbox.m"; sourceTree = "<group>"; };
 		7000AC7622E9C22E00651E44 /* NSNumberFormatter+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSNumberFormatter+ZXToolbox.h"; sourceTree = "<group>"; };
-		7000AC7922E9C22E00651E44 /* UINetworkActivityIndicator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UINetworkActivityIndicator.h; sourceTree = "<group>"; };
-		7000AC7A22E9C22E00651E44 /* UINetworkActivityIndicator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UINetworkActivityIndicator.m; sourceTree = "<group>"; };
 		7000AC7C22E9C22E00651E44 /* UITableViewCell+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+ZXToolbox.m"; sourceTree = "<group>"; };
 		7000AC7D22E9C22E00651E44 /* UITableViewCell+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+ZXToolbox.h"; sourceTree = "<group>"; };
 		7000AC7F22E9C22E00651E44 /* UIViewController+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ZXToolbox.h"; sourceTree = "<group>"; };
@@ -236,8 +230,6 @@
 		7000ACB422E9C22F00651E44 /* ZXCommonCrypto.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXCommonCrypto.h; sourceTree = "<group>"; };
 		7000ACB622E9C22F00651E44 /* ZXPageIndicatorView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXPageIndicatorView.h; sourceTree = "<group>"; };
 		7000ACB722E9C22F00651E44 /* ZXPageIndicatorView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXPageIndicatorView.m; sourceTree = "<group>"; };
-		7000ACB922E9C22F00651E44 /* ZXAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXAlertView.m; sourceTree = "<group>"; };
-		7000ACBA22E9C22F00651E44 /* ZXAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXAlertView.h; sourceTree = "<group>"; };
 		7000ACBC22E9C22F00651E44 /* ZXPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXPageView.h; sourceTree = "<group>"; };
 		7000ACBD22E9C22F00651E44 /* ZXPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXPageView.m; sourceTree = "<group>"; };
 		7000ACBF22E9C22F00651E44 /* ZXLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXLocationManager.h; sourceTree = "<group>"; };
@@ -497,7 +489,6 @@
 				7000AC9622E9C22E00651E44 /* UIImage+ZXToolbox */,
 				706C15B12383CF48000B45E1 /* UINavigationBar+ZXToolbox */,
 				7040F6C82382414F009EFB1F /* UINavigationController+ZXToolbox */,
-				7000AC7822E9C22E00651E44 /* UINetworkActivityIndicator */,
 				7000AC8A22E9C22E00651E44 /* UIScreen+ZXToolbox */,
 				7000AC8D22E9C22E00651E44 /* UIScrollView+ZXToolbox */,
 				7000AC7B22E9C22E00651E44 /* UITableViewCell+ZXToolbox */,
@@ -506,15 +497,6 @@
 				7000AC7E22E9C22E00651E44 /* UIViewController+ZXToolbox */,
 			);
 			path = UIKit;
-			sourceTree = "<group>";
-		};
-		7000AC7822E9C22E00651E44 /* UINetworkActivityIndicator */ = {
-			isa = PBXGroup;
-			children = (
-				7000AC7922E9C22E00651E44 /* UINetworkActivityIndicator.h */,
-				7000AC7A22E9C22E00651E44 /* UINetworkActivityIndicator.m */,
-			);
-			path = UINetworkActivityIndicator;
 			sourceTree = "<group>";
 		};
 		7000AC7B22E9C22E00651E44 /* UITableViewCell+ZXToolbox */ = {
@@ -619,7 +601,6 @@
 		7000AC9C22E9C22E00651E44 /* ZXKit */ = {
 			isa = PBXGroup;
 			children = (
-				7000ACB822E9C22F00651E44 /* ZXAlertView */,
 				7000ACEB22E9C22F00651E44 /* ZXAudioDevice */,
 				7000ACC422E9C22F00651E44 /* ZXAuthorizationHelper */,
 				7000ACE222E9C22F00651E44 /* ZXBadgeLabel */,
@@ -721,15 +702,6 @@
 				7000ACB722E9C22F00651E44 /* ZXPageIndicatorView.m */,
 			);
 			path = ZXPageIndicatorView;
-			sourceTree = "<group>";
-		};
-		7000ACB822E9C22F00651E44 /* ZXAlertView */ = {
-			isa = PBXGroup;
-			children = (
-				7000ACBA22E9C22F00651E44 /* ZXAlertView.h */,
-				7000ACB922E9C22F00651E44 /* ZXAlertView.m */,
-			);
-			path = ZXAlertView;
 			sourceTree = "<group>";
 		};
 		7000ACBB22E9C22F00651E44 /* ZXPageView */ = {
@@ -1076,14 +1048,12 @@
 				7000AD4522E9C22F00651E44 /* UIButton+ZXToolbox.h in Headers */,
 				7000AD3F22E9C22F00651E44 /* UIColor+ZXToolbox.h in Headers */,
 				7000AD4822E9C22F00651E44 /* UIImage+ZXToolbox.h in Headers */,
-				7000AD3422E9C22F00651E44 /* UINetworkActivityIndicator.h in Headers */,
 				7000AD3722E9C22F00651E44 /* UITableViewCell+ZXToolbox.h in Headers */,
 				7000AD4622E9C22F00651E44 /* UITextField+ZXToolbox.h in Headers */,
 				7000AD3B22E9C22F00651E44 /* UIView+ZXToolbox.h in Headers */,
 				7000AD3822E9C22F00651E44 /* UIViewController+ZXToolbox.h in Headers */,
 				7000AD4022E9C22F00651E44 /* UIScreen+ZXToolbox.h in Headers */,
 				7000AD4322E9C22F00651E44 /* UIScrollView+ZXToolbox.h in Headers */,
-				7000AD6222E9C22F00651E44 /* ZXAlertView.h in Headers */,
 				70D4BD2623A9DC47000D28E2 /* ZXImageBroswerCell.h in Headers */,
 				7000AD8422E9C22F00651E44 /* ZXAudioDevice.h in Headers */,
 				7000AD6922E9C22F00651E44 /* ZXAuthorizationHelper.h in Headers */,
@@ -1235,7 +1205,6 @@
 				7000AD6622E9C22F00651E44 /* ZXLocationManager.m in Sources */,
 				7000AD4722E9C22F00651E44 /* UITextField+ZXToolbox.m in Sources */,
 				7000AD9C22E9C22F00651E44 /* ZXLineChartView.m in Sources */,
-				7000AD3522E9C22F00651E44 /* UINetworkActivityIndicator.m in Sources */,
 				7000AD3222E9C22F00651E44 /* NSNumberFormatter+ZXToolbox.m in Sources */,
 				7000AD8D22E9C22F00651E44 /* ZXURLSession.m in Sources */,
 				7000AD3922E9C22F00651E44 /* UIViewController+ZXToolbox.m in Sources */,
@@ -1265,7 +1234,6 @@
 				7000AD8F22E9C22F00651E44 /* ZXStackView.m in Sources */,
 				7000AD6C22E9C22F00651E44 /* ZXDrawingView.m in Sources */,
 				7000AD3A22E9C22F00651E44 /* UIView+ZXToolbox.m in Sources */,
-				7000AD6122E9C22F00651E44 /* ZXAlertView.m in Sources */,
 				7000AD4122E9C22F00651E44 /* UIScreen+ZXToolbox.m in Sources */,
 				7000AD2A22E9C22F00651E44 /* NSData+Base64Encoding.m in Sources */,
 				7000AD6422E9C22F00651E44 /* ZXPageView.m in Sources */,

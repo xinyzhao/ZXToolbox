@@ -125,11 +125,6 @@ Pod::Spec.new do |s|
     ss.public_header_files = "ZXToolbox/UIKit/UINavigationController+ZXToolbox/*.h"
   end
 
-  s.subspec "UINetworkActivityIndicator" do |ss|
-    ss.source_files  = "ZXToolbox/UIKit/UINetworkActivityIndicator/*.{h,m}"
-    ss.public_header_files = "ZXToolbox/UIKit/UINetworkActivityIndicator/*.h"
-  end
-
   s.subspec "UIScreen+ZXToolbox" do |ss|
     ss.source_files  = "ZXToolbox/UIKit/UIScreen+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/UIKit/UIScreen+ZXToolbox/*.h"
@@ -160,11 +155,6 @@ Pod::Spec.new do |s|
   s.subspec "UIViewController+ZXToolbox" do |ss|
     ss.source_files  = "ZXToolbox/UIKit/UIViewController+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/UIKit/UIViewController+ZXToolbox/*.h"
-  end
-
-  s.subspec "ZXAlertView" do |ss|
-    ss.source_files  = "ZXToolbox/ZXKit/ZXAlertView/*.{h,m}"
-    ss.public_header_files = "ZXToolbox/ZXKit/ZXAlertView/*.h"
   end
 
   s.subspec "ZXAudioDevice" do |ss|

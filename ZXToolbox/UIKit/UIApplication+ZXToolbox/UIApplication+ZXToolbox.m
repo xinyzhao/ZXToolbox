@@ -24,6 +24,7 @@
 //
 
 #import "UIApplication+ZXToolbox.h"
+#import <objc/runtime.h>
 
 @implementation UIApplication (BadgeNumber)
 
@@ -57,6 +58,16 @@
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         exit(0);
     });
+}
+
+- (void)setNetworkActivityIndicatorCount:(NSUInteger)networkActivityIndicatorCount {
+    objc_setAssociatedObject(self, @selector(networkActivityIndicatorCount), @(networkActivityIndicatorCount), OBJC_ASSOCIATION_ASSIGN);
+    self.networkActivityIndicatorVisible = networkActivityIndicatorCount > 0;
+}
+
+- (NSUInteger)networkActivityIndicatorCount {
+    NSNumber *number = objc_getAssociatedObject(self, @selector(networkActivityIndicatorCount));
+    return [number integerValue];
 }
 
 @end
