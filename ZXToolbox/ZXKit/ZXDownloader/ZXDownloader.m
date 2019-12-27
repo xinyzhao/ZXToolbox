@@ -36,6 +36,9 @@
 /// Whether or not  a background downloader
 @property (nonatomic, assign) BOOL isBackgroundDownloader;
 
+@property (nonatomic, weak) id didBecomeActiveObserver;
+@property (nonatomic, weak) id willResignActiveObserver;
+
 @end
 
 @implementation ZXDownloader
@@ -76,6 +79,18 @@
     return self;
 }
 
+- (void)dealloc
+{
+    if (_willResignActiveObserver) {
+        [[NSNotificationCenter defaultCenter] removeObserver:_willResignActiveObserver];
+        _willResignActiveObserver = nil;
+    }
+    if (_didBecomeActiveObserver) {
+        [[NSNotificationCenter defaultCenter] removeObserver:_didBecomeActiveObserver];
+        _didBecomeActiveObserver = nil;
+    }
+}
+
 - (void)setSession:(NSURLSession *)session {
     _session = session;
     //
@@ -89,31 +104,37 @@
     } else {
         _runningTasks = [[NSMutableArray alloc] init];
         _waitingTasks = [[NSMutableArray alloc] init];
-        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-            for (ZXDownloadTask *task in weakSelf.downloadTasks.allValues) {
-                if (task.state == NSURLSessionTaskStateRunning) {
-                    [weakSelf.runningTasks addObject:task];
-                } else {
-                    [weakSelf.waitingTasks addObject:task];
+        //
+        if (_willResignActiveObserver == nil) {
+            _willResignActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+                for (ZXDownloadTask *task in weakSelf.downloadTasks.allValues) {
+                    if (task.state == NSURLSessionTaskStateRunning) {
+                        [weakSelf.runningTasks addObject:task];
+                    } else {
+                        [weakSelf.waitingTasks addObject:task];
+                    }
                 }
-            }
-            [weakSelf cancelAllTasks];
-        }];
-        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-            for (ZXDownloadTask *obj in weakSelf.runningTasks) {
-                ZXDownloadTask *task = [weakSelf downloadTaskWithURL:obj.task.URL];
-                id observers = [obj valueForKey:@"observers"];
-                [task setValue:observers forKey:@"observers"];
-                [task resume];
-            }
-            for (ZXDownloadTask *obj in weakSelf.runningTasks) {
-                ZXDownloadTask *task = [weakSelf downloadTaskWithURL:obj.task.URL];
-                id observers = [obj valueForKey:@"observers"];
-                [task setValue:observers forKey:@"observers"];
-            }
-            [weakSelf.runningTasks removeAllObjects];
-            [weakSelf.waitingTasks removeAllObjects];
-        }];
+                [weakSelf cancelAllTasks];
+            }];
+        }
+        //
+        if (_didBecomeActiveObserver == nil) {
+            _didBecomeActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+                for (ZXDownloadTask *obj in weakSelf.runningTasks) {
+                    ZXDownloadTask *task = [weakSelf downloadTaskWithURL:obj.task.URL];
+                    id observers = [obj valueForKey:@"observers"];
+                    [task setValue:observers forKey:@"observers"];
+                    [task resume];
+                }
+                for (ZXDownloadTask *obj in weakSelf.runningTasks) {
+                    ZXDownloadTask *task = [weakSelf downloadTaskWithURL:obj.task.URL];
+                    id observers = [obj valueForKey:@"observers"];
+                    [task setValue:observers forKey:@"observers"];
+                }
+                [weakSelf.runningTasks removeAllObjects];
+                [weakSelf.waitingTasks removeAllObjects];
+            }];
+        }
     }
 }
 

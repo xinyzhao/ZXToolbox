@@ -57,6 +57,8 @@
 @property (nonatomic, assign) int64_t totalBytesWritten;
 @property (nonatomic, assign) int64_t totalBytesExpectedToWrite;
 
+@property (nonatomic, weak) id didBecomeActiveObserver;
+
 @end
 
 @implementation ZXDownloadTask
@@ -84,19 +86,29 @@
     return self;
 }
 
+- (void)dealloc
+{
+    if (_didBecomeActiveObserver) {
+        [[NSNotificationCenter defaultCenter] removeObserver:_didBecomeActiveObserver];
+        _didBecomeActiveObserver = nil;
+    }
+}
+
 - (void)setTask:(NSURLSessionTask *)task {
     _task = task;
     //
     __weak typeof(self) weakSelf = self;
+    if (_didBecomeActiveObserver) {
+        [[NSNotificationCenter defaultCenter] removeObserver:_didBecomeActiveObserver];
+        _didBecomeActiveObserver = nil;
+    }
     if ([_task isKindOfClass:NSURLSessionDownloadTask.class]) {
-        [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        _didBecomeActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
             if (weakSelf.state == NSURLSessionTaskStateRunning) {
                 [weakSelf suspend];
                 [weakSelf resume];
             }
         }];
-    } else {
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
     }
 }
 

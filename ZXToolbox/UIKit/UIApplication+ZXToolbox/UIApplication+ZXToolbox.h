@@ -26,17 +26,8 @@
 
 @interface UIApplication (ZXToolbox)
 
-/**
- 打开应用设置界面
-
- @return 成功则返回YES，否则为NO
- */
+/// 打开应用设置界面，成功则返回YES，否则为NO
 - (BOOL)openSettingsURL;
-
-/**
- * 重置APP角标数量，并且保留系统通知栏内的推送通知
- * 注意：iOS8之后，必须在使用前注册用户通知 -[UIApplication registerUserNotificationSettings:]
- */
 
 /// 重置APP角标数量，并且保留系统通知栏内的推送通知
 /// 注意：iOS8之后，必须在使用前注册用户通知 -[UIApplication registerUserNotificationSettings:]
@@ -49,5 +40,8 @@
 
 /// 状态栏网络活动指示器数量，大于0显示，小于等于0隐藏
 @property (nonatomic, assign) NSUInteger networkActivityIndicatorCount;
+
+/// 设置为真自动锁屏，假则保持常亮，应用不活跃时重置为原有值
+@property (nonatomic, assign) BOOL idleTimerEnabled;
 
 @end

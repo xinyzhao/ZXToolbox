@@ -39,8 +39,6 @@
 		7000AD3922E9C22F00651E44 /* UIViewController+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AC8022E9C22E00651E44 /* UIViewController+ZXToolbox.m */; };
 		7000AD3A22E9C22F00651E44 /* UIView+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AC8222E9C22E00651E44 /* UIView+ZXToolbox.m */; };
 		7000AD3B22E9C22F00651E44 /* UIView+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AC8322E9C22E00651E44 /* UIView+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7000AD3C22E9C22F00651E44 /* UIApplicationIdleTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AC8522E9C22E00651E44 /* UIApplicationIdleTimer.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7000AD3D22E9C22F00651E44 /* UIApplicationIdleTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AC8622E9C22E00651E44 /* UIApplicationIdleTimer.m */; };
 		7000AD3E22E9C22F00651E44 /* UIColor+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AC8822E9C22E00651E44 /* UIColor+ZXToolbox.m */; };
 		7000AD3F22E9C22F00651E44 /* UIColor+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AC8922E9C22E00651E44 /* UIColor+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD4022E9C22F00651E44 /* UIScreen+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AC8B22E9C22E00651E44 /* UIScreen+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -193,8 +191,6 @@
 		7000AC8022E9C22E00651E44 /* UIViewController+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ZXToolbox.m"; sourceTree = "<group>"; };
 		7000AC8222E9C22E00651E44 /* UIView+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+ZXToolbox.m"; sourceTree = "<group>"; };
 		7000AC8322E9C22E00651E44 /* UIView+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+ZXToolbox.h"; sourceTree = "<group>"; };
-		7000AC8522E9C22E00651E44 /* UIApplicationIdleTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIApplicationIdleTimer.h; sourceTree = "<group>"; };
-		7000AC8622E9C22E00651E44 /* UIApplicationIdleTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIApplicationIdleTimer.m; sourceTree = "<group>"; };
 		7000AC8822E9C22E00651E44 /* UIColor+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+ZXToolbox.m"; sourceTree = "<group>"; };
 		7000AC8922E9C22E00651E44 /* UIColor+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+ZXToolbox.h"; sourceTree = "<group>"; };
 		7000AC8B22E9C22E00651E44 /* UIScreen+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIScreen+ZXToolbox.h"; sourceTree = "<group>"; };
@@ -481,7 +477,6 @@
 			isa = PBXGroup;
 			children = (
 				7000AC9922E9C22E00651E44 /* UIApplication+ZXToolbox */,
-				7000AC8422E9C22E00651E44 /* UIApplicationIdleTimer */,
 				7000AC9022E9C22E00651E44 /* UIButton+ZXToolbox */,
 				7000AC8722E9C22E00651E44 /* UIColor+ZXToolbox */,
 				70988F342335F3B30002A8A3 /* UIControl+ZXToolbox */,
@@ -524,15 +519,6 @@
 				7000AC8222E9C22E00651E44 /* UIView+ZXToolbox.m */,
 			);
 			path = "UIView+ZXToolbox";
-			sourceTree = "<group>";
-		};
-		7000AC8422E9C22E00651E44 /* UIApplicationIdleTimer */ = {
-			isa = PBXGroup;
-			children = (
-				7000AC8522E9C22E00651E44 /* UIApplicationIdleTimer.h */,
-				7000AC8622E9C22E00651E44 /* UIApplicationIdleTimer.m */,
-			);
-			path = UIApplicationIdleTimer;
 			sourceTree = "<group>";
 		};
 		7000AC8722E9C22E00651E44 /* UIColor+ZXToolbox */ = {
@@ -1044,7 +1030,6 @@
 				7040F6CB23824182009EFB1F /* UINavigationController+ZXToolbox.h in Headers */,
 				7000AD4A22E9C22F00651E44 /* UIApplication+ZXToolbox.h in Headers */,
 				70D4BD2223A9DC47000D28E2 /* UIImageView+ZXImageBroswer.h in Headers */,
-				7000AD3C22E9C22F00651E44 /* UIApplicationIdleTimer.h in Headers */,
 				7000AD4522E9C22F00651E44 /* UIButton+ZXToolbox.h in Headers */,
 				7000AD3F22E9C22F00651E44 /* UIColor+ZXToolbox.h in Headers */,
 				7000AD4822E9C22F00651E44 /* UIImage+ZXToolbox.h in Headers */,
@@ -1183,7 +1168,6 @@
 				7000AD5122E9C22F00651E44 /* ZXPopoverWindow.m in Sources */,
 				7000AD2B22E9C22F00651E44 /* NSString+Base64Encoding.m in Sources */,
 				7000AD6022E9C22F00651E44 /* ZXPageIndicatorView.m in Sources */,
-				7000AD3D22E9C22F00651E44 /* UIApplicationIdleTimer.m in Sources */,
 				7000AD4422E9C22F00651E44 /* UIButton+ZXToolbox.m in Sources */,
 				70988F382335F3B30002A8A3 /* UIControl+ZXToolbox.m in Sources */,
 				7000AD7022E9C22F00651E44 /* ZXPhotoLibrary.m in Sources */,

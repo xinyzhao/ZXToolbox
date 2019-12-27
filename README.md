@@ -94,7 +94,6 @@ Drag the built ZXToolbox.framework into your Xcode project.
 ## UIKit
 
 * UIApplication+ZXToolbox
-* UIApplicationIdleTimer
 * UIButton+ZXToolbox
 * UIColor+ZXToolbox
 * UIControl+ZXToolbox.h

@@ -46,7 +46,6 @@ FOUNDATION_EXPORT const unsigned char ZXToolboxVersionString[];
 #import "NSString+Unicode.h"
 #import "NSString+URLEncoding.h"
 #import "UIApplication+ZXToolbox.h"
-#import "UIApplicationIdleTimer.h"
 #import "UIButton+ZXToolbox.h"
 #import "UIColor+ZXToolbox.h"
 #import "UIControl+ZXToolbox.h"

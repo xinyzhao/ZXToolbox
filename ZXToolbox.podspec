@@ -81,11 +81,6 @@ Pod::Spec.new do |s|
     ss.public_header_files = "ZXToolbox/UIKit/UIApplication+ZXToolbox/*.h"
   end
 
-  s.subspec "UIApplicationIdleTimer" do |ss|
-    ss.source_files  = "ZXToolbox/UIKit/UIApplicationIdleTimer/*.{h,m}"
-    ss.public_header_files = "ZXToolbox/UIKit/UIApplicationIdleTimer/*.h"
-  end
-
   s.subspec "UIButton+ZXToolbox" do |ss|
     ss.dependency 'ZXToolbox/NSObject+ZXToolbox'
     ss.source_files  = "ZXToolbox/UIKit/UIButton+ZXToolbox/*.{h,m}"
