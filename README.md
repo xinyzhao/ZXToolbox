@@ -140,7 +140,6 @@ Drag the built ZXToolbox.framework into your Xcode project.
 * ZXQRCodeReader
 * ZXQRCodeScanner
 * ZXScriptMessageHandler
-* ZXScrollLabel
 * ZXStackView
 * ZXTabBar
 * ZXTabBarController

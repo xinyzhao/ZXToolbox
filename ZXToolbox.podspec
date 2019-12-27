@@ -325,11 +325,6 @@ Pod::Spec.new do |s|
     ss.frameworks = "WebKit"
   end
 
-  s.subspec "ZXScrollLabel" do |ss|
-    ss.source_files  = "ZXToolbox/ZXKit/ZXScrollLabel/*.{h,m}"
-    ss.public_header_files = "ZXToolbox/ZXKit/ZXScrollLabel/*.h"
-  end
-
   s.subspec "ZXStackView" do |ss|
     ss.source_files  = "ZXToolbox/ZXKit/ZXStackView/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXStackView/*.h"

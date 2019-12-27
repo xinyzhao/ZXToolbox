@@ -90,8 +90,6 @@
 		7000AD6A22E9C22F00651E44 /* ZXAuthorizationHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACC622E9C22F00651E44 /* ZXAuthorizationHelper.m */; };
 		7000AD6B22E9C22F00651E44 /* ZXDrawingView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACC822E9C22F00651E44 /* ZXDrawingView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD6C22E9C22F00651E44 /* ZXDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACC922E9C22F00651E44 /* ZXDrawingView.m */; };
-		7000AD6D22E9C22F00651E44 /* ZXScrollLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACCB22E9C22F00651E44 /* ZXScrollLabel.m */; };
-		7000AD6E22E9C22F00651E44 /* ZXScrollLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACCC22E9C22F00651E44 /* ZXScrollLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD6F22E9C22F00651E44 /* ZXPhotoLibrary.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACCE22E9C22F00651E44 /* ZXPhotoLibrary.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD7022E9C22F00651E44 /* ZXPhotoLibrary.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACCF22E9C22F00651E44 /* ZXPhotoLibrary.m */; };
 		7000AD7122E9C22F00651E44 /* ZXCircularProgressView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACD122E9C22F00651E44 /* ZXCircularProgressView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -250,8 +248,6 @@
 		7000ACC622E9C22F00651E44 /* ZXAuthorizationHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXAuthorizationHelper.m; sourceTree = "<group>"; };
 		7000ACC822E9C22F00651E44 /* ZXDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXDrawingView.h; sourceTree = "<group>"; };
 		7000ACC922E9C22F00651E44 /* ZXDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXDrawingView.m; sourceTree = "<group>"; };
-		7000ACCB22E9C22F00651E44 /* ZXScrollLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXScrollLabel.m; sourceTree = "<group>"; };
-		7000ACCC22E9C22F00651E44 /* ZXScrollLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXScrollLabel.h; sourceTree = "<group>"; };
 		7000ACCE22E9C22F00651E44 /* ZXPhotoLibrary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXPhotoLibrary.h; sourceTree = "<group>"; };
 		7000ACCF22E9C22F00651E44 /* ZXPhotoLibrary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXPhotoLibrary.m; sourceTree = "<group>"; };
 		7000ACD122E9C22F00651E44 /* ZXCircularProgressView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXCircularProgressView.h; sourceTree = "<group>"; };
@@ -651,7 +647,6 @@
 				7000ACE522E9C22F00651E44 /* ZXQRCodeReader */,
 				7000AD0522E9C22F00651E44 /* ZXQRCodeScanner */,
 				7000ACDC22E9C22F00651E44 /* ZXScriptMessageHandler */,
-				7000ACCA22E9C22F00651E44 /* ZXScrollLabel */,
 				7000ACFB22E9C22F00651E44 /* ZXStackView */,
 				7000ACF322E9C22F00651E44 /* ZXTabBar */,
 				7000ACFE22E9C22F00651E44 /* ZXTabBarController */,
@@ -780,15 +775,6 @@
 				7000ACC922E9C22F00651E44 /* ZXDrawingView.m */,
 			);
 			path = ZXDrawingView;
-			sourceTree = "<group>";
-		};
-		7000ACCA22E9C22F00651E44 /* ZXScrollLabel */ = {
-			isa = PBXGroup;
-			children = (
-				7000ACCC22E9C22F00651E44 /* ZXScrollLabel.h */,
-				7000ACCB22E9C22F00651E44 /* ZXScrollLabel.m */,
-			);
-			path = ZXScrollLabel;
 			sourceTree = "<group>";
 		};
 		7000ACCD22E9C22F00651E44 /* ZXPhotoLibrary */ = {
@@ -1133,7 +1119,6 @@
 				7000AD7F22E9C22F00651E44 /* ZXQRCodeReader.h in Headers */,
 				7000AD9622E9C22F00651E44 /* ZXQRCodeScanner.h in Headers */,
 				7000AD7A22E9C22F00651E44 /* ZXScriptMessageHandler.h in Headers */,
-				7000AD6E22E9C22F00651E44 /* ZXScrollLabel.h in Headers */,
 				706C15B42383CF64000B45E1 /* UINavigationBar+ZXToolbox.h in Headers */,
 				7000AD9022E9C22F00651E44 /* ZXStackView.h in Headers */,
 				70A7B5B823B0B7990080C95A /* ZXDownloader.h in Headers */,
@@ -1257,7 +1242,6 @@
 				7000AD4B22E9C22F00651E44 /* UIApplication+ZXToolbox.m in Sources */,
 				70D4BD2523A9DC47000D28E2 /* ZXImageBroswer.m in Sources */,
 				70D4BD2723A9DC47000D28E2 /* ZXImageBroswerCell.m in Sources */,
-				7000AD6D22E9C22F00651E44 /* ZXScrollLabel.m in Sources */,
 				7000AD9122E9C22F00651E44 /* ZXTabBarItemController.m in Sources */,
 				7000AD2E22E9C22F00651E44 /* NSDate+ZXToolbox.m in Sources */,
 				7000AD9E22E9C22F00651E44 /* ZXURLProtocol.m in Sources */,
