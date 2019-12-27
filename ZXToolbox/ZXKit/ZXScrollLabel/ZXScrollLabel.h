@@ -25,16 +25,20 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  ZXScrollLabel
  */
 @interface ZXScrollLabel : UILabel
 /// The data source of texts
-@property (nonatomic, strong) NSArray *textArray;
+@property (nonatomic, copy) NSArray<NSString *> *textArray;
 /// Halt time of each text, default is 0 sec.
 @property (nonatomic, assign) IBInspectable double haltTime;
 /// Default is width/6 in pixels per second.
 @property (nonatomic, assign) IBInspectable double scrollingSpeed;
+/// The length of fade, default is 8
+@property (nonatomic, assign) IBInspectable CGFloat fadeLength;
 /// Vertical scrolling, default is NO
 @property (nonatomic, getter=isVerticalScrolling) IBInspectable BOOL verticalScrolling;
 
@@ -49,3 +53,5 @@
 - (void)stopScrolling;
 
 @end
+
+NS_ASSUME_NONNULL_END

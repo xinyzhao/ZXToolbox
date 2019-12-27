@@ -43,7 +43,7 @@
 {
     self = [super initWithCoder:coder];
     if (self) {
-        [self addObservers];
+        self.fadeLength = 8;
     }
     return self;
 }
@@ -52,22 +52,32 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self addObservers];
+        self.fadeLength = 8;
     }
     return self;
 }
 
 - (void)dealloc {
-    [self stopScrolling];
+    [self removeObservers];
+}
+
+- (void)didMoveToSuperview {
+    if (self.superview) {
+        if (_isStop) {
+            [self removeObservers];
+        } else {
+            [self addObservers];
+        }
+    }
 }
 
 - (void)addObservers {
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(scrollingLabels)
+                                             selector:@selector(scrollLabels)
                                                  name:UIApplicationWillEnterForegroundNotification
                                                object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(scrollingLabels)
+                                             selector:@selector(scrollLabels)
                                                  name:UIApplicationDidBecomeActiveNotification
                                                object:nil];
 }
@@ -138,7 +148,7 @@
                 rect.size.height = FLT_MAX;
                 rect.size.height = ceilf([label sizeThatFits:rect.size].height);
             }
-        } else {
+        } else if (self.bounds.size.width > 0) {
             rect.size.width = FLT_MAX;
             rect.size.width = [label sizeThatFits:rect.size].width;
             rect.size.width = ceilf(rect.size.width / self.bounds.size.width) * self.bounds.size.width;
@@ -163,16 +173,16 @@
 
 - (void)startScrolling {
     self.isStop = NO;
+    [self scrollLabels];
     [self addObservers];
-    [self scrollingLabels];
 }
 
 - (void)stopScrolling {
     self.isStop = YES;
-    [self stopScrolling];
+    [self removeObservers];
 }
 
-- (void)scrollingLabels {
+- (void)scrollLabels {
     if (self.isScrolling || self.isStop) {
         return;
     }
@@ -182,9 +192,11 @@
         {
             CGRect frame = self.currentLabel.frame;
             if (self.isVerticalScrolling) {
+                frame.origin.x = 0.f;
                 frame.origin.y = self.frame.size.height;
             } else {
                 frame.origin.x = self.frame.size.width;
+                frame.origin.y = 0.f;
             }
             self.currentLabel.frame = frame;
         }
@@ -192,9 +204,11 @@
         {
             CGRect frame = self.nextLabel.frame;
             if (self.isVerticalScrolling) {
+                frame.origin.x = 0.f;
                 frame.origin.y = self.currentLabel.frame.origin.y + self.currentLabel.frame.size.height;
             } else {
                 frame.origin.x = self.currentLabel.frame.origin.x + self.currentLabel.frame.size.width;
+                frame.origin.y = 0.f;
             }
             self.nextLabel.frame = frame;
         }
@@ -228,16 +242,67 @@
             [weakSelf setTextForLabel:nextLabel atIndex:currentLabel.tag + 1];
             {
                 CGRect frame = nextLabel.frame;
-                if (self.isVerticalScrolling) {
+                if (weakSelf.isVerticalScrolling) {
+                    frame.origin.x = 0.f;
                     frame.origin.y = currentLabel.frame.origin.y + currentLabel.frame.size.height;
                 } else {
                     frame.origin.x = currentLabel.frame.origin.x + currentLabel.frame.size.width;
+                    frame.origin.y = 0.f;
                 }
                 nextLabel.frame = frame;
             }
             weakSelf.isScrolling = NO;
             [weakSelf performSelector:_cmd withObject:weakSelf afterDelay:finished ? MIN(delay, duration) : MAX(delay, 0.3)];
         }];
+    }
+}
+
+// ref: https://github.com/cbpowell/MarqueeLabel
+- (void)setFadeLength:(CGFloat)fadeLength {
+    _fadeLength = fadeLength;
+    
+    CGFloat labelWidth = CGRectGetWidth(self.bounds);
+
+//    if (labelWidth <= CGRectGetWidth(self.bounds))
+//        fadeLength = 0;
+
+    if (fadeLength) {
+        // Recreate gradient mask with new fade length
+        CAGradientLayer *gradientMask = [CAGradientLayer layer];
+
+        gradientMask.bounds = self.layer.bounds;
+        gradientMask.position = CGPointMake(CGRectGetMidX(self.bounds), CGRectGetMidY(self.bounds));
+
+        gradientMask.shouldRasterize = YES;
+        gradientMask.rasterizationScale = [UIScreen mainScreen].scale;
+
+        gradientMask.startPoint = CGPointMake(0, CGRectGetMidY(self.frame));
+        gradientMask.endPoint = CGPointMake(1, CGRectGetMidY(self.frame));
+
+        // setup fade mask colors and location
+        id transparent = (id)[UIColor clearColor].CGColor;
+        id opaque = (id)[UIColor blackColor].CGColor;
+        gradientMask.colors = @[transparent, opaque, opaque, transparent];
+
+        // calcluate fade
+        CGFloat fadePoint = fadeLength / CGRectGetWidth(self.bounds);
+        NSNumber *leftFadePoint = @(fadePoint);
+        NSNumber *rightFadePoint = @(1 - fadePoint);
+        leftFadePoint = @0;
+//        leftFadePoint = @0;
+//        rightFadePoint = @1;
+
+        // apply calculations to mask
+        gradientMask.locations = @[@0, leftFadePoint, rightFadePoint, @1];
+
+        // don't animate the mask change
+//        [CATransaction begin];
+//        [CATransaction setDisableActions:YES];
+//        self.layer.mask = gradientMask;
+//        [CATransaction commit];
+    } else {
+        // Remove gradient mask for 0.0f length fade length
+        self.layer.mask = nil;
     }
 }
 
