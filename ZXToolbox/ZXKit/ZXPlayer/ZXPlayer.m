@@ -113,6 +113,8 @@
 #pragma mark Attach & Detach
 
 - (void)attachToView:(UIView *)view {
+    [self detach];
+    //
     _attachView = view;
     if (_attachView) {
         if (_playerLayer) {
