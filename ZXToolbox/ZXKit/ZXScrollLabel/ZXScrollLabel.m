@@ -57,6 +57,10 @@
     return self;
 }
 
+- (void)dealloc {
+    [self stopScrolling];
+}
+
 - (void)addObservers {
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(scrollingLabels)
@@ -68,7 +72,7 @@
                                                object:nil];
 }
 
-- (void)dealloc {
+- (void)removeObservers {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [NSObject cancelPreviousPerformRequestsWithTarget:self];
 }
@@ -159,11 +163,13 @@
 
 - (void)startScrolling {
     self.isStop = NO;
+    [self addObservers];
     [self scrollingLabels];
 }
 
 - (void)stopScrolling {
     self.isStop = YES;
+    [self stopScrolling];
 }
 
 - (void)scrollingLabels {
