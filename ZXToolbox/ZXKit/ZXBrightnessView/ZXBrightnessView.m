@@ -31,6 +31,7 @@
 @property (nonatomic, strong) UIView *levelView;
 @property (nonatomic, strong) NSTimer *disappearTimer;
 @property (nonatomic, assign) BOOL willDisappear;
+@property (nonatomic, weak) id applicationDidChangeStatusBarOrientationObserver;
 
 @end
 
@@ -121,17 +122,21 @@
 #pragma mark Observer
 
 - (void)addObserver {
-    [[UIScreen mainScreen] addObserver:self
-                            forKeyPath:@"brightness"
-                               options:NSKeyValueObservingOptionNew context:NULL];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(applicationDidChangeStatusBarOrientationNotification:) name:UIApplicationDidChangeStatusBarOrientationNotification
-                                               object:nil];
+    [self removeObserver];
+    //
+    [[UIScreen mainScreen] addObserver:self forKeyPath:@"brightness" options:NSKeyValueObservingOptionNew context:NULL];
+    //
+    __weak typeof(self) weakSelf = self;
+    _applicationDidChangeStatusBarOrientationObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidChangeStatusBarOrientationNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        [weakSelf setNeedsLayout];
+    }];
 }
 
 - (void)removeObserver {
     [[UIScreen mainScreen] removeObserver:self forKeyPath:@"brightness"];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    if (_applicationDidChangeStatusBarOrientationObserver) {
+        [[NSNotificationCenter defaultCenter] removeObserver:_applicationDidChangeStatusBarOrientationObserver];
+    }
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath
@@ -141,10 +146,6 @@
     CGFloat level = [change[@"new"] floatValue];
     [self presentViewAnimated];
     [self updateBrightnessLevel:level];
-}
-
-- (void)applicationDidChangeStatusBarOrientationNotification:(id)sender {
-    [self setNeedsLayout];
 }
 
 #pragma mark Present

@@ -28,6 +28,7 @@
 @interface ZXPhotoLibrary () <PHPhotoLibraryChangeObserver>
 @property (nonatomic, strong) ALAssetsLibrary *assetsLibrary;
 @property (nonatomic, strong) NSMutableArray *changeObservers;
+@property (nonatomic, weak) id assetsLibraryChangedObserver;
 
 @end
 
@@ -69,7 +70,14 @@ static ZXPhotoLibrary *_defaultLibrary = nil;
         if (@available(iOS 8.0, *)) {
             [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
         } else {
-            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(onPhotoLibraryChanged:) name:ALAssetsLibraryChangedNotification object:nil];
+            __weak typeof(self) weakSelf = self;
+            _assetsLibraryChangedObserver = [[NSNotificationCenter defaultCenter] addObserverForName:ALAssetsLibraryChangedNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+                [weakSelf.changeObservers enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
+                    if ([obj respondsToSelector:@selector(photoLibraryDidChange:)]) {
+                        [obj photoLibraryDidChange:note];
+                    }
+                }];
+            }];
         }
     }
     return self;
@@ -80,7 +88,7 @@ static ZXPhotoLibrary *_defaultLibrary = nil;
     if (@available(iOS 8.0, *)) {
         [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
     } else {
-        [[NSNotificationCenter defaultCenter] removeObserver:self];
+        [[NSNotificationCenter defaultCenter] removeObserver:_assetsLibraryChangedObserver];
     }
 }
 
@@ -224,16 +232,6 @@ static ZXPhotoLibrary *_defaultLibrary = nil;
     if (observer) {
         [self.changeObservers removeObject:observer];
     }
-}
-
-#pragma mark ALAssetsLibraryChangedNotification
-
-- (void)onPhotoLibraryChanged:(NSNotification *)notification {
-    [self.changeObservers enumerateObjectsUsingBlock:^(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        if ([obj respondsToSelector:@selector(photoLibraryDidChange:)]) {
-            [obj photoLibraryDidChange:notification];
-        }
-    }];
 }
 
 #pragma mark <PHPhotoLibraryChangeObserver>

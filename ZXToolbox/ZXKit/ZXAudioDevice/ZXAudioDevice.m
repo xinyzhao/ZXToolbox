@@ -25,6 +25,12 @@
 
 #import "ZXAudioDevice.h"
 
+@interface ZXAudioDevice ()
+@property (nonatomic, weak) id audioSessionRouteChangeObserver;
+@property (nonatomic, weak) id proximityStateDidChangeObserver;
+
+@end
+
 @implementation ZXAudioDevice
 
 + (instancetype)sharedDevice {
@@ -40,21 +46,45 @@
 {
     self = [super init];
     if (self) {
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(audioSessionRouteChange:)
-                                                     name:AVAudioSessionRouteChangeNotification
-                                                   object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(proximityStateDidChange:)
-                                                     name:UIDeviceProximityStateDidChangeNotification
-                                                   object:nil];
+        __weak typeof(self) weakSelf = self;
+        _audioSessionRouteChangeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionRouteChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+            #if DEBUG
+                AVAudioSession *session = note.object;
+                AVAudioSessionRouteDescription *route = [session currentRoute];
+                for (AVAudioSessionPortDescription *port in [route inputs]) {
+                    NSLog(@"\nCategory: %@(%llu)/%@(%@)",
+                          session.category, (uint64_t)session.categoryOptions,
+                          [port portType], [port portName]);
+                }
+                for (AVAudioSessionPortDescription *port in [route outputs]) {
+                    NSLog(@"\nCategory: %@(%llu)/%@(%@)",
+                          session.category, (uint64_t)session.categoryOptions,
+                          [port portType], [port portName]);
+                }
+            #endif
+                if (weakSelf.audioSessionRouteChange) {
+                    AVAudioSessionRouteChangeReason reason = [note.userInfo[AVAudioSessionRouteChangeReasonKey] integerValue];
+                    AVAudioSessionRouteDescription *previousRoute = note.userInfo[AVAudioSessionRouteChangePreviousRouteKey];
+                    weakSelf.audioSessionRouteChange(previousRoute, reason);
+                }
+                if (weakSelf.isOverrideSpeaker) {
+                    weakSelf.overrideSpeaker = YES;
+                }
+        }];
+        _proximityStateDidChangeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIDeviceProximityStateDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+            UIDevice *device = note.object;
+            if (weakSelf.proximityStateDidChange) {
+                weakSelf.proximityStateDidChange(device.proximityState);
+            }
+        }];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:_audioSessionRouteChangeObserver];
+    [[NSNotificationCenter defaultCenter] removeObserver:_proximityStateDidChangeObserver];
 }
 
 #pragma mark Audio session
@@ -115,31 +145,6 @@
     }
 }
 
-- (void)audioSessionRouteChange:(NSNotification *)notification {
-#if DEBUG
-    AVAudioSession *session = notification.object;
-    AVAudioSessionRouteDescription *route = [session currentRoute];
-    for (AVAudioSessionPortDescription *port in [route inputs]) {
-        NSLog(@"\nCategory: %@(%llu)/%@(%@)",
-              session.category, (uint64_t)session.categoryOptions,
-              [port portType], [port portName]);
-    }
-    for (AVAudioSessionPortDescription *port in [route outputs]) {
-        NSLog(@"\nCategory: %@(%llu)/%@(%@)",
-              session.category, (uint64_t)session.categoryOptions,
-              [port portType], [port portName]);
-    }
-#endif
-    if (_audioSessionRouteChange) {
-        AVAudioSessionRouteChangeReason reason = [notification.userInfo[AVAudioSessionRouteChangeReasonKey] integerValue];
-        AVAudioSessionRouteDescription *previousRoute = notification.userInfo[AVAudioSessionRouteChangePreviousRouteKey];
-        _audioSessionRouteChange(previousRoute, reason);
-    }
-    if (self.overrideSpeaker) {
-        self.overrideSpeaker = _overrideSpeaker;
-    }
-}
-
 #pragma mark Proximity Monitoring
 
 - (void)setProximityMonitoringEnabled:(BOOL)proximityMonitoringEnabled {
@@ -152,13 +157,6 @@
 
 - (BOOL)proximityState {
     return [UIDevice currentDevice].proximityState;
-}
-
-- (void)proximityStateDidChange:(NSNotification *)notification {
-    UIDevice *device = notification.object;
-    if (_proximityStateDidChange) {
-        _proximityStateDidChange(device.proximityState);
-    }
 }
 
 @end
