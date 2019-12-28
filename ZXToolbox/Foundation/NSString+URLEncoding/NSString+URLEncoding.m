@@ -25,8 +25,8 @@
 
 #import "NSString+URLEncoding.h"
 
-NSString * NSStringWithURLEncoding(NSString *string) {
-    return [string stringByAddingPercentEncodingWithAllowedCharacters:NSCharacterSet.URLQueryAllowedCharacterSet];
+NSString * NSStringWithURLEncoding(NSString *string, NSCharacterSet *allowedCharacters) {
+    return [string stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
 }
 
 NSString * NSStringWithURLDecoding(NSString *string) {
@@ -35,8 +35,8 @@ NSString * NSStringWithURLDecoding(NSString *string) {
 
 @implementation NSString (URLEncode)
 
-- (NSString *)stringByURLEncoding {
-    return NSStringWithURLEncoding(self);
+- (NSString *)stringByURLEncoding:(NSCharacterSet *)allowedCharacters {
+    return NSStringWithURLEncoding(self, allowedCharacters);
 }
 
 - (NSString *)stringByURLDecoding {

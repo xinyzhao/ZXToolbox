@@ -25,20 +25,13 @@
 
 #import <Foundation/Foundation.h>
 
-/**
- Encoding string
+/// Encoding string
+/// @param string Uncoded string
+/// @param allowedCharacters URLUserAllowedCharacterSet/URLPasswordAllowedCharacterSet/URLHostAllowedCharacterSet/URLPathAllowedCharacterSet/URLQueryAllowedCharacterSet/URLFragmentAllowedCharacterSet
+extern NSString * NSStringWithURLEncoding(NSString *string, NSCharacterSet *allowedCharacters);
 
- @param string Original string
- @return Encoded NSString
- */
-extern NSString * NSStringWithURLEncoding(NSString *string);
-
-/**
- Decoding string
-
- @param string Encoded string
- @return Decoded string
- */
+/// Decoding string
+/// @param string Encoded string
 extern NSString * NSStringWithURLDecoding(NSString *string);
 
 /**
@@ -46,12 +39,9 @@ extern NSString * NSStringWithURLDecoding(NSString *string);
  */
 @interface NSString (URLEncoding)
 
-/**
- Encoding string
-
- @return Encoded NSString
- */
-- (NSString *)stringByURLEncoding;
+/// Encoding string
+/// @param allowedCharacters URLUserAllowedCharacterSet/URLPasswordAllowedCharacterSet/URLHostAllowedCharacterSet/URLPathAllowedCharacterSet/URLQueryAllowedCharacterSet/URLFragmentAllowedCharacterSet
+- (NSString *)stringByURLEncoding:(NSCharacterSet *)allowedCharacters;
 
 /**
  Decoding string

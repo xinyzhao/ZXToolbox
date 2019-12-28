@@ -57,9 +57,7 @@
  @param uppercase Pass true to use uppercase letters to represent numerals greater than 9, or false to use lowercase letters.
  @return The string of base baseOut
  */
-
 + (NSString *)stringWithValue:(id)value baseIn:(int)baseIn baseOut:(int)baseOut uppercase:(BOOL)uppercase;
-
 
 /**
  Convert a numeric string from baseIn to base 10.
