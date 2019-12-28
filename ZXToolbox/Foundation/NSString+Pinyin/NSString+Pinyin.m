@@ -26,13 +26,8 @@
 #import "NSString+Pinyin.h"
 
 BOOL NSStringContainsChineseCharacters(NSString *string) {
-    for(NSUInteger i = 0; i < string.length; ++i) {
-        unichar c = [string characterAtIndex:i];
-        if (c >= 0x4e00 && c <= 0x9ff5) {
-            return YES;
-        }
-    }
-    return NO;
+    NSRange range = [string rangeOfString:@"[\\u4E00-\\u9FA5]" options:NSRegularExpressionSearch];
+    return range.location != NSNotFound;
 }
 
 BOOL NSStringContainsSubstring(NSString *string, NSString *substring, NSStringPinyinOptions options) {
