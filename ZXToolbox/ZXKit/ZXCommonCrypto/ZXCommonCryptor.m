@@ -24,11 +24,10 @@
 //
 
 #import "ZXCommonCryptor.h"
-#import <CommonCrypto/CommonCryptor.h>
 
 @implementation NSData (ZXCommonCryptor)
 
-// Reference https://github.com/Gurpartap/AESCrypt-ObjC/blob/master/NSData+CommonCrypto.m
+// Ref https://github.com/Gurpartap/AESCrypt-ObjC/blob/master/NSData+CommonCrypto.m
 static void FixKeyLengths(CCAlgorithm algorithm, NSMutableData *keyData, NSMutableData *ivData) {
     NSUInteger keyLength = [keyData length];
     switch (algorithm) {
@@ -215,46 +214,101 @@ static void FixKeyLengths(CCAlgorithm algorithm, NSMutableData *keyData, NSMutab
 
 #pragma mark ZXCommonCryptor
 
-- (NSData *)encryptedDataUsingCCAlgorithm:(uint32_t)algorithm key:(id)key {
-    CCCryptorStatus status = kCCSuccess;
-    NSData *result = [self encryptUsingAlgorithm:algorithm
-                                             key:key
-                            initializationVector:nil
-                                         options:kCCOptionPKCS7Padding|kCCOptionECBMode
-                                           error:&status];
-    if (status != kCCSuccess) {
-        NSLog(@">>>encrypt data error <CCCryptorStatus:%d>", status);
+- (NSError *)errorWithCryptorStatus:(CCCryptorStatus)status {
+    NSString *desc = nil;
+    switch (status) {
+        case kCCSuccess:
+            desc = @"Success";
+            break;
+        case kCCParamError:
+            desc = @"Param error";
+            break;
+        case kCCBufferTooSmall:
+            desc = @"Buffer too small";
+            break;
+        case kCCMemoryFailure:
+            desc = @"Memory failure";
+            break;
+        case kCCAlignmentError:
+            desc = @"Alignment error";
+            break;
+        case kCCDecodeError:
+            desc = @"Decode error";
+            break;
+        case kCCUnimplemented:
+            desc = @"Unimplemented";
+            break;
+        case kCCOverflow:
+            desc = @"Overflow";
+            break;
+        case kCCRNGFailure:
+            desc = @"RNG Failure";
+            break;
+        case kCCUnspecifiedError:
+            desc = @"Unspecified error";
+            break;
+        case kCCCallSequenceError:
+            desc = @"Call sequence error";
+            break;
+        case kCCKeySizeError:
+            desc = @"Key size error";
+            break;
+        case kCCInvalidKey:
+            desc = @"Invalid key";
+            break;
+        default:
+            desc = @"Unkown error";
+            break;
     }
-    
-    return result;
+    return [NSError errorWithDomain:@"ZXCommonCryptor" code:status userInfo:@{NSLocalizedDescriptionKey:desc}];
 }
 
-- (NSData *)decryptedDataUsingCCAlgorithm:(uint32_t)algorithm key:(id)key {
+- (void)encryptWithAlgorithm:(CCAlgorithm)algorithm options:(CCOptions)options forKey:(id)key result:(void(^)(NSData *_Nullable data, NSError *_Nullable error))result {
     CCCryptorStatus status = kCCSuccess;
-    NSData *result = [self decryptUsingAlgorithm:algorithm
-                                             key:key
-                            initializationVector:nil
-                                         options:kCCOptionPKCS7Padding|kCCOptionECBMode
-                                           error:&status];
+    NSData *data = [self encryptUsingAlgorithm:algorithm
+                                           key:key
+                          initializationVector:nil
+                                       options:options
+                                         error:&status];
+    NSError *error = nil;
     if (status != kCCSuccess) {
-        NSLog(@"<<<decrypt data error <CCCryptorStatus:%d>", status);
+        error = [self errorWithCryptorStatus:status];
     }
-    
-    return result;
+    if (result) {
+        result(data, error);
+    }
+}
+
+- (void)decryptWithAlgorithm:(CCAlgorithm)algorithm options:(CCOptions)options forKey:(id)key result:(void(^)(NSData *_Nullable data, NSError *_Nullable error))result {
+    CCCryptorStatus status = kCCSuccess;
+    NSData *data = [self decryptUsingAlgorithm:algorithm
+                                           key:key
+                          initializationVector:nil
+                                       options:options
+                                         error:&status];
+    NSError *error = nil;
+    if (status != kCCSuccess) {
+        error = [self errorWithCryptorStatus:status];
+    }
+    if (result) {
+        result(data, error);
+    }
 }
 
 @end
 
+#pragma mark NSString (ZXCommonCryptor)
+
 @implementation NSString (ZXCommonCryptor)
 
-- (NSData *)encryptedDataUsingCCAlgorithm:(uint32_t)algorithm key:(id)key {
+- (void)encryptWithAlgorithm:(CCAlgorithm)algorithm options:(CCOptions)options forKey:(id)key result:(void(^)(NSData *_Nullable data, NSError *_Nullable error))result {
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
-    return [data encryptedDataUsingCCAlgorithm:algorithm key:key];
+    [data encryptWithAlgorithm:algorithm options:options forKey:key result:result];
 }
 
-- (NSData *)decryptedDataUsingCCAlgorithm:(uint32_t)algorithm key:(id)key {
+- (void)decryptWithAlgorithm:(CCAlgorithm)algorithm options:(CCOptions)options forKey:(id)key result:(void(^)(NSData *_Nullable data, NSError *_Nullable error))result {
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
-    return [data decryptedDataUsingCCAlgorithm:algorithm key:key];
+    [data decryptWithAlgorithm:algorithm options:options forKey:key result:result];
 }
 
 @end

@@ -24,6 +24,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CommonCrypto/CommonHMAC.h>
 
 @protocol ZXCommonHMAC <NSObject>
 
@@ -34,7 +35,7 @@
  @param key HMAC key
  @return HMAC data
  */
-- (NSData *)dataUsingHMACAlgorithm:(uint32_t)algorithm key:(id)key;
+- (NSData *)dataWithAlgorithm:(CCHmacAlgorithm)algorithm forKey:(id)key;
 
 /**
  HMAC with CCHmacAlgorithm for key
@@ -43,7 +44,7 @@
  @param key HMAC key
  @return HMAC string
  */
-- (NSString *)stringUsingHMACAlgorithm:(uint32_t)algorithm key:(id)key;
+- (NSString *)stringWithAlgorithm:(CCHmacAlgorithm)algorithm forKey:(id)key;
 
 @end
 

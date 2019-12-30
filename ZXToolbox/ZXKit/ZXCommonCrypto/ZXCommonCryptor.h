@@ -24,26 +24,25 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CommonCrypto/CommonCryptor.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 @protocol ZXCommonCryptor <NSObject>
 
-/**
- Encrypt with algorithm for key
+/// Encrypt with algorithm and options for key
+/// @param algorithm CCAlgorithm, kCCAlgorithmAES etc.
+/// @param options CCOptions, kCCOptionPKCS7Padding etc.
+/// @param key raw key material
+/// @param result Result data and error
+- (void)encryptWithAlgorithm:(CCAlgorithm)algorithm options:(CCOptions)options forKey:(id)key result:(void(^)(NSData *_Nullable data, NSError *_Nullable error))result;
 
- @param algorithm CCAlgorithm in CommonCryptor
- @param key encrypt key
- @return encrypted data
- */
-- (NSData *)encryptedDataUsingCCAlgorithm:(uint32_t)algorithm key:(id)key;
-
-/**
- Decrypt with algorithm for key
-
- @param algorithm CCAlgorithm in CommonCryptor
- @param key encrypt key
- @return decrypted data
- */
-- (NSData *)decryptedDataUsingCCAlgorithm:(uint32_t)algorithm key:(id)key;
+/// Decrypt with algorithm and options for key
+/// @param algorithm CCAlgorithm, kCCAlgorithmAES etc.
+/// @param options CCOptions, kCCOptionPKCS7Padding etc.
+/// @param key raw key material
+/// @param result Result data and error
+- (void)decryptWithAlgorithm:(CCAlgorithm)algorithm options:(CCOptions)options forKey:(id)key result:(void(^)(NSData *_Nullable data, NSError *_Nullable error))result;
 
 @end
 
@@ -54,3 +53,5 @@
 @interface NSString (ZXCommonCryptor) <ZXCommonCryptor>
 
 @end
+
+NS_ASSUME_NONNULL_END
