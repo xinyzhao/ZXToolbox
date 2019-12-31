@@ -2,7 +2,7 @@
 // ZXHTTPSecurity.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019 Zhao Xin
+// Copyright (c) 2019-2020 Zhao Xin
 //
 // Reference AFSecurityPolicy in AFNetworking
 // https://github.com/AFNetworking/AFNetworking

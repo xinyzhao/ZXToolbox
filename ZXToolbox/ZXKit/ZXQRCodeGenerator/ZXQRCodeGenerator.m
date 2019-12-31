@@ -2,7 +2,7 @@
 // ZXQRCodeGenerator.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019 Zhao Xin
+// Copyright (c) 2019-2020 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
