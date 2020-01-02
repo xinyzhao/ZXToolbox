@@ -133,7 +133,11 @@
 }
 
 - (void)removeObserver {
-    [[UIScreen mainScreen] removeObserver:self forKeyPath:@"brightness"];
+    @try {
+        [[UIScreen mainScreen] removeObserver:self forKeyPath:@"brightness"];
+    } @catch (NSException *ex) {
+        NSLog(@"%@", ex.description);
+    }
     if (_applicationDidChangeStatusBarOrientationObserver) {
         [[NSNotificationCenter defaultCenter] removeObserver:_applicationDidChangeStatusBarOrientationObserver];
     }

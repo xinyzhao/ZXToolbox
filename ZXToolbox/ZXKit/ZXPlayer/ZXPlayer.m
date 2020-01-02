@@ -143,7 +143,11 @@
     if (_attachView) {
         [_playerLayer removeFromSuperlayer];
         [_attachView removeGestureRecognizer:_panGestureRecognizer];
-        [_attachView.layer removeObserver:self forKeyPath:@"bounds"];
+        @try {
+            [_attachView.layer removeObserver:self forKeyPath:@"bounds"];
+        } @catch (NSException *ex) {
+            NSLog(@"%@", ex.description);
+        }
         _attachView = nil;
     }
 }
@@ -305,7 +309,11 @@
     [self removeTimeObserver];
     //
     if (_player) {
-        [_player removeObserver:self forKeyPath:@"rate"];
+        @try {
+            [_player removeObserver:self forKeyPath:@"rate"];
+        } @catch (NSException *ex) {
+            NSLog(@"%@", ex.description);
+        }
         _player = nil;
     }
     //
@@ -314,9 +322,13 @@
             [[NSNotificationCenter defaultCenter] removeObserver:_playerItemDidPlayToEndTimeObserver];
             _playerItemDidPlayToEndTimeObserver = nil;
         }
-        [_playerItem removeObserver:self forKeyPath:@"status"];
-        [_playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-        [_playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+        @try {
+            [_playerItem removeObserver:self forKeyPath:@"status"];
+            [_playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+            [_playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+        } @catch (NSException *ex) {
+            NSLog(@"%@", ex.description);
+        }
         _playerItem = nil;
     }
 }
