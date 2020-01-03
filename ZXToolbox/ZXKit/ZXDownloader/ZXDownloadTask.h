@@ -39,8 +39,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// The current state of the task—active, suspended, in the process of being canceled, or completed.
 @property (nonatomic, readonly) NSURLSessionTaskState state;
 
-/// The path for downloading/downloaded file
-@property (nonatomic, readonly, nullable) NSString *filePath;
+/// Location of the downloaded file
+@property (nonatomic, readonly) NSString *filePath;
 
 /// Total bytes written
 @property (nonatomic, readonly) int64_t totalBytesWritten;
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param state A block object to be executed when the download state changed.
 /// @param progress  A block object to be executed when the download progress changed.
 - (void)addObserver:(id)observer
-              state:(void(^_Nullable)(NSURLSessionTaskState state, NSString *_Nullable localFilePath, NSError *_Nullable error))state
+              state:(void(^_Nullable)(NSURLSessionTaskState state, NSString *_Nullable filePath, NSError *_Nullable error))state
            progress:(void(^_Nullable)(int64_t receivedSize, int64_t expectedSize, float progress))progress;
 
 /// Remove observer

@@ -43,9 +43,6 @@ typedef NS_ENUM(NSInteger, UIButtonTitleImageLayout) {
 /** Default is 0 */
 @property (nonatomic, assign) CGFloat titleImageSpacing;
 
-/** Layout the title and image */
-- (void)layoutTitleImage;
-
 @end
 
 NS_ASSUME_NONNULL_END

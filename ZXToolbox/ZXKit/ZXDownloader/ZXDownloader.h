@@ -39,13 +39,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// Destination directory of download
 @property (nonatomic, copy) NSString *downloadPath;
 
-/// The maximum number of downloads that can execute at the same time, default is 0 which means no limit.
-@property (nonatomic, assign) NSInteger maxConcurrentDownloadCount;
+/// The maximum number of downloads that can execute at the same time, default is 4/6 in iOS/OSX
+@property (nonatomic, readonly) NSInteger maxConcurrentDownloadCount;
 
 /// The current number of concurrent downloads
 @property (nonatomic, readonly) NSInteger currentConcurrentDownloadCount;
 
-/// Auto resume next download task when maxConcurrentDownloadCount > 0, default is false
+/// Auto resume next download task when prev-task is cancel or completed, default is true
 @property (nonatomic, assign) BOOL autoResumeNextDownloadTask;
 
 /// Enable to allow untrusted SSL certificates, default YES.
@@ -58,17 +58,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// [UIApplicationDelegate.application:handleEventsForBackgroundURLSession:completionHandler:]
 @property (nonatomic, copy) void (^backgroundCompletionHandler)(void);
 
-/// Create or got exist download task with URL
-/// @param URL The URL
-- (ZXDownloadTask *)downloadTaskWithURL:(NSURL *)URL;
-
 /// Get download task for URL
 /// @param URL The URL
 - (ZXDownloadTask *)downloadTaskForURL:(NSURL *)URL;
 
-/// Suspend the task for URL
+/// Create or got exist download task with URL
 /// @param URL The URL
-- (void)suspendTaskForURL:(NSURL *)URL;
+- (ZXDownloadTask *)downloadTaskWithURL:(NSURL *)URL;
 
 /// Suspend the task
 /// @param task task The task
@@ -77,20 +73,12 @@ NS_ASSUME_NONNULL_BEGIN
 /// Suspend all tasks
 - (void)suspendAllTasks;
 
-/// Resume or start the task for URL
-/// @param URL The URL
-- (void)resumeTaskForURL:(NSURL *)URL;
-
 /// Start/Resume the task
 /// @param task The task
-- (BOOL)resumeTask:(ZXDownloadTask *)task;
+- (void)resumeTask:(ZXDownloadTask *)task;
 
 /// Resume or start all tasks
 - (void)resumeAllTasks;
-
-/// Cancel the task for URL
-/// @param URL The URL
-- (void)cancelTaskForURL:(NSURL *)URL;
 
 /// Cancel the task
 /// @param task The task

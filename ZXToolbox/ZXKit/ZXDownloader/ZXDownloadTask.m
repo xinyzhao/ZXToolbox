@@ -57,6 +57,8 @@
 @property (nonatomic, assign) int64_t totalBytesWritten;
 @property (nonatomic, assign) int64_t totalBytesExpectedToWrite;
 
+@property (nonatomic, assign) NSURLSessionTaskState state;
+
 @property (nonatomic, weak) id didBecomeActiveObserver;
 
 @end
@@ -78,10 +80,15 @@
         //
         _observers = [[NSMutableArray alloc] init];
         _taskIdentifier = URL.taskIdentifier;
-        _finalFilePath = [path stringByAppendingPathComponent:[URL lastPathComponent]];
         _cacheFilePath = [path stringByAppendingPathComponent:_taskIdentifier];
+        _finalFilePath = [path stringByAppendingPathComponent:[URL lastPathComponent]];
         _totalBytesWritten = [self fileSizeAtPath:_cacheFilePath];
-        _totalBytesExpectedToWrite = 0;
+        _totalBytesExpectedToWrite = [self fileSizeAtPath:_finalFilePath];
+        if (_totalBytesExpectedToWrite > 0) {
+            _state = NSURLSessionTaskStateCompleted;
+        } else {
+            _state = NSURLSessionTaskStateSuspended;
+        }
     }
     return self;
 }
@@ -105,8 +112,8 @@
     if ([_task isKindOfClass:NSURLSessionDownloadTask.class]) {
         _didBecomeActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
             if (weakSelf.state == NSURLSessionTaskStateRunning) {
-                [weakSelf suspend];
-                [weakSelf resume];
+                [weakSelf.task suspend];
+                [weakSelf.task resume];
             }
         }];
     }
@@ -121,12 +128,12 @@
     taskObserver.observer = observer;
     taskObserver.state = state;
     taskObserver.progress = progress;
-    [self.observers addObject:taskObserver];
+    [_observers addObject:taskObserver];
 }
 
 - (void)removeObserver:(id)observer {
     NSMutableArray *array = [[NSMutableArray alloc] init];
-    for (ZXDownloadObserver *obj in self.observers) {
+    for (ZXDownloadObserver *obj in _observers) {
         if (obj.observer == observer) {
             [array addObject:obj];
         }
@@ -137,7 +144,7 @@
 #pragma mark Files
 
 - (NSString *)filePath {
-    if (self.state == NSURLSessionTaskStateCompleted) {
+    if (_state == NSURLSessionTaskStateCompleted) {
         return _finalFilePath;
     }
     return _cacheFilePath;
@@ -155,35 +162,43 @@
 
 #pragma mark State
 
-- (NSURLSessionTaskState)state {
-    return _task.state;
-}
-
 - (void)cancel {
-    if ([_task isKindOfClass:NSURLSessionDownloadTask.class]) {
-        __weak typeof(self) weakSelf = self;
-        [((NSURLSessionDownloadTask *)_task) cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
-            [weakSelf writeResumeData:resumeData];
-        }];
-    } else {
-        [self.task cancel];
+    if (_state == NSURLSessionTaskStateRunning ||
+        _state == NSURLSessionTaskStateSuspended) {
+        if ([_task isKindOfClass:NSURLSessionDownloadTask.class]) {
+            __weak typeof(self) weakSelf = self;
+            [((NSURLSessionDownloadTask *)_task) cancelByProducingResumeData:^(NSData * _Nullable resumeData) {
+                [weakSelf writeResumeData:resumeData];
+            }];
+        } else {
+            [_task cancel];
+        }
     }
 }
 
 - (void)suspend {
-    [self.task suspend];
-    [self setState:NSURLSessionTaskStateSuspended withError:nil];
+    if (_state == NSURLSessionTaskStateRunning) {
+        [_task suspend];
+        [self setState:NSURLSessionTaskStateSuspended withError:nil];
+    }
 }
 
 - (void)resume {
-    [self.task resume];
-    [self setState:NSURLSessionTaskStateRunning withError:nil];
+    if (_state == NSURLSessionTaskStateSuspended) {
+        [_task resume];
+        [self setState:NSURLSessionTaskStateRunning withError:nil];
+    } else if (_state == NSURLSessionTaskStateCompleted) {
+        [self setState:NSURLSessionTaskStateCompleted withError:nil];
+    }
 }
 
 - (void)setState:(NSURLSessionTaskState)state withError:(NSError *)error {
-    NSString *path = state == NSURLSessionTaskStateCompleted ? self.finalFilePath : nil;
+    _state = state;
+    //
+    __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{
-        for (ZXDownloadObserver *observer in self.observers) {
+        NSString *path = weakSelf.filePath;
+        for (ZXDownloadObserver *observer in weakSelf.observers) {
             if (observer.observer && observer.state) {
                 observer.state(state, path, error);
             }

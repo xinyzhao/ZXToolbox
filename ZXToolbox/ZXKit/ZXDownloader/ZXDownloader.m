@@ -73,8 +73,8 @@
     if (self) {
         _downloadTasks = [[NSMutableDictionary alloc] init];
         _downloadPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:NSStringFromClass([self class])];
-        _maxConcurrentDownloadCount = 0;
         _allowInvalidCertificates = YES;
+        _autoResumeNextDownloadTask = YES;
     }
     return self;
 }
@@ -140,6 +140,10 @@
 
 #pragma mark Concurrency
 
+- (NSInteger)maxConcurrentDownloadCount {
+    return _session.configuration.HTTPMaximumConnectionsPerHost;
+}
+
 - (NSInteger)currentConcurrentDownloadCount {
     NSInteger count = 0;
     for (ZXDownloadTask *task in _downloadTasks.allValues) {
@@ -148,21 +152,6 @@
         }
     }
     return count;
-}
-
-- (void)setMaxConcurrentDownloadCount:(NSInteger)maxConcurrentDownloadCount {
-    _maxConcurrentDownloadCount = maxConcurrentDownloadCount;
-    //
-    if (_maxConcurrentDownloadCount > 0) {
-        NSInteger count = 0;
-        for (ZXDownloadTask *task in [_downloadTasks allValues]) {
-            if (task.state == NSURLSessionTaskStateRunning) {
-                if (++count > _maxConcurrentDownloadCount) {
-                    [task suspend];
-                }
-            }
-        }
-    }
 }
 
 #pragma mark Tasks
@@ -207,47 +196,21 @@
     return task;
 }
 
-#pragma mark Suspend
-
-- (void)suspendTaskForURL:(NSURL *)URL {
-    ZXDownloadTask *task = [self downloadTaskForURL:URL];
-    [self suspendTask:task];
-}
-
-- (void)suspendTask:(ZXDownloadTask *)task {
-    [task suspend];
-    [self resumeNextTask:task];
-}
-
-- (void)suspendAllTasks {
-    for (ZXDownloadTask *task in [self.downloadTasks allValues]) {
-        [task suspend];
-    }
-}
-
 #pragma mark Resume
 
-- (void)resumeTaskForURL:(NSURL *)URL {
-    ZXDownloadTask *task = [self downloadTaskForURL:URL];
-    if (task) {
-        [self resumeTask:task];
-    }
-}
-
-- (BOOL)resumeTask:(ZXDownloadTask *)task {
+- (void)resumeTask:(ZXDownloadTask *)task {
     if (task.state == NSURLSessionTaskStateSuspended) {
-        if ((_maxConcurrentDownloadCount <= 0) ||
-            (_maxConcurrentDownloadCount > 0 &&
-             self.currentConcurrentDownloadCount < _maxConcurrentDownloadCount)) {
+        if ((self.maxConcurrentDownloadCount <= 0) ||
+            (self.maxConcurrentDownloadCount > self.currentConcurrentDownloadCount)) {
             [task resume];
-            return YES;
         }
+    } else if (task.state == NSURLSessionTaskStateCompleted) {
+        [task resume];
     }
-    return NO;
 }
 
 - (void)resumeNextTask:(ZXDownloadTask *)currentTask {
-    if (_maxConcurrentDownloadCount > 0 && _autoResumeNextDownloadTask) {
+    if (_autoResumeNextDownloadTask) {
         for (ZXDownloadTask *task in [_downloadTasks allValues]) {
             if (task != currentTask) {
                 [self resumeTask:task];
@@ -263,12 +226,20 @@
     }
 }
 
-#pragma mark Cancel
+#pragma mark Suspend
 
-- (void)cancelTaskForURL:(NSURL *)URL {
-    ZXDownloadTask *task = [self downloadTaskForURL:URL];
-    [self cancelTask:task];
+- (void)suspendTask:(ZXDownloadTask *)task {
+    [task suspend];
+    [self resumeNextTask:task];
 }
+
+- (void)suspendAllTasks {
+    for (ZXDownloadTask *task in [self.downloadTasks allValues]) {
+        [task suspend];
+    }
+}
+
+#pragma mark Cancel
 
 - (void)cancelTask:(ZXDownloadTask *)task {
     if (task) {
@@ -297,11 +268,12 @@
 */
 - (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session
 {
-    if (self.currentConcurrentDownloadCount == 0) {
-        if (_backgroundCompletionHandler) {
-            _backgroundCompletionHandler();
+    __weak typeof(self) weakSelf = self;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (weakSelf.backgroundCompletionHandler) {
+            weakSelf.backgroundCompletionHandler();
         }
-    }
+    });
 }
 
 #pragma mark <NSURLSessionTaskDelegate>

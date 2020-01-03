@@ -35,6 +35,7 @@
     [self swizzleMethod:@selector(setEnabled:) with:@selector(zx_setEnabled:)];
     [self swizzleMethod:@selector(setHighlighted:) with:@selector(zx_setHighlighted:)];
     [self swizzleMethod:@selector(setSelected:) with:@selector(zx_setSelected:)];
+    [self swizzleMethod:@selector(setBounds:) with:@selector(zx_setBounds:)];
 }
 
 - (void)zx_setTitle:(NSString *)title forState:(UIControlState)state {
@@ -59,6 +60,11 @@
 
 - (void)zx_setSelected:(BOOL)selected {
     [self zx_setSelected:selected];
+    [self layoutTitleImage];
+}
+
+- (void)zx_setBounds:(CGRect)rect {
+    [self zx_setBounds:rect];
     [self layoutTitleImage];
 }
 
