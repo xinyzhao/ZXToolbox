@@ -25,48 +25,46 @@
 
 #import "ZXImageBroswer.h"
 
-static NSString * const _reuseIdentifier = @"ZXImageBroswerCell";
-
 @interface ZXImageBroswer () <UICollectionViewDataSource, UICollectionViewDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;
+@property (nonatomic, copy) NSString *reuseIdentifier;
 
 @end
 
 @implementation ZXImageBroswer
 
-- (instancetype)initWithCoder:(NSCoder *)coder
+- (instancetype)init
 {
-    self = [super initWithCoder:coder];
+    self = [super init];
     if (self) {
         [self setupViews];
     }
     return self;
 }
 
-- (instancetype)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
+- (instancetype)initWithImages:(NSArray *)images {
+    self = [self init];
     if (self) {
-        [self setupViews];
+        self.imageSources = images;
     }
     return self;
 }
 
 - (void)setupViews {
     // Do any additional setup after loading the view.
-    self.itemSpacing = 10.f;
+    self.imageSpacing = 10.f;
     //
     CGRect frame = self.bounds;
-    frame.size.width += self.itemSpacing;
+    frame.size.width += self.imageSpacing;
     // Configure the layout
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.minimumLineSpacing = self.itemSpacing;
-    layout.minimumInteritemSpacing = self.itemSpacing;
+    layout.minimumLineSpacing = self.imageSpacing;
+    layout.minimumInteritemSpacing = self.imageSpacing;
     layout.itemSize = self.bounds.size;
     layout.headerReferenceSize = CGSizeZero;
     layout.footerReferenceSize = CGSizeZero;
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, self.itemSpacing);
+    layout.sectionInset = UIEdgeInsetsMake(0, 0, 0, self.imageSpacing);
     // Configure the UICollectionView
     self.collectionView = [[UICollectionView alloc] initWithFrame:frame collectionViewLayout:layout];
     self.collectionView.allowsSelection = NO;
@@ -79,57 +77,39 @@ static NSString * const _reuseIdentifier = @"ZXImageBroswerCell";
     self.collectionView.showsVerticalScrollIndicator = NO;
     [self addSubview:self.collectionView];
     // Register cell classes
-    [self registerCellClass:[ZXImageBroswerCell class]];
-}
-
-- (void)registerCellClass:(Class)cellClass {
-    if ([cellClass isSubclassOfClass:[ZXImageBroswerCell class]]) {
-        [self.collectionView registerClass:cellClass forCellWithReuseIdentifier:_reuseIdentifier];
-    }
+    [self registerClass:ZXImageBroswerCell.class forCellWithReuseIdentifier:@"ZXImageBroswerCell"];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     //
     CGRect frame = self.bounds;
-    frame.size.width += self.itemSpacing;
+    frame.size.width += self.imageSpacing;
     self.collectionView.frame = frame;
 }
 
-#pragma mark Setter
+#pragma mark Getter
 
-- (void)setItemSpacing:(CGFloat)itemSpacing {
-    _itemSpacing = itemSpacing;
-    [self reloadData];
-}
-
-#pragma mark Functions
-
-- (ZXImageBroswerCell *)dequeueReusableCellForItemAtIndex:(NSInteger)index {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
-    return [_collectionView dequeueReusableCellWithReuseIdentifier:_reuseIdentifier forIndexPath:indexPath];
-}
-
-- (ZXImageBroswerCell *)cellForItemAtIndex:(NSInteger)index {
-    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
-    return (ZXImageBroswerCell *)[_collectionView cellForItemAtIndexPath:indexPath];
-}
-
-- (NSInteger)numberOfItems {
-    return [self.collectionView numberOfItemsInSection:0];
-}
-
-- (void)reloadData {
-    [self.collectionView reloadData];
-}
-
-- (NSInteger)indexForVisibleItem {
+- (NSInteger)currentIndex {
     NSIndexPath *indexPath = [[self.collectionView indexPathsForVisibleItems] firstObject];
     return indexPath ? indexPath.row : NSNotFound;
 }
 
-- (void)scrollToItemAtIndex:(NSUInteger)index animated:(BOOL)animated {
-    if (index < self.numberOfItems) {
+#pragma mark Setter
+
+- (void)setImageSources:(NSArray *)imageSources {
+    _imageSources = [imageSources copy];
+    [self.collectionView reloadData];
+}
+
+- (void)setImageSpacing:(CGFloat)itemSpacing {
+    _imageSpacing = itemSpacing;
+    [self setNeedsLayout];
+    [self.collectionView reloadData];
+}
+
+- (void)setCurrentIndex:(NSInteger)index animated:(BOOL)animated {
+    if (index < self.imageSources.count) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];
         [_collectionView scrollToItemAtIndexPath:indexPath
                                 atScrollPosition:UICollectionViewScrollPositionLeft
@@ -140,22 +120,37 @@ static NSString * const _reuseIdentifier = @"ZXImageBroswerCell";
 #pragma mark <UICollectionViewDataSource>
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    if ([_dataSource respondsToSelector:@selector(numberOfItemsInBroswer:)]) {
-        return [_dataSource numberOfItemsInBroswer:self];
-    }
-    return 0;
+    return _imageSources.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    ZXImageBroswerCell *cell;
-    if ([_dataSource respondsToSelector:@selector(imageBroswer:cellForItemAtIndex:)]) {
-        cell = [_dataSource imageBroswer:self cellForItemAtIndex:indexPath.item];
-    } else {
-        cell = [collectionView dequeueReusableCellWithReuseIdentifier:_reuseIdentifier forIndexPath:indexPath];
+    ZXImageBroswerCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:_reuseIdentifier forIndexPath:indexPath];
+    //
+    id obj = _imageSources[indexPath.item];
+    if ([obj isKindOfClass:NSURL.class]) {
+        cell.image = nil;
+        cell.imageURL = obj;
+    } else if ([obj isKindOfClass:UIImage.class]) {
+        cell.image = obj;
+        cell.imageURL = nil;
     }
     //
-    [cell setValue:self forKey:@"internalImageView"];
-    [cell setValue:indexPath forKey:@"internalIndexPath"];
+    __weak typeof(self) weakSelf = self;
+    if (_onSingleTap) {
+        cell.onSingleTap = ^{
+            weakSelf.onSingleTap(indexPath.item, obj);
+        };
+    }
+    if (_onDoubleTap) {
+        cell.onDoubleTap = ^{
+            weakSelf.onDoubleTap(indexPath.item, obj);
+        };
+    }
+    if (_onLongPress) {
+        cell.onLongPress = ^{
+            weakSelf.onLongPress(indexPath.item, obj);
+        };
+    }
     //
     return cell;
 }
@@ -167,15 +162,15 @@ static NSString * const _reuseIdentifier = @"ZXImageBroswerCell";
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
-    return UIEdgeInsetsMake(0, 0, 0, self.itemSpacing);
+    return UIEdgeInsetsMake(0, 0, 0, self.imageSpacing);
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
-    return self.itemSpacing;
+    return self.imageSpacing;
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
-    return self.itemSpacing;
+    return self.imageSpacing;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section {
@@ -184,6 +179,28 @@ static NSString * const _reuseIdentifier = @"ZXImageBroswerCell";
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section {
     return CGSizeZero;
+}
+
+@end
+
+
+@implementation ZXImageBroswer (ZXImageBroswerCell)
+
+- (void)registerClass:(nullable Class)cellClass forCellWithReuseIdentifier:(NSString *)identifier {
+    if ([cellClass isSubclassOfClass:[ZXImageBroswerCell class]]) {
+        _reuseIdentifier = [identifier copy];
+        [self.collectionView registerClass:cellClass forCellWithReuseIdentifier:_reuseIdentifier];
+    }
+}
+
+- (ZXImageBroswerCell *)dequeueReusableCellForImageAtIndex:(NSInteger)index {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+    return [_collectionView dequeueReusableCellWithReuseIdentifier:_reuseIdentifier forIndexPath:indexPath];
+}
+
+- (ZXImageBroswerCell *)cellForImageAtIndex:(NSInteger)index {
+    NSIndexPath *indexPath = [NSIndexPath indexPathForItem:index inSection:0];
+    return (ZXImageBroswerCell *)[_collectionView cellForItemAtIndexPath:indexPath];
 }
 
 @end

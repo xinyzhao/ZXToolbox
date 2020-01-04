@@ -25,121 +25,59 @@
 
 #import "ZXImageBroswerCell.h"
 
-@protocol ZXImageBroswerDataSource;
-@protocol ZXImageBroswerDelegate;
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- ZXImageBroswer
- */
+/// ZXImageBroswer
 @interface ZXImageBroswer : UIView
-/**
- Data source, see ZXImageBroswerDataSource
- */
-@property (nonatomic, weak) id <ZXImageBroswerDataSource> dataSource;
-/**
- Delegate, see ZXImageBroswerDelegate
- */
-@property (nonatomic, weak) id <ZXImageBroswerDelegate> delegate;
-/**
- Item spacing, defalut 10.f
- */
-@property (nonatomic, assign) CGFloat itemSpacing;
 
-/**
- Register custom cell class
+/// The image sources, the elements could be UIImage/NSURL
+@property (nonatomic, copy) NSArray *imageSources;
 
- @param cellClass Base on ZXImageBroswerCell subclass
- */
-- (void)registerCellClass:(Class)cellClass;
+/// Image spacing, defalut 10.f
+@property (nonatomic, assign) CGFloat imageSpacing;
 
-/**
- Create or reuse a ZXImageBroswerCell
+/// Preferred minimum zoom scale, default is 1.0
+@property (nonatomic, assign) CGFloat preferredMinimumZoomScale;
 
- @param index Index of item
- @return ZXImageBroswerCell
- */
-- (ZXImageBroswerCell *)dequeueReusableCellForItemAtIndex:(NSInteger)index;
+/// Preferred maximum zoom scale, default is 3.0
+@property (nonatomic, assign) CGFloat preferredMaximumZoomScale;
 
-/**
- Get the cell for index
+/// Current index of displayed image
+@property (nonatomic, assign) NSInteger currentIndex;
 
- @param index The index
- @return ZXImageBroswerCell
- */
-- (ZXImageBroswerCell *)cellForItemAtIndex:(NSInteger)index;
+/// On single tap gesture recognizer action
+@property (nonatomic, copy, nullable) void (^onSingleTap)(NSInteger index, id image);
 
-/**
- Number of images
+/// On double tap gesture recognizer action, default is zoom scale the image
+@property (nonatomic, copy, nullable) void (^onDoubleTap)(NSInteger index, id image);
 
- @return NSInteger
- */
-- (NSInteger)numberOfItems;
+/// On Long press gesture recognizer action
+@property (nonatomic, copy, nullable) void (^onLongPress)(NSInteger index, id image);
 
-/**
- Reload data
- */
-- (void)reloadData;
+/// Initialize
+/// @param images The images sources
+- (instancetype)initWithImages:(NSArray *)images;
 
-/**
- Get the index for visible item
- @return The index
- */
-- (NSInteger)indexForVisibleItem;
-
-/**
- Scroll to specified item
-
- @param index Index of item
- @param animated animated or immediately
- */
-- (void)scrollToItemAtIndex:(NSUInteger)index animated:(BOOL)animated;
+/// Set current index of displayed image
+/// @param currentIndex Index of image
+/// @param animated animated or not
+- (void)setCurrentIndex:(NSInteger)currentIndex animated:(BOOL)animated;
 
 @end
 
-/**
- ZXImageBroswerDataSource
- */
-@protocol ZXImageBroswerDataSource <NSObject>
-@required
-/**
- Specified number of items
+/// ZXImageBroswer (ZXImageBroswerCell)
+@interface ZXImageBroswer (ZXImageBroswerCell)
 
- @param imageBroswer The imageBroswer
- @return NSInteger
- */
-- (NSInteger)numberOfItemsInBroswer:(ZXImageBroswer *)imageBroswer;
+/// Register custom cell class
+/// @param cellClass Base on ZXImageBroswerCell subclass
+- (void)registerClass:(nullable Class)cellClass forCellWithReuseIdentifier:(NSString *)identifier;
 
-/**
- Make and config cell from dequeueReusableCellForItemAtIndex:
+- (__kindof ZXImageBroswerCell *)dequeueReusableCellForImageAtIndex:(NSInteger)index;
 
- @param imageBroswer The imageBroswer
- @param index The index of item
- @return ZXImageBroswerCell
- */
-- (ZXImageBroswerCell *)imageBroswer:(ZXImageBroswer *)imageBroswer cellForItemAtIndex:(NSInteger)index;
+/// Get the cell for index
+/// @param index Index of image
+- (nullable ZXImageBroswerCell *)cellForImageAtIndex:(NSInteger)index;
 
 @end
 
-/**
- ZXImageBroswerDelegate
- */
-@protocol ZXImageBroswerDelegate <NSObject>
-@optional
-/**
- The imageBroswer did select item
-
- @param imageBroswer The imageBroswer
- @param index The index of item
- */
-- (void)imageBroswer:(ZXImageBroswer *)imageBroswer didSelectItemAtIndex:(NSInteger)index;
-
-/**
- The imageBroswer did long press on item
-
- @param imageBroswer The imageBroswer
- @param index The index of item
- */
-- (void)imageBroswer:(ZXImageBroswer *)imageBroswer longPressItemAtIndex:(NSInteger)index;
-
-@end
-
+NS_ASSUME_NONNULL_END

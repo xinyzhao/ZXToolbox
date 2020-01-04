@@ -33,7 +33,8 @@
     __weak NSIndexPath *internalIndexPath;
 }
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) UIActivityIndicatorView *activityIndicatorView;
+@property (nonatomic, strong) UIImageView *imageView;
+@property (nonatomic, strong) UIActivityIndicatorView *loadingView;
 @property (nonatomic, strong) UITapGestureRecognizer *singleTap;
 @property (nonatomic, strong) UITapGestureRecognizer *doubleTap;
 @property (nonatomic, strong) UILongPressGestureRecognizer *longPress;
@@ -42,15 +43,91 @@
 
 @implementation ZXImageBroswerCell
 
+#pragma mark Getter
+
+- (UIScrollView *)scrollView {
+    if (_scrollView == nil) {
+        _scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
+        _scrollView.delegate = self;
+        _scrollView.showsHorizontalScrollIndicator = NO;
+        _scrollView.showsVerticalScrollIndicator = NO;
+        [self.contentView addSubview:_scrollView];
+    }
+    return _scrollView;
+}
+
+- (UIImageView *)imageView {
+    if (_imageView == nil) {
+        _imageView = [[UIImageView alloc] initWithFrame:self.bounds];
+        _imageView.contentMode = UIViewContentModeScaleAspectFit;
+        [self.scrollView addSubview:_imageView];
+    }
+    return _imageView;
+}
+
+- (UIActivityIndicatorView *)loadingView {
+    if (_loadingView == nil) {
+        _loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+        _loadingView.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
+        [self.contentView addSubview:_loadingView];
+    }
+    return _loadingView;
+}
+
+- (UITapGestureRecognizer *)singleTap {
+    if (_singleTap == nil) {
+        _singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onSingleTap:)];
+        _singleTap.enabled = NO;
+        [self addGestureRecognizer:_singleTap];
+    }
+    return _singleTap;
+}
+
+- (UITapGestureRecognizer *)doubleTap {
+    if (_doubleTap == nil) {
+        _doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onDoubleTap:)];
+        _doubleTap.delegate = self;
+        _doubleTap.numberOfTapsRequired = 2;
+        _doubleTap.enabled = NO;
+        [self.imageView addGestureRecognizer:_doubleTap];
+        [self.singleTap requireGestureRecognizerToFail:_doubleTap];
+    }
+    return _doubleTap;
+}
+
+- (UILongPressGestureRecognizer *)longPress {
+    if (_longPress == nil) {
+        _longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(onLongPress:)];
+        _longPress.enabled = NO;
+        [self.imageView addGestureRecognizer:_longPress];
+    }
+    return _longPress;
+}
+
 #pragma mark Setter
 
 - (void)setImage:(UIImage *)image {
-    _image = [image copy];
+    _image = image;
+    //
     [self setNeedsDisplay];
 }
 
 - (void)setImageURL:(NSURL *)imageURL {
-    _imageURL = [imageURL copy];
+    _imageURL = imageURL;
+    //
+    if (_imageURL) {
+        __weak typeof(self) weakSelf = self;
+        [self.loadingView startAnimating];
+        [self.imageView zx_setImageWithURL:_imageURL placeholder:_image completion:^(UIImage *image, NSError *error, NSURL *imageURL) {
+            [weakSelf.loadingView stopAnimating];
+            if (error) {
+                NSLog(@"%s %@", __func__, error.localizedDescription);
+            } else if (image) {
+                weakSelf.image = image;
+            }
+        }];
+    }
+    //
     [self setNeedsLayout];
 }
 
@@ -59,6 +136,7 @@
 - (void)drawRect:(CGRect)rect {
     [super drawRect:rect];
     //
+    self.singleTap.enabled = YES;
     if (self.image) {
         UIImage *image = self.image;
         CGSize imageSize = [self imageSizeForScreenScale:image];
@@ -113,71 +191,22 @@
         self.scrollView.zoomScale = self.scrollView.minimumZoomScale;
         [self centerImageView];
         //
-        self.doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onDoubleTap:)];
-        self.doubleTap.delegate = self;
-        self.doubleTap.numberOfTapsRequired = 2;
-        [self.imageView addGestureRecognizer:self.doubleTap];
-        [self.singleTap requireGestureRecognizerToFail:self.doubleTap];
-        //
-        self.longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(onLongPress:)];
-        [self.imageView addGestureRecognizer:self.longPress];
-        //
-        [self.imageView setUserInteractionEnabled:YES];
+        self.imageView.userInteractionEnabled = YES;
+        self.doubleTap.enabled = YES;
+        self.longPress.enabled = YES;
         
     } else {
-        self.imageView.image = self.image;
+        self.imageView.image = nil;
+        self.imageView.userInteractionEnabled = NO;
     }
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     //
-    CGRect rect = self.bounds;
-    if (self.scrollView == nil) {
-        self.scrollView = [[UIScrollView alloc] initWithFrame:rect];
-        self.scrollView.delegate = self;
-        self.scrollView.showsHorizontalScrollIndicator = NO;
-        self.scrollView.showsVerticalScrollIndicator = NO;
-        [self.contentView addSubview:self.scrollView];
-    } else {
-        self.scrollView.frame = rect;
-    }
-    //
-    if (self.activityIndicatorView == nil) {
-        self.activityIndicatorView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-        self.activityIndicatorView.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
-        [self.contentView addSubview:self.activityIndicatorView];
-    } else {
-        self.activityIndicatorView.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
-    }
-    //
-    rect = self.bounds;
-    if (self.imageView == nil) {
-        _imageView = [[UIImageView alloc] initWithFrame:rect];
-        _imageView.contentMode = UIViewContentModeScaleAspectFit;
-        [self.scrollView addSubview:_imageView];
-    } else {
-        self.imageView.frame = rect;
-    }
-    //
-    if (self.singleTap == nil) {
-        self.singleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onSingleTap:)];
-        [self addGestureRecognizer:self.singleTap];
-    }
-    //
-    if (self.imageURL) {
-        __weak typeof(self) weakSelf = self;
-        [self.activityIndicatorView startAnimating];
-        [self.imageView setUserInteractionEnabled:NO];
-        [self.imageView zx_setImageWithURL:self.imageURL placeholder:self.image completion:^(UIImage *image, NSError *error, NSURL *imageURL) {
-            [weakSelf.activityIndicatorView stopAnimating];
-            if (error) {
-                NSLog(@"%s %@", __func__, error.localizedDescription);
-            } else if (image) {
-                weakSelf.image = image;
-            }
-        }];
-    }
+    self.scrollView.frame = self.bounds;
+    self.loadingView.center = CGPointMake(self.frame.size.width / 2, self.frame.size.height / 2);
+    self.imageView.frame = self.bounds;
 }
 
 #pragma mark Functions
@@ -232,23 +261,11 @@
     return size;
 }
 
-#pragma mark Target Actions
-
-- (void)onSingleTap:(id)sender {
-    __weak typeof(internalImageView) weakImageView = internalImageView;
-    __weak typeof(internalIndexPath) weakIndexPath = internalIndexPath;
-    if ([internalImageView.delegate respondsToSelector:@selector(imageBroswer:didSelectItemAtIndex:)]) {
-        [weakImageView.delegate imageBroswer:weakImageView didSelectItemAtIndex:weakIndexPath.item];
-    }
-}
-
-- (void)onDoubleTap:(id)sender {
+- (void)zoomInPoint:(CGPoint)point {
     if (self.scrollView.zoomScale > self.scrollView.minimumZoomScale) {
         [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:YES];
     } else {
-        UITapGestureRecognizer *tap = sender;
         CGRect rect = self.scrollView.frame;
-        CGPoint point = [tap locationInView:self.imageView];
         CGFloat scale = self.scrollView.maximumZoomScale;
         rect.size.width = self.scrollView.frame.size.width / scale;
         rect.size.height = self.scrollView.frame.size.height / scale;
@@ -258,13 +275,29 @@
     }
 }
 
+#pragma mark Target Actions
+
+- (void)onSingleTap:(id)sender {
+    if (_onSingleTap) {
+        _onSingleTap();
+    }
+}
+
+- (void)onDoubleTap:(id)sender {
+    if (_onDoubleTap) {
+        _onDoubleTap();
+    } else {
+        UITapGestureRecognizer *tap = sender;
+        CGPoint point = [tap locationInView:tap.view];
+        [self zoomInPoint:point];
+    }
+}
+
 - (void)onLongPress:(id)sender {
-    UILongPressGestureRecognizer *lp = sender;
-    if (lp.state == UIGestureRecognizerStateBegan) {
-        __weak typeof(internalImageView) weakImageView = internalImageView;
-        __weak typeof(internalIndexPath) weakIndexPath = internalIndexPath;
-        if ([internalImageView.delegate respondsToSelector:@selector(imageBroswer:longPressItemAtIndex:)]) {
-            [weakImageView.delegate imageBroswer:weakImageView longPressItemAtIndex:weakIndexPath.item];
+    UILongPressGestureRecognizer *gr = sender;
+    if (gr.state == UIGestureRecognizerStateBegan) {
+        if (_onLongPress) {
+            _onLongPress();
         }
     }
 }
