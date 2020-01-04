@@ -108,6 +108,10 @@
     [self.collectionView reloadData];
 }
 
+- (void)setCurrentIndex:(NSInteger)index {
+    [self setCurrentIndex:index animated:YES];
+}
+
 - (void)setCurrentIndex:(NSInteger)index animated:(BOOL)animated {
     if (index < self.imageSources.count) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:index inSection:0];

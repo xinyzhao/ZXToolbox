@@ -59,9 +59,9 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithImages:(NSArray *)images;
 
 /// Set current index of displayed image
-/// @param currentIndex Index of image
+/// @param index Index of image
 /// @param animated animated or not
-- (void)setCurrentIndex:(NSInteger)currentIndex animated:(BOOL)animated;
+- (void)setCurrentIndex:(NSInteger)index animated:(BOOL)animated;
 
 @end
 
