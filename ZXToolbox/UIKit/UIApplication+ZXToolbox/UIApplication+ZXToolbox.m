@@ -35,8 +35,8 @@
     } else {
         url = [NSURL URLWithString:[NSString stringWithFormat:@"prefs:root==%@", [NSBundle mainBundle].infoDictionary[@"CFBundleIdentifier"]]];
     }
-    if([[UIApplication sharedApplication] canOpenURL:url]) {
-        return [[UIApplication sharedApplication] openURL:url];
+    if([self canOpenURL:url]) {
+        return [self openURL:url];
     }
     return NO;
 }
