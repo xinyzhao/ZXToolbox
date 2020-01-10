@@ -206,6 +206,7 @@
         }
     } else if (task.state == NSURLSessionTaskStateCompleted) {
         [task resume];
+        [_downloadTasks removeObjectForKey:task.taskIdentifier];
     }
 }
 

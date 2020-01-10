@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "2.3.4"
+  s.version      = "2.3.5"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -98,6 +98,7 @@ Pod::Spec.new do |s|
   end
   
   s.subspec "UIDevice+ZXToolbox" do |ss|
+    ss.dependency 'ZXToolbox/ZXKeychain'
     ss.dependency 'ZXToolbox/ZXToolbox+Macros'
     ss.source_files  = "ZXToolbox/UIKit/UIDevice+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/UIKit/UIDevice+ZXToolbox/*.h"
@@ -215,6 +216,12 @@ Pod::Spec.new do |s|
     ss.dependency 'ZXToolbox/ZXURLSession'
     ss.source_files  = "ZXToolbox/ZXKit/ZXImageBroswer/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXImageBroswer/*.h"
+  end
+  
+  s.subspec "ZXKeychain" do |ss|
+    ss.source_files  = "ZXToolbox/ZXKit/ZXKeychain/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/ZXKit/ZXKeychain/*.h"
+    ss.frameworks = "Security"
   end
   
   s.subspec "ZXLineChartView" do |ss|

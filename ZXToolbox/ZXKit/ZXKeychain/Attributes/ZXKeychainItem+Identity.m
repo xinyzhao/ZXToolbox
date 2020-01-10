@@ -1,8 +1,8 @@
 //
-// ZXImageBroswerCell.h
+// ZXKeychainItem+Identity.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2020 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,35 +23,8 @@
 // THE SOFTWARE.
 //
 
-#import "UIImageView+ZXImageBroswer.h"
+#import "ZXKeychainItem+Identity.h"
 
-NS_ASSUME_NONNULL_BEGIN
-
-/// ZXImageBroswerCell
-@interface ZXImageBroswerCell : UICollectionViewCell
-
-/// The image
-@property (nonatomic, strong, nullable) UIImage *image;
-
-/// The image URL
-@property (nonatomic, strong, nullable) NSURL *imageURL;
-
-/// The image view
-@property (nonatomic, readonly) UIImageView *imageView;
-
-/// On single tap gesture recognizer action
-@property (nonatomic, copy, nullable) void (^onSingleTap)(void);
-
-/// On double tap gesture recognizer action
-@property (nonatomic, copy, nullable) void (^onDoubleTap)(void);
-
-/// On Long press gesture recognizer action
-@property (nonatomic, copy, nullable) void (^onLongPress)(void);
-
-/// Zoom in/out image view in point
-/// @param point The zoom point
-- (void)zoomInPoint:(CGPoint)point;
+@implementation ZXKeychainItem (Identity)
 
 @end
-
-NS_ASSUME_NONNULL_END

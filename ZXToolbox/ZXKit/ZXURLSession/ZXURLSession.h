@@ -25,12 +25,14 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface ZXURLSession : NSObject <NSURLSessionDelegate>
 
 /**
  The URL session
  */
-@property (nonatomic, strong) NSURLSession * _Nonnull URLSession;
+@property (nonatomic, strong) NSURLSession *URLSession;
 
 /**
  Enable to allow untrusted SSL certificates, default YES.
@@ -40,20 +42,22 @@
 /**
  The credential that should be used for authentication.
  */
-@property (nonatomic, strong) NSURLCredential * _Nullable credential;
+@property (nonatomic, strong, nullable) NSURLCredential *credential;
 
 /**
  Shared instance
  
  @return The instance
  */
-+ (instancetype _Nonnull)sharedSession;
++ (instancetype)sharedSession;
 
 /**
  Get the NSURLSession
  
  @return NSURLSession
  */
-+ (NSURLSession *_Nonnull)URLSession;
++ (NSURLSession *)URLSession;
 
 @end
+
+NS_ASSUME_NONNULL_END

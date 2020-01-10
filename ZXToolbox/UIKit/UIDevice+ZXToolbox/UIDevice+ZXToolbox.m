@@ -24,12 +24,14 @@
 //
 
 #import "UIDevice+ZXToolbox.h"
+#import "ZXCommonCrypto.h"
+#import "ZXKeychain.h"
 #import "ZXToolbox+Macros.h"
 #import <sys/utsname.h>
 
 @implementation UIDevice (ZXToolbox)
 
-- (nullable NSString *)modelType {
+- (NSString *)modelType {
     static NSString *modelType;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -46,7 +48,7 @@
     return modelType;
 }
 
-- (nullable NSString *)modelName {
+- (NSString *)modelName {
     static NSString *modelName;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
@@ -59,6 +61,17 @@
         }
     });
     return modelName;
+}
+
+- (NSString *)UDIDString {
+    NSString *key = @"ZXToolboxUniqueDeviceIdentifierKey";
+    NSString *udid = [[ZXKeychain defaultKeychain] textForKey:key];
+    if (udid == nil) {
+        udid = [[NSUUID UUID].UUIDString lowercaseString];
+        udid = [udid SHA1String];
+        [[ZXKeychain defaultKeychain] setText:udid forKey:key];
+    }
+    return udid;
 }
 
 @end

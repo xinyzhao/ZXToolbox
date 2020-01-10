@@ -1,8 +1,8 @@
 //
-// ZXImageBroswerCell.h
+// ZXKeychainItem.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2020 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,34 +23,34 @@
 // THE SOFTWARE.
 //
 
-#import "UIImageView+ZXImageBroswer.h"
+#import <Foundation/Foundation.h>
+#import <Security/Security.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
-/// ZXImageBroswerCell
-@interface ZXImageBroswerCell : UICollectionViewCell
+/// The keychain item.
+@interface ZXKeychainItem : NSObject <NSCopying>
 
-/// The image
-@property (nonatomic, strong, nullable) UIImage *image;
+/// Create a item with data.
+/// @param data The item data.
+- (instancetype)initWithData:(NSDictionary *)data;
 
-/// The image URL
-@property (nonatomic, strong, nullable) NSURL *imageURL;
+/// Set value for specify key, unless the value is nil, in which case send -removeObject:forKey:.
+/// @param obj The value for aKey. A strong reference to the object is maintained by the dictionary.
+/// @param key The key for value.
+- (void)setObject:(id _Nullable)obj forKey:(id)key;
 
-/// The image view
-@property (nonatomic, readonly) UIImageView *imageView;
+/// Returns the value associated with a given key.
+/// @param key The key for which to return the corresponding value.
+/// @return The value associated with aKey, or nil if no value is associated with aKey.
+- (nullable id)objectForKey:(id)key;
 
-/// On single tap gesture recognizer action
-@property (nonatomic, copy, nullable) void (^onSingleTap)(void);
+/// Removes a given key and its associated value from the data.
+/// @param key The key to remove.
+- (void)removeObjectForKey:(id)key;
 
-/// On double tap gesture recognizer action
-@property (nonatomic, copy, nullable) void (^onDoubleTap)(void);
-
-/// On Long press gesture recognizer action
-@property (nonatomic, copy, nullable) void (^onLongPress)(void);
-
-/// Zoom in/out image view in point
-/// @param point The zoom point
-- (void)zoomInPoint:(CGPoint)point;
+/// The query dictionary.
+- (nullable NSDictionary *)query;
 
 @end
 

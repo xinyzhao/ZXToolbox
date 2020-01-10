@@ -137,7 +137,11 @@
 		7000ADA522E9C22F00651E44 /* ZXHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AD1A22E9C22F00651E44 /* ZXHTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7040F6CB23824182009EFB1F /* UINavigationController+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7040F6C923824182009EFB1F /* UINavigationController+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7040F6CC23824182009EFB1F /* UINavigationController+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 7040F6CA23824182009EFB1F /* UINavigationController+ZXToolbox.m */; };
-		706C15B42383CF64000B45E1 /* UINavigationBar+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 706C15B22383CF64000B45E1 /* UINavigationBar+ZXToolbox.h */; };
+		705A8FD123C2D51000BE361F /* ZXKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = 705A8FCF23C2D51000BE361F /* ZXKeychain.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		705A8FD223C2D51000BE361F /* ZXKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 705A8FD023C2D51000BE361F /* ZXKeychain.m */; };
+		705A8FD923C2E32100BE361F /* ZXKeychainItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 705A8FD723C2E32100BE361F /* ZXKeychainItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		705A8FDA23C2E32100BE361F /* ZXKeychainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 705A8FD823C2E32100BE361F /* ZXKeychainItem.m */; };
+		706C15B42383CF64000B45E1 /* UINavigationBar+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 706C15B22383CF64000B45E1 /* UINavigationBar+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		706C15B52383CF64000B45E1 /* UINavigationBar+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 706C15B32383CF64000B45E1 /* UINavigationBar+ZXToolbox.m */; };
 		70988F372335F3B30002A8A3 /* UIControl+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70988F382335F3B30002A8A3 /* UIControl+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */; };
@@ -145,16 +149,77 @@
 		70A7B5B923B0B7990080C95A /* ZXDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A7B5B523B0B7990080C95A /* ZXDownloader.m */; };
 		70A7B5BA23B0B7990080C95A /* ZXDownloadTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 70A7B5B623B0B7990080C95A /* ZXDownloadTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70A7B5BB23B0B7990080C95A /* ZXDownloadTask.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A7B5B723B0B7990080C95A /* ZXDownloadTask.m */; };
+		70BC8B3823C581B400DD952B /* ZXKeychainItem+Attribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BC8B3623C581B400DD952B /* ZXKeychainItem+Attribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70BC8B3923C581B400DD952B /* ZXKeychainItem+Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BC8B3723C581B400DD952B /* ZXKeychainItem+Attribute.m */; };
+		70BC8B3C23C5829E00DD952B /* ZXKeychainItem+Class.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BC8B3A23C5829E00DD952B /* ZXKeychainItem+Class.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70BC8B3D23C5829E00DD952B /* ZXKeychainItem+Class.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BC8B3B23C5829E00DD952B /* ZXKeychainItem+Class.m */; };
+		70BC8B4023C5865700DD952B /* ZXKeychainItem+Certificate.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BC8B3E23C5865600DD952B /* ZXKeychainItem+Certificate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70BC8B4123C5865700DD952B /* ZXKeychainItem+Certificate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BC8B3F23C5865700DD952B /* ZXKeychainItem+Certificate.m */; };
+		70BC8B4423C5B55D00DD952B /* ZXKeychainItem+GenericPassword.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BC8B4223C5B55D00DD952B /* ZXKeychainItem+GenericPassword.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70BC8B4523C5B55D00DD952B /* ZXKeychainItem+GenericPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BC8B4323C5B55D00DD952B /* ZXKeychainItem+GenericPassword.m */; };
+		70BC8B4823C5B68000DD952B /* ZXKeychainItem+Identity.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BC8B4623C5B68000DD952B /* ZXKeychainItem+Identity.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70BC8B4923C5B68000DD952B /* ZXKeychainItem+Identity.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BC8B4723C5B68000DD952B /* ZXKeychainItem+Identity.m */; };
+		70BC8B4C23C5B6B000DD952B /* ZXKeychainItem+InternetPassword.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BC8B4A23C5B6B000DD952B /* ZXKeychainItem+InternetPassword.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70BC8B4D23C5B6B000DD952B /* ZXKeychainItem+InternetPassword.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BC8B4B23C5B6B000DD952B /* ZXKeychainItem+InternetPassword.m */; };
+		70BC8B5023C5B7A100DD952B /* ZXKeychainItem+Key.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BC8B4E23C5B7A100DD952B /* ZXKeychainItem+Key.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70BC8B5123C5B7A100DD952B /* ZXKeychainItem+Key.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BC8B4F23C5B7A100DD952B /* ZXKeychainItem+Key.m */; };
+		70BC8B5423C5B7E500DD952B /* ZXKeychainItem+Password.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BC8B5223C5B7E500DD952B /* ZXKeychainItem+Password.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70BC8B5523C5B7E500DD952B /* ZXKeychainItem+Password.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BC8B5323C5B7E500DD952B /* ZXKeychainItem+Password.m */; };
+		70BC8B5823C5B8D100DD952B /* ZXKeychainItem+Match.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BC8B5623C5B8D100DD952B /* ZXKeychainItem+Match.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70BC8B5923C5B8D100DD952B /* ZXKeychainItem+Match.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BC8B5723C5B8D100DD952B /* ZXKeychainItem+Match.m */; };
+		70BC8B5C23C5B90400DD952B /* ZXKeychainItem+Value.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BC8B5A23C5B90400DD952B /* ZXKeychainItem+Value.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70BC8B5D23C5B90400DD952B /* ZXKeychainItem+Value.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BC8B5B23C5B90400DD952B /* ZXKeychainItem+Value.m */; };
+		70BC8B6023C5B94200DD952B /* ZXKeychainItem+Return.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BC8B5E23C5B94200DD952B /* ZXKeychainItem+Return.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70BC8B6123C5B94200DD952B /* ZXKeychainItem+Return.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BC8B5F23C5B94200DD952B /* ZXKeychainItem+Return.m */; };
 		70D4BD2223A9DC47000D28E2 /* UIImageView+ZXImageBroswer.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D4BD1C23A9DC47000D28E2 /* UIImageView+ZXImageBroswer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70D4BD2323A9DC47000D28E2 /* UIImageView+ZXImageBroswer.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D4BD1D23A9DC47000D28E2 /* UIImageView+ZXImageBroswer.m */; };
 		70D4BD2423A9DC47000D28E2 /* ZXImageBroswer.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D4BD1E23A9DC47000D28E2 /* ZXImageBroswer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70D4BD2523A9DC47000D28E2 /* ZXImageBroswer.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D4BD1F23A9DC47000D28E2 /* ZXImageBroswer.m */; };
 		70D4BD2623A9DC47000D28E2 /* ZXImageBroswerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D4BD2023A9DC47000D28E2 /* ZXImageBroswerCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70D4BD2723A9DC47000D28E2 /* ZXImageBroswerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D4BD2123A9DC47000D28E2 /* ZXImageBroswerCell.m */; };
+		70D8448123C706D80042E305 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D8448023C706D80042E305 /* AppDelegate.m */; };
+		70D8448723C706D80042E305 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D8448623C706D80042E305 /* ViewController.m */; };
+		70D8448C23C706DA0042E305 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70D8448B23C706DA0042E305 /* Assets.xcassets */; };
+		70D8448F23C706DA0042E305 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70D8448D23C706DA0042E305 /* LaunchScreen.storyboard */; };
+		70D8449223C706DA0042E305 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D8449123C706DA0042E305 /* main.m */; };
+		70D8449C23C706DA0042E305 /* ZXToolboxDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D8449B23C706DA0042E305 /* ZXToolboxDemoTests.m */; };
+		70D844B323C707200042E305 /* ZXToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7000AC4722E9C1CC00651E44 /* ZXToolbox.framework */; };
+		70D844B423C707200042E305 /* ZXToolbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7000AC4722E9C1CC00651E44 /* ZXToolbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		70F673CA234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70F673CB234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F673C8234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m */; };
 		70F673CE234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 70F673CD234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		70D8449823C706DA0042E305 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7000AC3E22E9C1CC00651E44 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 70D8447C23C706D80042E305;
+			remoteInfo = ZXToolboxDemo;
+		};
+		70D844B523C707200042E305 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 7000AC3E22E9C1CC00651E44 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7000AC4622E9C1CC00651E44;
+			remoteInfo = ZXToolbox;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		70D844B723C707200042E305 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				70D844B423C707200042E305 /* ZXToolbox.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		7000AC4722E9C1CC00651E44 /* ZXToolbox.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZXToolbox.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -292,6 +357,10 @@
 		7000ADA822E9D16D00651E44 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		7040F6C923824182009EFB1F /* UINavigationController+ZXToolbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+ZXToolbox.h"; sourceTree = "<group>"; };
 		7040F6CA23824182009EFB1F /* UINavigationController+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+ZXToolbox.m"; sourceTree = "<group>"; };
+		705A8FCF23C2D51000BE361F /* ZXKeychain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXKeychain.h; sourceTree = "<group>"; };
+		705A8FD023C2D51000BE361F /* ZXKeychain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXKeychain.m; sourceTree = "<group>"; };
+		705A8FD723C2E32100BE361F /* ZXKeychainItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXKeychainItem.h; sourceTree = "<group>"; };
+		705A8FD823C2E32100BE361F /* ZXKeychainItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXKeychainItem.m; sourceTree = "<group>"; };
 		706C15B22383CF64000B45E1 /* UINavigationBar+ZXToolbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+ZXToolbox.h"; sourceTree = "<group>"; };
 		706C15B32383CF64000B45E1 /* UINavigationBar+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+ZXToolbox.m"; sourceTree = "<group>"; };
 		70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+ZXToolbox.h"; sourceTree = "<group>"; };
@@ -300,12 +369,46 @@
 		70A7B5B523B0B7990080C95A /* ZXDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXDownloader.m; sourceTree = "<group>"; };
 		70A7B5B623B0B7990080C95A /* ZXDownloadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXDownloadTask.h; sourceTree = "<group>"; };
 		70A7B5B723B0B7990080C95A /* ZXDownloadTask.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXDownloadTask.m; sourceTree = "<group>"; };
+		70BC8B3623C581B400DD952B /* ZXKeychainItem+Attribute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZXKeychainItem+Attribute.h"; sourceTree = "<group>"; };
+		70BC8B3723C581B400DD952B /* ZXKeychainItem+Attribute.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZXKeychainItem+Attribute.m"; sourceTree = "<group>"; };
+		70BC8B3A23C5829E00DD952B /* ZXKeychainItem+Class.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZXKeychainItem+Class.h"; sourceTree = "<group>"; };
+		70BC8B3B23C5829E00DD952B /* ZXKeychainItem+Class.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZXKeychainItem+Class.m"; sourceTree = "<group>"; };
+		70BC8B3E23C5865600DD952B /* ZXKeychainItem+Certificate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZXKeychainItem+Certificate.h"; sourceTree = "<group>"; };
+		70BC8B3F23C5865700DD952B /* ZXKeychainItem+Certificate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZXKeychainItem+Certificate.m"; sourceTree = "<group>"; };
+		70BC8B4223C5B55D00DD952B /* ZXKeychainItem+GenericPassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZXKeychainItem+GenericPassword.h"; sourceTree = "<group>"; };
+		70BC8B4323C5B55D00DD952B /* ZXKeychainItem+GenericPassword.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZXKeychainItem+GenericPassword.m"; sourceTree = "<group>"; };
+		70BC8B4623C5B68000DD952B /* ZXKeychainItem+Identity.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZXKeychainItem+Identity.h"; sourceTree = "<group>"; };
+		70BC8B4723C5B68000DD952B /* ZXKeychainItem+Identity.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZXKeychainItem+Identity.m"; sourceTree = "<group>"; };
+		70BC8B4A23C5B6B000DD952B /* ZXKeychainItem+InternetPassword.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZXKeychainItem+InternetPassword.h"; sourceTree = "<group>"; };
+		70BC8B4B23C5B6B000DD952B /* ZXKeychainItem+InternetPassword.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZXKeychainItem+InternetPassword.m"; sourceTree = "<group>"; };
+		70BC8B4E23C5B7A100DD952B /* ZXKeychainItem+Key.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZXKeychainItem+Key.h"; sourceTree = "<group>"; };
+		70BC8B4F23C5B7A100DD952B /* ZXKeychainItem+Key.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZXKeychainItem+Key.m"; sourceTree = "<group>"; };
+		70BC8B5223C5B7E500DD952B /* ZXKeychainItem+Password.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZXKeychainItem+Password.h"; sourceTree = "<group>"; };
+		70BC8B5323C5B7E500DD952B /* ZXKeychainItem+Password.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZXKeychainItem+Password.m"; sourceTree = "<group>"; };
+		70BC8B5623C5B8D100DD952B /* ZXKeychainItem+Match.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZXKeychainItem+Match.h"; sourceTree = "<group>"; };
+		70BC8B5723C5B8D100DD952B /* ZXKeychainItem+Match.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZXKeychainItem+Match.m"; sourceTree = "<group>"; };
+		70BC8B5A23C5B90400DD952B /* ZXKeychainItem+Value.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZXKeychainItem+Value.h"; sourceTree = "<group>"; };
+		70BC8B5B23C5B90400DD952B /* ZXKeychainItem+Value.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZXKeychainItem+Value.m"; sourceTree = "<group>"; };
+		70BC8B5E23C5B94200DD952B /* ZXKeychainItem+Return.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZXKeychainItem+Return.h"; sourceTree = "<group>"; };
+		70BC8B5F23C5B94200DD952B /* ZXKeychainItem+Return.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZXKeychainItem+Return.m"; sourceTree = "<group>"; };
 		70D4BD1C23A9DC47000D28E2 /* UIImageView+ZXImageBroswer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImageView+ZXImageBroswer.h"; sourceTree = "<group>"; };
 		70D4BD1D23A9DC47000D28E2 /* UIImageView+ZXImageBroswer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+ZXImageBroswer.m"; sourceTree = "<group>"; };
 		70D4BD1E23A9DC47000D28E2 /* ZXImageBroswer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXImageBroswer.h; sourceTree = "<group>"; };
 		70D4BD1F23A9DC47000D28E2 /* ZXImageBroswer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXImageBroswer.m; sourceTree = "<group>"; };
 		70D4BD2023A9DC47000D28E2 /* ZXImageBroswerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXImageBroswerCell.h; sourceTree = "<group>"; };
 		70D4BD2123A9DC47000D28E2 /* ZXImageBroswerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXImageBroswerCell.m; sourceTree = "<group>"; };
+		70D8447D23C706D80042E305 /* ZXToolboxDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZXToolboxDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		70D8447F23C706D80042E305 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		70D8448023C706D80042E305 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		70D8448523C706D80042E305 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
+		70D8448623C706D80042E305 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		70D8448B23C706DA0042E305 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		70D8448E23C706DA0042E305 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		70D8449023C706DA0042E305 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		70D8449123C706DA0042E305 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		70D8449723C706DA0042E305 /* ZXToolboxDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZXToolboxDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		70D8449B23C706DA0042E305 /* ZXToolboxDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXToolboxDemoTests.m; sourceTree = "<group>"; };
+		70D8449D23C706DA0042E305 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+ZXToolbox.h"; sourceTree = "<group>"; };
 		70F673C8234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+ZXToolbox.m"; sourceTree = "<group>"; };
 		70F673CD234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = "UIDevice+ZXToolbox.bundle"; sourceTree = "<group>"; };
@@ -313,6 +416,21 @@
 
 /* Begin PBXFrameworksBuildPhase section */
 		7000AC4422E9C1CC00651E44 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		70D8447A23C706D80042E305 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70D844B323C707200042E305 /* ZXToolbox.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		70D8449423C706DA0042E305 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -329,7 +447,10 @@
 				7000ADA822E9D16D00651E44 /* README.md */,
 				7000ADA622E9D16D00651E44 /* ZXToolbox.podspec */,
 				7000AC4922E9C1CC00651E44 /* ZXToolbox */,
+				70D8447E23C706D80042E305 /* ZXToolboxDemo */,
+				70D8449A23C706DA0042E305 /* ZXToolboxDemoTests */,
 				7000AC4822E9C1CC00651E44 /* Products */,
+				70D844B223C707200042E305 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -337,6 +458,8 @@
 			isa = PBXGroup;
 			children = (
 				7000AC4722E9C1CC00651E44 /* ZXToolbox.framework */,
+				70D8447D23C706D80042E305 /* ZXToolboxDemo.app */,
+				70D8449723C706DA0042E305 /* ZXToolboxDemoTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -598,6 +721,7 @@
 				7000ACE822E9C22F00651E44 /* ZXHaloLabel */,
 				7000AD1622E9C22F00651E44 /* ZXHTTPClient */,
 				70D4BD1B23A9DC47000D28E2 /* ZXImageBroswer */,
+				705A8FCE23C2D4F200BE361F /* ZXKeychain */,
 				7000AD0D22E9C22F00651E44 /* ZXLineChartView */,
 				7000ACC122E9C22F00651E44 /* ZXLocalAuthentication */,
 				7000ACBE22E9C22F00651E44 /* ZXLocationManager */,
@@ -956,6 +1080,20 @@
 			path = ZXPlayerViewController;
 			sourceTree = "<group>";
 		};
+		705A8FCE23C2D4F200BE361F /* ZXKeychain */ = {
+			isa = PBXGroup;
+			children = (
+				705A8FCF23C2D51000BE361F /* ZXKeychain.h */,
+				705A8FD023C2D51000BE361F /* ZXKeychain.m */,
+				705A8FD723C2E32100BE361F /* ZXKeychainItem.h */,
+				705A8FD823C2E32100BE361F /* ZXKeychainItem.m */,
+				7074F61923C494A4001D405C /* Attributes */,
+				70D844B823C70EAA0042E305 /* Class */,
+				7074F61A23C494B1001D405C /* Search */,
+			);
+			path = ZXKeychain;
+			sourceTree = "<group>";
+		};
 		706C15B12383CF48000B45E1 /* UINavigationBar+ZXToolbox */ = {
 			isa = PBXGroup;
 			children = (
@@ -963,6 +1101,40 @@
 				706C15B32383CF64000B45E1 /* UINavigationBar+ZXToolbox.m */,
 			);
 			path = "UINavigationBar+ZXToolbox";
+			sourceTree = "<group>";
+		};
+		7074F61923C494A4001D405C /* Attributes */ = {
+			isa = PBXGroup;
+			children = (
+				70BC8B3623C581B400DD952B /* ZXKeychainItem+Attribute.h */,
+				70BC8B3723C581B400DD952B /* ZXKeychainItem+Attribute.m */,
+				70BC8B3E23C5865600DD952B /* ZXKeychainItem+Certificate.h */,
+				70BC8B3F23C5865700DD952B /* ZXKeychainItem+Certificate.m */,
+				70BC8B4223C5B55D00DD952B /* ZXKeychainItem+GenericPassword.h */,
+				70BC8B4323C5B55D00DD952B /* ZXKeychainItem+GenericPassword.m */,
+				70BC8B4623C5B68000DD952B /* ZXKeychainItem+Identity.h */,
+				70BC8B4723C5B68000DD952B /* ZXKeychainItem+Identity.m */,
+				70BC8B4A23C5B6B000DD952B /* ZXKeychainItem+InternetPassword.h */,
+				70BC8B4B23C5B6B000DD952B /* ZXKeychainItem+InternetPassword.m */,
+				70BC8B4E23C5B7A100DD952B /* ZXKeychainItem+Key.h */,
+				70BC8B4F23C5B7A100DD952B /* ZXKeychainItem+Key.m */,
+				70BC8B5223C5B7E500DD952B /* ZXKeychainItem+Password.h */,
+				70BC8B5323C5B7E500DD952B /* ZXKeychainItem+Password.m */,
+			);
+			path = Attributes;
+			sourceTree = "<group>";
+		};
+		7074F61A23C494B1001D405C /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				70BC8B5623C5B8D100DD952B /* ZXKeychainItem+Match.h */,
+				70BC8B5723C5B8D100DD952B /* ZXKeychainItem+Match.m */,
+				70BC8B5E23C5B94200DD952B /* ZXKeychainItem+Return.h */,
+				70BC8B5F23C5B94200DD952B /* ZXKeychainItem+Return.m */,
+				70BC8B5A23C5B90400DD952B /* ZXKeychainItem+Value.h */,
+				70BC8B5B23C5B90400DD952B /* ZXKeychainItem+Value.m */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		70988F342335F3B30002A8A3 /* UIControl+ZXToolbox */ = {
@@ -998,6 +1170,46 @@
 			path = ZXImageBroswer;
 			sourceTree = "<group>";
 		};
+		70D8447E23C706D80042E305 /* ZXToolboxDemo */ = {
+			isa = PBXGroup;
+			children = (
+				70D8447F23C706D80042E305 /* AppDelegate.h */,
+				70D8448023C706D80042E305 /* AppDelegate.m */,
+				70D8448523C706D80042E305 /* ViewController.h */,
+				70D8448623C706D80042E305 /* ViewController.m */,
+				70D8448B23C706DA0042E305 /* Assets.xcassets */,
+				70D8448D23C706DA0042E305 /* LaunchScreen.storyboard */,
+				70D8449023C706DA0042E305 /* Info.plist */,
+				70D8449123C706DA0042E305 /* main.m */,
+			);
+			path = ZXToolboxDemo;
+			sourceTree = "<group>";
+		};
+		70D8449A23C706DA0042E305 /* ZXToolboxDemoTests */ = {
+			isa = PBXGroup;
+			children = (
+				70D8449B23C706DA0042E305 /* ZXToolboxDemoTests.m */,
+				70D8449D23C706DA0042E305 /* Info.plist */,
+			);
+			path = ZXToolboxDemoTests;
+			sourceTree = "<group>";
+		};
+		70D844B223C707200042E305 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		70D844B823C70EAA0042E305 /* Class */ = {
+			isa = PBXGroup;
+			children = (
+				70BC8B3A23C5829E00DD952B /* ZXKeychainItem+Class.h */,
+				70BC8B3B23C5829E00DD952B /* ZXKeychainItem+Class.m */,
+			);
+			path = Class;
+			sourceTree = "<group>";
+		};
 		70F673C6234EDCA4009A6FF2 /* UIDevice+ZXToolbox */ = {
 			isa = PBXGroup;
 			children = (
@@ -1016,6 +1228,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7000AD2722E9C22F00651E44 /* JSONObject.h in Headers */,
+				70BC8B4C23C5B6B000DD952B /* ZXKeychainItem+InternetPassword.h in Headers */,
 				7000AD3022E9C22F00651E44 /* NSArray+ZXToolbox.h in Headers */,
 				7000AD2C22E9C22F00651E44 /* NSData+Base64Encoding.h in Headers */,
 				7000AD2F22E9C22F00651E44 /* NSDate+ZXToolbox.h in Headers */,
@@ -1039,8 +1252,10 @@
 				7000AD3822E9C22F00651E44 /* UIViewController+ZXToolbox.h in Headers */,
 				7000AD4022E9C22F00651E44 /* UIScreen+ZXToolbox.h in Headers */,
 				7000AD4322E9C22F00651E44 /* UIScrollView+ZXToolbox.h in Headers */,
+				70BC8B5823C5B8D100DD952B /* ZXKeychainItem+Match.h in Headers */,
 				70D4BD2623A9DC47000D28E2 /* ZXImageBroswerCell.h in Headers */,
 				7000AD8422E9C22F00651E44 /* ZXAudioDevice.h in Headers */,
+				70BC8B5023C5B7A100DD952B /* ZXKeychainItem+Key.h in Headers */,
 				7000AD6922E9C22F00651E44 /* ZXAuthorizationHelper.h in Headers */,
 				7000AD7E22E9C22F00651E44 /* ZXBadgeLabel.h in Headers */,
 				7000AD4E22E9C22F00651E44 /* ZXBlockTimer.h in Headers */,
@@ -1062,8 +1277,11 @@
 				7000AD6522E9C22F00651E44 /* ZXLocationManager.h in Headers */,
 				7000AD7822E9C22F00651E44 /* ZXNavigationController.h in Headers */,
 				7000AD7622E9C22F00651E44 /* ZXNetworkTrafficMonitor.h in Headers */,
+				70BC8B5423C5B7E500DD952B /* ZXKeychainItem+Password.h in Headers */,
+				70BC8B4823C5B68000DD952B /* ZXKeychainItem+Identity.h in Headers */,
 				7000AD5F22E9C22F00651E44 /* ZXPageIndicatorView.h in Headers */,
 				7000AD6322E9C22F00651E44 /* ZXPageView.h in Headers */,
+				70BC8B4423C5B55D00DD952B /* ZXKeychainItem+GenericPassword.h in Headers */,
 				7000AD8522E9C22F00651E44 /* ZXPlayer.h in Headers */,
 				7000AD8722E9C22F00651E44 /* ZXPlayerViewController.h in Headers */,
 				7000AD6F22E9C22F00651E44 /* ZXPhotoLibrary.h in Headers */,
@@ -1071,6 +1289,7 @@
 				7000AD5722E9C22F00651E44 /* ZXPopoverView.h in Headers */,
 				7000AD5222E9C22F00651E44 /* ZXPopoverWindow.h in Headers */,
 				7000AD7322E9C22F00651E44 /* ZXQRCodeGenerator.h in Headers */,
+				70BC8B4023C5865700DD952B /* ZXKeychainItem+Certificate.h in Headers */,
 				7000AD7F22E9C22F00651E44 /* ZXQRCodeReader.h in Headers */,
 				7000AD9622E9C22F00651E44 /* ZXQRCodeScanner.h in Headers */,
 				7000AD7A22E9C22F00651E44 /* ZXScriptMessageHandler.h in Headers */,
@@ -1078,15 +1297,21 @@
 				7000AD9022E9C22F00651E44 /* ZXStackView.h in Headers */,
 				70A7B5B823B0B7990080C95A /* ZXDownloader.h in Headers */,
 				7000AD8C22E9C22F00651E44 /* ZXTabBar.h in Headers */,
+				705A8FD923C2E32100BE361F /* ZXKeychainItem.h in Headers */,
+				70BC8B5C23C5B90400DD952B /* ZXKeychainItem+Value.h in Headers */,
 				7000AD9422E9C22F00651E44 /* ZXTabBarController.h in Headers */,
 				7000AD8922E9C22F00651E44 /* ZXTabBarItem.h in Headers */,
+				70BC8B3C23C5829E00DD952B /* ZXKeychainItem+Class.h in Headers */,
 				7000AD9322E9C22F00651E44 /* ZXTabBarItemController.h in Headers */,
+				70BC8B3823C581B400DD952B /* ZXKeychainItem+Attribute.h in Headers */,
 				7000AD7B22E9C22F00651E44 /* ZXTagView.h in Headers */,
+				705A8FD123C2D51000BE361F /* ZXKeychain.h in Headers */,
 				7000AD4D22E9C22F00651E44 /* ZXTargetTimer.h in Headers */,
 				7000AD4F22E9C22F00651E44 /* ZXTimer.h in Headers */,
 				7000ADA022E9C22F00651E44 /* ZXToastView.h in Headers */,
 				7000AC4C22E9C1CC00651E44 /* ZXToolbox.h in Headers */,
 				7000AD9522E9C22F00651E44 /* ZXToolbox+Macros.h in Headers */,
+				70BC8B6023C5B94200DD952B /* ZXKeychainItem+Return.h in Headers */,
 				7000AD9F22E9C22F00651E44 /* ZXURLProtocol.h in Headers */,
 				7000AD8E22E9C22F00651E44 /* ZXURLSession.h in Headers */,
 			);
@@ -1113,6 +1338,43 @@
 			productReference = 7000AC4722E9C1CC00651E44 /* ZXToolbox.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		70D8447C23C706D80042E305 /* ZXToolboxDemo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70D844A923C706DA0042E305 /* Build configuration list for PBXNativeTarget "ZXToolboxDemo" */;
+			buildPhases = (
+				70D8447923C706D80042E305 /* Sources */,
+				70D8447A23C706D80042E305 /* Frameworks */,
+				70D8447B23C706D80042E305 /* Resources */,
+				70D844B723C707200042E305 /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				70D844B623C707200042E305 /* PBXTargetDependency */,
+			);
+			name = ZXToolboxDemo;
+			productName = ZXToolboxDemo;
+			productReference = 70D8447D23C706D80042E305 /* ZXToolboxDemo.app */;
+			productType = "com.apple.product-type.application";
+		};
+		70D8449623C706DA0042E305 /* ZXToolboxDemoTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 70D844AC23C706DA0042E305 /* Build configuration list for PBXNativeTarget "ZXToolboxDemoTests" */;
+			buildPhases = (
+				70D8449323C706DA0042E305 /* Sources */,
+				70D8449423C706DA0042E305 /* Frameworks */,
+				70D8449523C706DA0042E305 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				70D8449923C706DA0042E305 /* PBXTargetDependency */,
+			);
+			name = ZXToolboxDemoTests;
+			productName = ZXToolboxDemoTests;
+			productReference = 70D8449723C706DA0042E305 /* ZXToolboxDemoTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1125,6 +1387,13 @@
 					7000AC4622E9C1CC00651E44 = {
 						CreatedOnToolsVersion = 10.2.1;
 					};
+					70D8447C23C706D80042E305 = {
+						CreatedOnToolsVersion = 11.3;
+					};
+					70D8449623C706DA0042E305 = {
+						CreatedOnToolsVersion = 11.3;
+						TestTargetID = 70D8447C23C706D80042E305;
+					};
 				};
 			};
 			buildConfigurationList = 7000AC4122E9C1CC00651E44 /* Build configuration list for PBXProject "ZXToolbox" */;
@@ -1133,6 +1402,7 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				Base,
 			);
 			mainGroup = 7000AC3D22E9C1CC00651E44;
 			productRefGroup = 7000AC4822E9C1CC00651E44 /* Products */;
@@ -1140,6 +1410,8 @@
 			projectRoot = "";
 			targets = (
 				7000AC4622E9C1CC00651E44 /* ZXToolbox */,
+				70D8447C23C706D80042E305 /* ZXToolboxDemo */,
+				70D8449623C706DA0042E305 /* ZXToolboxDemoTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1155,6 +1427,22 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		70D8447B23C706D80042E305 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70D8448F23C706DA0042E305 /* LaunchScreen.storyboard in Resources */,
+				70D8448C23C706DA0042E305 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		70D8449523C706DA0042E305 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -1167,9 +1455,13 @@
 				70F673CB234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m in Sources */,
 				7000AD5122E9C22F00651E44 /* ZXPopoverWindow.m in Sources */,
 				7000AD2B22E9C22F00651E44 /* NSString+Base64Encoding.m in Sources */,
+				70BC8B6123C5B94200DD952B /* ZXKeychainItem+Return.m in Sources */,
+				70BC8B4123C5865700DD952B /* ZXKeychainItem+Certificate.m in Sources */,
 				7000AD6022E9C22F00651E44 /* ZXPageIndicatorView.m in Sources */,
 				7000AD4422E9C22F00651E44 /* UIButton+ZXToolbox.m in Sources */,
 				70988F382335F3B30002A8A3 /* UIControl+ZXToolbox.m in Sources */,
+				705A8FD223C2D51000BE361F /* ZXKeychain.m in Sources */,
+				70BC8B5923C5B8D100DD952B /* ZXKeychainItem+Match.m in Sources */,
 				7000AD7022E9C22F00651E44 /* ZXPhotoLibrary.m in Sources */,
 				7000AD8B22E9C22F00651E44 /* ZXTabBarItem.m in Sources */,
 				7000AD7C22E9C22F00651E44 /* ZXTagView.m in Sources */,
@@ -1187,13 +1479,18 @@
 				7000AD5522E9C22F00651E44 /* ZXBrightnessView.m in Sources */,
 				7000AD4C22E9C22F00651E44 /* ZXBlockTimer.m in Sources */,
 				7000AD6622E9C22F00651E44 /* ZXLocationManager.m in Sources */,
+				70BC8B5D23C5B90400DD952B /* ZXKeychainItem+Value.m in Sources */,
+				70BC8B4923C5B68000DD952B /* ZXKeychainItem+Identity.m in Sources */,
 				7000AD4722E9C22F00651E44 /* UITextField+ZXToolbox.m in Sources */,
 				7000AD9C22E9C22F00651E44 /* ZXLineChartView.m in Sources */,
 				7000AD3222E9C22F00651E44 /* NSNumberFormatter+ZXToolbox.m in Sources */,
 				7000AD8D22E9C22F00651E44 /* ZXURLSession.m in Sources */,
 				7000AD3922E9C22F00651E44 /* UIViewController+ZXToolbox.m in Sources */,
 				7000AD4B22E9C22F00651E44 /* UIApplication+ZXToolbox.m in Sources */,
+				70BC8B5123C5B7A100DD952B /* ZXKeychainItem+Key.m in Sources */,
 				70D4BD2523A9DC47000D28E2 /* ZXImageBroswer.m in Sources */,
+				70BC8B4523C5B55D00DD952B /* ZXKeychainItem+GenericPassword.m in Sources */,
+				705A8FDA23C2E32100BE361F /* ZXKeychainItem.m in Sources */,
 				70D4BD2723A9DC47000D28E2 /* ZXImageBroswerCell.m in Sources */,
 				7000AD9122E9C22F00651E44 /* ZXTabBarItemController.m in Sources */,
 				7000AD2E22E9C22F00651E44 /* NSDate+ZXToolbox.m in Sources */,
@@ -1203,13 +1500,16 @@
 				70A7B5B923B0B7990080C95A /* ZXDownloader.m in Sources */,
 				7000AD8122E9C22F00651E44 /* ZXHaloLabel.m in Sources */,
 				7000AD1D22E9C22F00651E44 /* NSObject+ZXToolbox.m in Sources */,
+				70BC8B5523C5B7E500DD952B /* ZXKeychainItem+Password.m in Sources */,
 				7000ADA322E9C22F00651E44 /* ZXHTTPClient.m in Sources */,
+				70BC8B3923C581B400DD952B /* ZXKeychainItem+Attribute.m in Sources */,
 				7000AD7922E9C22F00651E44 /* ZXScriptMessageHandler.m in Sources */,
 				7000AD7522E9C22F00651E44 /* ZXNetworkTrafficMonitor.m in Sources */,
 				7000AD9222E9C22F00651E44 /* ZXTabBarController.m in Sources */,
 				7000AD2122E9C22F00651E44 /* NSString+Pinyin.m in Sources */,
 				7000AD5022E9C22F00651E44 /* ZXTargetTimer.m in Sources */,
 				7000ADA122E9C22F00651E44 /* ZXToastView.m in Sources */,
+				70BC8B3D23C5829E00DD952B /* ZXKeychainItem+Class.m in Sources */,
 				7000AD8822E9C22F00651E44 /* ZXPlayer.m in Sources */,
 				706C15B52383CF64000B45E1 /* UINavigationBar+ZXToolbox.m in Sources */,
 				7000AD3122E9C22F00651E44 /* NSArray+ZXToolbox.m in Sources */,
@@ -1227,6 +1527,7 @@
 				70A7B5BB23B0B7990080C95A /* ZXDownloadTask.m in Sources */,
 				7000AD5622E9C22F00651E44 /* ZXPopoverView.m in Sources */,
 				7000AD8022E9C22F00651E44 /* ZXQRCodeReader.m in Sources */,
+				70BC8B4D23C5B6B000DD952B /* ZXKeychainItem+InternetPassword.m in Sources */,
 				7000AD2622E9C22F00651E44 /* JSONObject.m in Sources */,
 				7000AD2922E9C22F00651E44 /* NSString+URLEncoding.m in Sources */,
 				7000AD2422E9C22F00651E44 /* NSFileManager+ZXToolbox.m in Sources */,
@@ -1235,7 +1536,49 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		70D8447923C706D80042E305 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70D8448723C706D80042E305 /* ViewController.m in Sources */,
+				70D8448123C706D80042E305 /* AppDelegate.m in Sources */,
+				70D8449223C706DA0042E305 /* main.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		70D8449323C706DA0042E305 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				70D8449C23C706DA0042E305 /* ZXToolboxDemoTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		70D8449923C706DA0042E305 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 70D8447C23C706D80042E305 /* ZXToolboxDemo */;
+			targetProxy = 70D8449823C706DA0042E305 /* PBXContainerItemProxy */;
+		};
+		70D844B623C707200042E305 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7000AC4622E9C1CC00651E44 /* ZXToolbox */;
+			targetProxy = 70D844B523C707200042E305 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		70D8448D23C706DA0042E305 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				70D8448E23C706DA0042E305 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		7000AC4D22E9C1CC00651E44 /* Debug */ = {
@@ -1361,7 +1704,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20200104;
+				CURRENT_PROJECT_VERSION = 20200110;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1373,7 +1716,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.4;
+				MARKETING_VERSION = 2.3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolbox;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1386,7 +1729,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20200104;
+				CURRENT_PROJECT_VERSION = 20200110;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1398,11 +1741,83 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.4;
+				MARKETING_VERSION = 2.3.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolbox;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		70D844AA23C706DA0042E305 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ZXToolboxDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolboxDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		70D844AB23C706DA0042E305 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ZXToolboxDemo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolboxDemo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		70D844AD23C706DA0042E305 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ZXToolboxDemoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolboxDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZXToolboxDemo.app/ZXToolboxDemo";
+			};
+			name = Debug;
+		};
+		70D844AE23C706DA0042E305 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ZXToolboxDemoTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolboxDemoTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZXToolboxDemo.app/ZXToolboxDemo";
 			};
 			name = Release;
 		};
@@ -1423,6 +1838,24 @@
 			buildConfigurations = (
 				7000AC5022E9C1CC00651E44 /* Debug */,
 				7000AC5122E9C1CC00651E44 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		70D844A923C706DA0042E305 /* Build configuration list for PBXNativeTarget "ZXToolboxDemo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70D844AA23C706DA0042E305 /* Debug */,
+				70D844AB23C706DA0042E305 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		70D844AC23C706DA0042E305 /* Build configuration list for PBXNativeTarget "ZXToolboxDemoTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				70D844AD23C706DA0042E305 /* Debug */,
+				70D844AE23C706DA0042E305 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

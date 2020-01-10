@@ -1,8 +1,8 @@
 //
-// ZXImageBroswerCell.h
+// ZXKeychainItem+Certificate.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2020 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,35 +23,36 @@
 // THE SOFTWARE.
 //
 
-#import "UIImageView+ZXImageBroswer.h"
+#import "ZXKeychainItem+Certificate.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation ZXKeychainItem (Certificate)
 
-/// ZXImageBroswerCell
-@interface ZXImageBroswerCell : UICollectionViewCell
+- (NSNumber *)certificateType {
+    return [self objectForKey:(__bridge id)kSecAttrCertificateType];
+}
 
-/// The image
-@property (nonatomic, strong, nullable) UIImage *image;
+- (NSNumber *)certificateEncoding {
+    return [self objectForKey:(__bridge id)kSecAttrCertificateEncoding];
+}
 
-/// The image URL
-@property (nonatomic, strong, nullable) NSURL *imageURL;
+- (NSData *)subject {
+    return [self objectForKey:(__bridge id)kSecAttrSubject];
+}
 
-/// The image view
-@property (nonatomic, readonly) UIImageView *imageView;
+- (NSData *)issuer {
+    return [self objectForKey:(__bridge id)kSecAttrIssuer];
+}
 
-/// On single tap gesture recognizer action
-@property (nonatomic, copy, nullable) void (^onSingleTap)(void);
+- (NSData *)serialNumber {
+    return [self objectForKey:(__bridge id)kSecAttrSerialNumber];
+}
 
-/// On double tap gesture recognizer action
-@property (nonatomic, copy, nullable) void (^onDoubleTap)(void);
+- (NSData *)subjectKeyID {
+    return [self objectForKey:(__bridge id)kSecAttrSubjectKeyID];
+}
 
-/// On Long press gesture recognizer action
-@property (nonatomic, copy, nullable) void (^onLongPress)(void);
-
-/// Zoom in/out image view in point
-/// @param point The zoom point
-- (void)zoomInPoint:(CGPoint)point;
+- (NSData *)publicKeyHash {
+    return [self objectForKey:(__bridge id)kSecAttrPublicKeyHash];
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

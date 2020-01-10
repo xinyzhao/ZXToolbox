@@ -35,6 +35,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// The  model name of device, e.g. "iPhone 11 Pro", supported iPhone/iPad/iPod touch series.
 @property (nonatomic, readonly, nullable) NSString *modelName;
 
+/// The Unique Device Identifier with UUIDString store in Keychain
+@property (nonatomic, readonly) NSString *UDIDString;
+
 @end
 
 NS_ASSUME_NONNULL_END

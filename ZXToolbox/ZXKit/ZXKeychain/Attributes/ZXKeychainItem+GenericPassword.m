@@ -1,8 +1,8 @@
 //
-// ZXImageBroswerCell.h
+// ZXKeychainItem+GenericPassword.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2020 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,35 +23,32 @@
 // THE SOFTWARE.
 //
 
-#import "UIImageView+ZXImageBroswer.h"
+#import "ZXKeychainItem+GenericPassword.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation ZXKeychainItem (GenericPassword)
 
-/// ZXImageBroswerCell
-@interface ZXImageBroswerCell : UICollectionViewCell
+- (void)setAccessControl:(SecAccessControlRef)accessControl {
+    [self setObject:(__bridge id)accessControl forKey:(__bridge id)kSecAttrAccessControl];
+}
 
-/// The image
-@property (nonatomic, strong, nullable) UIImage *image;
+- (SecAccessControlRef)accessControl {
+    return (__bridge SecAccessControlRef)[self objectForKey:(__bridge id)kSecAttrAccessControl];
+}
 
-/// The image URL
-@property (nonatomic, strong, nullable) NSURL *imageURL;
+- (void)setService:(NSString *)service {
+    [self setObject:service forKey:(__bridge id)kSecAttrService];
+}
 
-/// The image view
-@property (nonatomic, readonly) UIImageView *imageView;
+- (NSString *)service {
+    return [self objectForKey:(__bridge id)kSecAttrService];
+}
 
-/// On single tap gesture recognizer action
-@property (nonatomic, copy, nullable) void (^onSingleTap)(void);
+- (void)setGeneric:(NSData *)generic {
+    [self setObject:generic forKey:(__bridge id)kSecAttrGeneric];
+}
 
-/// On double tap gesture recognizer action
-@property (nonatomic, copy, nullable) void (^onDoubleTap)(void);
-
-/// On Long press gesture recognizer action
-@property (nonatomic, copy, nullable) void (^onLongPress)(void);
-
-/// Zoom in/out image view in point
-/// @param point The zoom point
-- (void)zoomInPoint:(CGPoint)point;
+- (NSString *)generic {
+    return [self objectForKey:(__bridge id)kSecAttrGeneric];
+}
 
 @end
-
-NS_ASSUME_NONNULL_END

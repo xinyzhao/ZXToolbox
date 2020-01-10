@@ -25,7 +25,6 @@
 
 #import "ZXImageBroswerCell.h"
 #import "ZXImageBroswer.h"
-#import "UIImageView+ZXImageBroswer.h"
 
 @interface ZXImageBroswerCell () <UIScrollViewDelegate, UIGestureRecognizerDelegate>
 {

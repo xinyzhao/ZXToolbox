@@ -1,8 +1,8 @@
 //
-// ZXImageBroswerCell.h
+// ZXKeychainItem+Value.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2020 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,35 +23,32 @@
 // THE SOFTWARE.
 //
 
-#import "UIImageView+ZXImageBroswer.h"
+#import "ZXKeychainItem+Value.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@implementation ZXKeychainItem (Value)
 
-/// ZXImageBroswerCell
-@interface ZXImageBroswerCell : UICollectionViewCell
+- (void)setValueData:(NSData *)valueData {
+    [self setObject:valueData forKey:(__bridge id)kSecValueData];
+}
 
-/// The image
-@property (nonatomic, strong, nullable) UIImage *image;
+- (NSData *)valueData {
+    return [self objectForKey:(__bridge id)kSecValueData];
+}
 
-/// The image URL
-@property (nonatomic, strong, nullable) NSURL *imageURL;
+- (void)setValueRef:(id)valueRef {
+    [self setObject:valueRef forKey:(__bridge id)kSecValueRef];
+}
 
-/// The image view
-@property (nonatomic, readonly) UIImageView *imageView;
+- (id)valueRef {
+    return [self objectForKey:(__bridge id)kSecValueRef];
+}
 
-/// On single tap gesture recognizer action
-@property (nonatomic, copy, nullable) void (^onSingleTap)(void);
+- (void)setValuePersistentRef:(NSData *)valuePersistentRef {
+    [self setObject:valuePersistentRef forKey:(__bridge id)kSecValuePersistentRef];
+}
 
-/// On double tap gesture recognizer action
-@property (nonatomic, copy, nullable) void (^onDoubleTap)(void);
-
-/// On Long press gesture recognizer action
-@property (nonatomic, copy, nullable) void (^onLongPress)(void);
-
-/// Zoom in/out image view in point
-/// @param point The zoom point
-- (void)zoomInPoint:(CGPoint)point;
+- (NSData *)valuePersistentRef {
+    return [self objectForKey:(__bridge id)kSecValuePersistentRef];
+}
 
 @end
-
-NS_ASSUME_NONNULL_END
