@@ -221,7 +221,7 @@ Pod::Spec.new do |s|
   
   s.subspec "ZXKeychain" do |ss|
     ss.source_files = "ZXToolbox/ZXKit/ZXKeychain/*.{h,m}", "ZXToolbox/ZXKit/ZXKeychain/Attributes/*.{h,m}", "ZXToolbox/ZXKit/ZXKeychain/Class/*.{h,m}", "ZXToolbox/ZXKit/ZXKeychain/Search/*.{h,m}"
-    ss.public_header_files = "ZXToolbox/ZXKit/ZXKeychain/*.h", "ZXToolbox/ZXKit/ZXKeychain/Attributes/*.h", "ZXToolbox/ZXKit/ZXKeychain/Class/*.h", "ZXToolbox/UIKit/ZXKeychain/Search/*.h"
+    ss.public_header_files = "ZXToolbox/ZXKit/ZXKeychain/*.h", "ZXToolbox/ZXKit/ZXKeychain/Attributes/*.h", "ZXToolbox/ZXKit/ZXKeychain/Class/*.h", "ZXToolbox/ZXKit/ZXKeychain/Search/*.h"
     ss.frameworks = "Security"
   end
   
