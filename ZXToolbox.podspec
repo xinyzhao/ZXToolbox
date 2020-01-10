@@ -101,8 +101,8 @@ Pod::Spec.new do |s|
     ss.dependency 'ZXToolbox/ZXCommonCrypto'
     ss.dependency 'ZXToolbox/ZXKeychain'
     ss.dependency 'ZXToolbox/ZXToolbox+Macros'
-    ss.source_files = 'ZXToolbox/UIKit/UIDevice+ZXToolbox/*.{h,m}', 'ZXToolbox/UIKit/UIDevice+ZXToolbox/Attributes/*.{h,m}', 'ZXToolbox/UIKit/UIDevice+ZXToolbox/Class/*.{h,m}', 'ZXToolbox/UIKit/UIDevice+ZXToolbox/Search/*.{h,m}'
-    ss.public_header_files = 'ZXToolbox/UIKit/UIDevice+ZXToolbox/*.h', 'ZXToolbox/UIKit/UIDevice+ZXToolbox/Attributes/*.h', 'ZXToolbox/UIKit/UIDevice+ZXToolbox/Class/*.h', 'ZXToolbox/UIKit/UIDevice+ZXToolbox/Search/*.h'
+    ss.source_files = 'ZXToolbox/UIKit/UIDevice+ZXToolbox/*.{h,m}'
+    ss.public_header_files = 'ZXToolbox/UIKit/UIDevice+ZXToolbox/*.h'
     ss.resources = 'ZXToolbox/UIKit/UIDevice+ZXToolbox/UIDevice+ZXToolbox.bundle'
   end
   
@@ -220,8 +220,8 @@ Pod::Spec.new do |s|
   end
   
   s.subspec 'ZXKeychain' do |ss|
-    ss.source_files = 'ZXToolbox/ZXKit/ZXKeychain/*.{h,m}'
-    ss.public_header_files = 'ZXToolbox/ZXKit/ZXKeychain/*.h'
+    ss.source_files = 'ZXToolbox/ZXKit/ZXKeychain/*.{h,m}', 'ZXToolbox/ZXKit/ZXKeychain/Attributes/*.{h,m}', 'ZXToolbox/ZXKit/ZXKeychain/Class/*.{h,m}', 'ZXToolbox/ZXKit/ZXKeychain/Search/*.{h,m}'
+    ss.public_header_files = 'ZXToolbox/ZXKit/ZXKeychain/*.h', 'ZXToolbox/ZXKit/ZXKeychain/Attributes/*.h', 'ZXToolbox/ZXKit/ZXKeychain/Class/*.h', 'ZXToolbox/UIKit/ZXKeychain/Search/*.h'
     ss.frameworks = 'Security'
   end
   
