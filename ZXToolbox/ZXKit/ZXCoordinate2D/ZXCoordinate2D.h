@@ -65,9 +65,10 @@ struct ZXCoordinate2D {
 };
 typedef struct ZXCoordinate2D ZXCoordinate2D;
 
-/// Make a ZXCoordinate2D
+/// Returns a new ZXCoordinate2D at the given latitude and longitude
 /// @param lat latitude
 /// @param lng longitude
+/// @return The ZXCoordinate2D
 ZXC2D_EXTERN ZXCoordinate2D ZXCoordinate2DMake(double lat, double lng);
 
 /// Transform WGS-84 coordinate of world to GCJ-02 coordinate of china
