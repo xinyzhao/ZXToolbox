@@ -102,11 +102,13 @@ ZXC2D_EXTERN ZXCoordinate2D ZXCoordinate2DBaiduToWorld(ZXCoordinate2D baidu);
 
 /// Determine whether the coordinates are outside China
 /// @param coord The coordinate
+/// @return True be out of china.
 ZXC2D_EXTERN bool ZXCoordinate2DOutOfChina(ZXCoordinate2D coord);
 
 /// Distance calculate the distance between coordinate a and b, unit in meter.
 /// @param a The coordinate a
 /// @param b The coordinate b
+/// @return The distance between two coordinates in meters.
 ZXC2D_EXTERN double ZXCoordinate2DDistanceMeters(ZXCoordinate2D a, ZXCoordinate2D b);
 
 #endif /* ZXCOORDINATE2D_H */
