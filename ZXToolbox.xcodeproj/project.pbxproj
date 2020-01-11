@@ -141,6 +141,8 @@
 		705A8FD223C2D51000BE361F /* ZXKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 705A8FD023C2D51000BE361F /* ZXKeychain.m */; };
 		705A8FD923C2E32100BE361F /* ZXKeychainItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 705A8FD723C2E32100BE361F /* ZXKeychainItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		705A8FDA23C2E32100BE361F /* ZXKeychainItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 705A8FD823C2E32100BE361F /* ZXKeychainItem.m */; };
+		705F48A923C97701002AADC8 /* ZXCoordinate2D.h in Headers */ = {isa = PBXBuildFile; fileRef = 705F48A723C97701002AADC8 /* ZXCoordinate2D.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		705F48AA23C97701002AADC8 /* ZXCoordinate2D.c in Sources */ = {isa = PBXBuildFile; fileRef = 705F48A823C97701002AADC8 /* ZXCoordinate2D.c */; };
 		706C15B42383CF64000B45E1 /* UINavigationBar+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 706C15B22383CF64000B45E1 /* UINavigationBar+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		706C15B52383CF64000B45E1 /* UINavigationBar+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 706C15B32383CF64000B45E1 /* UINavigationBar+ZXToolbox.m */; };
 		70988F372335F3B30002A8A3 /* UIControl+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -361,6 +363,8 @@
 		705A8FD023C2D51000BE361F /* ZXKeychain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXKeychain.m; sourceTree = "<group>"; };
 		705A8FD723C2E32100BE361F /* ZXKeychainItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXKeychainItem.h; sourceTree = "<group>"; };
 		705A8FD823C2E32100BE361F /* ZXKeychainItem.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXKeychainItem.m; sourceTree = "<group>"; };
+		705F48A723C97701002AADC8 /* ZXCoordinate2D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXCoordinate2D.h; sourceTree = "<group>"; };
+		705F48A823C97701002AADC8 /* ZXCoordinate2D.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = ZXCoordinate2D.c; sourceTree = "<group>"; };
 		706C15B22383CF64000B45E1 /* UINavigationBar+ZXToolbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+ZXToolbox.h"; sourceTree = "<group>"; };
 		706C15B32383CF64000B45E1 /* UINavigationBar+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+ZXToolbox.m"; sourceTree = "<group>"; };
 		70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+ZXToolbox.h"; sourceTree = "<group>"; };
@@ -716,6 +720,7 @@
 				7000ACA622E9C22F00651E44 /* ZXBrightnessView */,
 				7000ACD022E9C22F00651E44 /* ZXCircularProgressView */,
 				7000ACAD22E9C22F00651E44 /* ZXCommonCrypto */,
+				705F48AF23C9BFFE002AADC8 /* ZXCoordinate2D */,
 				70A7B5B323B0B7990080C95A /* ZXDownloader */,
 				7000ACC722E9C22F00651E44 /* ZXDrawingView */,
 				7000ACE822E9C22F00651E44 /* ZXHaloLabel */,
@@ -1094,6 +1099,15 @@
 			path = ZXKeychain;
 			sourceTree = "<group>";
 		};
+		705F48AF23C9BFFE002AADC8 /* ZXCoordinate2D */ = {
+			isa = PBXGroup;
+			children = (
+				705F48A723C97701002AADC8 /* ZXCoordinate2D.h */,
+				705F48A823C97701002AADC8 /* ZXCoordinate2D.c */,
+			);
+			path = ZXCoordinate2D;
+			sourceTree = "<group>";
+		};
 		706C15B12383CF48000B45E1 /* UINavigationBar+ZXToolbox */ = {
 			isa = PBXGroup;
 			children = (
@@ -1288,6 +1302,7 @@
 				70F673CA234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h in Headers */,
 				7000AD5722E9C22F00651E44 /* ZXPopoverView.h in Headers */,
 				7000AD5222E9C22F00651E44 /* ZXPopoverWindow.h in Headers */,
+				705F48A923C97701002AADC8 /* ZXCoordinate2D.h in Headers */,
 				7000AD7322E9C22F00651E44 /* ZXQRCodeGenerator.h in Headers */,
 				70BC8B4023C5865700DD952B /* ZXKeychainItem+Certificate.h in Headers */,
 				7000AD7F22E9C22F00651E44 /* ZXQRCodeReader.h in Headers */,
@@ -1532,6 +1547,7 @@
 				7000AD2922E9C22F00651E44 /* NSString+URLEncoding.m in Sources */,
 				7000AD2422E9C22F00651E44 /* NSFileManager+ZXToolbox.m in Sources */,
 				7000AD9722E9C22F00651E44 /* ZXQRCodeScanner.m in Sources */,
+				705F48AA23C97701002AADC8 /* ZXCoordinate2D.c in Sources */,
 				7000AD3622E9C22F00651E44 /* UITableViewCell+ZXToolbox.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1704,7 +1720,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20200110;
+				CURRENT_PROJECT_VERSION = 20200111;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1716,7 +1732,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.5;
+				MARKETING_VERSION = 2.3.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolbox;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1729,7 +1745,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20200110;
+				CURRENT_PROJECT_VERSION = 20200111;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -1741,7 +1757,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.3.5;
+				MARKETING_VERSION = 2.3.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolbox;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;

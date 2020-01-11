@@ -73,8 +73,24 @@
     }
 }
 
-- (void)testUDID {
+- (void)testDevice {
     NSLog(@">>>UDID: %@", [UIDevice currentDevice].UDIDString);
+}
+
+- (void)testCoordinateTransform {
+    ZXCoordinate2D world = ZXCoordinate2DMake(40.01845989630743, 116.461795056622);
+    NSLog(@"WGS-84: %f, %f", world.latitude, world.longitude);
+    ZXCoordinate2D china = ZXCoordinate2DWorldToChina(world);
+    NSLog(@"GCJ-02: %f, %f", china.latitude, china.longitude);
+    ZXCoordinate2D baidu = ZXCoordinate2DChinaToBaidu(china);
+    NSLog(@"BD-09: %f, %f", baidu.latitude, baidu.longitude);
+    china = ZXCoordinate2DBaiduToChina(baidu);
+    NSLog(@"GCJ-02: %f, %f", china.latitude, china.longitude);
+    world = ZXCoordinate2DChinaToWorld(china);
+    NSLog(@"WGS-84: %f, %f", world.latitude, world.longitude);
+    NSLog(@"W-C: %fm", ZXCoordinate2DDistanceMeters(world, china));
+    NSLog(@"C-B: %fm", ZXCoordinate2DDistanceMeters(china, baidu));
+    NSLog(@"W-B: %fm", ZXCoordinate2DDistanceMeters(world, baidu));
 }
 
 @end
