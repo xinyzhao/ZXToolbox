@@ -36,6 +36,8 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 
 @interface ZXPlayer : NSObject
 
+@property (nonatomic, readonly) NSURL *URL;
+
 @property (nonatomic, readonly) NSTimeInterval currentTime;
 @property (nonatomic, readonly) NSTimeInterval duration;
 
@@ -58,11 +60,10 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 @property (nonatomic, assign) CGFloat brightnessFactor; // 0 - 1, 0 mean is disabled, default is 0.5
 @property (nonatomic, assign) CGFloat volumeFactor; // 0 - 1, 0 mean is disabled, default is 0.5
 
-@property (nonatomic, readonly) NSURL *URL;
-
 @property (nonatomic, assign) float volume NS_AVAILABLE(10_7, 7_0);
 @property (nonatomic, getter=isMuted) BOOL muted NS_AVAILABLE(10_7, 7_0);
 
+@property (nonatomic, assign) float rate;
 @property (nonatomic, copy) AVLayerVideoGravity videoGravity;
 
 + (instancetype)playerWithURL:(NSURL *)URL;
@@ -77,10 +78,19 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 - (void)resume;
 - (void)stop;
 
-- (void)seekToTime:(NSTimeInterval)time pauseAndPlay:(BOOL)pauseAndPlay;
+/// Moves the playback cursor and play when the seek operation has completed.
+/// @param time The seek time
+/// @param playAfter Play when seek completed
+- (void)seekToTime:(NSTimeInterval)time playAfter:(BOOL)playAfter;
 
+/// Preview image for video
 @property (nonatomic, readonly) UIImage *previewImage;
+
+/// Get video image for current time
 @property (nonatomic, readonly) UIImage *currentImage;
-- (UIImage *)imageAtTime:(CMTime)time;
+
+/// Return an image for video at or near the specified time.
+/// @param time The requested time
+- (UIImage *)copyImageAtTime:(NSTimeInterval)time;
 
 @end

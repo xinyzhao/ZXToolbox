@@ -245,6 +245,11 @@
     }
 }
 
+- (void)setRate:(float)rate {
+    _rate = rate;
+    [self playAtRate];
+}
+
 #pragma mark Getter
 
 - (BOOL)isReadToPlay {
@@ -278,14 +283,21 @@
     //
     if (self.isReadToPlay) {
         if (self.isEnded) {
-            [self seekToTime:0 pauseAndPlay:YES];
+            [self seekToTime:0 playAfter:YES];
         } else {
-            [_player play];
+            [self playAtRate];
         }
         //
         if (_playerItem.isPlaybackBufferEmpty) {
             self.status = ZXPlaybackStatusBuffering;
         }
+    }
+}
+
+- (void)playAtRate {
+    [_player play];
+    if (_rate > 0) {
+        _player.rate = _rate;
     }
 }
 
@@ -354,7 +366,7 @@
     return duration;
 }
 
-- (void)seekToTime:(NSTimeInterval)time pauseAndPlay:(BOOL)pauseAndPlay {
+- (void)seekToTime:(NSTimeInterval)time playAfter:(BOOL)playAfter {
     if (self.isReadToPlay) {
         self.status = ZXPlaybackStatusSeeking;
         [_player pause];
@@ -366,11 +378,11 @@
         CMTime toTime = CMTimeMakeWithSeconds(floor(time), NSEC_PER_SEC);
         //
         __weak typeof(self) weakSelf = self;
-        [_playerItem seekToTime:toTime toleranceBefore:CMTimeMake(1,1) toleranceAfter:CMTimeMake(1,1) completionHandler:^(BOOL finished) {
+        [_playerItem seekToTime:toTime completionHandler:^(BOOL finished) {
             if (weakSelf.playbackTime) {
                 weakSelf.playbackTime(time, duration);
             }
-            if (finished && pauseAndPlay) {
+            if (finished && playAfter) {
                 [weakSelf play];
             }
         }];
@@ -380,24 +392,50 @@
 #pragma mark Image
 
 - (UIImage *)previewImage {
-    return [self imageAtTime:CMTimeMakeWithSeconds(0, NSEC_PER_SEC)];
+    return [self copyImageAtTime:0];
 }
 
 - (UIImage *)currentImage {
-    return [self imageAtTime:self.playerItem.currentTime];
+    return [self copyImageAtTime:self.currentTime];
 }
 
-- (UIImage *)imageAtTime:(CMTime)time {
+- (UIImage *)copyImageAtTime:(NSTimeInterval)time {
+    UIImage *image = nil;
+    CMTime atTime = CMTimeMakeWithSeconds(time, NSEC_PER_SEC);
     CMTime actualTime = kCMTimeZero;
-    CVPixelBufferRef pixelBuffer = [_videoOutput copyPixelBufferForItemTime:time itemTimeForDisplay:&actualTime];
-    NSLog(@"copyPixelBufferForItemTime:%.2f(%lld/%d) actualTime:%.2f(%lld/%d)", CMTimeGetSeconds(time), time.value, time.timescale, CMTimeGetSeconds(actualTime), actualTime.value, actualTime.timescale);
-    CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBuffer];
-    CVBufferRelease(pixelBuffer);
-    CIContext *ciContext = [CIContext context];
-    CGImageRef cgImage = [ciContext createCGImage:ciImage fromRect:CGRectMake(0, 0, CVPixelBufferGetWidth(pixelBuffer), CVPixelBufferGetHeight(pixelBuffer))];
-    UIImage *uiImage = [UIImage imageWithCGImage:cgImage];
-    CGImageRelease(cgImage);
-    return uiImage;
+    /*/ 不能用 copyPixelBufferForItemTime，原因是 iPhoneXR/iPhoneXS 在暂停或停止播放后 Copy 出来的 Image 是无效的
+    CVPixelBufferRef pixelBuffer = [_videoOutput copyPixelBufferForItemTime:atTime itemTimeForDisplay:&actualTime];
+    if (pixelBuffer) {
+        NSLog(@"copyImageAtTime:%.2f actualTime:%.2f", CMTimeGetSeconds(atTime), CMTimeGetSeconds(actualTime));
+        CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBuffer];
+        CVBufferRelease(pixelBuffer);
+        image = [UIImage imageWithCIImage:ciImage scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+    }*/
+    //
+    if (self.playerItem.asset) {
+        NSError *error = nil;
+        AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:self.playerItem.asset];
+        generator.appliesPreferredTrackTransform = YES;
+        generator.requestedTimeToleranceBefore = kCMTimeZero;
+        generator.requestedTimeToleranceAfter = kCMTimeZero;
+        CGImageRef imageRef = [generator copyCGImageAtTime:atTime actualTime:&actualTime error:&error];
+        if (imageRef == nil) {
+            generator.requestedTimeToleranceBefore = kCMTimePositiveInfinity;
+            generator.requestedTimeToleranceAfter = kCMTimePositiveInfinity;
+            imageRef = [generator copyCGImageAtTime:atTime actualTime:&actualTime error:&error];
+        }
+        if (error) {
+            NSLog(@"copyImageAtTime:%.2f error:%@", time, error.localizedDescription);
+        } else {
+            NSLog(@"copyImageAtTime:%.2f actualTime:%.2f", time, CMTimeGetSeconds(actualTime));
+        }
+        if (imageRef) {
+            image = [[UIImage alloc] initWithCGImage:imageRef];
+            CGImageRelease(imageRef);
+        }
+    }
+    //
+    return image;
 }
 
 #pragma mark Volume
@@ -510,7 +548,7 @@
                     if (time > self.duration) {
                         time = self.duration;
                     }
-                    [self seekToTime:time pauseAndPlay:pan.state == UIGestureRecognizerStateEnded];
+                    [self seekToTime:time playAfter:pan.state == UIGestureRecognizerStateEnded];
                 }
             } else if (isBrightness) {
                 if (_brightnessFactor > 0.00) {

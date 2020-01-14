@@ -147,9 +147,11 @@
                       ofObject:(id)object
                         change:(NSDictionary *)change
                        context:(void *)context {
-    CGFloat level = [change[@"new"] floatValue];
-    [self presentViewAnimated];
-    [self updateBrightnessLevel:level];
+    if ([keyPath isEqualToString:@"brightness"]) {
+        CGFloat level = [change[@"new"] floatValue];
+        [self presentViewAnimated];
+        [self updateBrightnessLevel:level];
+    }
 }
 
 #pragma mark Present
