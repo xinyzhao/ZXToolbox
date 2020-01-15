@@ -36,7 +36,8 @@
 @property (nonatomic, weak) id playerItemDidPlayToEndTimeObserver;
 
 @property (nonatomic, weak) UIView *attachView;
-@property (nonatomic, strong) ZXBrightnessView *brightnessView;
+@property (nonatomic, weak) ZXBrightnessView *brightnessView;
+@property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
 @property (nonatomic, strong) UISlider *volumeSlider;
 
 @property (nonatomic, assign) ZXPlaybackStatus status;
@@ -51,128 +52,169 @@
 }
 
 - (instancetype)initWithURL:(NSURL *)URL {
+    self = [self init];
+    if (self) {
+        self.URL = URL;
+    }
+    return self;
+}
+
+- (instancetype)init {
     self = [super init];
     if (self) {
-        _status = ZXPlaybackStatusBuffering;
-        _playing = NO;
         _playbackTimeInterval = 1.0;
-        _URL = [URL copy];
-        if (_URL) {
-            AVURLAsset *asset = [AVURLAsset URLAssetWithURL:_URL options:nil];
-            if (asset) {
-                _playerItem = [AVPlayerItem playerItemWithAsset:asset];
-            }
-        }
-        if (_playerItem) {
-            [_playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-            [_playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
-            [_playerItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
-            //
-            __weak typeof(self) weakSelf = self;
-            if (_playerItemDidPlayToEndTimeObserver) {
-                [[NSNotificationCenter defaultCenter] removeObserver:_playerItemDidPlayToEndTimeObserver];
-            }
-            _playerItemDidPlayToEndTimeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-                if (note.object == weakSelf.playerItem) {
-                    weakSelf.status = ZXPlaybackStatusEnded;
-                }
-            }];
-            //
-            _videoOutput = [[AVPlayerItemVideoOutput alloc] init];
-            [_playerItem addOutput:_videoOutput];
-            //
-            _player = [AVPlayer playerWithPlayerItem:_playerItem];
-        }
-        if (_player) {
-            if (@available(iOS 10.0, *)) {
-                _player.automaticallyWaitsToMinimizeStalling = NO;
-            }
-            [_player addObserver:self forKeyPath:@"rate" options:(NSKeyValueObservingOptionNew) context:nil];
-            //
-            _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
-            _playerLayer.videoGravity = _videoGravity;
-        }
-        //
         _brightnessFactor = 0.5;
         _seekingFactor = 0.5;
         _volumeFactor = 0.5;
-        _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPanGestureRecognizer:)];
-        //
-        _brightnessView = [ZXBrightnessView brightnessView];
-        [_brightnessView addObserver];
-        //
-        MPVolumeView *volumeView = [[MPVolumeView alloc] init];
-        for (UIView *view in [volumeView subviews]){
-            if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
-                _volumeSlider = (UISlider *)view;
-                break;
-            }
-        }
+        _volume = 1.0;
+        _muted = NO;
+        _rate = 0.0;
+        _videoGravity = AVLayerVideoGravityResizeAspect;
     }
     return self;
 }
 
 - (void)dealloc {
-    if (_brightnessView) {
-        [_brightnessView removeObserver];
-        _brightnessView = nil;
+    [_brightnessView removeObserver];
+    [self unload];
+}
+
+#pragma mark Load & Unload
+
+- (void)reload {
+    [self unload];
+    //
+    if (_URL) {
+        AVURLAsset *asset = [AVURLAsset URLAssetWithURL:_URL options:nil];
+        if (asset) {
+            _playerItem = [AVPlayerItem playerItemWithAsset:asset];
+        }
     }
-    [self detach];
-    [self stop];
+    if (_playerItem) {
+        [self addItemObserver];
+        //
+        [_playerItem addOutput:self.videoOutput];
+        //
+        _player = [AVPlayer playerWithPlayerItem:_playerItem];
+    }
+    if (_player) {
+        if (@available(iOS 10.0, *)) {
+            _player.automaticallyWaitsToMinimizeStalling = NO;
+        }
+        _player.muted = _muted;
+        _player.volume = _volume;
+        [self addPlayerObserver];
+    }
+    //
+    [self attachLayer];
+}
+
+- (void)unload {
+    [self detachLayer];
+    [self removeTimeObserver];
+    [self removePlayerObserver];
+    [self removeItemObserver];
+    _playerItem = nil;
+    _player = nil;
 }
 
 #pragma mark Attach & Detach
 
 - (void)attachToView:(UIView *)view {
-    [self detach];
-    //
+    [self detachLayer];
     _attachView = view;
+    [self attachLayer];
+}
+
+- (void)attachLayer {
     if (_attachView) {
-        if (_playerLayer) {
+        if (self.playerLayer) {
             _playerLayer.frame = _attachView.bounds;
             [_attachView.layer insertSublayer:_playerLayer atIndex:0];
-            [_attachView.layer addObserver:self forKeyPath:@"bounds" options:NSKeyValueObservingOptionNew context:NULL];
+            [self addLayerObserver];
         }
-        if (_panGestureRecognizer) {
-            [_attachView addGestureRecognizer:_panGestureRecognizer];
-        }
+        [_attachView addGestureRecognizer:self.panGestureRecognizer];
     }
 }
 
-- (void)detach {
+- (void)detachLayer {
     if (_attachView) {
+        [self removeLayerObserver];
         [_playerLayer removeFromSuperlayer];
-        [_attachView removeGestureRecognizer:_panGestureRecognizer];
-        @try {
-            [_attachView.layer removeObserver:self forKeyPath:@"bounds"];
-        } @catch (NSException *ex) {
-            NSLog(@"%@", ex.description);
-        }
+        _playerLayer = nil;
+        [_attachView removeGestureRecognizer:self.panGestureRecognizer];
         _attachView = nil;
     }
 }
 
-#pragma mark Time Observer
+#pragma mark Observer
+
+- (void)addItemObserver {
+    [self removeItemObserver];
+    if (_playerItem) {
+        [_playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+        [_playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+        [_playerItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
+        //
+        __weak typeof(self) weakSelf = self;
+        _playerItemDidPlayToEndTimeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+            if (note.object == weakSelf.playerItem) {
+                weakSelf.status = ZXPlaybackStatusEnded;
+            }
+        }];
+    }
+}
+
+- (void)removeItemObserver {
+    if (_playerItem) {
+        @try {
+            [_playerItem removeObserver:self forKeyPath:@"status"];
+            [_playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+            [_playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+        } @catch (NSException *ex) {
+            NSLog(@"%@", ex.description);
+        }
+        //
+        if (_playerItemDidPlayToEndTimeObserver) {
+            [[NSNotificationCenter defaultCenter] removeObserver:_playerItemDidPlayToEndTimeObserver];
+            _playerItemDidPlayToEndTimeObserver = nil;
+        }
+    }
+}
+
+- (void)addPlayerObserver {
+    [self removePlayerObserver];
+    if (_player) {
+        [_player addObserver:self forKeyPath:@"rate" options:(NSKeyValueObservingOptionNew) context:nil];
+    }
+}
+
+- (void)removePlayerObserver {
+    if (_player) {
+        @try {
+            [_player removeObserver:self forKeyPath:@"rate"];
+        } @catch (NSException *ex) {
+            NSLog(@"%@", ex.description);
+        }
+    }
+}
 
 - (void)addTimeObserver {
-    if (_player.status == AVPlayerStatusReadyToPlay) {
-        [self removeTimeObserver];
-        //
-        if (_playbackTimeInterval > 0.001) {
-            // Invoke callback every _playbackTimeInterval second
-            CMTime interval = CMTimeMakeWithSeconds(_playbackTimeInterval, NSEC_PER_SEC);
-            // Queue on which to invoke the callback
-            dispatch_queue_t mainQueue = dispatch_get_main_queue();
-            // Add time observer
-            __weak typeof(self) weakSelf = self;
-            _periodicTimeObserver = [_player addPeriodicTimeObserverForInterval:interval queue:mainQueue usingBlock:^(CMTime time) {
-                if (weakSelf.status == ZXPlaybackStatusPlaying) {
-                    if (weakSelf.playbackTime) {
-                        weakSelf.playbackTime(CMTimeGetSeconds(time), weakSelf.duration);
-                    }
+    [self removeTimeObserver];
+    if (_player.status == AVPlayerStatusReadyToPlay && _playbackTimeInterval > 0.001) {
+        // Invoke callback every _playbackTimeInterval second
+        CMTime interval = CMTimeMakeWithSeconds(_playbackTimeInterval, NSEC_PER_SEC);
+        // Queue on which to invoke the callback
+        dispatch_queue_t mainQueue = dispatch_get_main_queue();
+        // Add time observer
+        __weak typeof(self) weakSelf = self;
+        _periodicTimeObserver = [_player addPeriodicTimeObserverForInterval:interval queue:mainQueue usingBlock:^(CMTime time) {
+            if (weakSelf.status == ZXPlaybackStatusPlaying) {
+                if (weakSelf.playbackTime) {
+                    weakSelf.playbackTime(CMTimeGetSeconds(time), weakSelf.duration);
                 }
-            }];
-        }
+            }
+        }];
     }
 }
 
@@ -183,7 +225,101 @@
     }
 }
 
+- (void)addLayerObserver {
+    [self removeLayerObserver];
+    if (_attachView.layer) {
+        [_attachView.layer addObserver:self
+                            forKeyPath:@"bounds"
+                               options:NSKeyValueObservingOptionNew
+                               context:NULL];
+    }
+}
+
+- (void)removeLayerObserver {
+    if (_attachView.layer) {
+        @try {
+            [_attachView.layer removeObserver:self forKeyPath:@"bounds"];
+        } @catch (NSException *ex) {
+            NSLog(@"%@", ex.description);
+        }
+    }
+}
+
+#pragma mark Getter
+
+- (ZXBrightnessView *)brightnessView {
+    if (_brightnessView == nil) {
+        _brightnessView = [ZXBrightnessView brightnessView];
+        [_brightnessView addObserver];
+    }
+    return _brightnessView;
+}
+
+- (UIPanGestureRecognizer *)panGestureRecognizer {
+    if (_panGestureRecognizer == nil) {
+        _panGestureRecognizer = _panGestureRecognizer = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(onPanGestureRecognizer:)];
+    }
+    return _panGestureRecognizer;
+}
+
+- (AVPlayerLayer *)playerLayer {
+    if (_player && _playerLayer == nil) {
+        _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
+        _playerLayer.videoGravity = _videoGravity;
+    }
+    return _playerLayer;
+}
+
+- (AVPlayerItemVideoOutput *)videoOutput {
+    if (_videoOutput == nil) {
+        _videoOutput = [[AVPlayerItemVideoOutput alloc] init];
+    }
+    return _videoOutput;
+}
+
+- (UISlider *)volumeSlider {
+    if (_volumeSlider == nil) {
+        MPVolumeView *volumeView = [[MPVolumeView alloc] init];
+        for (UIView *view in [volumeView subviews]){
+            if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
+                _volumeSlider = (UISlider *)view;
+                break;
+            }
+        }
+    }
+    return _volumeSlider;
+}
+
+- (BOOL)isReadToPlay {
+    return _playerItem.status == AVPlayerItemStatusReadyToPlay;
+}
+
+- (BOOL)isPlaying {
+    return _status == ZXPlaybackStatusPlaying;
+}
+
+- (BOOL)isBuffering {
+    return _status == ZXPlaybackStatusBuffering;
+}
+
+- (BOOL)isSeeking {
+    return _status == ZXPlaybackStatusSeeking;
+}
+
+- (BOOL)isPaused {
+    return _status == ZXPlaybackStatusPaused;
+}
+
+- (BOOL)isEnded {
+    return _status == ZXPlaybackStatusEnded;
+}
+
 #pragma mark Setter
+
+- (void)setURL:(NSURL *)URL {
+    _URL = [URL copy];
+    [self reload];
+}
 
 - (void)setPlaybackStatus:(void (^)(ZXPlaybackStatus))playbackStatus {
     _playbackStatus = [playbackStatus copy];
@@ -238,6 +374,11 @@
     }
 }
 
+- (void)setRate:(float)rate {
+    _rate = rate;
+    [self playAtRate];
+}
+
 - (void)setVideoGravity:(AVLayerVideoGravity)videoGravity {
     _videoGravity = [videoGravity copy];
     if (_playerLayer) {
@@ -245,35 +386,18 @@
     }
 }
 
-- (void)setRate:(float)rate {
-    _rate = rate;
-    [self playAtRate];
+- (void)setVolume:(float)volume {
+    _volume = volume;
+    if (_player) {
+        _player.volume = volume;
+    }
 }
 
-#pragma mark Getter
-
-- (BOOL)isReadToPlay {
-    return _playerItem.status == AVPlayerItemStatusReadyToPlay;
-}
-
-- (BOOL)isPlaying {
-    return _status == ZXPlaybackStatusPlaying;
-}
-
-- (BOOL)isBuffering {
-    return _status == ZXPlaybackStatusBuffering;
-}
-
-- (BOOL)isSeeking {
-    return _status == ZXPlaybackStatusSeeking;
-}
-
-- (BOOL)isPaused {
-    return _status == ZXPlaybackStatusPaused;
-}
-
-- (BOOL)isEnded {
-    return _status == ZXPlaybackStatusEnded;
+- (void)setMuted:(BOOL)muted {
+    _muted = muted;
+    if (_player) {
+        _player.muted = muted;
+    }
 }
 
 #pragma mark Playing
@@ -317,32 +441,7 @@
 
 - (void)stop {
     [self pause];
-    //
-    [self removeTimeObserver];
-    //
-    if (_player) {
-        @try {
-            [_player removeObserver:self forKeyPath:@"rate"];
-        } @catch (NSException *ex) {
-            NSLog(@"%@", ex.description);
-        }
-        _player = nil;
-    }
-    //
-    if (_playerItem) {
-        if (_playerItemDidPlayToEndTimeObserver) {
-            [[NSNotificationCenter defaultCenter] removeObserver:_playerItemDidPlayToEndTimeObserver];
-            _playerItemDidPlayToEndTimeObserver = nil;
-        }
-        @try {
-            [_playerItem removeObserver:self forKeyPath:@"status"];
-            [_playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-            [_playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
-        } @catch (NSException *ex) {
-            NSLog(@"%@", ex.description);
-        }
-        _playerItem = nil;
-    }
+    [self unload];
 }
 
 #pragma mark Time
@@ -438,24 +537,6 @@
     return image;
 }
 
-#pragma mark Volume
-
-- (void)setVolume:(float)volume {
-    _player.volume = volume;
-}
-
-- (float)volume {
-    return _player.volume;
-}
-
-- (void)setMuted:(BOOL)muted {
-    _player.muted = muted;
-}
-
-- (BOOL)isMuted {
-    return _player.muted;
-}
-
 #pragma mark <NSKeyValueObserving>
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
@@ -484,7 +565,7 @@
             if (_playerItem.isPlaybackBufferEmpty) {
                 self.status = ZXPlaybackStatusBuffering;
             } else {
-                [_player play];
+                [self playAtRate];
             }
         }
         

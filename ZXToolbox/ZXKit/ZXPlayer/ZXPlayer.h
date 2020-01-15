@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 
 @interface ZXPlayer : NSObject
 
-@property (nonatomic, readonly) NSURL *URL;
+@property (nonatomic, copy) NSURL *URL;
 
 @property (nonatomic, readonly) NSTimeInterval currentTime;
 @property (nonatomic, readonly) NSTimeInterval duration;
@@ -63,7 +63,10 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 @property (nonatomic, assign) float volume NS_AVAILABLE(10_7, 7_0);
 @property (nonatomic, getter=isMuted) BOOL muted NS_AVAILABLE(10_7, 7_0);
 
+/// Rate of playback, default is 0 not to setting.
 @property (nonatomic, assign) float rate;
+
+/// AVLayerVideoGravityResizeAspect is default.
 @property (nonatomic, copy) AVLayerVideoGravity videoGravity;
 
 + (instancetype)playerWithURL:(NSURL *)URL;
@@ -71,7 +74,6 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 - (instancetype)initWithURL:(NSURL *)URL;
 
 - (void)attachToView:(UIView *)view;
-- (void)detach;
 
 - (void)play;
 - (void)pause;
