@@ -6,8 +6,8 @@
 
     NSString *str = @"我是中国人";
     NSLog(@"str = %@", str);
-    NSLog(@"py0 = %@", [str stringByPinyinStyle:NSStringPinyinStyleMandarinLatin]);
-    NSLog(@"py1 = %@", [str stringByPinyinStyle:NSStringPinyinStyleStripDiacritics]);
+    NSLog(@"py0 = %@", [str stringByPinyinStyle:NSStringPinyinMandarinLatin]);
+    NSLog(@"py1 = %@", [str stringByPinyinStyle:NSStringPinyinStripDiacritics]);
     NSLog(@"py2 = %@", [str stringByPinyinAcronym]);
     NSLog(@"co0 = %@", [str containsChineseCharacters] ? @"YES" : @"NO");
     NSLog(@"co1 = %@", [str containsString:@"ZG" options:NSStringPinyinSearchNone] ? @"YES" : @"NO");
@@ -21,4 +21,4 @@
     py2 = wszgr
     co0 = YES
     co1 = NO
-    co2 = YES
+    co2 = YES

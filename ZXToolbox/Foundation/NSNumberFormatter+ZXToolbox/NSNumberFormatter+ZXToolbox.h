@@ -27,6 +27,12 @@
 
 @interface NSNumberFormatter (ZXToolbox)
 
+/// Get string for specified format
+/// @param number The number
+/// @param integerFormat The format for integer, eg @",###"
+/// @param minimumDecimal Minimum length of decimal
+/// @param maximumDecimal Maximum length of decimal
+/// @param paddingZeros Padding zeros for decimal if less than minimumDecimal
 - (NSString *)stringFromNumber:(NSNumber *)number
                  integerFormat:(NSString *)integerFormat
                 minimumDecimal:(NSUInteger)minimumDecimal

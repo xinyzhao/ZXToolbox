@@ -25,9 +25,9 @@
 
 #import "NSDate+ZXToolbox.h"
 
-NSString *const NSDateToolboxFormatDateTime   = @"yyyy-MM-dd HH:mm:ss";
-NSString *const NSDateToolboxFormatDate       = @"yyyy-MM-dd";
-NSString *const NSDateToolboxFormatTime       = @"HH:mm:ss";
+NSString *const kZXToolboxDateFormatDateTime   = @"yyyy-MM-dd HH:mm:ss";
+NSString *const kZXToolboxDateFormatDate       = @"yyyy-MM-dd";
+NSString *const kZXToolboxDateFormatTime       = @"HH:mm:ss";
 
 @implementation NSDate (ZXToolbox)
 
@@ -42,26 +42,26 @@ NSString *const NSDateToolboxFormatTime       = @"HH:mm:ss";
 
 + (NSDate *)dateWithString:(NSString *)string format:(NSString *)format {
     NSDateFormatter *dateFormatter = [NSDate dateFormatter];
-    [dateFormatter setDateFormat:format ? format : NSDateToolboxFormatDateTime];
+    [dateFormatter setDateFormat:format ? format : kZXToolboxDateFormatDateTime];
     return [dateFormatter dateFromString:string];
 }
 
 - (NSString *)stringWithFormat:(NSString *)format {
     NSDateFormatter *dateFormatter = [NSDate dateFormatter];
-    [dateFormatter setDateFormat:format ? format : NSDateToolboxFormatDateTime];
+    [dateFormatter setDateFormat:format ? format : kZXToolboxDateFormatDateTime];
     return [dateFormatter stringFromDate:self];
 }
 
 - (NSString *)dateString {
-    return [self stringWithFormat:NSDateToolboxFormatDate];
+    return [self stringWithFormat:kZXToolboxDateFormatDate];
 }
 
 - (NSString *)dateTimeString {
-    return [self stringWithFormat:NSDateToolboxFormatDateTime];
+    return [self stringWithFormat:kZXToolboxDateFormatDateTime];
 }
 
 - (NSString *)timeString {
-    return [self stringWithFormat:NSDateToolboxFormatTime];
+    return [self stringWithFormat:kZXToolboxDateFormatTime];
 }
 
 - (NSDate *)prevDayDate {

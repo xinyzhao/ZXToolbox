@@ -25,6 +25,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface NSString (NumberValue)
 
 + (NSNumber *)numberFromString:(NSString *)string;
@@ -45,38 +47,36 @@
 @property (readonly) NSUInteger unsignedIntegerValue;
 
 /**
- Convert a numeric string of baseIn to a numeric string of baseOut.
+ Convert a numeric string of baseIn radix to a numeric string of baseOut radix.
  Reference https://github.com/MikeMcl/bignumber.js/blob/master/bignumber.js
  
  Eg. [NSString stringWithValue:@"255" baseIn:10 baseOut:16 uppercase:NO] returns @"ff".
  Eg. [NSString stringWithValue:@"ff" baseIn:16 baseOut:10 uppercase:NO] returns @"255".
  
  @param value The numeric value, a NSNumber or NSString object
- @param baseIn from base
- @param baseOut to base
- @param uppercase Pass true to use uppercase letters to represent numerals greater than 9, or false to use lowercase letters.
+ @param baseIn From base radix, range is 2 to 36.
+ @param baseOut To base radix, range is 2 to 36.
+ @param alphabet Default is "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" if not specified.
  @return The string of base baseOut
  */
-+ (NSString *)stringWithValue:(id)value baseIn:(int)baseIn baseOut:(int)baseOut uppercase:(BOOL)uppercase;
++ (NSString *)stringWithValue:(id)value baseIn:(int)baseIn baseOut:(int)baseOut alphabet:(NSString *_Nullable)alphabet;
 
 /**
- Convert a numeric string from baseIn to base 10.
+ Convert a numeric string from radix to base 10.
 
  @param value The numeric value, a NSNumber or NSString object
- @param radix The base to use for the string representation. radix must be at least 2 and at most 36.
- @param uppercase Pass true to use uppercase letters to represent numerals greater than 9, or false to use lowercase letters.
+ @param radix The base to use for the string representation. Radix must be at least 2 and at most 36.
  @return The string of base radix
  */
-+ (NSString *)stringWithValue:(id)value radix:(int)radix uppercase:(BOOL)uppercase;
++ (NSString *)stringWithValue:(id)value radix:(int)radix;
 
 /**
- Converting from base 10 to baseOut.
+ Convert a numeric string from base 10 to radix.
 
  @param radix The base to use for the string representation. radix must be at least 2 and at most 36.
- @param uppercase Pass true to use uppercase letters to represent numerals greater than 9, or false to use lowercase letters.
  @return The string of base radix
  */
-- (NSString *)stringByRadix:(int)radix uppercase:(BOOL)uppercase;
+- (NSString *)stringByRadix:(int)radix;
 
 /**
  Reverse the string
@@ -86,3 +86,5 @@
 - (NSString *)stringByReversed;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -31,6 +31,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "NSArray+ZXToolbox" do |ss|
+    ss.dependency "ZXToolbox/ZXToolbox+Macros"
     ss.source_files = "ZXToolbox/Foundation/NSArray+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/Foundation/NSArray+ZXToolbox/*.h"
   end

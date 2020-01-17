@@ -24,6 +24,7 @@
 //
 
 #import "NSArray+ZXToolbox.h"
+#import "ZXToolbox+Macros.h"
 #import <objc/runtime.h>
 
 @implementation NSArray (ZXToolbox)
@@ -71,9 +72,9 @@ static inline void nsarray_swizzle_method(Class old_class, SEL old_selector, Cla
     if (index < self.count) {
         return [self objectAtIndexI:index];
     } else if (self.count > 0) {
-        NSLog(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
     } else {
-        NSLog(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
     }
     return nil;
 }
@@ -82,9 +83,9 @@ static inline void nsarray_swizzle_method(Class old_class, SEL old_selector, Cla
     if (index < self.count) {
         return [self objectAtIndex0:index];
     } else if (self.count > 0) {
-        NSLog(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
     } else {
-        NSLog(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
     }
     return nil;
 }
@@ -93,9 +94,9 @@ static inline void nsarray_swizzle_method(Class old_class, SEL old_selector, Cla
     if (index < self.count) {
         return [self objectAtIndex1:index];
     } else if (self.count > 0) {
-        NSLog(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
     } else {
-        NSLog(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
     }
     return nil;
 }
@@ -104,9 +105,9 @@ static inline void nsarray_swizzle_method(Class old_class, SEL old_selector, Cla
     if (index < self.count) {
         return [self objectAtIndexM:index];
     } else if (self.count > 0) {
-        NSLog(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
     } else {
-        NSLog(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
     }
     return nil;
 }
@@ -115,9 +116,9 @@ static inline void nsarray_swizzle_method(Class old_class, SEL old_selector, Cla
     if (index < self.count) {
         return [self objectAtIndex2:index];
     } else if (self.count > 0) {
-        NSLog(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
     } else {
-        NSLog(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
     }
     return nil;
 }
@@ -126,9 +127,9 @@ static inline void nsarray_swizzle_method(Class old_class, SEL old_selector, Cla
     if (index < self.count) {
         return [self objectAtIndexedSubscriptI:index];
     } else if (self.count > 0) {
-        NSLog(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
     } else {
-        NSLog(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
     }
     return nil;
 }
@@ -137,9 +138,9 @@ static inline void nsarray_swizzle_method(Class old_class, SEL old_selector, Cla
     if (index < self.count) {
         return [self objectAtIndexedSubscript0:index];
     } else if (self.count > 0) {
-        NSLog(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
     } else {
-        NSLog(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
     }
     return nil;
 }
@@ -148,9 +149,9 @@ static inline void nsarray_swizzle_method(Class old_class, SEL old_selector, Cla
     if (index < self.count) {
         return [self objectAtIndexedSubscript1:index];
     } else if (self.count > 0) {
-        NSLog(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
     } else {
-        NSLog(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
     }
     return nil;
 }
@@ -159,9 +160,9 @@ static inline void nsarray_swizzle_method(Class old_class, SEL old_selector, Cla
     if (index < self.count) {
         return [self objectAtIndexedSubscriptM:index];
     } else if (self.count > 0) {
-        NSLog(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
     } else {
-        NSLog(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
     }
     return nil;
 }
@@ -170,9 +171,9 @@ static inline void nsarray_swizzle_method(Class old_class, SEL old_selector, Cla
     if (index < self.count) {
         return [self objectAtIndexedSubscript2:index];
     } else if (self.count > 0) {
-        NSLog(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds [0...%d]\n%@", (int)index, (int)self.count - 1, [NSThread callStackSymbols]);
     } else {
-        NSLog(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
+        NSLogA(@"index %d beyond bounds for empty array\n%@", (int)index, [NSThread callStackSymbols]);
     }
     return nil;
 }

@@ -26,11 +26,11 @@
 #import <Foundation/Foundation.h>
 
 // yyyy-MM-dd HH:mm:ss
-extern NSString *const NSDateToolboxFormatDateTime;
+extern NSString *const kZXToolboxDateFormatDateTime;
 // yyyy-MM-dd
-extern NSString *const NSDateToolboxFormatDate;
+extern NSString *const kZXToolboxDateFormatDate;
 // HH:mm:ss
-extern NSString *const NSDateToolboxFormatTime;
+extern NSString *const kZXToolboxDateFormatTime;
 
 /// NSDate (ZXToolbox)
 @interface NSDate (ZXToolbox)

@@ -34,13 +34,13 @@
 @end
 
 @interface NSArray (Unicode)
-
+// Replacing unicode string in description
 @end
 
 @interface NSDictionary (Unicode)
-
+// Replacing unicode string in description
 @end
 
 @interface NSSet (Unicode)
-
+// Replacing unicode string in description
 @end

@@ -41,7 +41,6 @@
 
 - (void)dealloc {
     [self.player stop];
-    [self.player detach];
 }
 
 - (void)viewDidLoad {

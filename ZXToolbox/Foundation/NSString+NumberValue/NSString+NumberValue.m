@@ -94,19 +94,22 @@
     return [[[NSString numberFormatter] numberFromString:self] unsignedIntegerValue];
 }
 
-+ (NSString *)stringWithValue:(id)value baseIn:(int)baseIn baseOut:(int)baseOut uppercase:(BOOL)uppercase {
++ (NSString *)stringWithValue:(id)value baseIn:(int)baseIn baseOut:(int)baseOut alphabet:(NSString *_Nullable)alphabet {
     // String
     NSString *str = nil;
     if ([value isKindOfClass:NSNumber.class]) {
-        str = [((NSNumber *)value) stringValue];
+        str = [[((NSNumber *)value) stringValue] uppercaseString];
     } else if ([value isKindOfClass:NSString.class]) {
-        str = value;
+        str = [value uppercaseString];
     } else {
         return nil;
     }
-    str = uppercase ? [str uppercaseString] : [str lowercaseString];
     // Alphabet
-    NSString *alphabet = uppercase ? @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" : @"0123456789abcdefghijklmnopqrstuvwxyz";
+    if (alphabet == nil) {
+        alphabet = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    } else {
+        alphabet = [alphabet uppercaseString];
+    }
     NSMutableArray *ALPHABET = [[NSMutableArray alloc] initWithCapacity:alphabet.length];
     for (int i = 0; i < alphabet.length; i++) {
         [ALPHABET addObject:[alphabet substringWithRange:NSMakeRange(i, 1)]];
@@ -147,13 +150,13 @@
     return [strOut copy];
 }
 
-+ (NSString *)stringWithValue:(id)value radix:(int)radix uppercase:(BOOL)uppercase {
-    return [NSString stringWithValue:value baseIn:radix baseOut:10 uppercase:uppercase];
++ (NSString *)stringWithValue:(id)value radix:(int)radix {
+    return [NSString stringWithValue:value baseIn:radix baseOut:10 alphabet:nil];
     
 }
 
-- (NSString *)stringByRadix:(int)radix uppercase:(BOOL)uppercase {
-    return [NSString stringWithValue:self baseIn:10 baseOut:radix uppercase:uppercase];
+- (NSString *)stringByRadix:(int)radix {
+    return [NSString stringWithValue:self baseIn:10 baseOut:radix alphabet:nil];
 }
 
 - (NSString *)stringByReversed {
