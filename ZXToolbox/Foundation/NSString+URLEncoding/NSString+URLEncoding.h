@@ -25,29 +25,30 @@
 
 #import <Foundation/Foundation.h>
 
-/// Encoding string
-/// @param string Uncoded string
-/// @param allowedCharacters URLUserAllowedCharacterSet/URLPasswordAllowedCharacterSet/URLHostAllowedCharacterSet/URLPathAllowedCharacterSet/URLQueryAllowedCharacterSet/URLFragmentAllowedCharacterSet
-extern NSString * NSStringWithURLEncoding(NSString *string, NSCharacterSet *allowedCharacters);
+/// NSURL Encoding Component
+typedef NS_ENUM(NSInteger, NSStringURLEncoding) {
+    /// NSCharacterSet.URLUserAllowedCharacterSet
+    NSStringURLEncodingUser,
+    /// NSCharacterSet.URLPasswordAllowedCharacterSet
+    NSStringURLEncodingPassword,
+    /// NSCharacterSet.URLHostAllowedCharacterSet
+    NSStringURLEncodingHost,
+    /// NSCharacterSet.URLPathAllowedCharacterSet
+    NSStringURLEncodingPath,
+    /// NSCharacterSet.URLQueryAllowedCharacterSet
+    NSStringURLEncodingQuery,
+    /// NSCharacterSet.URLFragmentAllowedCharacterSet
+    NSStringURLEncodingFragment,
+};
 
-/// Decoding string
-/// @param string Encoded string
-extern NSString * NSStringWithURLDecoding(NSString *string);
-
-/**
- NSString (URLEncoding)
- */
+/// NSString (URLEncoding)
 @interface NSString (URLEncoding)
 
-/// Encoding string
-/// @param allowedCharacters URLUserAllowedCharacterSet/URLPasswordAllowedCharacterSet/URLHostAllowedCharacterSet/URLPathAllowedCharacterSet/URLQueryAllowedCharacterSet/URLFragmentAllowedCharacterSet
-- (NSString *)stringByURLEncoding:(NSCharacterSet *)allowedCharacters;
+/// URL Encoding
+/// @param component Encoding component
+- (NSString *)stringByURLEncoding:(NSStringURLEncoding)component;
 
-/**
- Decoding string
-
- @return Decoded NSString
- */
+/// URL Decoding
 - (NSString *)stringByURLDecoding;
 
 @end

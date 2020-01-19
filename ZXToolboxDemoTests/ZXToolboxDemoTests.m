@@ -114,8 +114,61 @@
     NSLogA(@"%@", arr);
 }
 
+- (void)testNSStringURLEncoding {
+    NSString *str = @" ~`!@#$%^&*()-_=+[{]}\\|;:'\",<.>/?";
+    NSLogA(@"#Char      : %@", str);
+    NSLogA(@"#User      : %@", [str stringByURLEncoding:NSStringURLEncodingUser]);
+    NSLogA(@"#Password  : %@", [str stringByURLEncoding:NSStringURLEncodingPassword]);
+    NSLogA(@"#Host      : %@", [str stringByURLEncoding:NSStringURLEncodingHost]);
+    NSLogA(@"#Path      : %@", [str stringByURLEncoding:NSStringURLEncodingPath]);
+    NSLogA(@"#Query     : %@", [str stringByURLEncoding:NSStringURLEncodingQuery]);
+    NSLogA(@"#Fragment  : %@", [str stringByURLEncoding:NSStringURLEncodingFragment]);
+}
+
 - (void)testUIDevice {
-    NSLogA(@"#UDIDString: %@", [UIDevice currentDevice].UDIDString);
+    NSLogA(@"#Model Type: %@", [UIDevice currentDevice].modelType);
+    NSLogA(@"#Model Name: %@", [UIDevice currentDevice].modelName);
+    NSLogA(@"#UIIDString: %@", [UIDevice currentDevice].UDIDString);
+}
+
+- (void)testUIScreen {
+    CGSize size = CGSizeMake(100, 100);
+    NSLogA(@"#adapt height: %.2f for base width %.2f = %.2f", size.height, size.width, [UIScreen adaptHeight:size.height forBaseWidth:size.width]);
+    NSLogA(@"#adapt height: %.2f for base width %.2f = %.2f", size.width, size.height, [UIScreen adaptWidth:size.width forBaseHeight:size.height]);
+}
+
+- (void)testZXAudioDevice {
+    ZXAudioDevice *ad = [ZXAudioDevice sharedDevice];
+    NSLogA(@"#category: %@", ad.category);
+    NSLogA(@"#currentInput: %@", ad.currentInput);
+    NSLogA(@"#currentOutput: %@", ad.currentOutput);
+    NSLogA(@"#isOverrideSpeaker: %d", ad.isOverrideSpeaker);
+    NSLogA(@"#isProximityMonitoringEnabled: %d", ad.isProximityMonitoringEnabled);
+    NSLogA(@"#proximityState: %d", ad.proximityState);
+}
+
+- (void)testZXCommonCrypto {
+    NSError *error = nil;
+    CCAlgorithm alg = kCCAlgorithmRC4;
+    CCMode mode = kCCModeRC4;
+    CCPadding padding = ccPKCS7Padding;
+    NSString *key = @"1234567890";
+    NSString *iv = nil;
+    NSString *value = @"1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    NSData *data = [value encryptedDataUsingAlgorithm:alg mode:mode padding:padding key:key iv:iv error:&error];
+    if (error) {
+        NSLogA(@"#error: %@", error);
+    } else {
+        value = [data base64EncodedStringWithOptions:0];
+        NSLogA(@"#encoded: %@", value);
+    }
+    data = [data decryptedDataUsingAlgorithm:alg mode:mode padding:padding key:key iv:iv error:&error];
+    if (error) {
+        NSLogA(@"#error: %@", error);
+    } else {
+        value = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSLogA(@"#decoded: %@", value);
+    }
 }
 
 - (void)testZXKeychain {

@@ -25,22 +25,40 @@
 
 #import "NSString+URLEncoding.h"
 
-NSString * NSStringWithURLEncoding(NSString *string, NSCharacterSet *allowedCharacters) {
-    return [string stringByAddingPercentEncodingWithAllowedCharacters:allowedCharacters];
-}
+@implementation NSString (URLEncoding)
 
-NSString * NSStringWithURLDecoding(NSString *string) {
-    return [string stringByRemovingPercentEncoding];
-}
-
-@implementation NSString (URLEncode)
-
-- (NSString *)stringByURLEncoding:(NSCharacterSet *)allowedCharacters {
-    return NSStringWithURLEncoding(self, allowedCharacters);
+- (NSString *)stringByURLEncoding:(NSStringURLEncoding)component {
+    NSCharacterSet *set = nil;
+    switch (component) {
+        case NSStringURLEncodingUser:
+            set = NSCharacterSet.URLUserAllowedCharacterSet;
+            break;
+        case NSStringURLEncodingPassword:
+            set = NSCharacterSet.URLPasswordAllowedCharacterSet;
+            break;
+        case NSStringURLEncodingHost:
+            set = NSCharacterSet.URLHostAllowedCharacterSet;
+            break;
+        case NSStringURLEncodingPath:
+            set = NSCharacterSet.URLPathAllowedCharacterSet;
+            break;
+        case NSStringURLEncodingQuery:
+            set = NSCharacterSet.URLQueryAllowedCharacterSet;
+            break;
+        case NSStringURLEncodingFragment:
+            set = NSCharacterSet.URLFragmentAllowedCharacterSet;
+            break;
+        default:
+            break;
+    }
+    if (set) {
+        return [self stringByAddingPercentEncodingWithAllowedCharacters:set];
+    }
+    return nil;
 }
 
 - (NSString *)stringByURLDecoding {
-    return NSStringWithURLDecoding(self);
+    return [self stringByRemovingPercentEncoding];
 }
 
 @end

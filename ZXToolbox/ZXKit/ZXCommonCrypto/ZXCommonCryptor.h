@@ -28,21 +28,26 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+/// Symmetric encryption
 @protocol ZXCommonCryptor <NSObject>
 
 /// Encrypt with algorithm and options for key
 /// @param algorithm CCAlgorithm, kCCAlgorithmAES etc.
-/// @param options CCOptions, kCCOptionPKCS7Padding etc.
-/// @param key raw key material
-/// @param result Result data and error
-- (void)encryptWithAlgorithm:(CCAlgorithm)algorithm options:(CCOptions)options forKey:(id)key result:(void(^)(NSData *_Nullable data, NSError *_Nullable error))result;
+/// @param mode Cipher Modes
+/// @param padding Padding for Block Ciphers
+/// @param key raw Key material
+/// @param iv  Initialization vector
+/// @param error Error of encrypting
+- (NSData *)encryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id _Nullable)iv error:(NSError **_Nullable)error;
 
 /// Decrypt with algorithm and options for key
-/// @param algorithm CCAlgorithm, kCCAlgorithmAES etc.
-/// @param options CCOptions, kCCOptionPKCS7Padding etc.
-/// @param key raw key material
-/// @param result Result data and error
-- (void)decryptWithAlgorithm:(CCAlgorithm)algorithm options:(CCOptions)options forKey:(id)key result:(void(^)(NSData *_Nullable data, NSError *_Nullable error))result;
+/// @param algorithm Encryption algorithms implemented by this module.
+/// @param mode Cipher Modes
+/// @param padding Padding for Block Ciphers
+/// @param key Raw key material
+/// @param iv  Initialization vector
+/// @param error Error of decrypting
+- (NSData *)decryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id _Nullable)iv error:(NSError **_Nullable)error;
 
 @end
 

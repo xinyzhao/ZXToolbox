@@ -27,192 +27,137 @@
 
 @implementation NSData (ZXCommonCryptor)
 
-// Ref https://github.com/Gurpartap/AESCrypt-ObjC/blob/master/NSData+CommonCrypto.m
-static void FixKeyLengths(CCAlgorithm algorithm, NSMutableData *keyData, NSMutableData *ivData) {
-    NSUInteger keyLength = [keyData length];
-    switch (algorithm) {
-        case kCCAlgorithmAES128:
-        {
-            if (keyLength < 16) {
-                [keyData setLength:16];
-            } else if (keyLength < 24) {
-                [keyData setLength:24];
+- (NSData *)encryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id _Nullable)iv error:(NSError **_Nullable)error {
+    return [self dataWithOperation:kCCEncrypt algorithm:algorithm mode:mode padding:padding key:key iv:iv error:error];
+}
+
+- (NSData *)decryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id _Nullable)iv error:(NSError **_Nullable)error {
+    return [self dataWithOperation:kCCDecrypt algorithm:algorithm mode:mode padding:padding key:key iv:iv error:error];
+}
+
+- (NSData *)dataWithOperation:(CCOperation)operation algorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id _Nullable)iv error:(NSError **_Nullable)error {
+
+    NSError *err = [self checkMode:mode];
+    if (err) {
+        if (error) {
+            *error = err;
+        }
+        return nil;
+    }
+    
+    NSMutableData *keyData = [self copyMutableData:key];
+    NSMutableData *ivData = [self copyMutableData:iv];
+    [self setLengthForKey:keyData iv:ivData withAlgorithm:algorithm];
+    
+    NSData *data = nil;
+    CCCryptorRef cryptor = NULL;
+    CCCryptorStatus status = kCCSuccess;
+
+    status = CCCryptorCreateWithMode(operation, mode, algorithm, padding, ivData.bytes, keyData.bytes, keyData.length, NULL, 0, 0, 0, &cryptor);
+    
+    if (status == kCCSuccess) {
+        data = [self cryptor:cryptor padding:padding != ccNoPadding status:&status];
+    }
+    
+    if (status != kCCSuccess && error) {
+        *error = [self errorWithCryptorStatus:status];
+    }
+    
+    CCCryptorRelease(cryptor);
+    
+    return data;
+}
+
+- (NSError *)checkMode:(CCMode)mode {
+    NSArray *modes = @[@(kCCModeECB), @(kCCModeCBC), @(kCCModeCFB), @(kCCModeCTR), @(kCCModeOFB), @(kCCModeRC4), @(kCCModeCFB8)];
+    if ([modes containsObject:@(mode)]) {
+        return nil;
+    }
+    return [NSError errorWithDomain:@"ZXCommonCryptor" code:-1 userInfo:@{NSLocalizedDescriptionKey:@"Mode error"}];
+}
+
+- (NSMutableData *)copyMutableData:(id)value {
+    NSMutableData *data = nil;
+    if ([value isKindOfClass:[NSData class]]) {
+        data = (NSMutableData *)[value mutableCopy];
+    } else if ([value isKindOfClass:[NSString class]]) {
+        data = [[value dataUsingEncoding:NSUTF8StringEncoding] mutableCopy];
+    }
+    return data;
+}
+
+- (void)setLengthForKey:(NSMutableData *)key iv:(NSMutableData *)iv withAlgorithm:(CCAlgorithm)alg {
+    NSInteger len = [key length];
+    switch (alg) {
+        case kCCAlgorithmAES:
+            if (len < kCCKeySizeAES128) {
+                len = kCCKeySizeAES128;
+            } else if (len < kCCKeySizeAES192) {
+                len = kCCKeySizeAES192;
             } else {
-                [keyData setLength:32];
+                len = kCCKeySizeAES256;
             }
             break;
-        }
-            
         case kCCAlgorithmDES:
-        {
-            [keyData setLength:8];
+            len = kCCKeySizeDES;
             break;
-        }
-            
         case kCCAlgorithm3DES:
-        {
-            [keyData setLength:24];
+            len = kCCKeySize3DES;
             break;
-        }
-            
         case kCCAlgorithmCAST:
-        {
-            if (keyLength < 5) {
-                [keyData setLength:5];
-            } else if (keyLength > 16) {
-                [keyData setLength:16];
+            if (len < kCCKeySizeMinCAST) {
+                len = kCCKeySizeMinCAST;
+            } else if (len > kCCKeySizeMaxCAST) {
+                len = kCCKeySizeMaxCAST;
             }
             break;
-        }
-            
         case kCCAlgorithmRC4:
-        {
-            if (keyLength > 512) {
-                [keyData setLength:512];
+            if (len < kCCKeySizeMinRC4) {
+                len = kCCKeySizeMinRC4;
+            } else if (len > kCCKeySizeMaxRC4) {
+                len = kCCKeySizeMaxRC4;
             }
             break;
-        }
-            
-        default:
+        case kCCAlgorithmRC2:
+            if (len < kCCKeySizeMinRC2) {
+                len = kCCKeySizeMinRC2;
+            } else if (len > kCCKeySizeMaxRC2) {
+                len = kCCKeySizeMaxRC2;
+            }
+            break;
+        case kCCAlgorithmBlowfish:
+            if (len < kCCKeySizeMinBlowfish) {
+                len = kCCKeySizeMinBlowfish;
+            } else if (len > kCCKeySizeMaxBlowfish) {
+                len = kCCKeySizeMaxBlowfish;
+            }
             break;
     }
-    
-    [ivData setLength:[keyData length]];
+    key.length = len;
+    iv.length = len;
 }
 
-- (NSData *)_runCryptor:(CCCryptorRef)cryptor result:(CCCryptorStatus *)status {
-    size_t bufsize = CCCryptorGetOutputLength(cryptor, (size_t)[self length], true);
-    void *buf = malloc(bufsize);
-    size_t bufused = 0;
-    size_t bytesTotal = 0;
-    *status = CCCryptorUpdate(cryptor, [self bytes], (size_t)[self length], buf, bufsize, &bufused);
+- (NSData *)cryptor:(CCCryptorRef)cryptor padding:(BOOL)padding status:(CCCryptorStatus *)status {
+    size_t offset = 0;
+    size_t length = CCCryptorGetOutputLength(cryptor, [self length], padding);
+    void *buffer = malloc(length);
+    // Update
+    *status = CCCryptorUpdate(cryptor, [self bytes], [self length], buffer, length, &offset);
     if (*status != kCCSuccess) {
-        free(buf);
-        return (nil);
+        free(buffer);
+        return nil;
     }
-    
-    bytesTotal += bufused;
-    
-    // From Brent Royal-Gordon (Twitter:architechies):
-    //  Need to update buf ptr past used bytes when calling CCCryptorFinal()
-    *status = CCCryptorFinal(cryptor, buf + bufused, bufsize - bufused, &bufused);
-    if (*status != kCCSuccess) {
-        free(buf);
-        return (nil);
-    }
-    
-    bytesTotal += bufused;
-    
-    return ([NSData dataWithBytesNoCopy:buf length:bytesTotal]);
-}
-
-- (NSData *)encryptUsingAlgorithm:(CCAlgorithm)algorithm
-                              key:(id)key
-             initializationVector:(id)iv
-                          options:(CCOptions)options
-                            error:(CCCryptorStatus *)error
-{
-    CCCryptorRef cryptor = NULL;
-    CCCryptorStatus status = kCCSuccess;
-    
-    NSParameterAssert([key isKindOfClass:[NSData class]] || [key isKindOfClass:[NSString class]]);
-    NSParameterAssert(iv == nil || [iv isKindOfClass:[NSData class]] || [iv isKindOfClass:[NSString class]]);
-    
-    NSMutableData *keyData, *ivData;
-    if ([key isKindOfClass:[NSData class]]) {
-        keyData = (NSMutableData *)[key mutableCopy];
-    } else {
-        keyData = [[key dataUsingEncoding:NSUTF8StringEncoding] mutableCopy];
-    }
-    
-    if ([iv isKindOfClass:[NSString class]]) {
-        ivData = [[iv dataUsingEncoding:NSUTF8StringEncoding] mutableCopy];
-    } else {
-        ivData = (NSMutableData *)[iv mutableCopy];    // data or nil
-    }
-    
-#if !__has_feature(objc_arc)
-    [keyData autorelease];
-    [ivData autorelease];
-#endif
-    // ensure correct lengths for key and iv data, based on algorithms
-    FixKeyLengths(algorithm, keyData, ivData);
-    
-    status = CCCryptorCreate(kCCEncrypt, algorithm, options,
-                             [keyData bytes], [keyData length], [ivData bytes],
-                             &cryptor);
-    
-    if (status != kCCSuccess) {
-        if (error != NULL) {
-            *error = status;
+    // Final
+    if (padding) {
+        *status = CCCryptorFinal(cryptor, buffer + offset, length - offset, &offset);
+        if (*status != kCCSuccess) {
+            free(buffer);
+            return nil;
         }
-        return (nil);
     }
-    
-    NSData *result = [self _runCryptor:cryptor result:&status];
-    if ((result == nil)&& (error != NULL)) {
-        *error = status;
-    }
-    
-    CCCryptorRelease(cryptor);
-    
-    return (result);
+    // Return
+    return [NSData dataWithBytesNoCopy:buffer length:length];
 }
-
-- (NSData *)decryptUsingAlgorithm:(CCAlgorithm)algorithm
-                              key:(id)key // data or string
-             initializationVector:(id)iv // data or string
-                          options:(CCOptions)options
-                            error:(CCCryptorStatus *)error {
-    CCCryptorRef cryptor = NULL;
-    CCCryptorStatus status = kCCSuccess;
-    
-    NSParameterAssert([key isKindOfClass:[NSData class]] || [key isKindOfClass:[NSString class]]);
-    NSParameterAssert(iv == nil || [iv isKindOfClass:[NSData class]] || [iv isKindOfClass:[NSString class]]);
-    
-    NSMutableData *keyData, *ivData;
-    if ([key isKindOfClass:[NSData class]]) {
-        keyData = (NSMutableData *)[key mutableCopy];
-    } else {
-        keyData = [[key dataUsingEncoding:NSUTF8StringEncoding] mutableCopy];
-    }
-    
-    if ([iv isKindOfClass:[NSString class]]) {
-        ivData = [[iv dataUsingEncoding:NSUTF8StringEncoding] mutableCopy];
-    } else {
-        ivData = (NSMutableData *)[iv mutableCopy];    // data or nil
-    }
-    
-#if !__has_feature(objc_arc)
-    [keyData autorelease];
-    [ivData autorelease];
-#endif
-    
-    // ensure correct lengths for key and iv data, based on algorithms
-    FixKeyLengths(algorithm, keyData, ivData);
-    
-    status = CCCryptorCreate(kCCDecrypt, algorithm, options,
-                             [keyData bytes], [keyData length], [ivData bytes],
-                             &cryptor);
-    
-    if (status != kCCSuccess) {
-        if (error != NULL) {
-            *error = status;
-        }
-        return (nil);
-    }
-    
-    NSData *result = [self _runCryptor:cryptor result:&status];
-    if ((result == nil)&& (error != NULL)) {
-        *error = status;
-    }
-    
-    CCCryptorRelease(cryptor);
-    
-    return (result);
-}
-
-#pragma mark ZXCommonCryptor
 
 - (NSError *)errorWithCryptorStatus:(CCCryptorStatus)status {
     NSString *desc = nil;
@@ -263,52 +208,20 @@ static void FixKeyLengths(CCAlgorithm algorithm, NSMutableData *keyData, NSMutab
     return [NSError errorWithDomain:@"ZXCommonCryptor" code:status userInfo:@{NSLocalizedDescriptionKey:desc}];
 }
 
-- (void)encryptWithAlgorithm:(CCAlgorithm)algorithm options:(CCOptions)options forKey:(id)key result:(void(^)(NSData *_Nullable data, NSError *_Nullable error))result {
-    CCCryptorStatus status = kCCSuccess;
-    NSData *data = [self encryptUsingAlgorithm:algorithm
-                                           key:key
-                          initializationVector:nil
-                                       options:options
-                                         error:&status];
-    NSError *error = nil;
-    if (status != kCCSuccess) {
-        error = [self errorWithCryptorStatus:status];
-    }
-    if (result) {
-        result(data, error);
-    }
-}
-
-- (void)decryptWithAlgorithm:(CCAlgorithm)algorithm options:(CCOptions)options forKey:(id)key result:(void(^)(NSData *_Nullable data, NSError *_Nullable error))result {
-    CCCryptorStatus status = kCCSuccess;
-    NSData *data = [self decryptUsingAlgorithm:algorithm
-                                           key:key
-                          initializationVector:nil
-                                       options:options
-                                         error:&status];
-    NSError *error = nil;
-    if (status != kCCSuccess) {
-        error = [self errorWithCryptorStatus:status];
-    }
-    if (result) {
-        result(data, error);
-    }
-}
-
 @end
 
 #pragma mark NSString (ZXCommonCryptor)
 
 @implementation NSString (ZXCommonCryptor)
 
-- (void)encryptWithAlgorithm:(CCAlgorithm)algorithm options:(CCOptions)options forKey:(id)key result:(void(^)(NSData *_Nullable data, NSError *_Nullable error))result {
+- (NSData *)encryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id _Nullable)iv error:(NSError **_Nullable)error {
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
-    [data encryptWithAlgorithm:algorithm options:options forKey:key result:result];
+    return [data encryptedDataUsingAlgorithm:algorithm mode:mode padding:padding key:key iv:iv error:error];
 }
 
-- (void)decryptWithAlgorithm:(CCAlgorithm)algorithm options:(CCOptions)options forKey:(id)key result:(void(^)(NSData *_Nullable data, NSError *_Nullable error))result {
+- (NSData *)decryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id _Nullable)iv error:(NSError **_Nullable)error {
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
-    [data decryptWithAlgorithm:algorithm options:options forKey:key result:result];
+    return [data decryptedDataUsingAlgorithm:algorithm mode:mode padding:padding key:key iv:iv error:error];
 }
 
 @end
