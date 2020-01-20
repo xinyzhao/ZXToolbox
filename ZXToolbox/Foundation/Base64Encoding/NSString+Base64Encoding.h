@@ -25,56 +25,31 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
+/// NSString (Base64Encoding)
 @interface NSString (Base64Encoding)
 
-/**
- Create an NSString from a Base-64, UTF-8 encoded NSString
-
- @param base64String a Base-64, UTF-8 encoded NSString
- @param options NSDataBase64DecodingOptions
- @return Decoded NSString
- */
-+ (instancetype)stringWithBase64EncodedString:(NSString *)base64String options:(NSDataBase64DecodingOptions)options;
-
-/**
- Create an NSString from a Base-64, UTF-8 encoded NSString
-
- @param options NSDataBase64DecodingOptions
- @return Decoded NSString
- */
-- (NSString *)base64DecodedStringWithOptions:(NSDataBase64DecodingOptions)options;
-
-/**
- Create a Base-64, UTF-8 encoded NSString
-
- @param options NSDataBase64EncodingOptions
- @return Encoded NSString
- */
-- (NSString *)base64EncodedStringWithOptions:(NSDataBase64EncodingOptions)options;
-
-/**
- Create an NSString from a Base-64, UTF-8 encoded NSData
-
- @param base64Data a Base-64, UTF-8 encoded NSData
- @param options NSDataBase64DecodingOptions
- @return Decoded NSString
- */
-+ (instancetype)stringWithBase64EncodedData:(NSData *)base64Data options:(NSDataBase64DecodingOptions)options;
-
-/**
- Create an NSData from a Base-64, UTF-8 encoded NSString
-
- @param options NSDataBase64DecodingOptions
- @return Decoded NSData
- */
-- (NSData *)base64DecodedDataWithOptions:(NSDataBase64DecodingOptions)options;
-
-/**
- Create a Base-64, UTF-8 encoded NSData
-
- @param options NSDataBase64EncodingOptions
- @return Encoded NSData
- */
+/// Creates a Base64, UTF-8 encoded data object from the string using the given options.
+/// @param options A mask that specifies options for Base64 encoding the data. Possible values are given in NSDataBase64EncodingOptions.
+/// @return A Base64, UTF-8 encoded data object.
 - (NSData *)base64EncodedDataWithOptions:(NSDataBase64EncodingOptions)options;
 
+/// Create a Base-64 encoded NSString from the receiver's contents using the given options.
+/// @param options A mask that specifies options for Base-64 encoding the data. Possible values are given in NSDataBase64EncodingOptions.
+/// @return A Base64 encoded string.
+- (NSString *)base64EncodedStringWithOptions:(NSDataBase64EncodingOptions)options;
+
+/// Create an NSData from a Base-64 encoded NSString using the given options.
+/// @param options A mask that specifies options for Base-64 decoding the data. Possible values are given in NSDataBase64DecodingOptions.
+/// @return A data object built by Base64 decoding the provided string. Returns nil if the data object could not be decoded.
+- (nullable NSData *)base64DecodedDataWithOptions:(NSDataBase64DecodingOptions)options;
+
+/// Create an NSString from a Base-64 encoded NSString using the given options.
+/// @param options A mask that specifies options for Base64 decoding the string. Possible values are given in NSDataBase64DecodingOptions.
+/// @return A string object built by Base64 decoding the provided string. Returns nil if the data object could not be decoded.
+- (nullable NSString *)base64DecodedStringWithOptions:(NSDataBase64DecodingOptions)options;
+
 @end
+
+NS_ASSUME_NONNULL_END

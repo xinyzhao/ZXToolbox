@@ -37,11 +37,7 @@
 
 - (NSData *)dataWithOperation:(CCOperation)operation algorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id _Nullable)iv error:(NSError **_Nullable)error {
 
-    NSError *err = [self checkMode:mode];
-    if (err) {
-        if (error) {
-            *error = err;
-        }
+    if (![self checkMode:mode error:error]) {
         return nil;
     }
     
@@ -56,7 +52,8 @@
     status = CCCryptorCreateWithMode(operation, mode, algorithm, padding, ivData.bytes, keyData.bytes, keyData.length, NULL, 0, 0, 0, &cryptor);
     
     if (status == kCCSuccess) {
-        data = [self cryptor:cryptor padding:padding != ccNoPadding status:&status];
+        BOOL isPadding = padding != ccNoPadding && algorithm != kCCAlgorithmRC4;
+        data = [self cryptor:cryptor final:isPadding status:&status];
     }
     
     if (status != kCCSuccess && error) {
@@ -68,12 +65,15 @@
     return data;
 }
 
-- (NSError *)checkMode:(CCMode)mode {
+- (BOOL)checkMode:(CCMode)mode error:(NSError **_Nullable)error {
     NSArray *modes = @[@(kCCModeECB), @(kCCModeCBC), @(kCCModeCFB), @(kCCModeCTR), @(kCCModeOFB), @(kCCModeRC4), @(kCCModeCFB8)];
     if ([modes containsObject:@(mode)]) {
-        return nil;
+        return YES;
     }
-    return [NSError errorWithDomain:@"ZXCommonCryptor" code:-1 userInfo:@{NSLocalizedDescriptionKey:@"Mode error"}];
+    if (error) {
+        *error = [NSError errorWithDomain:@"ZXCommonCryptor" code:-1 userInfo:@{NSLocalizedDescriptionKey:@"Mode error"}];
+    }
+    return NO;
 }
 
 - (NSMutableData *)copyMutableData:(id)value {
@@ -137,9 +137,9 @@
     iv.length = len;
 }
 
-- (NSData *)cryptor:(CCCryptorRef)cryptor padding:(BOOL)padding status:(CCCryptorStatus *)status {
+- (NSData *)cryptor:(CCCryptorRef)cryptor final:(BOOL)final status:(CCCryptorStatus *)status {
     size_t offset = 0;
-    size_t length = CCCryptorGetOutputLength(cryptor, [self length], padding);
+    size_t length = CCCryptorGetOutputLength(cryptor, [self length], final);
     void *buffer = malloc(length);
     // Update
     *status = CCCryptorUpdate(cryptor, [self bytes], [self length], buffer, length, &offset);
@@ -148,7 +148,7 @@
         return nil;
     }
     // Final
-    if (padding) {
+    if (final) {
         *status = CCCryptorFinal(cryptor, buffer + offset, length - offset, &offset);
         if (*status != kCCSuccess) {
             free(buffer);
@@ -209,8 +209,6 @@
 }
 
 @end
-
-#pragma mark NSString (ZXCommonCryptor)
 
 @implementation NSString (ZXCommonCryptor)
 
