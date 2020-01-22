@@ -148,12 +148,12 @@
 }
 
 - (void)testZXCommonCrypto {
-    CCAlgorithm alg = kCCAlgorithmDES;
-    CCMode mode = kCCModeECB;
+    CCAlgorithm alg = kCCAlgorithmAES;
+    CCMode mode = kCCModeCBC;
     CCPadding padding = ccPKCS7Padding;
-    id iv = @"12345678";
-    id key = @"12345678";
-    id value = @"12345678";
+    id iv = @"1234567890123456";
+    id key = @"12345678901234561234567890123456";
+    id value = @"1234567890123456";
     NSError *error = nil;
     NSData *data = nil;
     // encrypt
@@ -172,6 +172,46 @@
         value = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         NSLogA(@"#decoded: %@", value);
     }
+}
+
+- (void)testZXCoordinate2D {
+    ZXCoordinate2D world = ZXCoordinate2DMake(40.01845989630743, 116.461795056622);
+    NSLogA(@"#WGS-84: %f, %f", world.latitude, world.longitude);
+    ZXCoordinate2D china = ZXCoordinate2DWorldToChina(world);
+    NSLogA(@"#GCJ-02: %f, %f", china.latitude, china.longitude);
+    ZXCoordinate2D baidu = ZXCoordinate2DChinaToBaidu(china);
+    NSLogA(@"#BD-09: %f, %f", baidu.latitude, baidu.longitude);
+    china = ZXCoordinate2DBaiduToChina(baidu);
+    NSLogA(@"#GCJ-02: %f, %f", china.latitude, china.longitude);
+    world = ZXCoordinate2DChinaToWorld(china);
+    NSLogA(@"#WGS-84: %f, %f", world.latitude, world.longitude);
+    NSLogA(@"#W-C: %fm", ZXCoordinate2DDistanceMeters(world, china));
+    NSLogA(@"#C-B: %fm", ZXCoordinate2DDistanceMeters(china, baidu));
+    NSLogA(@"#W-B: %fm", ZXCoordinate2DDistanceMeters(world, baidu));
+}
+
+- (void)testZXDownloader {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"ZXDownloader"];
+    //
+    NSURL *url = [NSURL URLWithString:@"https://vod.300hu.com/4c1f7a6atransbjngwcloud1oss/4bb3e4c1242645539656048641/v.f30.mp4"];
+    ZXDownloadTask *task = [ZXDownloader.defaultDownloader downloadTaskForURL:url];
+    [task addObserver:self state:^(NSURLSessionTaskState state, NSString * _Nullable filePath, NSError * _Nullable error) {
+        NSLogA(@"#state: %d filePath: %@ error: %@", (int)state, filePath, error);
+        if (state != NSURLSessionTaskStateRunning) {
+            [expectation fulfill];
+        }
+    } progress:^(int64_t receivedSize, int64_t expectedSize, float progress) {
+        NSLogA(@"#receivedSize: %lld expectedSize: %lld progress: %.2f", receivedSize, expectedSize, progress);
+    }];
+    [ZXDownloader.defaultDownloader resumeTask:task];
+    //
+    [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
+        [ZXDownloader.defaultDownloader cancelAllTasks];
+    }];
+}
+
+- (void)testZXHTTPClient {
+    
 }
 
 - (void)testZXKeychain {
@@ -212,20 +252,12 @@
     }
 }
 
-- (void)testZXCoordinate2D {
-    ZXCoordinate2D world = ZXCoordinate2DMake(40.01845989630743, 116.461795056622);
-    NSLogA(@"#WGS-84: %f, %f", world.latitude, world.longitude);
-    ZXCoordinate2D china = ZXCoordinate2DWorldToChina(world);
-    NSLogA(@"#GCJ-02: %f, %f", china.latitude, china.longitude);
-    ZXCoordinate2D baidu = ZXCoordinate2DChinaToBaidu(china);
-    NSLogA(@"#BD-09: %f, %f", baidu.latitude, baidu.longitude);
-    china = ZXCoordinate2DBaiduToChina(baidu);
-    NSLogA(@"#GCJ-02: %f, %f", china.latitude, china.longitude);
-    world = ZXCoordinate2DChinaToWorld(china);
-    NSLogA(@"#WGS-84: %f, %f", world.latitude, world.longitude);
-    NSLogA(@"#W-C: %fm", ZXCoordinate2DDistanceMeters(world, china));
-    NSLogA(@"#C-B: %fm", ZXCoordinate2DDistanceMeters(china, baidu));
-    NSLogA(@"#W-B: %fm", ZXCoordinate2DDistanceMeters(world, baidu));
+- (void)testZXLocalAuthentication {
+    
+}
+
+- (void)testZXLocationManager {
+    
 }
 
 @end
