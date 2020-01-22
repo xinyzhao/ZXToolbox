@@ -194,16 +194,19 @@
     XCTestExpectation *expectation = [self expectationWithDescription:@"ZXDownloader"];
     //
     NSURL *url = [NSURL URLWithString:@"https://vod.300hu.com/4c1f7a6atransbjngwcloud1oss/4bb3e4c1242645539656048641/v.f30.mp4"];
-    ZXDownloadTask *task = [ZXDownloader.defaultDownloader downloadTaskForURL:url];
+    ZXDownloadTask *task = [ZXDownloader.defaultDownloader downloadTaskWithURL:url];
     [task addObserver:self state:^(NSURLSessionTaskState state, NSString * _Nullable filePath, NSError * _Nullable error) {
         NSLogA(@"#state: %d filePath: %@ error: %@", (int)state, filePath, error);
         if (state != NSURLSessionTaskStateRunning) {
             [expectation fulfill];
         }
+        if (filePath) {
+            [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+        }
     } progress:^(int64_t receivedSize, int64_t expectedSize, float progress) {
         NSLogA(@"#receivedSize: %lld expectedSize: %lld progress: %.2f", receivedSize, expectedSize, progress);
     }];
-    [ZXDownloader.defaultDownloader resumeTask:task];
+    [task resume];
     //
     [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
         [ZXDownloader.defaultDownloader cancelAllTasks];

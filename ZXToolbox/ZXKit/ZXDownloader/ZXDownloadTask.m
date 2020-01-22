@@ -85,9 +85,9 @@
         _totalBytesWritten = [self fileSizeAtPath:_cacheFilePath];
         _totalBytesExpectedToWrite = [self fileSizeAtPath:_finalFilePath];
         if (_totalBytesExpectedToWrite > 0) {
-            _state = NSURLSessionTaskStateCompleted;
+            self.state = NSURLSessionTaskStateCompleted;
         } else {
-            _state = NSURLSessionTaskStateSuspended;
+            self.state = NSURLSessionTaskStateSuspended;
         }
     }
     return self;
@@ -192,8 +192,14 @@
     }
 }
 
-- (void)setState:(NSURLSessionTaskState)state withError:(NSError *)error {
+- (void)setState:(NSURLSessionTaskState)state {
+    [self willChangeValueForKey:@"state"];
     _state = state;
+    [self didChangeValueForKey:@"state"];
+}
+
+- (void)setState:(NSURLSessionTaskState)state withError:(NSError *)error {
+    self.state = state;
     //
     __weak typeof(self) weakSelf = self;
     dispatch_async(dispatch_get_main_queue(), ^{

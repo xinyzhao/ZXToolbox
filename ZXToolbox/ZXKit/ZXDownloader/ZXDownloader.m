@@ -74,7 +74,6 @@
         _downloadTasks = [[NSMutableDictionary alloc] init];
         _downloadPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:NSStringFromClass([self class])];
         _allowInvalidCertificates = YES;
-        _autoResumeNextDownloadTask = YES;
     }
     return self;
 }
@@ -107,7 +106,7 @@
         //
         if (_willResignActiveObserver == nil) {
             _willResignActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-                for (ZXDownloadTask *task in weakSelf.downloadTasks.allValues) {
+                for (ZXDownloadTask *task in weakSelf.allTasks) {
                     if (task.state == NSURLSessionTaskStateRunning) {
                         [weakSelf.runningTasks addObject:task];
                     } else {
@@ -146,7 +145,7 @@
 
 - (NSInteger)currentConcurrentDownloadCount {
     NSInteger count = 0;
-    for (ZXDownloadTask *task in _downloadTasks.allValues) {
+    for (ZXDownloadTask *task in self.allTasks) {
         if (task.state == NSURLSessionTaskStateRunning) {
             count++;
         }
@@ -155,6 +154,24 @@
 }
 
 #pragma mark Tasks
+
+- (void)addTask:(ZXDownloadTask *)task {
+    if (task) {
+        [self addTaskObserver:task];
+        [_downloadTasks setObject:task forKey:task.taskIdentifier];
+    }
+}
+
+- (void)removeTask:(ZXDownloadTask *)task {
+    if (task) {
+        [self removeTaskObserver:task];
+        [_downloadTasks removeObjectForKey:task.taskIdentifier];
+    }
+}
+
+- (NSArray *)allTasks {
+    return _downloadTasks.allValues;
+}
 
 - (ZXDownloadTask *)downloadTaskForURL:(NSURL *)URL {
     return [_downloadTasks objectForKey:URL.taskIdentifier];
@@ -181,7 +198,7 @@
             [request setValue:[NSString stringWithFormat:@"bytes=%lld-", task.totalBytesWritten] forHTTPHeaderField:@"Range"];
             task.task = [_session dataTaskWithRequest:request];
         }
-        [_downloadTasks setObject:task forKey:task.taskIdentifier];
+        [self addTask:task];
     }
     return task;
 }
@@ -191,7 +208,7 @@
     if (task == nil) {
         task = [[ZXDownloadTask alloc] initWithURL:obj.URL path:_downloadPath];
         task.task = obj;
-        [_downloadTasks setObject:task forKey:task.taskIdentifier];
+        [self addTask:task];
     }
     return task;
 }
@@ -199,30 +216,20 @@
 #pragma mark Resume
 
 - (void)resumeTask:(ZXDownloadTask *)task {
-    if (task.state == NSURLSessionTaskStateSuspended) {
-        if ((self.maxConcurrentDownloadCount <= 0) ||
-            (self.maxConcurrentDownloadCount > self.currentConcurrentDownloadCount)) {
-            [task resume];
-        }
-    } else if (task.state == NSURLSessionTaskStateCompleted) {
-        [task resume];
-        [_downloadTasks removeObjectForKey:task.taskIdentifier];
-    }
+    [task resume];
 }
 
 - (void)resumeNextTask:(ZXDownloadTask *)currentTask {
-    if (_autoResumeNextDownloadTask) {
-        for (ZXDownloadTask *task in [_downloadTasks allValues]) {
-            if (task != currentTask) {
-                [self resumeTask:task];
-                break;
-            }
+    for (ZXDownloadTask *task in self.allTasks) {
+        if (task != currentTask) {
+            [self resumeTask:task];
+            break;
         }
     }
 }
 
 - (void)resumeAllTasks {
-    for (ZXDownloadTask *task in [self.downloadTasks allValues]) {
+    for (ZXDownloadTask *task in self.allTasks) {
         [self resumeTask:task];
     }
 }
@@ -231,7 +238,6 @@
 
 - (void)suspendTask:(ZXDownloadTask *)task {
     [task suspend];
-    [self resumeNextTask:task];
 }
 
 - (void)suspendAllTasks {
@@ -243,20 +249,56 @@
 #pragma mark Cancel
 
 - (void)cancelTask:(ZXDownloadTask *)task {
-    if (task) {
-        [task cancel];
-        [self.downloadTasks removeObjectForKey:task.taskIdentifier];
-        [self resumeNextTask:nil];
-    }
+    [task cancel];
 }
 
 - (void)cancelAllTasks {
     for (ZXDownloadTask *task in [self.downloadTasks allValues]) {
         [task cancel];
     }
-    [self.downloadTasks removeAllObjects];
 }
 
+#pragma mark <NSKeyValueObserving>
+
+- (void)addTaskObserver:(ZXDownloadTask *)task {
+    if (task) {
+        [self removeTaskObserver:task];
+        [task addObserver:self forKeyPath:@"state" options:NSKeyValueObservingOptionNew context:nil];
+    }
+}
+
+- (void)removeTaskObserver:(ZXDownloadTask *)task {
+    if (task) {
+        @try {
+            [task removeObserver:self forKeyPath:@"state"];
+        } @catch (NSException *ex) {
+            NSLog(@"%@", ex.description);
+        }
+    }
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
+    if ([keyPath isEqualToString:@"state"]) {
+        ZXDownloadTask *task = object;
+        switch (task.state) {
+            case NSURLSessionTaskStateRunning:
+                break;
+            case NSURLSessionTaskStateSuspended:
+                break;
+            case NSURLSessionTaskStateCanceling:
+                [self removeTask:task];
+                [self resumeNextTask:nil];
+                break;
+            case NSURLSessionTaskStateCompleted:
+                [self removeTask:task];
+                [self resumeNextTask:nil];
+                break;
+            default:
+                break;
+        }
+    }
+}
+    
 #pragma mark <NSURLSessionDelegate>
 
 /* If an application has received an

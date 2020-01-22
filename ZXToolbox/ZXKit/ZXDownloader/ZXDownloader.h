@@ -45,9 +45,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// The current number of concurrent downloads
 @property (nonatomic, readonly) NSInteger currentConcurrentDownloadCount;
 
-/// Auto resume next download task when prev-task is cancel or completed, default is true
-@property (nonatomic, assign) BOOL autoResumeNextDownloadTask;
-
 /// Enable to allow untrusted SSL certificates, default YES.
 @property (nonatomic, assign) BOOL allowInvalidCertificates;
 
