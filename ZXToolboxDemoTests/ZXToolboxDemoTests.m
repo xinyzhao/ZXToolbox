@@ -148,20 +148,23 @@
 }
 
 - (void)testZXCommonCrypto {
-    NSError *error = nil;
-    CCAlgorithm alg = kCCAlgorithmRC4;
-    CCMode mode = kCCModeRC4;
+    CCAlgorithm alg = kCCAlgorithmDES;
+    CCMode mode = kCCModeECB;
     CCPadding padding = ccPKCS7Padding;
-    NSString *key = @"1234567890";
-    NSString *iv = nil;
-    NSString *value = @"1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    NSData *data = [value encryptedDataUsingAlgorithm:alg mode:mode padding:padding key:key iv:iv error:&error];
+    id iv = @"12345678";
+    id key = @"12345678";
+    id value = @"12345678";
+    NSError *error = nil;
+    NSData *data = nil;
+    // encrypt
+    data = [value encryptedDataUsingAlgorithm:alg mode:mode padding:padding key:key iv:iv error:&error];
     if (error) {
         NSLogA(@"#error: %@", error);
     } else {
         value = [data base64EncodedStringWithOptions:0];
         NSLogA(@"#encoded: %@", value);
     }
+    // decrypt
     data = [data decryptedDataUsingAlgorithm:alg mode:mode padding:padding key:key iv:iv error:&error];
     if (error) {
         NSLogA(@"#error: %@", error);

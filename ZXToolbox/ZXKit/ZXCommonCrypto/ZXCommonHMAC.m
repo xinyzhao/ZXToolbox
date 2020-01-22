@@ -28,32 +28,34 @@
 @implementation NSData (ZXCommonHMAC)
 
 // Ref https://github.com/Gurpartap/AESCrypt-ObjC/blob/master/NSData+CommonCrypto.m
-- (NSData *)dataWithAlgorithm:(CCHmacAlgorithm)algorithm forKey:(id)key {
+- (NSData *)dataUsingHmacAlgorithm:(CCHmacAlgorithm)algorithm forKey:(id)key {
     NSData *data = nil;
     if (key == nil || [key isKindOfClass:NSData.class] || [key isKindOfClass:NSString.class]) {
         NSData *keyData = nil;
-        if ([key isKindOfClass:[NSString class]]) {
+        if ([key isKindOfClass:NSString.class]) {
             keyData = [key dataUsingEncoding:NSUTF8StringEncoding];
-        } else {
+        } else if ([key isKindOfClass:NSData.class]) {
             keyData = key;
         }
-        // this could be either CC_SHA1_DIGEST_LENGTH or CC_MD5_DIGEST_LENGTH. SHA1 is larger.
-        int len = (algorithm == kCCHmacAlgMD5 ? CC_MD5_DIGEST_LENGTH : CC_SHA1_DIGEST_LENGTH);
-        unsigned char *buf = malloc(len);
-        CCHmac(algorithm, keyData.bytes, keyData.length, self.bytes, self.length, buf);
-        data = [NSData dataWithBytes:buf length:len];
-        free(buf);
+        if (keyData) {
+            // this could be either CC_SHA1_DIGEST_LENGTH or CC_MD5_DIGEST_LENGTH. SHA1 is larger.
+            int len = (algorithm == kCCHmacAlgMD5 ? CC_MD5_DIGEST_LENGTH : CC_SHA1_DIGEST_LENGTH);
+            unsigned char *buf = malloc(len);
+            CCHmac(algorithm, keyData.bytes, keyData.length, self.bytes, self.length, buf);
+            data = [NSData dataWithBytes:buf length:len];
+            free(buf);
+        }
     }
     return data;
 }
 
-- (NSString *)stringWithAlgorithm:(CCHmacAlgorithm)algorithm forKey:(id)key {
+- (NSString *)stringUsingHmacAlgorithm:(CCHmacAlgorithm)algorithm forKey:(id)key {
     NSMutableString *str = [[NSMutableString alloc] init];
-    NSData *data = [self dataWithAlgorithm:algorithm forKey:key];
+    NSData *data = [self dataUsingHmacAlgorithm:algorithm forKey:key];
     if (data) {
         unsigned char *bytes = (unsigned char *)data.bytes;
         for(int i = 0; i < data.length; i++) {
-            [str appendFormat:@"%02x", bytes[i]];
+            [str appendFormat:@"%02X", bytes[i]];
         }
     }
     return [str copy];
@@ -63,14 +65,14 @@
 
 @implementation NSString (ZXCommonHMAC)
 
-- (NSData *)dataWithAlgorithm:(CCHmacAlgorithm)algorithm forKey:(id)key {
+- (NSData *)dataUsingHmacAlgorithm:(CCHmacAlgorithm)algorithm forKey:(id)key {
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
-    return [data dataWithAlgorithm:algorithm forKey:key];
+    return [data dataUsingHmacAlgorithm:algorithm forKey:key];
 }
 
-- (NSString *)stringWithAlgorithm:(CCHmacAlgorithm)algorithm forKey:(id)key {
+- (NSString *)stringUsingHmacAlgorithm:(CCHmacAlgorithm)algorithm forKey:(id)key {
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
-    return [data stringWithAlgorithm:algorithm forKey:key];
+    return [data stringUsingHmacAlgorithm:algorithm forKey:key];
 }
 
 @end

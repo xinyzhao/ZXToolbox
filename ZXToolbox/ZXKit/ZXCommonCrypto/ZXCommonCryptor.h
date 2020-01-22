@@ -41,7 +41,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @return Encrypted data if no error.
 - (NSData *)encryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id _Nullable)iv error:(NSError **_Nullable)error;
 
-/// Create an decrypted NSData from an NSData or UTF-8 encoded NSString using the given options.
+/// Create a decrypted NSData from an NSData or UTF-8 encoded NSString using the given options.
 /// @param algorithm Encryption algorithms implemented by this module.
 /// @param mode Cipher Modes
 /// @param padding Padding for Block Ciphers

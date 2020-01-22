@@ -28,23 +28,17 @@
 
 @protocol ZXCommonHMAC <NSObject>
 
-/**
- HMAC with CCHmacAlgorithm for key
+/// Create a HMAC NSData from an NSData or UTF-8 encoded NSString using the given options.
+/// @param algorithm CCHmacAlgorithm
+/// @param key HMAC key
+/// @return HMAC encoded data
+- (NSData *)dataUsingHmacAlgorithm:(CCHmacAlgorithm)algorithm forKey:(id)key;
 
- @param algorithm CCHmacAlgorithm
- @param key HMAC key
- @return HMAC data
- */
-- (NSData *)dataWithAlgorithm:(CCHmacAlgorithm)algorithm forKey:(id)key;
-
-/**
- HMAC with CCHmacAlgorithm for key
-
- @param algorithm CCHmacAlgorithm
- @param key HMAC key
- @return HMAC string
- */
-- (NSString *)stringWithAlgorithm:(CCHmacAlgorithm)algorithm forKey:(id)key;
+/// Create a HMAC, HEX encoded NSString from an NSData or UTF-8 encoded NSString using the given options.
+/// @param algorithm CCHmacAlgorithm
+/// @param key HMAC key
+/// @return HMAC, HEX encoded NSString
+- (NSString *)stringUsingHmacAlgorithm:(CCHmacAlgorithm)algorithm forKey:(id)key;
 
 @end
 
