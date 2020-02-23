@@ -101,8 +101,12 @@
     [self setImageEdgeInsets:UIEdgeInsetsZero];
     [self layoutIfNeeded];
     // frame
-    CGRect title = self.titleLabel.frame;
-    CGRect image = self.imageView.frame;
+    CGRect title = [self titleRectForContentRect:self.bounds];
+    // Fixed bugs in iOS <= 13
+    if (self.currentTitle.length > 0 && title.size.height <= 0) {
+        title.size.height = [self.titleLabel sizeThatFits:self.bounds.size].height;
+    }
+    CGRect image = [self imageRectForContentRect:self.bounds];
     CGFloat space = self.titleImageSpacing / 2;
     CGPoint point = CGPointZero;
     // layout
