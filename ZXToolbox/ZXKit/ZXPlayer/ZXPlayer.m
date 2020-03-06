@@ -461,6 +461,9 @@
     NSTimeInterval duration = 0.f;
     if (_playerItem.status == AVPlayerItemStatusReadyToPlay) {
         duration = CMTimeGetSeconds(_playerItem.duration);
+    } else if (self.URL) {
+        AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:self.URL options:nil];
+        duration = CMTimeGetSeconds(asset.duration);
     }
     return duration;
 }
