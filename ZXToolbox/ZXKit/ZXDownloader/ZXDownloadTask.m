@@ -202,6 +202,7 @@
     if (state == NSURLSessionTaskStateCompleted) {
         if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
             state = NSURLSessionTaskStateCanceling;
+            error = nil;
         }
     }
     //
