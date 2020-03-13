@@ -199,6 +199,12 @@
 }
 
 - (void)setState:(NSURLSessionTaskState)state withError:(NSError *)error {
+    if (state == NSURLSessionTaskStateCompleted) {
+        if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
+            state = NSURLSessionTaskStateCanceling;
+        }
+    }
+    //
     self.state = state;
     //
     __weak typeof(self) weakSelf = self;
