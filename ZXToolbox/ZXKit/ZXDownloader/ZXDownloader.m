@@ -219,15 +219,6 @@
     [task resume];
 }
 
-- (void)resumeNextTask:(ZXDownloadTask *)currentTask {
-    for (ZXDownloadTask *task in self.allTasks) {
-        if (task != currentTask) {
-            [self resumeTask:task];
-            break;
-        }
-    }
-}
-
 - (void)resumeAllTasks {
     for (ZXDownloadTask *task in self.allTasks) {
         [self resumeTask:task];
@@ -287,11 +278,9 @@
                 break;
             case NSURLSessionTaskStateCanceling:
                 [self removeTask:task];
-                [self resumeNextTask:nil];
                 break;
             case NSURLSessionTaskStateCompleted:
                 [self removeTask:task];
-                [self resumeNextTask:nil];
                 break;
             default:
                 break;
@@ -364,7 +353,6 @@
     if (obj) {
         [obj URLSession:session task:task didCompleteWithError:error];
         [self.downloadTasks removeObjectForKey:obj.taskIdentifier];
-        [self resumeNextTask:nil];
     }
 }
 

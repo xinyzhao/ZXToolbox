@@ -199,17 +199,23 @@
 }
 
 - (void)setState:(NSURLSessionTaskState)state withError:(NSError *)error {
+    if (state == NSURLSessionTaskStateCompleted) {
+        if ([error.domain isEqualToString:NSURLErrorDomain] && error.code == NSURLErrorCancelled) {
+            state = NSURLSessionTaskStateCanceling;
+            error = nil;
+        }
+    }
+    //
     self.state = state;
     //
-    __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        NSString *path = weakSelf.filePath;
-        for (ZXDownloadObserver *observer in weakSelf.observers) {
-            if (observer.observer && observer.state) {
+    NSString *path = self.filePath;
+    for (ZXDownloadObserver *observer in self.observers) {
+        if (observer.observer && observer.state) {
+            dispatch_async(dispatch_get_main_queue(), ^{
                 observer.state(state, path, error);
-            }
+            });
         }
-    });
+    }
 }
 
 - (BOOL)writeResumeData:(NSData *)resumeData {

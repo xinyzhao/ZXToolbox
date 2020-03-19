@@ -240,7 +240,7 @@
     }
     // Check IV length
     NSData *ivData = [self ivData:iv forAlgorithm:algorithm error:error];
-    if (ivData == nil) {
+    if (iv && ivData == nil) {
         return nil;
     }
     // Create cryptor
