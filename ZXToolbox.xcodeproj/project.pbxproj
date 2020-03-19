@@ -357,6 +357,7 @@
 		7000ADA622E9D16D00651E44 /* ZXToolbox.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ZXToolbox.podspec; sourceTree = "<group>"; };
 		7000ADA722E9D16D00651E44 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		7000ADA822E9D16D00651E44 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		702E538E23D8478200D8B0CF /* Location.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Location.gpx; sourceTree = "<group>"; };
 		7040F6C923824182009EFB1F /* UINavigationController+ZXToolbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+ZXToolbox.h"; sourceTree = "<group>"; };
 		7040F6CA23824182009EFB1F /* UINavigationController+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+ZXToolbox.m"; sourceTree = "<group>"; };
 		705A8FCF23C2D51000BE361F /* ZXKeychain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXKeychain.h; sourceTree = "<group>"; };
@@ -1195,6 +1196,7 @@
 				70D8448D23C706DA0042E305 /* LaunchScreen.storyboard */,
 				70D8449023C706DA0042E305 /* Info.plist */,
 				70D8449123C706DA0042E305 /* main.m */,
+				702E538E23D8478200D8B0CF /* Location.gpx */,
 			);
 			path = ZXToolboxDemo;
 			sourceTree = "<group>";
@@ -1771,6 +1773,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 20200122;
+				DEVELOPMENT_TEAM = 7AN9H87UA6;
 				INFOPLIST_FILE = ZXToolboxDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1790,6 +1793,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 20200122;
+				DEVELOPMENT_TEAM = 7AN9H87UA6;
 				INFOPLIST_FILE = ZXToolboxDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
