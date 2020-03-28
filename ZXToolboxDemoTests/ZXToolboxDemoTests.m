@@ -265,10 +265,10 @@
 
 - (void)testZXPhotoLibrary {
     XCTestExpectation *expectation = [self expectationWithDescription:@"testZXPhotoLibrary"];
-    [[ZXPhotoLibrary defaultLibrary] requestAuthorization:^(AVAuthorizationStatus status) {
+    [ZXPhotoLibrary requestAuthorization:^(AVAuthorizationStatus status) {
         if (status == AVAuthorizationStatusAuthorized) {
             UIImage *image = [UIImage imageWithColor:[UIColor randomColor] size:[UIScreen mainScreen].bounds.size];
-            [[ZXPhotoLibrary defaultLibrary] saveImage:image toPhotoAlbum:^(NSError *error) {
+            [[ZXPhotoLibrary sharedPhotoLibrary] saveImage:image toSavedPhotoAlbum:^(NSError *error) {
                 NSLogA(@"%@", error ? error.localizedDescription : @"success");
                 [expectation fulfill];
             }];
