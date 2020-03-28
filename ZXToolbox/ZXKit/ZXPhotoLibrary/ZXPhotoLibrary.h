@@ -61,18 +61,18 @@ typedef NS_ENUM(NSInteger, ZXAssetMediaType) {
 @interface ZXPhotoLibrary : NSObject
 
 /**
- The default instance
+ The shared instance
 
  @return ZXPhotoLibrary
  */
-+ (ZXPhotoLibrary *)defaultLibrary;
++ (ZXPhotoLibrary *)sharedPhotoLibrary;
 
 /**
  Request authorization
 
  @param completion response block
  */
-- (void)requestAuthorization:(void(^)(AVAuthorizationStatus status))completion;
++ (void)requestAuthorization:(void(^)(AVAuthorizationStatus status))completion;
 
 /**
  Get photo groups
@@ -91,17 +91,20 @@ typedef NS_ENUM(NSInteger, ZXAssetMediaType) {
 - (void)fetchAssetsWithAscending:(BOOL)ascending completion:(void(^)(NSArray<ZXPhotoAsset *> *results))completion;
 
 /**
- Save image to photo album
+ Adds the specified image to the user’s Camera Roll album.
 
  @param image the UIImage
  @param completion result block
  */
-- (void)saveImage:(UIImage *)image toPhotoAlbum:(void(^)(NSError *error))completion;
+- (void)saveImage:(UIImage *)image toSavedPhotoAlbum:(void(^)(NSError *error))completion;
 
-/// Save video to photo album
-/// @param fileURL the video file at the specified URL.
-/// @param completion result block
-- (void)saveVideo:(NSURL *)fileURL toPhotoAlbum:(void(^)(NSError *error))completion;
+/**
+Adds the movie at the specified path to the user’s Camera Roll album.
+
+@param fileURL the video file at the specified URL.
+@param completion result block
+*/
+- (void)saveVideo:(NSURL *)fileURL toSavedPhotoAlbum:(void(^)(NSError *error))completion;
 
 /**
  Register change observer, use unregisterChangeObserver: to unregister

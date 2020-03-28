@@ -54,13 +54,13 @@
 
 @implementation ZXPhotoLibrary
 
-static ZXPhotoLibrary *_defaultLibrary = nil;
-
-+ (ZXPhotoLibrary *)defaultLibrary {
-    if (_defaultLibrary == nil) {
-        _defaultLibrary = [[ZXPhotoLibrary alloc] init];
-    }
-    return _defaultLibrary;
++ (ZXPhotoLibrary *)sharedPhotoLibrary {
+    static ZXPhotoLibrary *photoLibrary = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        photoLibrary = [[ZXPhotoLibrary alloc] init];
+    });
+    return photoLibrary;
 }
 
 - (instancetype)init
@@ -94,7 +94,7 @@ static ZXPhotoLibrary *_defaultLibrary = nil;
 
 #pragma mark Funcitons
 
-- (void)requestAuthorization:(void(^)(AVAuthorizationStatus status))completion {
++ (void)requestAuthorization:(void(^)(AVAuthorizationStatus status))completion {
     if (@available(iOS 8.0, *)) {
         PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
         switch (status)
@@ -243,7 +243,7 @@ static ZXPhotoLibrary *_defaultLibrary = nil;
 
 #pragma mark UIImageWriteToSavedPhotosAlbum
 
-- (void)saveImage:(UIImage *)image toPhotoAlbum:(void (^)(NSError *error))completion {
+- (void)saveImage:(UIImage *)image toSavedPhotoAlbum:(void (^)(NSError *error))completion {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         if (@available(iOS 9.0, *)) {
             [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
@@ -273,7 +273,7 @@ static ZXPhotoLibrary *_defaultLibrary = nil;
 
 #pragma mark UISaveVideoAtPathToSavedPhotosAlbum
 
-- (void)saveVideo:(NSURL *)fileURL toPhotoAlbum:(void (^)(NSError *error))completion {
+- (void)saveVideo:(NSURL *)fileURL toSavedPhotoAlbum:(void (^)(NSError *error))completion {
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         if (@available(iOS 9.0, *)) {
             [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
