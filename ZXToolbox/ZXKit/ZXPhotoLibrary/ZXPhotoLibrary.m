@@ -94,7 +94,7 @@ static ZXPhotoLibrary *_defaultLibrary = nil;
 
 #pragma mark Funcitons
 
-- (void)requestAuthorization:(void(^)(ZXAuthorizationStatus status))completion {
+- (void)requestAuthorization:(void(^)(AVAuthorizationStatus status))completion {
     if (@available(iOS 8.0, *)) {
         PHAuthorizationStatus status = [PHPhotoLibrary authorizationStatus];
         switch (status)
@@ -110,9 +110,6 @@ static ZXPhotoLibrary *_defaultLibrary = nil;
                 }];
                 break;
             }
-            case PHAuthorizationStatusRestricted:
-            case PHAuthorizationStatusDenied:
-            case PHAuthorizationStatusAuthorized:
             default:
             {
                 if (completion) {
@@ -246,84 +243,58 @@ static ZXPhotoLibrary *_defaultLibrary = nil;
 
 #pragma mark UIImageWriteToSavedPhotosAlbum
 
-typedef void (^_saveImageBlock)(NSError *error);
-
 - (void)saveImage:(UIImage *)image toPhotoAlbum:(void (^)(NSError *error))completion {
-    //
-    static dispatch_queue_t saveQueue;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        saveQueue = dispatch_queue_create("photo.library.save.queue", NULL);
-    });
-    //
-    if (@available(iOS 9.0, *)) {
-        void (^completionHandler)(NSError *error) = ^(NSError *error) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                if (completion) {
-                    completion(error);
-                }
-            });
-        };
-        //
-        dispatch_async(saveQueue, ^{
-            __block PHAssetCollection *assetCollection = nil;
-            // 获得相簿
-            NSString *title = [NSBundle mainBundle].infoDictionary[@"CFBundleDisplayName"];
-            PHFetchResult<PHAssetCollection *> *result = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
-            [result enumerateObjectsUsingBlock:^(PHAssetCollection * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-                if ([obj.localizedTitle isEqualToString:title]) {
-                    assetCollection = obj;
-                    *stop = YES;
-                }
-            }];
-            // 创建相簿
-            NSError *error = nil;
-            if (assetCollection == nil) {
-                __block NSString *identifier = nil;
-                //
-                [[PHPhotoLibrary sharedPhotoLibrary] performChangesAndWait:^{
-                    identifier = [PHAssetCollectionChangeRequest creationRequestForAssetCollectionWithTitle:title].placeholderForCreatedAssetCollection.localIdentifier;
-                } error:&error];
-                //
-                if (error == nil) {
-                    PHFetchResult<PHAssetCollection *> *result = [PHAssetCollection fetchAssetCollectionsWithLocalIdentifiers:@[identifier] options:nil];
-                    assetCollection = result.firstObject;
-                }
-            }
-            // 保存图片
-            if (assetCollection) {
-                __block  NSString *identifier;
-                [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-                    identifier = [PHAssetCreationRequest creationRequestForAssetFromImage:image].placeholderForCreatedAsset.localIdentifier;
-                } completionHandler:^(BOOL success, NSError * _Nullable error) {
-                    if (success) {
-                        [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
-                            PHAsset *asset = [PHAsset fetchAssetsWithLocalIdentifiers:@[identifier] options:nil].lastObject;
-                            PHAssetCollectionChangeRequest *request = [PHAssetCollectionChangeRequest changeRequestForAssetCollection:assetCollection];
-                            [request addAssets:@[asset]];
-                        } completionHandler:^(BOOL success, NSError * _Nullable error) {
-                            completionHandler(success ? nil : error);
-                        }];
-                    } else {
-                        completionHandler(error);
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        if (@available(iOS 9.0, *)) {
+            [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+                [PHAssetCreationRequest creationRequestForAssetFromImage:image];
+            } completionHandler:^(BOOL success, NSError * _Nullable error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (completion) {
+                        completion(error);
                     }
-                }];
-            } else {
-                completionHandler(error);
-            };
-        });
-        
-    } else {
-        __weak typeof(self) weakSelf = self;
-        dispatch_async(saveQueue, ^{
-            UIImageWriteToSavedPhotosAlbum(image, weakSelf, @selector(image:didFinishSavingWithError:contextInfo:), (__bridge void *)completion);
-        });
-    }
+                });
+            }];
+        } else {
+            UIImageWriteToSavedPhotosAlbum(image, self, @selector(image:didFinishSavingWithError:contextInfo:), (__bridge void *)completion);
+        }
+    });
 }
 
 - (void)image:(UIImage *)image didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
     dispatch_async(dispatch_get_main_queue(), ^{
-        _saveImageBlock completion = (__bridge _saveImageBlock)contextInfo;
+        typedef void (^block)(NSError *error);
+        block completion = (__bridge block)contextInfo;
+        if (completion) {
+            completion(error);
+        }
+    });
+}
+
+#pragma mark UISaveVideoAtPathToSavedPhotosAlbum
+
+- (void)saveVideo:(NSURL *)fileURL toPhotoAlbum:(void (^)(NSError *error))completion {
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        if (@available(iOS 9.0, *)) {
+            [[PHPhotoLibrary sharedPhotoLibrary] performChanges:^{
+                [PHAssetCreationRequest creationRequestForAssetFromVideoAtFileURL:fileURL];
+            } completionHandler:^(BOOL success, NSError * _Nullable error) {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    if (completion) {
+                        completion(error);
+                    }
+                });
+            }];
+        } else {
+            UISaveVideoAtPathToSavedPhotosAlbum(fileURL.path, self, @selector(video:didFinishSavingWithError:contextInfo:), (__bridge void *)completion);
+        }
+    });
+}
+
+- (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo:(void *)contextInfo {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        typedef void (^block)(NSError *error);
+        block completion = (__bridge block)contextInfo;
         if (completion) {
             completion(error);
         }

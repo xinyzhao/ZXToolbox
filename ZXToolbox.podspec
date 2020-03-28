@@ -272,7 +272,7 @@ Pod::Spec.new do |s|
   s.subspec "ZXPhotoLibrary" do |ss|
     ss.source_files = "ZXToolbox/ZXKit/ZXPhotoLibrary/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXPhotoLibrary/*.h"
-    ss.frameworks = "AssetsLibrary", "CoreGraphics", "ImageIO"
+    ss.frameworks = "AssetsLibrary", "AVFoundation", "CoreGraphics", "ImageIO"
     ss.weak_framework = "Photos"
   end
 

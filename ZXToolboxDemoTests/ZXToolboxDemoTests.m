@@ -263,4 +263,23 @@
     
 }
 
+- (void)testZXPhotoLibrary {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testZXPhotoLibrary"];
+    [[ZXPhotoLibrary defaultLibrary] requestAuthorization:^(AVAuthorizationStatus status) {
+        if (status == AVAuthorizationStatusAuthorized) {
+            UIImage *image = [UIImage imageWithColor:[UIColor randomColor] size:[UIScreen mainScreen].bounds.size];
+            [[ZXPhotoLibrary defaultLibrary] saveImage:image toPhotoAlbum:^(NSError *error) {
+                NSLogA(@"%@", error ? error.localizedDescription : @"success");
+                [expectation fulfill];
+            }];
+        } else {
+            NSLogA(@"没有权限");
+            [expectation fulfill];
+        }
+    }];
+    [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
+        NSLogA(@"Timeout");
+    }];
+}
+
 @end

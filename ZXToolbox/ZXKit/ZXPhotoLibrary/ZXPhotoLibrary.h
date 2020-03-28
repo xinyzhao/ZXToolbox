@@ -24,6 +24,7 @@
 //
 
 #import <AssetsLibrary/AssetsLibrary.h>
+#import <AVFoundation/AVFoundation.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import <ImageIO/ImageIO.h>
 #import <Photos/Photos.h>
@@ -31,18 +32,6 @@
 
 @class ZXPhotoGroup;
 @class ZXPhotoAsset;
-
-/**
- ZXAuthorizationStatus
- */
-typedef NS_ENUM(NSInteger, ZXAuthorizationStatus) {
-    ZXAuthorizationStatusNotDetermined = 0, // User has not yet made a choice with regards to this application
-    ZXAuthorizationStatusRestricted,        // This application is not authorized to access photo data.
-                                            // The user cannot change this application’s status, possibly due to active restrictions
-                                            //   such as parental controls being in place.
-    ZXAuthorizationStatusDenied,            // User has explicitly denied this application access to photos data.
-    ZXAuthorizationStatusAuthorized         // User has authorized this application to access photos data.
-} NS_AVAILABLE_IOS(7_0);
 
 /**
  ZXAssetMediaType
@@ -83,7 +72,7 @@ typedef NS_ENUM(NSInteger, ZXAssetMediaType) {
 
  @param completion response block
  */
-- (void)requestAuthorization:(void(^)(ZXAuthorizationStatus status))completion;
+- (void)requestAuthorization:(void(^)(AVAuthorizationStatus status))completion;
 
 /**
  Get photo groups
@@ -108,6 +97,11 @@ typedef NS_ENUM(NSInteger, ZXAssetMediaType) {
  @param completion result block
  */
 - (void)saveImage:(UIImage *)image toPhotoAlbum:(void(^)(NSError *error))completion;
+
+/// Save video to photo album
+/// @param fileURL the video file at the specified URL.
+/// @param completion result block
+- (void)saveVideo:(NSURL *)fileURL toPhotoAlbum:(void(^)(NSError *error))completion;
 
 /**
  Register change observer, use unregisterChangeObserver: to unregister
