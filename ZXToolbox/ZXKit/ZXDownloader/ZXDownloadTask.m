@@ -255,6 +255,9 @@
     float progress = 0.f;
     if (_totalBytesExpectedToWrite > 0) {
         progress = (float)_totalBytesWritten / _totalBytesExpectedToWrite;
+        if (progress > 1.0) {
+            progress = 1.0;
+        }
     }
     //
     __weak typeof(self) weakSelf = self;

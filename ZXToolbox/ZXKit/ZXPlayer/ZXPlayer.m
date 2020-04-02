@@ -84,29 +84,32 @@
 - (void)reload {
     [self unload];
     //
-    if (_URL) {
-        AVURLAsset *asset = [AVURLAsset URLAssetWithURL:_URL options:nil];
-        if (asset) {
-            _playerItem = [AVPlayerItem playerItemWithAsset:asset];
+    dispatch_async(dispatch_get_global_queue(0, 0), ^{
+        if (self.URL) {
+            AVURLAsset *asset = [AVURLAsset URLAssetWithURL:self.URL options:nil];
+            if (asset) {
+                self.playerItem = [AVPlayerItem playerItemWithAsset:asset];
+            }
         }
-    }
-    if (_playerItem) {
-        [self addItemObserver];
-        //
-        [_playerItem addOutput:self.videoOutput];
-        //
-        _player = [AVPlayer playerWithPlayerItem:_playerItem];
-    }
-    if (_player) {
-        if (@available(iOS 10.0, *)) {
-            _player.automaticallyWaitsToMinimizeStalling = NO;
+        if (self.playerItem) {
+            [self.playerItem addOutput:self.videoOutput];
+            //
+            self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
         }
-        _player.muted = _muted;
-        _player.volume = _volume;
-        [self addPlayerObserver];
-    }
-    //
-    [self attachLayer];
+        if (self.player) {
+            if (@available(iOS 10.0, *)) {
+                self.player.automaticallyWaitsToMinimizeStalling = NO;
+            }
+            self.player.muted = self.muted;
+            self.player.volume = self.volume;
+        }
+        //
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self addItemObserver];
+            [self addPlayerObserver];
+            [self attachLayer];
+        });
+    });
 }
 
 - (void)unload {
