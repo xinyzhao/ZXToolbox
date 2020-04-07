@@ -210,12 +210,11 @@
         // Queue on which to invoke the callback
         dispatch_queue_t mainQueue = dispatch_get_main_queue();
         // Add time observer
-        NSTimeInterval duration = [self duration];
         __weak typeof(self) weakSelf = self;
         _periodicTimeObserver = [_player addPeriodicTimeObserverForInterval:interval queue:mainQueue usingBlock:^(CMTime time) {
             if (weakSelf.status == ZXPlaybackStatusPlaying) {
                 if (weakSelf.playbackTime) {
-                    weakSelf.playbackTime(CMTimeGetSeconds(time), duration);
+                    weakSelf.playbackTime(CMTimeGetSeconds(time), weakSelf.duration);
                 }
             }
         }];
@@ -465,8 +464,10 @@
     NSTimeInterval duration = 0.f;
     if (_playerItem.status == AVPlayerItemStatusReadyToPlay) {
         duration = CMTimeGetSeconds(_playerItem.duration);
-    } else if (self.URL) {
-        AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:self.URL options:nil];
+    } else if (_playerItem.asset) {
+        duration = CMTimeGetSeconds(_playerItem.asset.duration);
+    } else if (_URL) {
+        AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:_URL options:nil];
         duration = CMTimeGetSeconds(asset.duration);
     }
     return duration;
@@ -477,7 +478,7 @@
         self.status = ZXPlaybackStatusSeeking;
         [_player pause];
         //
-        NSTimeInterval duration = [self duration];
+        NSTimeInterval duration = self.duration;
         if (time > duration) {
             time = duration;
         }
@@ -562,7 +563,7 @@
     } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
         CMTimeRange timeRange = [_playerItem.loadedTimeRanges.firstObject CMTimeRangeValue];
         NSTimeInterval loaded = CMTimeGetSeconds(timeRange.start) + CMTimeGetSeconds(timeRange.duration);
-        NSTimeInterval duration = [self duration];
+        NSTimeInterval duration = self.duration;
         if (_loadedTime) {
             _loadedTime(loaded, duration);
         }
@@ -629,13 +630,12 @@
             CGPoint point = [pan translationInView:pan.view];
             if (isSeeking) {
                 if (_seekingFactor > 0.00) {
-                    NSTimeInterval duration = [self duration];
-                    NSTimeInterval time = seekTime + (point.x / (pan.view.frame.size.width * _seekingFactor)) * duration;
+                    NSTimeInterval time = seekTime + (point.x / (pan.view.frame.size.width * _seekingFactor)) * self.duration;
                     if (time < 0) {
                         time = 0;
                     }
-                    if (time > duration) {
-                        time = duration;
+                    if (time > self.duration) {
+                        time = self.duration;
                     }
                     [self seekToTime:time playAfter:pan.state == UIGestureRecognizerStateEnded];
                 }
