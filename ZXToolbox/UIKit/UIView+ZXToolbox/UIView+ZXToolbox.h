@@ -29,8 +29,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIView (ZXToolbox)
 
-// Same as intrinsicContentSize, default is UILayoutFittingCompressedSize
-@property (nonatomic, assign) IBInspectable CGSize internalContentSize;
+/// Same as intrinsicContentSize, default is UILayoutFittingCompressedSize
+/// Deprecated, may cause slow down system performance
+//@property (nonatomic, assign) IBInspectable CGSize inherentContentSize;
 
 /**
  Capture the view snapshot image
