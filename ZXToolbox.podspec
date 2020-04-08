@@ -145,7 +145,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "UIView+ZXToolbox" do |ss|
-    ss.dependency "ZXToolbox/NSObject+ZXToolbox"
+    #ss.dependency "ZXToolbox/NSObject+ZXToolbox"
     ss.source_files = "ZXToolbox/UIKit/UIView+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/UIKit/UIView+ZXToolbox/*.h"
   end
