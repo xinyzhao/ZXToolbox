@@ -210,11 +210,12 @@
         // Queue on which to invoke the callback
         dispatch_queue_t mainQueue = dispatch_get_main_queue();
         // Add time observer
+        NSTimeInterval duration = [self duration];
         __weak typeof(self) weakSelf = self;
         _periodicTimeObserver = [_player addPeriodicTimeObserverForInterval:interval queue:mainQueue usingBlock:^(CMTime time) {
             if (weakSelf.status == ZXPlaybackStatusPlaying) {
                 if (weakSelf.playbackTime) {
-                    weakSelf.playbackTime(CMTimeGetSeconds(time), weakSelf.duration);
+                    weakSelf.playbackTime(CMTimeGetSeconds(time), duration);
                 }
             }
         }];
@@ -478,7 +479,7 @@
         self.status = ZXPlaybackStatusSeeking;
         [_player pause];
         //
-        NSTimeInterval duration = self.duration;
+        NSTimeInterval duration = [self duration];
         if (time > duration) {
             time = duration;
         }
@@ -563,7 +564,7 @@
     } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
         CMTimeRange timeRange = [_playerItem.loadedTimeRanges.firstObject CMTimeRangeValue];
         NSTimeInterval loaded = CMTimeGetSeconds(timeRange.start) + CMTimeGetSeconds(timeRange.duration);
-        NSTimeInterval duration = self.duration;
+        NSTimeInterval duration = [self duration];
         if (_loadedTime) {
             _loadedTime(loaded, duration);
         }
@@ -630,12 +631,13 @@
             CGPoint point = [pan translationInView:pan.view];
             if (isSeeking) {
                 if (_seekingFactor > 0.00) {
-                    NSTimeInterval time = seekTime + (point.x / (pan.view.frame.size.width * _seekingFactor)) * self.duration;
+                    NSTimeInterval duration = [self duration];
+                    NSTimeInterval time = seekTime + (point.x / (pan.view.frame.size.width * _seekingFactor)) * duration;
                     if (time < 0) {
                         time = 0;
                     }
-                    if (time > self.duration) {
-                        time = self.duration;
+                    if (time > duration) {
+                        time = duration;
                     }
                     [self seekToTime:time playAfter:pan.state == UIGestureRecognizerStateEnded];
                 }
