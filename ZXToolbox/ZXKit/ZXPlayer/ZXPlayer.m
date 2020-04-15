@@ -497,6 +497,29 @@
     }
 }
 
+- (void)seekToTime:(NSTimeInterval)time tolerance:(CMTime)tolerance playAfter:(BOOL)playAfter {
+    if (self.isReadToPlay) {
+        self.status = ZXPlaybackStatusSeeking;
+        [_player pause];
+        //
+        NSTimeInterval duration = [self duration];
+        if (time > duration) {
+            time = duration;
+        }
+        CMTime toTime = CMTimeMakeWithSeconds(floor(time), NSEC_PER_SEC);
+        //
+        __weak typeof(self) weakSelf = self;
+        [_playerItem seekToTime:toTime toleranceBefore:tolerance toleranceAfter:tolerance completionHandler:^(BOOL finished) {
+            if (weakSelf.playbackTime) {
+                weakSelf.playbackTime(time, duration);
+            }
+            if (finished && playAfter) {
+                [weakSelf play];
+            }
+        }];
+    }
+}
+
 #pragma mark Image
 
 - (UIImage *)previewImage {

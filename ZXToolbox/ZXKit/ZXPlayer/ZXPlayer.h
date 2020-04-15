@@ -81,9 +81,16 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 - (void)stop;
 
 /// Moves the playback cursor and play when the seek operation has completed.
-/// @param time The seek time
+/// @param time The time to which to seek.
 /// @param playAfter Play when seek completed
 - (void)seekToTime:(NSTimeInterval)time playAfter:(BOOL)playAfter;
+
+/// Sets the current playback time within a specified time bound and invokes the specified block when the seek operation completes or is interrupted.
+/// @param time The time to which to seek.
+/// @param tolerance The temporal tolerance time.
+/// Pass kCMTimeZero to request sample accurate seeking (this may incur additional decoding delay).
+/// @param playAfter Play when seek completed
+- (void)seekToTime:(NSTimeInterval)time tolerance:(CMTime)tolerance playAfter:(BOOL)playAfter;
 
 /// Preview image for video
 @property (nonatomic, readonly) UIImage *previewImage;
