@@ -73,5 +73,35 @@
     return udid;
 }
 
+- (int64_t)fileSystemSize {
+    NSError *error = nil;
+    NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfFileSystemForPath:NSHomeDirectory() error:&error];
+    if (error == nil) {
+        int64_t size =  [[attributes objectForKey:NSFileSystemSize] longLongValue];
+        if (size < 0) {
+            size = 0;
+        }
+        return size;
+    }
+    return 0;
+}
+
+- (int64_t)fileSystemFreeSize {
+    NSError *error = nil;
+    NSDictionary *attributes = [[NSFileManager defaultManager] attributesOfFileSystemForPath:NSHomeDirectory() error:&error];
+    if (error == nil) {
+        int64_t size =  [[attributes objectForKey:NSFileSystemFreeSize] longLongValue];
+        if (size < 0) {
+            size = 0;
+        }
+        return size;
+    }
+    return 0;
+}
+
+- (int64_t)fileSystemUsedSize {
+    return self.fileSystemSize - self.fileSystemFreeSize;
+}
+
 @end
 

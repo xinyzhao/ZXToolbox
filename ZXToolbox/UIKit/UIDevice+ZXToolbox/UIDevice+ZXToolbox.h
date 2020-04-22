@@ -38,6 +38,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// The Unique Device Identifier with UUIDString store in Keychain
 @property (nonatomic, readonly) NSString *UDIDString;
 
+/// The size of the file system in bytes.
+@property (nonatomic, readonly) int64_t fileSystemSize;
+
+/// The amount of free space on the file system in bytes.
+@property (nonatomic, readonly) int64_t fileSystemFreeSize;
+
+/// The amount of used space on the file system in bytes.
+@property (nonatomic, readonly) int64_t fileSystemUsedSize;
+
 @end
 
 NS_ASSUME_NONNULL_END
