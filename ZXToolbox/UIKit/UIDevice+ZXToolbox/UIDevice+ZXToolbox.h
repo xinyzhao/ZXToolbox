@@ -24,6 +24,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <mach/machine.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -46,6 +47,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// The amount of used space on the file system in bytes.
 @property (nonatomic, readonly) int64_t fileSystemUsedSize;
+
+/// The CPU bits, the value is 32/64 etc.
+@property (nonatomic, readonly) int cpuBits;
+
+/// The CPU type, the value is CPU_TYPE_ARM / CPU_TYPE_ARM64 etc.
+@property (nonatomic, readonly) int cpuType;
 
 @end
 

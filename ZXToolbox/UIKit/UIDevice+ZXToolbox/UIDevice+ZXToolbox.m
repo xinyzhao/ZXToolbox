@@ -28,6 +28,8 @@
 #import "ZXKeychain.h"
 #import "ZXToolbox+Macros.h"
 #import <sys/utsname.h>
+#import <sys/types.h>
+#import <sys/sysctl.h>
 
 @implementation UIDevice (ZXToolbox)
 
@@ -101,6 +103,17 @@
 
 - (int64_t)fileSystemUsedSize {
     return self.fileSystemSize - self.fileSystemFreeSize;
+}
+
+- (int)cpuBits {
+    return sizeof(void *) * 8;
+}
+
+- (int)cpuType {
+    cpu_type_t type;
+    size_t size = sizeof(type);
+    sysctlbyname("hw.cputype", &type, &size, NULL, 0);
+    return type;
 }
 
 @end

@@ -126,6 +126,8 @@
 }
 
 - (void)testUIDevice {
+    NSLogA(@"#CPU Bits: %d", [UIDevice currentDevice].cpuBits);
+    NSLogA(@"#CPU Type: %d", [UIDevice currentDevice].cpuType);
     NSLogA(@"#Model Type: %@", [UIDevice currentDevice].modelType);
     NSLogA(@"#Model Name: %@", [UIDevice currentDevice].modelName);
     NSLogA(@"#UIIDString: %@", [UIDevice currentDevice].UDIDString);
