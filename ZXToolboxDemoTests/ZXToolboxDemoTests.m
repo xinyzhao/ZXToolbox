@@ -227,7 +227,7 @@
     NSString *text = [NSUUID UUID].UUIDString;
     ZXKeychain *keychain = [[ZXKeychain alloc] init];
     // add
-    if ([keychain setText:text forKey:key]) {
+    if ([keychain setString:text forKey:key]) {
         NSLogA(@"#add success: %@", text);
     } else {
         NSLogA(@"#add error: %@", keychain.lastError);
@@ -240,7 +240,7 @@
         NSLogA(@"#all keys error: %@", keychain.lastError);
     }
     // search
-    text = [keychain textForKey:key];
+    text = [keychain stringForKey:key];
     if (text) {
         NSLogA(@"#search result: %@", text);
     } else {

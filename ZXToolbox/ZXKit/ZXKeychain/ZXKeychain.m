@@ -105,16 +105,16 @@
     return data;
 }
 
-- (BOOL)setText:(NSString *)value forKey:(NSString *)key withAccessible:(ZXKeychainItemAttrAccessible)accessible {
+- (BOOL)setString:(NSString *)value forKey:(NSString *)key withAccessible:(ZXKeychainItemAttrAccessible)accessible {
     NSData *data = [value dataUsingEncoding:NSUTF8StringEncoding];
     return [self setData:data forKey:key withAccessible:accessible];
 }
 
-- (BOOL)setText:(NSString *)value forKey:(NSString *)key {
-    return [self setText:value forKey:key withAccessible:ZXKeychainItemAttrAccessibleWhenUnlocked];
+- (BOOL)setString:(NSString *)value forKey:(NSString *)key {
+    return [self setString:value forKey:key withAccessible:ZXKeychainItemAttrAccessibleWhenUnlocked];
 }
 
-- (NSString *)textForKey:(NSString *)key {
+- (NSString *)stringForKey:(NSString *)key {
     NSData *data = [self dataForKey:key];
     if (data) {
         return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];

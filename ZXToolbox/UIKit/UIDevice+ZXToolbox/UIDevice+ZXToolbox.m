@@ -67,10 +67,10 @@
 
 - (NSString *)UDIDString {
     NSString *key = @"ZXToolboxUniqueDeviceIdentifierKey";
-    NSString *udid = [[ZXKeychain defaultKeychain] textForKey:key];
+    NSString *udid = [[ZXKeychain defaultKeychain] stringForKey:key];
     if (udid == nil) {
         udid = [[[NSUUID UUID].UUIDString SHA1String] lowercaseString];
-        [[ZXKeychain defaultKeychain] setText:udid forKey:key];
+        [[ZXKeychain defaultKeychain] setString:udid forKey:key];
     }
     return udid;
 }

@@ -79,18 +79,18 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param key Key under which the value is stored in the keychain.
 /// @param accessible Indicates when a keychain item is accessible.
 /// @return True if the value was successfully written to the keychain, otherwise, lastError is not nil.
-- (BOOL)setText:(NSString *_Nullable)value forKey:(NSString *)key withAccessible:(ZXKeychainItemAttrAccessible)accessible;
+- (BOOL)setString:(NSString *_Nullable)value forKey:(NSString *)key withAccessible:(ZXKeychainItemAttrAccessible)accessible;
 
 /// Stores the text string in the keychain item under the given key. Accessible is ZXKeychainItemAttrAccessibleWhenUnlocked.
 /// @param value Text string to be written to the keychain.
 /// @param key Key under which the value is stored in the keychain.
 /// @return True if the value was successfully written to the keychain, otherwise, lastError is not empty.
-- (BOOL)setText:(NSString *_Nullable)value forKey:(NSString *)key;
+- (BOOL)setString:(NSString *_Nullable)value forKey:(NSString *)key;
 
 /// Retrieves the text string from the keychain that corresponds to the given key.
 /// @param key The key that is used to read the keychain item.
 /// @return The string value from the keychain. Returns nil if maybe to read the item, and lastError is not nil.
-- (nullable NSString *)textForKey:(NSString *)key;
+- (nullable NSString *)stringForKey:(NSString *)key;
 
 /// Return all keys from keychain.
 /// @return The all item keys from the keychain. Returns nil if unable to read the item, and lastError is not nil.
