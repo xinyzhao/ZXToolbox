@@ -471,6 +471,10 @@
         AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:_URL options:nil];
         duration = CMTimeGetSeconds(asset.duration);
     }
+    // Strange occurred in some iOS version
+    if (isnan(duration)) {
+        duration = 0.f;
+    }
     return duration;
 }
 
