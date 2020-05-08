@@ -472,7 +472,7 @@
         duration = CMTimeGetSeconds(asset.duration);
     }
     // Strange occurred in some iOS version
-    if (isnan(duration)) {
+    if (isnan(duration) || isinf(duration)) {
         duration = 0.f;
     }
     return duration;

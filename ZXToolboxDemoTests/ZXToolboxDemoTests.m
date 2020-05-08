@@ -261,7 +261,7 @@
 }
 
 - (void)testZXLocalAuthentication {
-    
+
 }
 
 - (void)testZXLocationManager {
@@ -285,6 +285,33 @@
     [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
         NSLogA(@"Timeout");
     }];
+}
+
+- (void)testNaN {
+    NSLog(@"0.0 / 0.0 =%f", 0.0/0.0);
+    NSLog(@"1.0 / 0.0 =%f", 1.0/0.0);
+    NSLog(@"0.0 / 1.0 =%f", 0.0/1.0);
+    NSLog(@"log(0.0)  =%f", log(0.0));
+
+    NSLog(@"isfinite:\t0.0 / 0.0 = %d", isfinite(0.0/0.0));
+    NSLog(@"isfinite:\t1.0 / 0.0 = %d", isfinite(1.0/0.0));
+    NSLog(@"isfinite:\t0.0 / 1.0 = %d", isfinite(0.0/1.0));
+    NSLog(@"isfinite:\tlog(0.0)  = %d", isfinite(log(0.0)));
+ 
+    NSLog(@"isnormal:\t0.0 / 0.0 = %d", isnormal(0.0/0.0));
+    NSLog(@"isnormal:\t1.0 / 0.0 = %d", isnormal(1.0/0.0));
+    NSLog(@"isnormal:\t0.0 / 1.0 = %d", isnormal(0.0/1.0));
+    NSLog(@"isnormal:\tlog(0.0)  = %d", isnormal(log(0.0)));
+ 
+    NSLog(@"isnan:\t\t0.0 / 0.0 = %d", isnan(0.0/0.0));
+    NSLog(@"isnan:\t\t1.0 / 0.0 = %d", isnan(1.0/0.0));
+    NSLog(@"isnan:\t\t0.0 / 1.0 = %d", isnan(0.0/1.0));
+    NSLog(@"isnan:\t\tlog(0.0)  = %d", isnan(log(0.0))) ;
+
+    NSLog(@"isinf:\t\t0.0 / 0.0 = %d", isinf(0.0/0.0));
+    NSLog(@"isinf:\t\t1.0 / 0.0 = %d", isinf(1.0/0.0));
+    NSLog(@"isinf:\t\t0.0 / 1.0 = %d", isinf(0.0/1.0));
+    NSLog(@"isinf:\t\tlog(0.0)  = %d", isinf(log(0.0)));
 }
 
 @end
