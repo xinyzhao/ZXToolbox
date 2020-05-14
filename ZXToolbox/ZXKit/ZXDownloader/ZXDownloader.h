@@ -33,9 +33,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// The default instance of ZXDownloader
 + (instancetype)defaultDownloader;
 
-/// The background instacnce of ZXDownloader
-+ (instancetype)backgroundDownloader;
-
 /// Destination directory of download
 @property (nonatomic, copy) NSString *downloadPath;
 
@@ -51,11 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// The credential that should be used for authentication.
 @property (nonatomic, strong, nullable) NSURLCredential * credential;
 
-/// If have download tasks in background, please set this block in
-/// [UIApplicationDelegate.application:handleEventsForBackgroundURLSession:completionHandler:]
-@property (nonatomic, copy) void (^backgroundCompletionHandler)(void);
-
-/// Get download task for URL
+/// Got download task for URL
 /// @param URL The URL
 - (nullable ZXDownloadTask *)downloadTaskForURL:(NSURL *)URL;
 

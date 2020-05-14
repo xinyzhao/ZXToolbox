@@ -28,10 +28,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 /// ZXDownloadTask
-@interface ZXDownloadTask : NSObject <NSURLSessionDataDelegate, NSURLSessionDownloadDelegate>
+@interface ZXDownloadTask : NSObject <NSURLSessionDataDelegate>
 
-/// The download task, it will be a NSURLSessionDataTask or NSURLSessionDownloadTask instance
-@property (nonatomic, strong) NSURLSessionTask *task;
+/// The unique identifier for task
+@property (nonatomic, readonly) NSURL *URL;
 
 /// The unique identifier for task
 @property (nonatomic, readonly) NSString *taskIdentifier;
@@ -51,7 +51,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// Init
 /// @param URL The download URL
 /// @param path The local path of download
-- (instancetype)initWithURL:(NSURL *)URL path:(NSString *)path;
+/// @param session The URL session
+- (instancetype)initWithURL:(NSURL *)URL path:(NSString *)path session:(NSURLSession *)session;
 
 /// Add observer
 /// @param observer The observer

@@ -26,18 +26,19 @@
 #import "ZXDownloader.h"
 #import <UIKit/UIKit.h>
 
-@interface ZXDownloader () <NSURLSessionDataDelegate, NSURLSessionDownloadDelegate>
+@interface ZXDownloader () <NSURLSessionDataDelegate>
 @property (nonatomic, strong) NSURLSession *session;
-@property (nonatomic, strong) NSMutableDictionary *downloadTasks;
 
+@property (nonatomic, strong) NSMutableDictionary *currentTasks;
 @property (nonatomic, strong) NSMutableArray *runningTasks;
 @property (nonatomic, strong) NSMutableArray *waitingTasks;
 
-/// Whether or not  a background downloader
-@property (nonatomic, assign) BOOL isBackgroundDownloader;
+@property (nonatomic, assign) BOOL isActive;
 
-@property (nonatomic, weak) id didBecomeActiveObserver;
 @property (nonatomic, weak) id willResignActiveObserver;
+@property (nonatomic, weak) id didEnterBackgroundObserver;
+@property (nonatomic, weak) id willEnterForegroundObserver;
+@property (nonatomic, weak) id didBecomeActiveObserver;
 
 @end
 
@@ -54,35 +55,29 @@
     return downloader;
 }
 
-+ (instancetype)backgroundDownloader {
-    static ZXDownloader *downloader = nil;
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        downloader = [[ZXDownloader alloc] init];
-        downloader.isBackgroundDownloader = YES;
-        id identifier = @"com.github.xinyzhao.ZXToolbox.ZXDownloader";
-        NSURLSessionConfiguration *config = [NSURLSessionConfiguration backgroundSessionConfigurationWithIdentifier:identifier];
-        config.discretionary = YES;
-        downloader.session = [NSURLSession sessionWithConfiguration:config delegate:downloader delegateQueue:nil];
-    });
-    return downloader;
-}
-
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _downloadTasks = [[NSMutableDictionary alloc] init];
+        _currentTasks = [[NSMutableDictionary alloc] init];
         _downloadPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:NSStringFromClass([self class])];
         _allowInvalidCertificates = YES;
+        _isActive = YES;
     }
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     if (_willResignActiveObserver) {
         [[NSNotificationCenter defaultCenter] removeObserver:_willResignActiveObserver];
         _willResignActiveObserver = nil;
+    }
+    if (_didEnterBackgroundObserver) {
+        [[NSNotificationCenter defaultCenter] removeObserver:_didEnterBackgroundObserver];
+        _didEnterBackgroundObserver = nil;
+    }
+    if (_willEnterForegroundObserver) {
+        [[NSNotificationCenter defaultCenter] removeObserver:_willEnterForegroundObserver];
+        _willEnterForegroundObserver = nil;
     }
     if (_didBecomeActiveObserver) {
         [[NSNotificationCenter defaultCenter] removeObserver:_didBecomeActiveObserver];
@@ -90,50 +85,74 @@
     }
 }
 
+#pragma mark Session
+
 - (void)setSession:(NSURLSession *)session {
     _session = session;
     //
     __weak typeof(self) weakSelf = self;
-    if (_isBackgroundDownloader) {
-        [_session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
-            for (NSURLSessionDownloadTask *task in downloadTasks) {
-                [weakSelf downloadTaskWithTask:task];
-            }
+    _runningTasks = [[NSMutableArray alloc] init];
+    _waitingTasks = [[NSMutableArray alloc] init];
+    //
+    if (_willResignActiveObserver == nil) {
+        _willResignActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+            [weakSelf enterBackground];
         }];
-    } else {
-        _runningTasks = [[NSMutableArray alloc] init];
-        _waitingTasks = [[NSMutableArray alloc] init];
+    }
+    if (_didEnterBackgroundObserver == nil) {
+        _didEnterBackgroundObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+            [weakSelf enterBackground];
+        }];
+    }
+    //
+    if (_willEnterForegroundObserver == nil) {
+        _willEnterForegroundObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillEnterForegroundNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+            [weakSelf enterForeground];
+        }];
+    }
+    if (_didBecomeActiveObserver == nil) {
+        _didBecomeActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+            [weakSelf enterForeground];
+        }];
+    }
+}
+
+#pragma mark Background && Foreground
+
+- (void)enterBackground {
+    if (_isActive) {
+        _isActive = NO;
         //
-        if (_willResignActiveObserver == nil) {
-            _willResignActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-                for (ZXDownloadTask *task in weakSelf.allTasks) {
-                    if (task.state == NSURLSessionTaskStateRunning) {
-                        [weakSelf.runningTasks addObject:task];
-                    } else {
-                        [weakSelf.waitingTasks addObject:task];
-                    }
-                }
-                [weakSelf cancelAllTasks];
-            }];
+        for (ZXDownloadTask *task in _currentTasks.allValues) {
+            if (task.state == NSURLSessionTaskStateRunning) {
+                [_runningTasks addObject:task];
+            } else {
+                [_waitingTasks addObject:task];
+            }
         }
         //
-        if (_didBecomeActiveObserver == nil) {
-            _didBecomeActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-                for (ZXDownloadTask *obj in weakSelf.runningTasks) {
-                    ZXDownloadTask *task = [weakSelf downloadTaskWithURL:obj.task.URL];
-                    id observers = [obj valueForKey:@"observers"];
-                    [task setValue:observers forKey:@"observers"];
-                    [task resume];
-                }
-                for (ZXDownloadTask *obj in weakSelf.runningTasks) {
-                    ZXDownloadTask *task = [weakSelf downloadTaskWithURL:obj.task.URL];
-                    id observers = [obj valueForKey:@"observers"];
-                    [task setValue:observers forKey:@"observers"];
-                }
-                [weakSelf.runningTasks removeAllObjects];
-                [weakSelf.waitingTasks removeAllObjects];
-            }];
+        [self cancelAllTasks];
+    }
+}
+
+- (void)enterForeground {
+    if (!_isActive) {
+        _isActive = YES;
+        //
+        for (ZXDownloadTask *obj in _runningTasks) {
+            ZXDownloadTask *task = [self downloadTaskWithURL:obj.URL];
+            id observers = [obj valueForKey:@"observers"];
+            [task setValue:observers forKey:@"observers"];
+            [task resume];
         }
+        [_runningTasks removeAllObjects];
+        //
+        for (ZXDownloadTask *obj in _waitingTasks) {
+            ZXDownloadTask *task = [self downloadTaskWithURL:obj.URL];
+            id observers = [obj valueForKey:@"observers"];
+            [task setValue:observers forKey:@"observers"];
+        }
+        [_waitingTasks removeAllObjects];
     }
 }
 
@@ -145,7 +164,7 @@
 
 - (NSInteger)currentConcurrentDownloadCount {
     NSInteger count = 0;
-    for (ZXDownloadTask *task in self.allTasks) {
+    for (ZXDownloadTask *task in _currentTasks.allValues) {
         if (task.state == NSURLSessionTaskStateRunning) {
             count++;
         }
@@ -158,56 +177,25 @@
 - (void)addTask:(ZXDownloadTask *)task {
     if (task) {
         [self addTaskObserver:task];
-        [_downloadTasks setObject:task forKey:task.taskIdentifier];
+        [_currentTasks setObject:task forKey:task.taskIdentifier];
     }
 }
 
 - (void)removeTask:(ZXDownloadTask *)task {
     if (task) {
         [self removeTaskObserver:task];
-        [_downloadTasks removeObjectForKey:task.taskIdentifier];
+        [_currentTasks removeObjectForKey:task.taskIdentifier];
     }
 }
 
-- (NSArray *)allTasks {
-    return _downloadTasks.allValues;
-}
-
 - (ZXDownloadTask *)downloadTaskForURL:(NSURL *)URL {
-    return [_downloadTasks objectForKey:URL.taskIdentifier];
+    return [_currentTasks objectForKey:URL.taskIdentifier];
 }
 
 - (ZXDownloadTask *)downloadTaskWithURL:(NSURL *)URL {
     ZXDownloadTask *task = [self downloadTaskForURL:URL];
-    if (task == nil) {
-        task = [[ZXDownloadTask alloc] initWithURL:URL path:_downloadPath];
-        if (self == [ZXDownloader backgroundDownloader]) {
-            NSData *data = [NSData dataWithContentsOfFile:task.filePath];
-            if (data) {
-                task.task = [_session downloadTaskWithResumeData:data];
-            }
-            if (task.task == nil) {
-                task.task = [_session downloadTaskWithURL:URL];
-            }
-        } else {
-            // Range
-            // bytes=x-y ==  x byte ~ y byte
-            // bytes=x-  ==  x byte ~ end
-            // bytes=-y  ==  head ~ y byte
-            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-            [request setValue:[NSString stringWithFormat:@"bytes=%lld-", task.totalBytesWritten] forHTTPHeaderField:@"Range"];
-            task.task = [_session dataTaskWithRequest:request];
-        }
-        [self addTask:task];
-    }
-    return task;
-}
-
-- (ZXDownloadTask *)downloadTaskWithTask:(NSURLSessionTask *)obj {
-    ZXDownloadTask *task = [self downloadTaskForURL:obj.URL];
-    if (task == nil) {
-        task = [[ZXDownloadTask alloc] initWithURL:obj.URL path:_downloadPath];
-        task.task = obj;
+    if (task == nil && _isActive) {
+        task = [[ZXDownloadTask alloc] initWithURL:URL path:_downloadPath session:_session];
         [self addTask:task];
     }
     return task;
@@ -220,7 +208,7 @@
 }
 
 - (void)resumeAllTasks {
-    for (ZXDownloadTask *task in self.allTasks) {
+    for (ZXDownloadTask *task in _currentTasks.allValues) {
         [self resumeTask:task];
     }
 }
@@ -232,7 +220,7 @@
 }
 
 - (void)suspendAllTasks {
-    for (ZXDownloadTask *task in [self.downloadTasks allValues]) {
+    for (ZXDownloadTask *task in _currentTasks.allValues) {
         [task suspend];
     }
 }
@@ -244,7 +232,7 @@
 }
 
 - (void)cancelAllTasks {
-    for (ZXDownloadTask *task in [self.downloadTasks allValues]) {
+    for (ZXDownloadTask *task in _currentTasks.allValues) {
         [task cancel];
     }
 }
@@ -263,7 +251,7 @@
         @try {
             [task removeObserver:self forKeyPath:@"state"];
         } @catch (NSException *ex) {
-            NSLog(@"%@", ex.description);
+            //NSLog(@"%@", ex.description);
         }
     }
 }
@@ -288,26 +276,6 @@
     }
 }
     
-#pragma mark <NSURLSessionDelegate>
-
-/* If an application has received an
-* -application:handleEventsForBackgroundURLSession:completionHandler:
-* message, the session delegate will receive this message to indicate
-* that all messages previously enqueued for this session have been
-* delivered.  At this time it is safe to invoke the previously stored
-* completion handler, or to begin any internal updates that will
-* result in invoking the completion handler.
-*/
-- (void)URLSessionDidFinishEventsForBackgroundURLSession:(NSURLSession *)session
-{
-    __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (weakSelf.backgroundCompletionHandler) {
-            weakSelf.backgroundCompletionHandler();
-        }
-    });
-}
-
 #pragma mark <NSURLSessionTaskDelegate>
 
 /* The task has received a request specific authentication challenge.
@@ -352,7 +320,7 @@
     ZXDownloadTask *obj = [self downloadTaskForURL:task.URL];
     if (obj) {
         [obj URLSession:session task:task didCompleteWithError:error];
-        [self.downloadTasks removeObjectForKey:obj.taskIdentifier];
+        [self.currentTasks removeObjectForKey:obj.taskIdentifier];
     }
 }
 
@@ -387,49 +355,6 @@
     ZXDownloadTask *task = [self downloadTaskForURL:dataTask.URL];
     if (task) {
         [task URLSession:session dataTask:dataTask didReceiveData:data];
-    }
-}
-
-#pragma mark <NSURLSessionDownloadDelegate>
-
-/* Sent when a download task that has completed a download.  The delegate should
-* copy or move the file at the given location to a new location as it will be
-* removed when the delegate message returns. URLSession:task:didCompleteWithError: will
-* still be called.
-*/
-- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
-                              didFinishDownloadingToURL:(NSURL *)location
-{
-    ZXDownloadTask *task = [self downloadTaskWithTask:downloadTask];
-    if (task) {
-        [task URLSession:session downloadTask:downloadTask didFinishDownloadingToURL:location];
-    }
-}
-
-/* Sent periodically to notify the delegate of download progress. */
-- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
-                                           didWriteData:(int64_t)bytesWritten
-                                      totalBytesWritten:(int64_t)totalBytesWritten
-                              totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
-{
-    ZXDownloadTask *task = [self downloadTaskWithTask:downloadTask];
-    if (task) {
-        [task URLSession:session downloadTask:downloadTask didWriteData:bytesWritten totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
-    }
-}
-
-/* Sent when a download has been resumed. If a download failed with an
- * error, the -userInfo dictionary of the error will contain an
- * NSURLSessionDownloadTaskResumeData key, whose value is the resume
- * data.
- */
-- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask
-                                      didResumeAtOffset:(int64_t)fileOffset
-                                     expectedTotalBytes:(int64_t)expectedTotalBytes
-{
-    ZXDownloadTask *task = [self downloadTaskWithTask:downloadTask];
-    if (task) {
-        [task URLSession:session downloadTask:downloadTask didResumeAtOffset:fileOffset expectedTotalBytes:expectedTotalBytes];
     }
 }
 
