@@ -54,7 +54,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Create or got exist download task with URL
 /// @param URL The URL
-- (ZXDownloadTask *)downloadTaskWithURL:(NSURL *)URL;
+- (nullable ZXDownloadTask *)downloadTaskWithURL:(NSURL *)URL;
 
 /// Suspend the task
 /// @param task task The task
