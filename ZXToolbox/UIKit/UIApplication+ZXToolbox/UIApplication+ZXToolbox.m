@@ -26,7 +26,16 @@
 #import "UIApplication+ZXToolbox.h"
 #import <objc/runtime.h>
 
-@implementation UIApplication (BadgeNumber)
+@interface UIApplication ()
+@property (nonatomic, assign) NSNumber *idleTimerDisabledSaved;
+@property (nonatomic, strong) id willResignActiveObserver;
+@property (nonatomic, strong) id didEnterBackgroundObserver;
+@property (nonatomic, strong) id willEnterForegroundObserver;
+@property (nonatomic, strong) id didBecomeActiveObserver;
+
+@end
+
+@implementation UIApplication (ZXToolbox)
 
 - (BOOL)openSettingsURL {
     NSURL *url = nil;
@@ -74,55 +83,98 @@
 
 #pragma mark IdleTimer
 
-- (void)setIdleTimerDisabledState:(BOOL)idleTimerDisabledState {
-    objc_setAssociatedObject(self, @selector(idleTimerDisabledState), @(idleTimerDisabledState), OBJC_ASSOCIATION_ASSIGN);
+- (NSNumber *)idleTimerDisabledSaved {
+    return objc_getAssociatedObject(self, @selector(idleTimerDisabledSaved));
 }
 
-- (BOOL)idleTimerDisabledState {
-    NSNumber *number = objc_getAssociatedObject(self, @selector(idleTimerDisabledState));
-    return [number boolValue];
-}
-
-- (void)setDidBecomeActiveObserver:(id)didBecomeActiveObserver {
-    objc_setAssociatedObject(self, @selector(didBecomeActiveObserver), didBecomeActiveObserver, OBJC_ASSOCIATION_ASSIGN);
-}
-
-- (id)didBecomeActiveObserver {
-    return objc_getAssociatedObject(self, @selector(didBecomeActiveObserver));
-}
-
-- (void)setWillResignActiveObserver:(id)willResignActiveObserver {
-    objc_setAssociatedObject(self, @selector(willResignActiveObserver), willResignActiveObserver, OBJC_ASSOCIATION_ASSIGN);
+- (void)setIdleTimerDisabledSaved:(NSNumber *)idleTimerDisabledSaved {
+    objc_setAssociatedObject(self, @selector(idleTimerDisabledSaved), idleTimerDisabledSaved, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (id)willResignActiveObserver {
     return objc_getAssociatedObject(self, @selector(willResignActiveObserver));
 }
 
-- (void)setIdleTimerEnabled:(BOOL)idleTimerEnabled {
-    objc_setAssociatedObject(self, @selector(idleTimerEnabled), @(idleTimerEnabled), OBJC_ASSOCIATION_ASSIGN);
-    //
-    __weak typeof(self) weakSelf = self;
-    if (self.didBecomeActiveObserver == nil) {
-        self.didBecomeActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-            weakSelf.idleTimerDisabledState = weakSelf.idleTimerDisabled;
-            if (weakSelf.idleTimerDisabled == weakSelf.idleTimerEnabled) {
-                weakSelf.idleTimerDisabled = !weakSelf.idleTimerEnabled;
-            }
-        }];
-    }
-    if (self.willResignActiveObserver == nil) {
-        self.willResignActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-            if (weakSelf.idleTimerDisabled != weakSelf.idleTimerDisabledState) {
-                weakSelf.idleTimerDisabled = weakSelf.idleTimerDisabledState;
-            }
-        }];
-    }
+- (void)setWillResignActiveObserver:(id)willResignActiveObserver {
+    objc_setAssociatedObject(self, @selector(willResignActiveObserver), willResignActiveObserver, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (id)didEnterBackgroundObserver {
+    return objc_getAssociatedObject(self, @selector(didEnterBackgroundObserver));
+}
+
+- (void)setDidEnterBackgroundObserver:(id)didEnterBackgroundObserver {
+    objc_setAssociatedObject(self, @selector(didEnterBackgroundObserver), didEnterBackgroundObserver, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (id)willEnterForegroundObserver {
+    return objc_getAssociatedObject(self, @selector(willEnterForegroundObserver));
+}
+
+- (void)setWillEnterForegroundObserver:(id)willEnterForegroundObserver {
+    objc_setAssociatedObject(self, @selector(willEnterForegroundObserver), willEnterForegroundObserver, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (id)didBecomeActiveObserver {
+    return objc_getAssociatedObject(self, @selector(didBecomeActiveObserver));
+}
+
+- (void)setDidBecomeActiveObserver:(id)didBecomeActiveObserver {
+    objc_setAssociatedObject(self, @selector(didBecomeActiveObserver), didBecomeActiveObserver, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 - (BOOL)idleTimerEnabled {
     NSNumber *number = objc_getAssociatedObject(self, @selector(idleTimerEnabled));
     return [number boolValue];
+}
+
+- (void)setIdleTimerEnabled:(BOOL)idleTimerEnabled {
+    if (self.idleTimerDisabledSaved == nil) {
+        self.idleTimerDisabledSaved = @(self.idleTimerDisabled);
+    }
+    //
+    objc_setAssociatedObject(self, @selector(idleTimerEnabled), @(idleTimerEnabled), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    self.idleTimerDisabled = !idleTimerEnabled;
+    //
+    __weak typeof(self) weakSelf = self;
+    if (self.willResignActiveObserver == nil) {
+        self.willResignActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+            BOOL idleTimerDisabled = [weakSelf.idleTimerDisabledSaved boolValue];
+            if (weakSelf.idleTimerDisabled != idleTimerDisabled) {
+                weakSelf.idleTimerDisabled = idleTimerDisabled;
+            }
+            weakSelf.idleTimerDisabledSaved = nil;
+        }];
+    }
+    if (self.didEnterBackgroundObserver == nil) {
+        self.didEnterBackgroundObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+            BOOL idleTimerDisabled = [weakSelf.idleTimerDisabledSaved boolValue];
+            if (weakSelf.idleTimerDisabled != idleTimerDisabled) {
+                weakSelf.idleTimerDisabled = idleTimerDisabled;
+            }
+            weakSelf.idleTimerDisabledSaved = nil;
+        }];
+    }
+    if (self.willEnterForegroundObserver == nil) {
+        self.willEnterForegroundObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillEnterForegroundNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+            if (weakSelf.idleTimerDisabledSaved == nil) {
+                weakSelf.idleTimerDisabledSaved = @(weakSelf.idleTimerDisabled);
+            }
+            if (weakSelf.idleTimerDisabled == weakSelf.idleTimerEnabled) {
+                weakSelf.idleTimerDisabled = !weakSelf.idleTimerEnabled;
+            }
+        }];
+    }
+    if (self.didBecomeActiveObserver == nil) {
+        self.didBecomeActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+            if (weakSelf.idleTimerDisabledSaved == nil) {
+                weakSelf.idleTimerDisabledSaved = @(weakSelf.idleTimerDisabled);
+            }
+            if (weakSelf.idleTimerDisabled == weakSelf.idleTimerEnabled) {
+                weakSelf.idleTimerDisabled = !weakSelf.idleTimerEnabled;
+            }
+        }];
+    }
 }
 
 @end
