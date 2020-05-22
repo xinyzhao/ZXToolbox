@@ -292,7 +292,20 @@ didReceiveResponse:(NSURLResponse *)response
     BOOL append = NO;
     if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
         NSHTTPURLResponse *http = (NSHTTPURLResponse *)response;
-        append = http.statusCode == 206;
+        switch (http.statusCode) {
+            case 200: // OK
+                break;
+            case 206: // Partial Content
+                append = YES;
+                break;
+            default:
+            {
+                id userInfo = @{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"%ld %@", (long)http.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:http.statusCode]]};
+                NSError *error = [NSError errorWithDomain:@"HTTPStatusCode" code:http.statusCode userInfo:userInfo];
+                [self setState:NSURLSessionTaskStateCompleted withError:error];
+                return;
+            }
+        }
     }
     //
     if (append) {
