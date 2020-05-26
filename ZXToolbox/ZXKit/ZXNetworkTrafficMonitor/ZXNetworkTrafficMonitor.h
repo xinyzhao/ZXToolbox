@@ -25,52 +25,45 @@
 
 #import <Foundation/Foundation.h>
 
+@class ZXNetworkTrafficData;
 @class ZXNetworkTrafficModel;
 
-/**
- ZXNetworkTrafficMonitor
- */
+/// ZXNetworkTrafficMonitor
 @interface ZXNetworkTrafficMonitor : NSObject
-/**
- Whether or not is monitoring
- */
+/// Whether or not is monitoring
 @property (nonatomic, readonly) BOOL isMonitoring;
+/// Get current traffic data
+@property (nonatomic, readonly) ZXNetworkTrafficData *currentTrafficData;
 
-/**
- Start Monitoring
- 
- @param timeInterval Monitoring interval
- @param trafficBlock Traffic block
-*/
+/// Start Monitoring
+/// @param timeInterval Monitoring interval
+/// @param trafficBlock Traffic block
 - (void)startMonitoring:(NSTimeInterval)timeInterval
                 traffic:(void(^)(ZXNetworkTrafficModel *WiFiSent, ZXNetworkTrafficModel *WiFiReceived, ZXNetworkTrafficModel *WWANSent, ZXNetworkTrafficModel *WWANReceived))trafficBlock;
 
-/**
- Stop Monitoring
- */
+/// Stop Monitoring
 - (void)stopMonitoring;
 
 @end
 
-/**
- ZXNetworkTrafficModel
- */
+/// ZXNetworkTrafficData
+@interface ZXNetworkTrafficData : NSObject
+@property (nonatomic, assign) int64_t WiFiSent;
+@property (nonatomic, assign) int64_t WiFiReceived;
+@property (nonatomic, assign) int64_t WWANSent;
+@property (nonatomic, assign) int64_t WWANReceived;
+
+@end
+
+/// ZXNetworkTrafficModel
 @interface ZXNetworkTrafficModel : NSObject
-/**
- Traffic bytes
- */
+/// Traffic bytes
 @property (nonatomic, assign) int64_t bytes;
-/**
- True range
- */
+/// True range
 @property (nonatomic, assign) int64_t range;
-/**
- Sum of range
- */
+/// Sum of range
 @property (nonatomic, assign) int64_t total;
-/**
- Range count
- */
+/// Range count
 @property (nonatomic, assign) int64_t count;
 
 @end
