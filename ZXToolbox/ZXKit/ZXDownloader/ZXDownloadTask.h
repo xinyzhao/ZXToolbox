@@ -72,7 +72,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Suspend the task
 - (void)suspend;
 
-/// Resume the task
+/// Resume the task. If the destination file exists, will be issued by state observer a NSFileWriteFileExistsError error
 - (void)resume;
 
 @end

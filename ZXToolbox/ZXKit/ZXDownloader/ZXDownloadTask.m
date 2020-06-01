@@ -85,14 +85,8 @@
             _cacheFilePath = [path stringByAppendingPathComponent:_taskIdentifier];
             _finalFilePath = [path stringByAppendingPathComponent:[_URL lastPathComponent]];
             _totalBytesWritten = [self fileSizeAtPath:_cacheFilePath];
-            _totalBytesExpectedToWrite = [self fileSizeAtPath:_finalFilePath];
+            _totalBytesExpectedToWrite = 0;
             _observers = [[NSMutableArray alloc] init];
-            //
-            if (_totalBytesExpectedToWrite > 0) {
-                self.state = NSURLSessionTaskStateCompleted;
-            } else {
-                self.state = NSURLSessionTaskStateSuspended;
-            }
             // Range
             // bytes=x-y ==  x byte ~ y byte
             // bytes=x-  ==  x byte ~ end
@@ -101,6 +95,8 @@
             if (_totalBytesWritten > 0) {
                 [request setValue:[NSString stringWithFormat:@"bytes=%lld-", _totalBytesWritten] forHTTPHeaderField:@"Range"];
             }
+            // State
+            _state = NSURLSessionTaskStateSuspended;
             _task = [session dataTaskWithRequest:request];
         }
     }
@@ -165,7 +161,12 @@
 }
 
 - (void)resume {
-    if (_state == NSURLSessionTaskStateSuspended) {
+    BOOL isDir = NO;
+    if ([[NSFileManager defaultManager] fileExistsAtPath:_finalFilePath isDirectory:&isDir] && !isDir) {
+        id userInfo = @{NSLocalizedFailureReasonErrorKey:@"Could not perform an operation because the destination file already exists."};
+        NSError *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteFileExistsError userInfo:userInfo];
+        [self setState:NSURLSessionTaskStateCompleted withError:error];
+    } else if (_state == NSURLSessionTaskStateSuspended) {
         [_task resume];
         [self setState:NSURLSessionTaskStateRunning withError:nil];
     } else if (_state == NSURLSessionTaskStateCompleted) {
