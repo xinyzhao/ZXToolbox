@@ -44,11 +44,13 @@
 }
 
 - (void)testJSONObject {
-    NSString *json = @"{\"name\":\"BeJson\",\"url\":\"http://www.bejson.com\",\"page\":88,\"isNonProfit\":true,\"address\":{\"street\":\"科技园路.\",\"city\":\"江苏苏州\",\"country\":\"中国\"},\"links\":[{\"name\":\"Google\",\"url\":\"http://www.google.com\"},{\"name\":\"Baidu\",\"url\":\"http://www.baidu.com\"},{\"name\":\"SoSo\",\"url\":\"http://www.SoSo.com\"}]}";
-    id obj = [JSONObject JSONObjectWithString:json];
-    id str = [JSONObject stringWithJSONObject:obj options:0];
-    NSLogA(@"#JSONObject: %@", obj);
+    id src = @{@"string":@"json", @"array":@[@1,@2,@3], @"object":@{@"a":@"a", @"b":@"b", @"c":@"c"}};
+    id str = [JSONObject stringWithJSONObject:src];
+    id pty = [JSONObject stringWithJSONObject:src options:NSJSONWritingPrettyPrinted];
+    id obj = [JSONObject JSONObjectWithString:str];
     NSLogA(@"#JSONString: %@", str);
+    NSLogA(@"#JSONPretty: %@", pty);
+    NSLogA(@"#JSONObject: %@", obj);
 }
 
 - (void)testNSArray {
@@ -86,10 +88,26 @@
     NSLogA(@"#%@ -> %@", num, str3);
 }
 
+- (void)testNSObject {
+    [self testNSObjectMethod1];
+    [self testNSObjectMethod2];
+    [[self class] swizzleMethod:@selector(testNSObjectMethod1) with:@selector(testNSObjectMethod2)];
+    [self testNSObjectMethod1];
+    [self testNSObjectMethod2];
+}
+
+- (void)testNSObjectMethod1 {
+    NSLogA(@">testNSObjectMethod1");
+}
+
+- (void)testNSObjectMethod2 {
+    NSLogA(@">testNSObjectMethod2");
+}
+
 - (void)testNSStringNumberValue {
     NSMutableArray *arr = [[NSMutableArray alloc] init];
     for (int i = 2; i <= 36; i++) {
-        [arr addObject:[NSString stringWithFormat:@"[10]100 -> [%d]%@", i, [NSString stringWithValue:@"100" baseIn:10 baseOut:i alphabet:nil]]];
+        [arr addObject:[NSString stringWithFormat:@"[Base10]100 -> [Base%d]%@", i, [NSString stringWithValue:@"100" baseIn:10 baseOut:i alphabet:nil]]];
     }
     NSLogA(@"%@", arr);
 }
@@ -125,6 +143,42 @@
     NSLogA(@"#Fragment  : %@", [str stringByURLEncoding:NSStringURLEncodingFragment]);
 }
 
+- (void)testUIApplication {
+    UIApplication.sharedApplication.idleTimerEnabled = NO;
+    [UIApplication.sharedApplication openSettingsURL];
+    [UIApplication.sharedApplication exitWithCode:0 afterDelay:1];
+}
+
+- (void)testUIButton {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setImage:[UIImage imageNamed:@"button"] forState:UIControlStateNormal];
+    [button setTitle:@"button" forState:UIControlStateNormal];
+    button.titleImageLayout = UIButtonTitleImageLayoutRight;
+    button.titleImageSpacing = 10;
+    NSLogA(@"#title: %@", NSStringFromUIEdgeInsets(button.titleEdgeInsets));
+    NSLogA(@"#image: %@", NSStringFromUIEdgeInsets(button.imageEdgeInsets));
+}
+
+- (void)testUIColor {
+    NSLogA(@"#[UIColor colorWithString:] %@", [UIColor colorWithString:@"#999999"]);
+    NSLogA(@"#[UIColor colorWithString:alpha:] %@", [UIColor colorWithString:@"#999999" alpha:0.5]);
+    NSLogA(@"#[UIColor colorWithInteger:] %@", [UIColor colorWithInteger:0x999999]);
+    NSLogA(@"#[UIColor colorWithInteger:alpha:] %@", [UIColor colorWithInteger:0x999999 alpha:0.5]);
+    NSLogA(@"#[UIColor randomColor] %@", [UIColor randomColor]);
+    NSLogA(@"#[UIColor inverseColor] %@", [[UIColor blackColor] inverseColor]);
+    NSLogA(@"#[UIColor stringValue] %@", [[UIColor redColor] stringValue]);
+    NSLogA(@"#[UIColor stringValueWithPrefix:] %@", [[UIColor redColor] stringValueWithPrefix:@"#"]);
+    NSLogA(@"#[UIColor integerValue] %lx", (long)[[UIColor redColor] integerValue]);
+    NSLogA(@"#[UIColor integerValueWithAlpha:] %lx", (long)[[UIColor redColor] integerValueWithAlpha:YES]);
+}
+
+- (void)testUIControl {
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    button.timeIntervalByUserInteractionEnabled = YES;
+    [button setTimeInteval:1 forControlEvents:UIControlEventTouchUpInside];
+    [button removeTimeIntevalForControlEvents:UIControlEventTouchUpInside];
+}
+
 - (void)testUIDevice {
     NSLogA(@"#CPU Bits: %d", [UIDevice currentDevice].cpuBits);
     NSLogA(@"#CPU Type: %d", [UIDevice currentDevice].cpuType);
@@ -134,6 +188,19 @@
     NSLogA(@"#FileSystemSize: %lld bytes", [UIDevice currentDevice].fileSystemSize);
     NSLogA(@"#FileSystemFreeSize: %lld bytes", [UIDevice currentDevice].fileSystemFreeSize);
     NSLogA(@"#FileSystemUsedSize: %lld bytes", [UIDevice currentDevice].fileSystemUsedSize);
+}
+
+- (void)testUIImage {
+    UIImage *image = [UIImage imageWithColor:[UIColor blueColor] size:CGSizeMake(1000, 1000)];
+    UIImage *blurImage = [image blurImage:10];
+    UIImage *grayImage = [image grayscaleImage];
+    UIImage *thumbImage = [image thumbnailImage:CGSizeMake(100, 100) aspect:NO];
+    NSData *data = [image compressToData:1024 * 2];
+    NSLogA(@"#[UIImage imageWithColor:size:]%@", image);
+    NSLogA(@"#[UIImage blurImage:]%@", blurImage);
+    NSLogA(@"#[UIImage grayscaleImage]%@", grayImage);
+    NSLogA(@"#[UIImage thumbnailImage:aspect:]%@", thumbImage);
+    NSLogA(@"#[UIImage compressToData:] -> %ld bytes", (long)data.length);
 }
 
 - (void)testUIScreen {
@@ -218,10 +285,6 @@
     }];
 }
 
-- (void)testZXHTTPClient {
-    
-}
-
 - (void)testZXKeychain {
     NSString *key = @"ZXKeychainDemoTests";
     NSString *text = [NSUUID UUID].UUIDString;
@@ -261,11 +324,43 @@
 }
 
 - (void)testZXLocalAuthentication {
-
+    NSLogA(@"#canEvaluatePolicy:%d", [ZXLocalAuthentication canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics]);
 }
 
 - (void)testZXLocationManager {
-    
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testZXLocationManager"];
+    //
+    ZXLocationManager *lm = [[ZXLocationManager alloc] init];
+    lm.didUpdateLocation = ^(CLLocation * _Nonnull location, CLPlacemark * _Nullable placemark) {
+        NSLogA(@"#location: %@", location);
+        NSLogA(@"#province: %@", placemark.province);
+        NSLogA(@"#city: %@", placemark.city);
+        NSLogA(@"#district: %@", placemark.district);
+        NSLogA(@"#street: %@", placemark.street);
+        NSLogA(@"#streetNumber: %@", placemark.streetNumber);
+        NSLogA(@"#address: %@", placemark.address);
+        [expectation fulfill];
+    };
+    if (@available(iOS 9.0, *)) {
+        [lm requestLocation];
+    }
+    //
+    [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
+        if (error) {
+            NSLogA(@"#%@", error);
+        } else {
+            NSLogA(@"#Done");
+        }
+    }];
+}
+
+- (void)testZXNetworkTrafficMonitor {
+    ZXNetworkTrafficMonitor *tm = [[ZXNetworkTrafficMonitor alloc] init];
+    ZXNetworkTrafficData *data = tm.currentTrafficData;
+    NSLogA(@"#WiFiSent:     %lld bytes", data.WiFiSent);
+    NSLogA(@"#WiFiReceived: %lld bytes", data.WiFiReceived);
+    NSLogA(@"#WWANSent:     %lld bytes", data.WWANSent);
+    NSLogA(@"#WWANReceived: %lld bytes", data.WWANReceived);
 }
 
 - (void)testZXPhotoLibrary {
@@ -274,7 +369,7 @@
         if (status == AVAuthorizationStatusAuthorized) {
             UIImage *image = [UIImage imageWithColor:[UIColor randomColor] size:[UIScreen mainScreen].bounds.size];
             [[ZXPhotoLibrary sharedPhotoLibrary] saveImage:image toSavedPhotoAlbum:^(NSError *error) {
-                NSLogA(@"%@", error ? error.localizedDescription : @"success");
+                NSLogA(@"%@", error ? error.localizedDescription : @"#success");
                 [expectation fulfill];
             }];
         } else {
@@ -283,8 +378,23 @@
         }
     }];
     [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
-        NSLogA(@"Timeout");
+        if (error) {
+            NSLogA(@"#%@", error);
+        } else {
+            NSLogA(@"#Done");
+        }
     }];
+}
+
+- (void)testZXQRCodeGenerator {
+    UIImage *image = [ZXQRCodeGenerator imageWithText:@"ZXQRCodeGenerator"];
+    NSLogA(@"#ZXQRCodeGenerator %@", image);
+}
+
+- (void)testZXQRCodeReader {
+    UIImage *image = [ZXQRCodeGenerator imageWithText:@"ZXQRCodeReader"];
+    id results = [ZXQRCodeReader decodeQRCodeImage:image];
+    NSLogA(@"#ZXQRCodeReader %@", results);
 }
 
 - (void)testNaN {
