@@ -482,7 +482,6 @@ NSLogA(@"#UIIDString: %@", [UIDevice currentDevice].UDIDString);
 NSLogA(@"#FileSystemSize: %lld bytes", [UIDevice currentDevice].fileSystemSize);
 NSLogA(@"#FileSystemFreeSize: %lld bytes", [UIDevice currentDevice].fileSystemFreeSize);
 NSLogA(@"#FileSystemUsedSize: %lld bytes", [UIDevice currentDevice].fileSystemUsedSize);
-
 ```
 > Output:
 
