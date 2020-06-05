@@ -348,10 +348,10 @@ didReceiveResponse:(NSURLResponse *)response
         [url appendFormat:@":%d", self.port.intValue];
     }
     if (self.path) {
-        [url appendFormat:@"/%@", self.path];
+        [url appendFormat:@"%@", self.path];
     }
     if (url.length) {
-        return [[[ZXCommonDigest alloc] initWithString:url] SHA1String];
+        return [[[[ZXCommonDigest alloc] initWithString:url] SHA1String] lowercaseString];
     }
     return nil;
 }
