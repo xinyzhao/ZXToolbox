@@ -184,7 +184,7 @@
     NSLogA(@"#CPU Type: %d", [UIDevice currentDevice].cpuType);
     NSLogA(@"#Model Type: %@", [UIDevice currentDevice].modelType);
     NSLogA(@"#Model Name: %@", [UIDevice currentDevice].modelName);
-    NSLogA(@"#UIIDString: %@", [UIDevice currentDevice].UDIDString);
+    NSLogA(@"#UUIDString: %@", [UIDevice currentDevice].UDIDString);
     NSLogA(@"#FileSystemSize: %lld bytes", [UIDevice currentDevice].fileSystemSize);
     NSLogA(@"#FileSystemFreeSize: %lld bytes", [UIDevice currentDevice].fileSystemFreeSize);
     NSLogA(@"#FileSystemUsedSize: %lld bytes", [UIDevice currentDevice].fileSystemUsedSize);
