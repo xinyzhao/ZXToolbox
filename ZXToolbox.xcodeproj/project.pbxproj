@@ -137,6 +137,7 @@
 		7000ADA522E9C22F00651E44 /* ZXHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AD1A22E9C22F00651E44 /* ZXHTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70271314249F0C02001850B5 /* ZXToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7000AC4722E9C1CC00651E44 /* ZXToolbox.framework */; };
 		70271316249F1120001850B5 /* ZXCoordinate2D.m in Sources */ = {isa = PBXBuildFile; fileRef = 70271315249F1120001850B5 /* ZXCoordinate2D.m */; };
+		70271318249F56CF001850B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70271317249F56CF001850B5 /* Main.storyboard */; };
 		7040F6CB23824182009EFB1F /* UINavigationController+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7040F6C923824182009EFB1F /* UINavigationController+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7040F6CC23824182009EFB1F /* UINavigationController+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 7040F6CA23824182009EFB1F /* UINavigationController+ZXToolbox.m */; };
 		705A8FD123C2D51000BE361F /* ZXKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = 705A8FCF23C2D51000BE361F /* ZXKeychain.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -359,6 +360,7 @@
 		7000ADA722E9D16D00651E44 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		7000ADA822E9D16D00651E44 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		70271315249F1120001850B5 /* ZXCoordinate2D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXCoordinate2D.m; sourceTree = "<group>"; };
+		70271317249F56CF001850B5 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		702E538E23D8478200D8B0CF /* Location.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Location.gpx; sourceTree = "<group>"; };
 		7040F6C923824182009EFB1F /* UINavigationController+ZXToolbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+ZXToolbox.h"; sourceTree = "<group>"; };
 		7040F6CA23824182009EFB1F /* UINavigationController+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+ZXToolbox.m"; sourceTree = "<group>"; };
@@ -1194,6 +1196,7 @@
 				70D8448023C706D80042E305 /* AppDelegate.m */,
 				70D8448523C706D80042E305 /* ViewController.h */,
 				70D8448623C706D80042E305 /* ViewController.m */,
+				70271317249F56CF001850B5 /* Main.storyboard */,
 				70D8448B23C706DA0042E305 /* Assets.xcassets */,
 				70D8448D23C706DA0042E305 /* LaunchScreen.storyboard */,
 				70D8449023C706DA0042E305 /* Info.plist */,
@@ -1450,6 +1453,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70271318249F56CF001850B5 /* Main.storyboard in Resources */,
 				70D8448F23C706DA0042E305 /* LaunchScreen.storyboard in Resources */,
 				70D8448C23C706DA0042E305 /* Assets.xcassets in Resources */,
 			);
@@ -1777,7 +1781,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20200605;
+				CURRENT_PROJECT_VERSION = 20200621;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ZXToolboxDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1785,7 +1789,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.5.2;
+				MARKETING_VERSION = 2.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolboxDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1799,7 +1803,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20200605;
+				CURRENT_PROJECT_VERSION = 20200621;
 				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ZXToolboxDemo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
@@ -1807,7 +1811,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.5.2;
+				MARKETING_VERSION = 2.5.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolboxDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
