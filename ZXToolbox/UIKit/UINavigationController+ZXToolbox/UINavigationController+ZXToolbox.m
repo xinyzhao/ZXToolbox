@@ -29,9 +29,11 @@
 
 - (nullable UIViewController *)prevViewController {
     if (self.topViewController) {
-        NSInteger index = [self.viewControllers indexOfObject:self.topViewController] - 1;
-        if (index >= 0) {
-            return self.viewControllers[index];
+        NSInteger index = [self.viewControllers indexOfObject:self.topViewController];
+        if (index != NSNotFound && index > 0) {
+            if (--index >= 0 && index < self.viewControllers.count) {
+                return self.viewControllers[index];
+            }
         }
     }
     return nil;
