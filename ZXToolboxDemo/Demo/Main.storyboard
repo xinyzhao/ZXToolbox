@@ -140,6 +140,27 @@
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="5wF-fS-2NY">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="813"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <mutableString key="text">{
+  "sites": {
+    "site": [
+      {
+        "id": "1",
+        "name": "菜鸟教程",
+        "url": "www.runoob.com"
+      },
+      {
+        "id": "2",
+        "name": "菜鸟工具",
+        "url": "c.runoob.com"
+      },
+      {
+        "id": "3",
+        "name": "Google",
+        "url": "www.google.com"
+      }
+    ]
+  }
+}</mutableString>
                                 <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
