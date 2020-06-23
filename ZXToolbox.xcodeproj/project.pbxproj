@@ -1104,7 +1104,7 @@
 			path = ZXKit;
 			sourceTree = "<group>";
 		};
-		7027131F24A1A832001850B5 /* Class */ = {
+		7027131F24A1A832001850B5 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
 				70271317249F56CF001850B5 /* Main.storyboard */,
@@ -1114,7 +1114,7 @@
 				7027131A24A1A7B5001850B5 /* UIKit */,
 				7027131B24A1A7BF001850B5 /* ZXKit */,
 			);
-			path = Class;
+			path = Demo;
 			sourceTree = "<group>";
 		};
 		7040F6C82382414F009EFB1F /* UINavigationController+ZXToolbox */ = {
@@ -1240,7 +1240,7 @@
 				70D8447F23C706D80042E305 /* AppDelegate.h */,
 				70D8448023C706D80042E305 /* AppDelegate.m */,
 				70D8448B23C706DA0042E305 /* Assets.xcassets */,
-				7027131F24A1A832001850B5 /* Class */,
+				7027131F24A1A832001850B5 /* Demo */,
 				70D8448D23C706DA0042E305 /* LaunchScreen.storyboard */,
 				70D8449023C706DA0042E305 /* Info.plist */,
 				70D8449123C706DA0042E305 /* main.m */,
