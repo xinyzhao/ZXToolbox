@@ -17,8 +17,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _textView.backgroundColor = [UIColor colorWithWhite:0 alpha:1];
-    _textView.textColor = [UIColor colorWithWhite:1 alpha:1];
 }
 
 /*
@@ -42,7 +40,6 @@
             _textView.text = str;
         } else {
             ZXToastView *toastView = [[ZXToastView alloc] initWithText:@"Can't decoing"];
-            toastView.style = ZXToastStyleLight;
             [toastView showInView:self.textView];
         }
     }
@@ -52,7 +49,6 @@
     if (_textView.text.length > 0) {
         [[UIPasteboard generalPasteboard] setString:_textView.text];
         ZXToastView *toastView = [[ZXToastView alloc] initWithText:@"Copied to clipboard"];
-        toastView.style = ZXToastStyleLight;
         [toastView showInView:self.textView];
     }
 }
