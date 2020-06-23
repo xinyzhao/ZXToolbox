@@ -1,20 +1,19 @@
 //
-//  ViewController.m
+//  MainViewController.m
 //  ZXToolboxDemo
 //
 //  Created by xyz on 2020/1/9.
 //  Copyright © 2020 xinyzhao. All rights reserved.
 //
 
-#import "ViewController.h"
-#import <ZXToolbox/ZXToolbox.h>
+#import "MainViewController.h"
 
-@interface ViewController ()
+@interface MainViewController ()
 @property (nonatomic, strong) NSArray *dataArray;
 
 @end
 
-@implementation ViewController
+@implementation MainViewController
 
 + (instancetype)instantiate {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -142,6 +141,16 @@
     NSDictionary *dict = _dataArray[indexPath.section];
     NSArray *rows = dict[@"rows"];
     NSString *row = rows[indexPath.row];
+    @try {
+        [self performSegueWithIdentifier:row sender:self];
+    } @catch(NSException *ex) {
+        UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Exception" message:ex.description preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:cancel];
+        alert.popoverPresentationController.sourceView = self.view;
+        alert.popoverPresentationController.sourceRect = self.view.frame;
+        [self presentViewController:alert animated:YES completion:nil];
+    }
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

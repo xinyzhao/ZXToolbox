@@ -59,17 +59,16 @@
         self.position = ZXToastPositionCenter;
         self.dismissWhenTouchInside = YES;
         self.captureWhenTouchOutside = YES;
-        self.effectStyle = UIBlurEffectStyleLight;
         //
         if (@available(iOS 8.0, *)) {
             UIBlurEffect *blurEffect = [UIBlurEffect effectWithStyle:_effectStyle];
             _bubbleView = [[UIVisualEffectView alloc] initWithEffect:blurEffect];
-            _bubbleView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.6];
         } else {
             _bubbleView = [[UIView alloc] initWithFrame:CGRectZero];
-            _bubbleView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
         }
         [self addSubview:_bubbleView];
+        //
+        self.style = ZXToastStyleDark;
     }
     return self;
 }
@@ -79,7 +78,6 @@
     if (self) {
         _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
         if (@available(iOS 8.0, *)) {
-            _activityView.color = [UIColor colorWithWhite:0 alpha:0.7];
             [self.effectView.contentView addSubview:_activityView];
         } else {
             [self.bubbleView addSubview:_activityView];
@@ -98,10 +96,8 @@
             _textLabel.textAlignment = NSTextAlignmentLeft;
             _textLabel.text = text;
             if (@available(iOS 8.0, *)) {
-                _textLabel.textColor = [UIColor colorWithWhite:0 alpha:0.7];
                 [self.effectView.contentView addSubview:_textLabel];
             } else {
-                _textLabel.textColor = [UIColor whiteColor];
                 [self.bubbleView addSubview:_textLabel];
             }
         }
@@ -137,6 +133,38 @@
     return self;
 }
 
+#pragma mark Style
+
+- (void)setStyle:(ZXToastStyle)style {
+    _style = style;
+    switch (_style) {
+        case ZXToastStyleDark:
+            if (@available(iOS 8.0, *)) {
+                _bubbleView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
+                self.effectStyle = UIBlurEffectStyleDark;
+                _activityView.color = [UIColor colorWithWhite:1 alpha:0.8];
+                _textLabel.textColor = [UIColor colorWithWhite:1 alpha:0.8];
+            } else {
+                _bubbleView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
+                _activityView.color = [UIColor colorWithWhite:1 alpha:0.9];
+                _textLabel.textColor = [UIColor colorWithWhite:1 alpha:0.9];
+            }
+            break;
+        case ZXToastStyleLight:
+            if (@available(iOS 8.0, *)) {
+                _bubbleView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.6];
+                self.effectStyle = UIBlurEffectStyleLight;
+                _activityView.color = [UIColor colorWithWhite:0 alpha:0.8];
+                _textLabel.textColor = [UIColor colorWithWhite:0 alpha:0.8];
+            } else {
+                _bubbleView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.8];
+                _activityView.color = [UIColor colorWithWhite:0 alpha:0.9];
+                _textLabel.textColor = [UIColor colorWithWhite:0 alpha:0.9];
+            }
+            break;
+    }
+}
+
 #pragma mark Effect
 
 - (UIVisualEffectView *)effectView NS_AVAILABLE_IOS(8_0) {
@@ -145,7 +173,6 @@
 
 - (void)setEffectStyle:(UIBlurEffectStyle)effectStyle NS_AVAILABLE_IOS(8_0) {
     _effectStyle = effectStyle;
-    //
     self.effectView.effect = [UIBlurEffect effectWithStyle:_effectStyle];
 }
 
@@ -262,6 +289,7 @@
     _bubbleView.layer.masksToBounds = YES;
     //
     [self sizeToFit:view.bounds.size];
+    [self setStyle:_style];
     //
     if (self.dismissWhenTouchInside && self.activityView == nil) {
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onBubble:)];

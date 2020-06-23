@@ -7,7 +7,6 @@
 //
 
 #import "AppDelegate.h"
-#import "ViewController.h"
 
 @interface AppDelegate ()
 
@@ -18,8 +17,10 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"NaviViewController"];
     _window = [[UIWindow alloc] initWithFrame:UIScreen.mainScreen.bounds];
-    _window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[ViewController instantiate]];
+    _window.rootViewController = vc;
     [_window makeKeyAndVisible];
     return YES;
 }

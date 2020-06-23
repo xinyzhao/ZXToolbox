@@ -138,6 +138,7 @@
 		70271314249F0C02001850B5 /* ZXToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7000AC4722E9C1CC00651E44 /* ZXToolbox.framework */; };
 		70271316249F1120001850B5 /* ZXCoordinate2D.m in Sources */ = {isa = PBXBuildFile; fileRef = 70271315249F1120001850B5 /* ZXCoordinate2D.m */; };
 		70271318249F56CF001850B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70271317249F56CF001850B5 /* Main.storyboard */; };
+		7027131E24A1A7ED001850B5 /* Base64EncodingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7027131D24A1A7ED001850B5 /* Base64EncodingViewController.m */; };
 		7040F6CB23824182009EFB1F /* UINavigationController+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7040F6C923824182009EFB1F /* UINavigationController+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7040F6CC23824182009EFB1F /* UINavigationController+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 7040F6CA23824182009EFB1F /* UINavigationController+ZXToolbox.m */; };
 		705A8FD123C2D51000BE361F /* ZXKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = 705A8FCF23C2D51000BE361F /* ZXKeychain.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -147,6 +148,7 @@
 		705F48A923C97701002AADC8 /* ZXCoordinate2D.h in Headers */ = {isa = PBXBuildFile; fileRef = 705F48A723C97701002AADC8 /* ZXCoordinate2D.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		706C15B42383CF64000B45E1 /* UINavigationBar+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 706C15B22383CF64000B45E1 /* UINavigationBar+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		706C15B52383CF64000B45E1 /* UINavigationBar+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 706C15B32383CF64000B45E1 /* UINavigationBar+ZXToolbox.m */; };
+		7096225624A1E2A400971D2A /* JSONObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7096225524A1E2A400971D2A /* JSONObjectViewController.m */; };
 		70988F372335F3B30002A8A3 /* UIControl+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70988F382335F3B30002A8A3 /* UIControl+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */; };
 		70A7B5B823B0B7990080C95A /* ZXDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 70A7B5B423B0B7990080C95A /* ZXDownloader.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -182,7 +184,7 @@
 		70D4BD2623A9DC47000D28E2 /* ZXImageBroswerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D4BD2023A9DC47000D28E2 /* ZXImageBroswerCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70D4BD2723A9DC47000D28E2 /* ZXImageBroswerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D4BD2123A9DC47000D28E2 /* ZXImageBroswerCell.m */; };
 		70D8448123C706D80042E305 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D8448023C706D80042E305 /* AppDelegate.m */; };
-		70D8448723C706D80042E305 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D8448623C706D80042E305 /* ViewController.m */; };
+		70D8448723C706D80042E305 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D8448623C706D80042E305 /* MainViewController.m */; };
 		70D8448C23C706DA0042E305 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70D8448B23C706DA0042E305 /* Assets.xcassets */; };
 		70D8448F23C706DA0042E305 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70D8448D23C706DA0042E305 /* LaunchScreen.storyboard */; };
 		70D8449223C706DA0042E305 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D8449123C706DA0042E305 /* main.m */; };
@@ -361,6 +363,8 @@
 		7000ADA822E9D16D00651E44 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		70271315249F1120001850B5 /* ZXCoordinate2D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXCoordinate2D.m; sourceTree = "<group>"; };
 		70271317249F56CF001850B5 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		7027131C24A1A7ED001850B5 /* Base64EncodingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Base64EncodingViewController.h; sourceTree = "<group>"; };
+		7027131D24A1A7ED001850B5 /* Base64EncodingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Base64EncodingViewController.m; sourceTree = "<group>"; };
 		702E538E23D8478200D8B0CF /* Location.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Location.gpx; sourceTree = "<group>"; };
 		7040F6C923824182009EFB1F /* UINavigationController+ZXToolbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+ZXToolbox.h"; sourceTree = "<group>"; };
 		7040F6CA23824182009EFB1F /* UINavigationController+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+ZXToolbox.m"; sourceTree = "<group>"; };
@@ -371,6 +375,9 @@
 		705F48A723C97701002AADC8 /* ZXCoordinate2D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXCoordinate2D.h; sourceTree = "<group>"; };
 		706C15B22383CF64000B45E1 /* UINavigationBar+ZXToolbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+ZXToolbox.h"; sourceTree = "<group>"; };
 		706C15B32383CF64000B45E1 /* UINavigationBar+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+ZXToolbox.m"; sourceTree = "<group>"; };
+		7096225324A1B47300971D2A /* main.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = main.pch; sourceTree = "<group>"; };
+		7096225424A1E2A400971D2A /* JSONObjectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONObjectViewController.h; sourceTree = "<group>"; };
+		7096225524A1E2A400971D2A /* JSONObjectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSONObjectViewController.m; sourceTree = "<group>"; };
 		70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+ZXToolbox.h"; sourceTree = "<group>"; };
 		70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+ZXToolbox.m"; sourceTree = "<group>"; };
 		70A7B5B423B0B7990080C95A /* ZXDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXDownloader.h; sourceTree = "<group>"; };
@@ -408,8 +415,8 @@
 		70D8447D23C706D80042E305 /* ZXToolboxDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZXToolboxDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		70D8447F23C706D80042E305 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		70D8448023C706D80042E305 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		70D8448523C706D80042E305 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		70D8448623C706D80042E305 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		70D8448523C706D80042E305 /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		70D8448623C706D80042E305 /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		70D8448B23C706DA0042E305 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		70D8448E23C706DA0042E305 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		70D8449023C706DA0042E305 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -1072,6 +1079,44 @@
 			path = ZXHTTPClient;
 			sourceTree = "<group>";
 		};
+		7027131924A1A7B0001850B5 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				7027131C24A1A7ED001850B5 /* Base64EncodingViewController.h */,
+				7027131D24A1A7ED001850B5 /* Base64EncodingViewController.m */,
+				7096225424A1E2A400971D2A /* JSONObjectViewController.h */,
+				7096225524A1E2A400971D2A /* JSONObjectViewController.m */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
+		7027131A24A1A7B5001850B5 /* UIKit */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = UIKit;
+			sourceTree = "<group>";
+		};
+		7027131B24A1A7BF001850B5 /* ZXKit */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ZXKit;
+			sourceTree = "<group>";
+		};
+		7027131F24A1A832001850B5 /* Class */ = {
+			isa = PBXGroup;
+			children = (
+				70271317249F56CF001850B5 /* Main.storyboard */,
+				70D8448523C706D80042E305 /* MainViewController.h */,
+				70D8448623C706D80042E305 /* MainViewController.m */,
+				7027131924A1A7B0001850B5 /* Foundation */,
+				7027131A24A1A7B5001850B5 /* UIKit */,
+				7027131B24A1A7BF001850B5 /* ZXKit */,
+			);
+			path = Class;
+			sourceTree = "<group>";
+		};
 		7040F6C82382414F009EFB1F /* UINavigationController+ZXToolbox */ = {
 			isa = PBXGroup;
 			children = (
@@ -1194,13 +1239,12 @@
 			children = (
 				70D8447F23C706D80042E305 /* AppDelegate.h */,
 				70D8448023C706D80042E305 /* AppDelegate.m */,
-				70D8448523C706D80042E305 /* ViewController.h */,
-				70D8448623C706D80042E305 /* ViewController.m */,
-				70271317249F56CF001850B5 /* Main.storyboard */,
 				70D8448B23C706DA0042E305 /* Assets.xcassets */,
+				7027131F24A1A832001850B5 /* Class */,
 				70D8448D23C706DA0042E305 /* LaunchScreen.storyboard */,
 				70D8449023C706DA0042E305 /* Info.plist */,
 				70D8449123C706DA0042E305 /* main.m */,
+				7096225324A1B47300971D2A /* main.pch */,
 				702E538E23D8478200D8B0CF /* Location.gpx */,
 			);
 			path = ZXToolboxDemo;
@@ -1564,7 +1608,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				70D8448723C706D80042E305 /* ViewController.m in Sources */,
+				7027131E24A1A7ED001850B5 /* Base64EncodingViewController.m in Sources */,
+				70D8448723C706D80042E305 /* MainViewController.m in Sources */,
+				7096225624A1E2A400971D2A /* JSONObjectViewController.m in Sources */,
 				70D8448123C706D80042E305 /* AppDelegate.m in Sources */,
 				70D8449223C706DA0042E305 /* main.m in Sources */,
 			);
@@ -1726,10 +1772,11 @@
 		7000AC5022E9C1CC00651E44 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20200622;
+				CURRENT_PROJECT_VERSION = 20200623;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1752,10 +1799,11 @@
 		7000AC5122E9C1CC00651E44 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20200622;
+				CURRENT_PROJECT_VERSION = 20200623;
 				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1781,10 +1829,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20200621;
-				DEVELOPMENT_TEAM = "";
+				CURRENT_PROJECT_VERSION = 20200623;
+				DEVELOPMENT_TEAM = VYD4F26DN3;
+				GCC_PREFIX_HEADER = ZXToolboxDemo/main.pch;
 				INFOPLIST_FILE = ZXToolboxDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1803,10 +1852,11 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 20200621;
-				DEVELOPMENT_TEAM = "";
+				CURRENT_PROJECT_VERSION = 20200623;
+				DEVELOPMENT_TEAM = VYD4F26DN3;
+				GCC_PREFIX_HEADER = ZXToolboxDemo/main.pch;
 				INFOPLIST_FILE = ZXToolboxDemo/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

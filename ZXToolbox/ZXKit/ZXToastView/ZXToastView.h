@@ -27,6 +27,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+
+/**
+ZXToastViewStyle
+*/
+typedef NS_ENUM(NSInteger, ZXToastStyle) {
+    ZXToastStyleDark,
+    ZXToastStyleLight,
+};
+
 /**
  ZXToastPosition
  */
@@ -46,6 +55,11 @@ typedef NS_ENUM(NSInteger, ZXToastPosition) {
  ZXToastView
  */
 @interface ZXToastView : UIView
+
+/**
+ Preset style for toast view
+ */
+@property (nonatomic, readwrite) ZXToastStyle style;
 
 /**
  The bubble view

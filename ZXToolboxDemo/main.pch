@@ -1,0 +1,17 @@
+//
+//  main.pch
+//  ZXToolbox
+//
+//  Created by xyz on 2020/6/23.
+//  Copyright © 2020 xinyzhao. All rights reserved.
+//
+
+#ifndef main_pch
+#define main_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+#import <ZXToolbox/ZXToolbox.h>
+
+#endif /* main_pch */

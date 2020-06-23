@@ -37,11 +37,15 @@
 
 + (NSData *)dataWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt {
     NSError *error;
-    NSData *data = [NSJSONSerialization dataWithJSONObject:obj options:opt error:&error];
+    NSData *data = [JSONObject dataWithJSONObject:obj options:opt error:&error];
     if (error) {
         NSLog(@"%s %@\n>>Object: %@", __func__, error.localizedDescription, obj);
     }
     return data;
+}
+
++ (NSData *)dataWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError **)error {
+    return [NSJSONSerialization dataWithJSONObject:obj options:opt error:error];
 }
 
 + (NSString *)stringWithJSONObject:(id)obj {
@@ -49,7 +53,19 @@
 }
 
 + (NSString *)stringWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt {
-    NSData *data = [JSONObject dataWithJSONObject:obj options:opt];
+    NSError *error;
+    NSData *data = [JSONObject dataWithJSONObject:obj options:opt error:&error];
+    if (error) {
+        NSLog(@"%s %@\n>>Object: %@", __func__, error.localizedDescription, obj);
+    }
+    if (data) {
+        return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    }
+    return nil;
+}
+
++ (NSString *)stringWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError **)error {
+    NSData *data = [JSONObject dataWithJSONObject:obj options:opt error:error];
     if (data) {
         return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     }
@@ -62,11 +78,15 @@
 
 + (id)JSONObjectWithData:(NSData *)data options:(NSJSONReadingOptions)opt {
     NSError *error;
-    id object = [NSJSONSerialization JSONObjectWithData:data options:opt error:&error];
+    id object = [JSONObject JSONObjectWithData:data options:opt error:&error];
     if (error) {
-        NSLog(@"%s %@>>Data: %@", __func__, error.localizedDescription, [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding]);
+        NSLog(@"%s %@>>Data: %@", __func__, error.localizedDescription, data);
     }
     return object;
+}
+
++ (id)JSONObjectWithData:(NSData *)data options:(NSJSONReadingOptions)opt error:(NSError **)error {
+    return [NSJSONSerialization JSONObjectWithData:data options:opt error:error];
 }
 
 + (id)JSONObjectWithString:(NSString *)str {
@@ -74,8 +94,17 @@
 }
 
 + (id)JSONObjectWithString:(NSString *)str options:(NSJSONReadingOptions)opt {
+    NSError *error;
+    id object = [JSONObject JSONObjectWithString:str options:opt error:&error];
+    if (error) {
+        NSLog(@"%s %@>>String: %@", __func__, error.localizedDescription, str);
+    }
+    return object;
+}
+
++ (id)JSONObjectWithString:(NSString *)str options:(NSJSONReadingOptions)opt error:(NSError **)error {
     NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
-    return [JSONObject JSONObjectWithData:data options:opt];
+    return [JSONObject JSONObjectWithData:data options:opt error:error];
 }
 
 @end
