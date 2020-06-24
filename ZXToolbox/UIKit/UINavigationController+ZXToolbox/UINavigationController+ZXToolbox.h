@@ -35,6 +35,16 @@ NS_ASSUME_NONNULL_BEGIN
 /// The root viewController
 @property(nonatomic, readonly, nullable) UIViewController *rootViewController;
 
+/// Pops view controllers until the specified class of view controller is at the top of the navigation stack.
+/// @param aClass The view controller class that you want to be at the top of the stack.
+/// @param animated Set this value to YES to animate the transition. Pass NO if you are setting up a navigation controller before its view is displayed.
+- (nullable NSArray<__kindof UIViewController *> *)popToViewControllerForClass:(Class)aClass animated:(BOOL)animated;
+
+/// Remove view controllers for specified class in the navigation stack.
+/// @param aClass The view controller class that you want to be remove of the stack.
+/// @param limit Set this value to specify the maximum number to remove at the top of the stack. Pass 0 if is no limit.
+- (nullable NSArray<__kindof UIViewController *> *)removeViewControllersForClass:(Class)aClass limit:(NSInteger)limit;
+
 @end
 
 NS_ASSUME_NONNULL_END

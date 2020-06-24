@@ -43,4 +43,33 @@
     return [self.viewControllers firstObject];
 }
 
+- (NSArray<UIViewController *> *)popToViewControllerForClass:(Class)aClass animated:(BOOL)animated {
+    for (NSInteger i = self.viewControllers.count - 1; i >= 0; --i) {
+        UIViewController *vc = self.viewControllers[i];
+        if (vc.class == aClass) {
+            return [self popToViewController:vc animated:animated];
+        }
+    }
+    return nil;
+}
+
+- (nullable NSArray<__kindof UIViewController *> *)removeViewControllersForClass:(Class)aClass limit:(NSInteger)limit {
+    NSMutableArray *array = [[NSMutableArray alloc] init];
+    for (UIViewController *vc in self.viewControllers) {
+        if (vc.class == aClass) {
+            [array addObject:vc];
+        }
+    }
+    if (array.count > limit && limit > 0) {
+        NSRange range = NSMakeRange(0, array.count - limit);
+        [array removeObjectsInRange:range];
+    }
+    if (array.count > 0) {
+        NSMutableArray *viewControllers = [self.viewControllers mutableCopy];
+        [viewControllers removeObjectsInArray:array];
+        self.viewControllers = [viewControllers copy];
+    }
+    return array.count > 0 ? [array copy] : nil;
+}
+
 @end
