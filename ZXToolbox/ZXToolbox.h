@@ -33,6 +33,7 @@ FOUNDATION_EXPORT const unsigned char ZXToolboxVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <ZXToolbox/PublicHeader.h>
 
+#import "AVAudioSession+ZXToolbox.h"
 #import "JSONObject.h"
 #import "NSArray+ZXToolbox.h"
 #import "NSData+Base64Encoding.h"
@@ -59,7 +60,6 @@ FOUNDATION_EXPORT const unsigned char ZXToolboxVersionString[];
 #import "UITextField+ZXToolbox.h"
 #import "UIView+ZXToolbox.h"
 #import "UIViewController+ZXToolbox.h"
-#import "ZXAudioDevice.h"
 #import "ZXAuthorizationHelper.h"
 #import "ZXBadgeLabel.h"
 #import "ZXBrightnessView.h"

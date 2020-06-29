@@ -44,37 +44,30 @@
 }
 
 - (NSArray<UIViewController *> *)popToViewControllerForClass:(Class)aClass animated:(BOOL)animated {
-    for (NSInteger i = self.viewControllers.count - 1; i >= 0; --i) {
-        UIViewController *vc = self.viewControllers[i];
+    UIViewController *vc = [self lastViewControllerForClass:aClass];
+    if (vc) {
+        return [self popToViewController:vc animated:animated];
+    }
+    return nil;
+}
+
+- (nullable __kindof UIViewController *)firstViewControllerForClass:(Class)aClass {
+    for (UIViewController *vc in self.viewControllers) {
         if (vc.class == aClass) {
-            return [self popToViewController:vc animated:animated];
+            return vc;
         }
     }
     return nil;
 }
 
-- (nullable NSArray<__kindof UIViewController *> *)removeViewControllersForClass:(Class)aClass limit:(NSInteger)limit {
-    NSMutableArray *array = [[NSMutableArray alloc] init];
+- (nullable __kindof UIViewController *)lastViewControllerForClass:(Class)aClass {
     for (NSInteger i = self.viewControllers.count - 1; i >= 0; --i) {
         UIViewController *vc = self.viewControllers[i];
         if (vc.class == aClass) {
-            if (limit <= 0 || array.count < limit) {
-                [array addObject:vc];
-                //
-                if (limit > 0 && array.count >= limit) {
-                    break;
-                }
-            } else {
-                break;
-            }
+            return vc;
         }
     }
-    if (array.count > 0) {
-        NSMutableArray *viewControllers = [self.viewControllers mutableCopy];
-        [viewControllers removeObjectsInArray:array];
-        self.viewControllers = [viewControllers copy];
-    }
-    return array.count > 0 ? [array copy] : nil;
+    return nil;
 }
 
 @end

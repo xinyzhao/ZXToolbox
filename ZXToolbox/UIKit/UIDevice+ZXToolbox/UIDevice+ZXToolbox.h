@@ -54,6 +54,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// The CPU type, the value is CPU_TYPE_ARM / CPU_TYPE_ARM64 etc.
 @property (nonatomic, readonly) int cpuType;
 
+/// Proximity state observer block
+@property (nonatomic, copy) void (^proximityStateDidChange)(BOOL proximityState);
+
 @end
 
 NS_ASSUME_NONNULL_END

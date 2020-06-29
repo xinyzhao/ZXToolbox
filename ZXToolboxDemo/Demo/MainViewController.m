@@ -33,6 +33,7 @@
     self.dataArray = @[
         @{@"title":@"Foundation",
           @"rows":@[
+                  @"AVAudioSession+ZXToolbox",
                   @"Base64Encoding",
                   @"JSONObject",
                   @"NSArray+ZXToolbox",
@@ -66,7 +67,6 @@
         },
         @{@"title":@"ZXKit",
           @"rows":@[
-                  @"ZXAudioDevice",
                   @"ZXAuthorizationHelper",
                   @"ZXBadgeLabel",
                   @"ZXBrightnessView",

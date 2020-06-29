@@ -81,6 +81,24 @@ Drag the built ZXToolbox.framework into your Xcode project.
 
 ### Foundation
 
+* AVAudioSession+ZXToolbox
+
+```
+AVAudioSession *ad = [AVAudioSession sharedInstance];
+NSLogA(@"#category: %@", ad.category);
+NSLogA(@"#currentInput: %@", ad.currentInput);
+NSLogA(@"#currentOutput: %@", ad.currentOutput);
+NSLogA(@"#isOverrideSpeaker: %d", ad.isOverrideSpeaker);
+```
+> Output:
+
+```
+#category: AVAudioSessionCategoryPlayback
+#currentInput: (null)
+#currentOutput: Speaker
+#isOverrideSpeaker: 0
+```
+
 * Base64Encoding
 
 ```
@@ -482,6 +500,8 @@ NSLogA(@"#UIIDString: %@", [UIDevice currentDevice].UDIDString);
 NSLogA(@"#FileSystemSize: %lld bytes", [UIDevice currentDevice].fileSystemSize);
 NSLogA(@"#FileSystemFreeSize: %lld bytes", [UIDevice currentDevice].fileSystemFreeSize);
 NSLogA(@"#FileSystemUsedSize: %lld bytes", [UIDevice currentDevice].fileSystemUsedSize);
+NSLogA(@"#isProximityMonitoringEnabled: %d", [UIDevice currentDevice].isProximityMonitoringEnabled);
+NSLogA(@"#proximityState: %d", [UIDevice currentDevice].proximityState);
 ```
 > Output:
 
@@ -494,6 +514,8 @@ NSLogA(@"#FileSystemUsedSize: %lld bytes", [UIDevice currentDevice].fileSystemUs
 #FileSystemSize: 499933818880 bytes
 #FileSystemFreeSize: 271827771392 bytes
 #FileSystemUsedSize: 228106047488 bytes
+#isProximityMonitoringEnabled: 0
+#proximityState: 0
 ```
 
 * UIImage+ZXToolbox
@@ -556,28 +578,6 @@ NSLogA(@"#adapt height: %.2f for base width %.2f = %.2f", size.width, size.heigh
 > 204 No Content
 
 ### ZXKit
-
-* ZXAudioDevice
-
-```
-ZXAudioDevice *ad = [ZXAudioDevice sharedDevice];
-NSLogA(@"#category: %@", ad.category);
-NSLogA(@"#currentInput: %@", ad.currentInput);
-NSLogA(@"#currentOutput: %@", ad.currentOutput);
-NSLogA(@"#isOverrideSpeaker: %d", ad.isOverrideSpeaker);
-NSLogA(@"#isProximityMonitoringEnabled: %d", ad.isProximityMonitoringEnabled);
-NSLogA(@"#proximityState: %d", ad.proximityState);
-```
-> Output:
-
-```
-#category: AVAudioSessionCategoryPlayback
-#currentInput: (null)
-#currentOutput: Speaker
-#isOverrideSpeaker: 0
-#isProximityMonitoringEnabled: 0
-#proximityState: 0
-```
 
 * ZXAuthorizationHelper
 > 204 No Content

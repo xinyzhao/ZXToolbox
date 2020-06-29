@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "2.5.4"
+  s.version      = "2.5.5"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -19,6 +19,12 @@ Pod::Spec.new do |s|
 
   s.source_files = "ZXToolbox/ZXToolbox.h"
   s.public_header_files = "ZXToolbox/ZXToolbox.h"
+
+  s.subspec "AVAudioSession+ZXToolbox" do |ss|
+    ss.source_files = "ZXToolbox/Foundation/AVAudioSession+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/Foundation/AVAudioSession+ZXToolbox/*.h"
+    ss.frameworks = "AVFoundation"
+  end
 
   s.subspec "Base64Encoding" do |ss|
     ss.source_files = "ZXToolbox/Foundation/Base64Encoding/*.{h,m}"
@@ -153,12 +159,6 @@ Pod::Spec.new do |s|
   s.subspec "UIViewController+ZXToolbox" do |ss|
     ss.source_files = "ZXToolbox/UIKit/UIViewController+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/UIKit/UIViewController+ZXToolbox/*.h"
-  end
-
-  s.subspec "ZXAudioDevice" do |ss|
-    ss.source_files = "ZXToolbox/ZXKit/ZXAudioDevice/*.{h,m}"
-    ss.public_header_files = "ZXToolbox/ZXKit/ZXAudioDevice/*.h"
-    ss.frameworks = "AVFoundation"
   end
 
   s.subspec "ZXAuthorizationHelper" do |ss|

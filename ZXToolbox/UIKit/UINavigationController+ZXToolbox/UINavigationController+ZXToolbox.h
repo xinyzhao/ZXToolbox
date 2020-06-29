@@ -40,10 +40,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param animated Set this value to YES to animate the transition. Pass NO if you are setting up a navigation controller before its view is displayed.
 - (nullable NSArray<__kindof UIViewController *> *)popToViewControllerForClass:(Class)aClass animated:(BOOL)animated;
 
-/// Remove view controllers for specified class in the navigation stack.
+/// Get first view controller for specified class in the navigation stack.
 /// @param aClass The view controller class that you want to be remove of the stack.
-/// @param limit Set this value to specify the maximum number to remove at the top of the stack. Pass 0 if is no limit.
-- (nullable NSArray<__kindof UIViewController *> *)removeViewControllersForClass:(Class)aClass limit:(NSInteger)limit;
+- (nullable __kindof UIViewController *)firstViewControllerForClass:(Class)aClass;
+
+/// Get last view controller for specified class in the navigation stack.
+/// @param aClass The view controller class that you want to be remove of the stack.
+- (nullable __kindof UIViewController *)lastViewControllerForClass:(Class)aClass;
 
 @end
 

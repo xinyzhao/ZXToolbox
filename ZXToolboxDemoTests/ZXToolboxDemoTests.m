@@ -35,6 +35,14 @@
     }];
 }
 
+- (void)testAVAudioSession {
+    AVAudioSession *ad = [AVAudioSession sharedInstance];
+    NSLogA(@"#category: %@", ad.category);
+    NSLogA(@"#currentInput: %@", ad.currentInput);
+    NSLogA(@"#currentOutput: %@", ad.currentOutput);
+    NSLogA(@"#isOverrideSpeaker: %d", ad.isOverrideSpeaker);
+}
+
 - (void)testBase64Encoding {
     NSString *str = @"testBase64Encoding";
     str = [str base64EncodedStringWithOptions:0];
@@ -188,6 +196,8 @@
     NSLogA(@"#FileSystemSize: %lld bytes", [UIDevice currentDevice].fileSystemSize);
     NSLogA(@"#FileSystemFreeSize: %lld bytes", [UIDevice currentDevice].fileSystemFreeSize);
     NSLogA(@"#FileSystemUsedSize: %lld bytes", [UIDevice currentDevice].fileSystemUsedSize);
+    NSLogA(@"#isProximityMonitoringEnabled: %d", [UIDevice currentDevice].isProximityMonitoringEnabled);
+    NSLogA(@"#proximityState: %d", [UIDevice currentDevice].proximityState);
 }
 
 - (void)testUIImage {
@@ -207,16 +217,6 @@
     CGSize size = CGSizeMake(100, 100);
     NSLogA(@"#adapt height: %.2f for base width %.2f = %.2f", size.height, size.width, [UIScreen adaptHeight:size.height forBaseWidth:size.width]);
     NSLogA(@"#adapt height: %.2f for base width %.2f = %.2f", size.width, size.height, [UIScreen adaptWidth:size.width forBaseHeight:size.height]);
-}
-
-- (void)testZXAudioDevice {
-    ZXAudioDevice *ad = [ZXAudioDevice sharedDevice];
-    NSLogA(@"#category: %@", ad.category);
-    NSLogA(@"#currentInput: %@", ad.currentInput);
-    NSLogA(@"#currentOutput: %@", ad.currentOutput);
-    NSLogA(@"#isOverrideSpeaker: %d", ad.isOverrideSpeaker);
-    NSLogA(@"#isProximityMonitoringEnabled: %d", ad.isProximityMonitoringEnabled);
-    NSLogA(@"#proximityState: %d", ad.proximityState);
 }
 
 - (void)testZXCommonCrypto {
@@ -331,7 +331,9 @@
     XCTestExpectation *expectation = [self expectationWithDescription:@"testZXLocationManager"];
     //
     ZXLocationManager *lm = [[ZXLocationManager alloc] init];
+    __weak typeof(lm) weak = lm;
     lm.didUpdateLocation = ^(CLLocation * _Nonnull location, CLPlacemark * _Nullable placemark) {
+        [weak stopUpdatingLocation];
         NSLogA(@"#location: %@", location);
         NSLogA(@"#province: %@", placemark.province);
         NSLogA(@"#city: %@", placemark.city);
@@ -343,6 +345,8 @@
     };
     if (@available(iOS 9.0, *)) {
         [lm requestLocation];
+    } else {
+        [lm startUpdatingLocation];
     }
     //
     [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {

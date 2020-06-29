@@ -27,9 +27,15 @@
 #import "ZXCommonCrypto.h"
 #import "ZXKeychain.h"
 #import "ZXToolbox+Macros.h"
+#import <objc/runtime.h>
 #import <sys/utsname.h>
 #import <sys/types.h>
 #import <sys/sysctl.h>
+
+@interface UIDevice ()
+@property (nonatomic, weak) id proximityStateDidChangeObserver;
+
+@end
 
 @implementation UIDevice (ZXToolbox)
 
@@ -114,6 +120,42 @@
     size_t size = sizeof(type);
     sysctlbyname("hw.cputype", &type, &size, NULL, 0);
     return type;
+}
+
+#pragma mark Proximity State
+
+- (void)setProximityStateDidChange:(void (^)(BOOL))proximityStateDidChange {
+    objc_setAssociatedObject(self, @selector(proximityStateDidChange), proximityStateDidChange, OBJC_ASSOCIATION_COPY);
+    // Add observer
+    if (self.proximityStateDidChangeObserver == nil) {
+        __weak typeof(self) weakSelf = self;
+        self.proximityStateDidChangeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIDeviceProximityStateDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+            UIDevice *device = note.object;
+            if (weakSelf.proximityStateDidChange) {
+                weakSelf.proximityStateDidChange(device.proximityState);
+            }
+        }];
+    }
+}
+
+- (void (^)(BOOL))proximityStateDidChange {
+    return objc_getAssociatedObject(self, @selector(proximityStateDidChange));
+}
+
+- (void)setProximityStateDidChangeObserver:(id)proximityStateDidChangeObserver {
+    objc_setAssociatedObject(self, @selector(proximityStateDidChangeObserver), proximityStateDidChangeObserver, OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (id)proximityStateDidChangeObserver {
+    return objc_getAssociatedObject(self, @selector(proximityStateDidChangeObserver));
+}
+
+- (void)dealloc
+{
+    if (self.proximityStateDidChangeObserver) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self.proximityStateDidChangeObserver];
+        self.proximityStateDidChangeObserver = nil;
+    }
 }
 
 @end
