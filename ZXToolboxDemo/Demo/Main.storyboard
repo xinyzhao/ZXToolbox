@@ -68,6 +68,30 @@
                         <segue destination="tba-4Z-fMq" kind="show" identifier="UIControl+ZXToolbox" id="xnw-Fx-szF"/>
                         <segue destination="7zl-9W-gQN" kind="show" identifier="UIDevice+ZXToolbox" id="or3-Vj-y0s"/>
                         <segue destination="EEO-EY-bot" kind="show" identifier="UIImage+ZXToolbox" id="8GY-eS-rMZ"/>
+                        <segue destination="xEL-oo-1tm" kind="show" id="2aF-sW-FIZ"/>
+                        <segue destination="QOc-oR-50v" kind="show" id="ogo-Jj-OAn"/>
+                        <segue destination="u6a-bL-RMN" kind="show" id="V9O-t5-uXL"/>
+                        <segue destination="etU-KA-gPb" kind="show" id="aow-Cw-uvn"/>
+                        <segue destination="fJr-qG-RMl" kind="show" id="LQc-QD-fWd"/>
+                        <segue destination="YCl-XD-c0X" kind="show" id="f8m-z3-lVB"/>
+                        <segue destination="iQW-jI-INd" kind="show" id="nkV-6d-gAK"/>
+                        <segue destination="sts-Uh-9Vb" kind="show" id="9xB-x0-MqF"/>
+                        <segue destination="COB-Ke-Aa1" kind="show" id="548-Qk-ndf"/>
+                        <segue destination="Epy-he-7XI" kind="show" id="dZA-eg-aqe"/>
+                        <segue destination="a3f-k6-2UP" kind="show" id="YA8-7Y-mhF"/>
+                        <segue destination="u5b-Ky-Son" kind="show" id="hpQ-g2-Nkb"/>
+                        <segue destination="7t5-Lx-WmI" kind="show" id="o1X-Wh-5wS"/>
+                        <segue destination="F6u-NA-74h" kind="show" id="RD7-od-fYk"/>
+                        <segue destination="ZdY-LV-UPU" kind="show" id="17s-Fz-mZx"/>
+                        <segue destination="dqd-Jj-Ft4" kind="show" id="rVm-qE-MJy"/>
+                        <segue destination="oaQ-Hb-h92" kind="show" id="hlt-Xw-HGO"/>
+                        <segue destination="ZYp-b8-fRB" kind="show" id="Nai-m8-nGp"/>
+                        <segue destination="QC1-ud-8YL" kind="show" identifier="ZXQRCodeGenerator" id="5KO-k3-pUe"/>
+                        <segue destination="T5W-xD-pZa" kind="show" id="YPf-bC-FRI"/>
+                        <segue destination="QBW-ga-QRI" kind="show" id="loz-15-okQ"/>
+                        <segue destination="od0-9F-FEa" kind="show" id="aYP-BP-KYR"/>
+                        <segue destination="dJ6-I3-0YM" kind="show" id="Y3Q-me-hXI"/>
+                        <segue destination="Z48-ac-KbQ" kind="show" id="Dl8-mT-alC"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Yr0-T6-dfe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -352,6 +376,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="7sx-yN-hdE"/>
                     </view>
+                    <navigationItem key="navigationItem" id="ekn-oZ-8cT"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m3C-p4-CiP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -367,6 +392,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="V0o-r0-KBb"/>
                     </view>
+                    <navigationItem key="navigationItem" id="GgI-VZ-R2X"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jlN-dF-EGh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -382,6 +408,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="QxV-tX-fsc"/>
                     </view>
+                    <navigationItem key="navigationItem" id="7hq-Nf-wE0"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wI3-E6-2U7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -397,6 +424,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="JK6-mb-Dcx"/>
                     </view>
+                    <navigationItem key="navigationItem" id="mlZ-hi-Aon"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3Pk-qN-Om7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -412,6 +440,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="id9-Sz-4e0"/>
                     </view>
+                    <navigationItem key="navigationItem" id="D1V-47-8G3"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5CD-h9-j0Z" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -427,6 +456,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="YAb-2c-Qz5"/>
                     </view>
+                    <navigationItem key="navigationItem" id="lrg-gg-beC"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="f1F-rP-j7l" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -442,6 +472,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="KD8-S8-jdZ"/>
                     </view>
+                    <navigationItem key="navigationItem" id="618-1T-Po8"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rlr-zL-gb9" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -457,6 +488,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="xGN-Og-8Wj"/>
                     </view>
+                    <navigationItem key="navigationItem" id="50H-6r-glp"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iPw-99-cdn" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -472,6 +504,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="lu6-GT-5oV"/>
                     </view>
+                    <navigationItem key="navigationItem" id="caj-EY-lgz"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HR7-58-BpW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -487,6 +520,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="nhb-pE-pos"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Alv-lE-Uae"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LfK-Le-rQ6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -502,6 +536,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="5SV-Hi-faW"/>
                     </view>
+                    <navigationItem key="navigationItem" id="BaL-AR-yFK"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zX6-OJ-cVa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -517,6 +552,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="gqr-Yc-TjU"/>
                     </view>
+                    <navigationItem key="navigationItem" id="oaw-s9-Yxo"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="aAA-Dp-e93" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -532,6 +568,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="oHu-gD-eOk"/>
                     </view>
+                    <navigationItem key="navigationItem" id="cIt-Fh-ria"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2NI-ch-hsd" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -547,6 +584,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="brB-qV-54Z"/>
                     </view>
+                    <navigationItem key="navigationItem" id="tyP-ca-t8X"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a3O-E9-8dV" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -562,6 +600,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="k4L-Ck-Gb2"/>
                     </view>
+                    <navigationItem key="navigationItem" id="UUH-b2-6Lk"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="PKf-Md-29X" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -577,6 +616,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="T9D-3e-I3l"/>
                     </view>
+                    <navigationItem key="navigationItem" id="9tL-nx-coj"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ci7-Px-rRo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -592,6 +632,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="W7S-un-IHL"/>
                     </view>
+                    <navigationItem key="navigationItem" id="89V-Ui-bWz"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rj9-7L-dgf" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -607,21 +648,136 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="Zsb-PQ-ms3"/>
                     </view>
+                    <navigationItem key="navigationItem" id="73p-bA-ipu"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FNM-PF-6i0" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="15116" y="807"/>
         </scene>
-        <!--Code Generator View Controller-->
+        <!--ZXQRCodeGenerator-->
         <scene sceneID="qrO-Bb-Ah5">
             <objects>
                 <viewController storyboardIdentifier="ZXQRCodeGeneratorViewController" id="QC1-ud-8YL" customClass="ZXQRCodeGeneratorViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="MS5-Pl-4OJ">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="6aC-ZB-xmc">
+                                <rect key="frame" x="15" y="103" width="384" height="229"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <outlet property="delegate" destination="QC1-ud-8YL" id="2vG-VV-CBD"/>
+                                    <outlet property="pasteDelegate" destination="QC1-ud-8YL" id="h8w-Ww-Ebt"/>
+                                </connections>
+                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="oUV-3R-qlL">
+                                <rect key="frame" x="15" y="340" width="384" height="115"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="Kyc-EL-15P">
+                                        <rect key="frame" x="0.0" y="0.0" width="384" height="34"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Foreground Color" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sh6-fW-O5o">
+                                                <rect key="frame" x="0.0" y="0.0" width="106.5" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0x000000" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="REI-Uo-SkE">
+                                                <rect key="frame" x="114.5" y="0.0" width="269.5" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="d6c-Xr-Bua">
+                                        <rect key="frame" x="0.0" y="42" width="384" height="34"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Background Color" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Asv-9A-Zgz">
+                                                <rect key="frame" x="0.0" y="0.0" width="109" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="0xFFFFFF" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="OaE-g0-pO7">
+                                                <rect key="frame" x="117" y="0.0" width="267" height="34"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits"/>
+                                            </textField>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="h6U-yZ-a4d">
+                                        <rect key="frame" x="0.0" y="84" width="384" height="31"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Correction Level" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yIn-zz-KD5">
+                                                <rect key="frame" x="0.0" y="0.0" width="99.5" height="31"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="jF8-10-W2D">
+                                                <rect key="frame" x="107.5" y="0.0" width="276.5" height="32"/>
+                                                <segments>
+                                                    <segment title="Low"/>
+                                                    <segment title="Medium"/>
+                                                    <segment title="Quarter"/>
+                                                    <segment title="High"/>
+                                                </segments>
+                                            </segmentedControl>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="spY-fU-QqB">
+                                <rect key="frame" x="15" y="463" width="384" height="384"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="spY-fU-QqB" secondAttribute="height" multiplier="1:1" id="04x-l3-CBj"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="4"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemGray5Color" red="0.8980392157" green="0.8980392157" blue="0.91764705879999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="spY-fU-QqB" firstAttribute="leading" secondItem="p30-Mp-8o3" secondAttribute="leading" constant="15" id="4P3-kQ-qzb"/>
+                            <constraint firstItem="6aC-ZB-xmc" firstAttribute="leading" secondItem="p30-Mp-8o3" secondAttribute="leading" constant="15" id="GJD-5v-iqj"/>
+                            <constraint firstItem="6aC-ZB-xmc" firstAttribute="top" secondItem="p30-Mp-8o3" secondAttribute="top" constant="15" id="T4D-S5-cqr"/>
+                            <constraint firstItem="p30-Mp-8o3" firstAttribute="bottom" secondItem="spY-fU-QqB" secondAttribute="bottom" constant="15" id="Xv8-VV-ybc"/>
+                            <constraint firstItem="p30-Mp-8o3" firstAttribute="trailing" secondItem="spY-fU-QqB" secondAttribute="trailing" constant="15" id="bI5-do-THI"/>
+                            <constraint firstItem="p30-Mp-8o3" firstAttribute="trailing" secondItem="6aC-ZB-xmc" secondAttribute="trailing" constant="15" id="cNK-qy-8Aj"/>
+                            <constraint firstItem="oUV-3R-qlL" firstAttribute="top" secondItem="6aC-ZB-xmc" secondAttribute="bottom" constant="8" id="dK9-Vg-mbC"/>
+                            <constraint firstItem="p30-Mp-8o3" firstAttribute="trailing" secondItem="oUV-3R-qlL" secondAttribute="trailing" constant="15" id="rT7-zT-sYI"/>
+                            <constraint firstItem="oUV-3R-qlL" firstAttribute="leading" secondItem="p30-Mp-8o3" secondAttribute="leading" constant="15" id="sPc-x9-nie"/>
+                            <constraint firstItem="spY-fU-QqB" firstAttribute="top" secondItem="oUV-3R-qlL" secondAttribute="bottom" constant="8" id="tDV-GF-WUH"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="p30-Mp-8o3"/>
                     </view>
+                    <navigationItem key="navigationItem" title="ZXQRCodeGenerator" id="RX5-4q-lzG">
+                        <barButtonItem key="rightBarButtonItem" title="Generate" style="done" id="jUn-bv-v3A">
+                            <connections>
+                                <action selector="onGenerate:" destination="QC1-ud-8YL" id="NX0-wK-Ub0"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="backgroundColorField" destination="OaE-g0-pO7" id="gfp-OU-7wo"/>
+                        <outlet property="correctionLevelControl" destination="jF8-10-W2D" id="LSD-hu-aDz"/>
+                        <outlet property="foregroundColorField" destination="REI-Uo-SkE" id="Uds-xx-0tB"/>
+                        <outlet property="imageView" destination="spY-fU-QqB" id="Ubo-en-178"/>
+                        <outlet property="textView" destination="6aC-ZB-xmc" id="BUM-CL-JMh"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EoG-9B-iwx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -637,6 +793,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="dge-aS-lKw"/>
                     </view>
+                    <navigationItem key="navigationItem" id="yXl-WE-RsD"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wPG-hx-N1m" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -652,6 +809,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="15s-bv-aUy"/>
                     </view>
+                    <navigationItem key="navigationItem" id="t9o-zS-UlQ"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fk6-F0-egT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -667,6 +825,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="x9D-3S-CFD"/>
                     </view>
+                    <navigationItem key="navigationItem" id="X5l-jX-W8e"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dWm-Zy-bYE" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -682,6 +841,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="n03-Qh-2rl"/>
                     </view>
+                    <navigationItem key="navigationItem" id="x1b-gC-YaI"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="t4C-xZ-VgQ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -697,6 +857,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <viewLayoutGuide key="safeArea" id="bFU-zn-F9K"/>
                     </view>
+                    <navigationItem key="navigationItem" id="Ysb-FT-jXe"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MUV-Ch-fMz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
