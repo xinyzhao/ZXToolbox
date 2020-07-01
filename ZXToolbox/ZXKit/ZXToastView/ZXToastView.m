@@ -133,35 +133,127 @@
     return self;
 }
 
-#pragma mark Style
+#pragma mark Style colors
 
-- (void)setStyle:(ZXToastStyle)style {
-    _style = style;
-    switch (_style) {
-        case ZXToastStyleDark:
-            if (@available(iOS 8.0, *)) {
-                _bubbleView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.6];
-                self.effectStyle = UIBlurEffectStyleDark;
-                _activityView.color = [UIColor colorWithWhite:1 alpha:0.8];
-                _textLabel.textColor = [UIColor colorWithWhite:1 alpha:0.8];
-            } else {
-                _bubbleView.backgroundColor = [UIColor colorWithWhite:0 alpha:0.8];
-                _activityView.color = [UIColor colorWithWhite:1 alpha:0.9];
-                _textLabel.textColor = [UIColor colorWithWhite:1 alpha:0.9];
-            }
-            break;
+- (UIColor *)activityColor:(ZXToastStyle)style {
+    switch (style) {
         case ZXToastStyleLight:
+        {
             if (@available(iOS 8.0, *)) {
-                _bubbleView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.6];
-                self.effectStyle = UIBlurEffectStyleLight;
-                _activityView.color = [UIColor colorWithWhite:0 alpha:0.8];
-                _textLabel.textColor = [UIColor colorWithWhite:0 alpha:0.8];
+                return [UIColor colorWithWhite:0 alpha:0.8];
             } else {
-                _bubbleView.backgroundColor = [UIColor colorWithWhite:1 alpha:0.8];
-                _activityView.color = [UIColor colorWithWhite:0 alpha:0.9];
-                _textLabel.textColor = [UIColor colorWithWhite:0 alpha:0.9];
+                return [UIColor colorWithWhite:0 alpha:0.9];
             }
             break;
+        }
+        case ZXToastStyleDark:
+        {
+            if (@available(iOS 8.0, *)) {
+                return [UIColor colorWithWhite:1 alpha:0.8];
+            } else {
+                return [UIColor colorWithWhite:1 alpha:0.9];
+            }
+            break;
+        }
+        case ZXToastStyleUnspecified:
+        {
+            break;
+        }
+    }
+    return nil;
+}
+
+- (UIColor *)bubbleColor:(ZXToastStyle)style {
+    switch (style) {
+        case ZXToastStyleLight:
+        {
+            if (@available(iOS 8.0, *)) {
+                return [UIColor colorWithWhite:1 alpha:0.6];
+            } else {
+                return [UIColor colorWithWhite:1 alpha:0.8];
+            }
+            break;
+        }
+        case ZXToastStyleDark:
+        {
+            if (@available(iOS 8.0, *)) {
+                return [UIColor colorWithWhite:0 alpha:0.6];
+            } else {
+                return [UIColor colorWithWhite:0 alpha:0.8];
+            }
+            break;
+        }
+        default:
+            return nil;
+    }
+}
+
+- (UIColor *)textColor:(ZXToastStyle)style {
+    switch (style) {
+        case ZXToastStyleLight:
+        {
+            if (@available(iOS 8.0, *)) {
+                return [UIColor colorWithWhite:0 alpha:0.8];
+            } else {
+                return [UIColor colorWithWhite:0 alpha:0.9];
+            }
+            break;
+        }
+        case ZXToastStyleDark:
+        {
+            if (@available(iOS 8.0, *)) {
+                return [UIColor colorWithWhite:1 alpha:0.8];
+            } else {
+                return [UIColor colorWithWhite:1 alpha:0.9];
+            }
+            break;
+        }
+        default:
+            return nil;
+    }
+}
+
+- (void)setStyle:(ZXToastStyle)style forView:(UIView *)view {
+    switch (style) {
+        case ZXToastStyleDark:
+        {
+            if (@available(iOS 8.0, *)) {
+                self.effectStyle = UIBlurEffectStyleDark;
+            }
+            _activityView.color = [self activityColor:_style];
+            _bubbleView.backgroundColor = [self bubbleColor:_style];
+            _textLabel.textColor = [self textColor:_style];
+            break;
+        }
+        case ZXToastStyleLight:
+        {
+            if (@available(iOS 8.0, *)) {
+                self.effectStyle = UIBlurEffectStyleLight;
+            }
+            _activityView.color = [self activityColor:_style];
+            _bubbleView.backgroundColor = [self bubbleColor:_style];
+            _textLabel.textColor = [self textColor:_style];
+            break;
+        }
+        case ZXToastStyleUnspecified:
+        {
+            if (@available(iOS 13.0, *)) {
+                switch (view.traitCollection.userInterfaceStyle) {
+                    case UIUserInterfaceStyleLight:
+                        [self setStyle:ZXToastStyleLight forView:nil];
+                        break;
+                    case UIUserInterfaceStyleDark:
+                        [self setStyle:ZXToastStyleDark forView:nil];
+                        break;
+                    default:
+                        [self setStyle:ZXToastStyleDark forView:nil];
+                        break;
+                }
+            } else {
+                [self setStyle:ZXToastStyleDark forView:nil];
+            }
+            break;
+        }
     }
 }
 
@@ -289,7 +381,7 @@
     _bubbleView.layer.masksToBounds = YES;
     //
     [self sizeToFit:view.bounds.size];
-    [self setStyle:_style];
+    [self setStyle:_style forView:view];
     //
     if (self.dismissWhenTouchInside && self.activityView == nil) {
         UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onBubble:)];
@@ -360,10 +452,10 @@
                               delay:0.0
                             options:(UIViewAnimationOptionCurveEaseOut | UIViewAnimationOptionAllowUserInteraction)
                          animations:^{
-                             weakSelf.alpha = 1.0;
-                         } completion:^(BOOL finished) {
-                             completion();
-                         }];
+            weakSelf.alpha = 1.0;
+        } completion:^(BOOL finished) {
+            completion();
+        }];
     } else {
         completion();
     }
@@ -399,10 +491,10 @@
                               delay:0.0
                             options:(UIViewAnimationOptionCurveEaseIn | UIViewAnimationOptionBeginFromCurrentState)
                          animations:^{
-                             weakSelf.alpha = 0.0;
-                         } completion:^(BOOL finished) {
-                             completion();
-                         }];
+            weakSelf.alpha = 0.0;
+        } completion:^(BOOL finished) {
+            completion();
+        }];
     } else {
         completion();
     }
