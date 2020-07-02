@@ -88,7 +88,7 @@
                         <segue destination="ZYp-b8-fRB" kind="show" id="Nai-m8-nGp"/>
                         <segue destination="QC1-ud-8YL" kind="show" identifier="ZXQRCodeGenerator" id="5KO-k3-pUe"/>
                         <segue destination="T5W-xD-pZa" kind="show" id="YPf-bC-FRI"/>
-                        <segue destination="QBW-ga-QRI" kind="show" id="loz-15-okQ"/>
+                        <segue destination="QBW-ga-QRI" kind="show" identifier="ZXQRCodeScanner" id="loz-15-okQ"/>
                         <segue destination="od0-9F-FEa" kind="show" id="aYP-BP-KYR"/>
                         <segue destination="dJ6-I3-0YM" kind="show" id="Y3Q-me-hXI"/>
                         <segue destination="Z48-ac-KbQ" kind="show" id="Dl8-mT-alC"/>
@@ -808,21 +808,104 @@
             </objects>
             <point key="canvasLocation" x="16670" y="807"/>
         </scene>
-        <!--Code Scanner View Controller-->
+        <!--ZXQRCodeScanner-->
         <scene sceneID="ibs-sp-2Uo">
             <objects>
                 <viewController storyboardIdentifier="ZXQRCodeScannerViewController" id="QBW-ga-QRI" customClass="ZXQRCodeScannerViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ahS-Fd-Z1d">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="TsQ-HO-GJM">
+                                <rect key="frame" x="0.0" y="88" width="414" height="414"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="TsQ-HO-GJM" secondAttribute="height" multiplier="1:1" id="XII-fk-qLr"/>
+                                </constraints>
+                            </imageView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="DFI-mV-Qvo">
+                                <rect key="frame" x="15" y="517" width="384" height="272"/>
+                                <color key="backgroundColor" systemColor="systemGray6Color" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="textColor" systemColor="labelColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="5"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </textView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="kZ9-gM-04T">
+                                <rect key="frame" x="15" y="797" width="384" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LOg-Xs-iab">
+                                        <rect key="frame" x="0.0" y="0.0" width="188" height="50"/>
+                                        <color key="backgroundColor" red="0.0" green="0.80000000000000004" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Copy to pasteboard">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="onCopy:" destination="QBW-ga-QRI" eventType="touchUpInside" id="vab-Ug-1aE"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="V5X-St-onL">
+                                        <rect key="frame" x="196" y="0.0" width="188" height="50"/>
+                                        <color key="backgroundColor" red="0.0" green="0.80000000000000004" blue="0.20000000000000001" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Rescanning">
+                                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="5"/>
+                                            </userDefinedRuntimeAttribute>
+                                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                        </userDefinedRuntimeAttributes>
+                                        <connections>
+                                            <action selector="onScan:" destination="QBW-ga-QRI" eventType="touchUpInside" id="n7b-lB-1d7"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="puE-v8-BbF"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="kZ9-gM-04T" firstAttribute="leading" secondItem="15s-bv-aUy" secondAttribute="leading" constant="15" id="0vm-Nb-eli"/>
+                            <constraint firstItem="TsQ-HO-GJM" firstAttribute="top" secondItem="15s-bv-aUy" secondAttribute="top" id="Htw-3m-uUp"/>
+                            <constraint firstItem="15s-bv-aUy" firstAttribute="trailing" secondItem="DFI-mV-Qvo" secondAttribute="trailing" constant="15" id="Jhg-Ko-SLo"/>
+                            <constraint firstItem="DFI-mV-Qvo" firstAttribute="leading" secondItem="15s-bv-aUy" secondAttribute="leading" constant="15" id="S61-M1-vVD"/>
+                            <constraint firstItem="15s-bv-aUy" firstAttribute="trailing" secondItem="TsQ-HO-GJM" secondAttribute="trailing" id="TDO-Dh-hAd"/>
+                            <constraint firstItem="15s-bv-aUy" firstAttribute="bottom" secondItem="kZ9-gM-04T" secondAttribute="bottom" constant="15" id="Zgq-ff-AcA"/>
+                            <constraint firstItem="TsQ-HO-GJM" firstAttribute="leading" secondItem="15s-bv-aUy" secondAttribute="leading" id="kR8-RK-XVU"/>
+                            <constraint firstItem="kZ9-gM-04T" firstAttribute="top" secondItem="DFI-mV-Qvo" secondAttribute="bottom" constant="8" id="mev-dN-yeT"/>
+                            <constraint firstItem="DFI-mV-Qvo" firstAttribute="top" secondItem="TsQ-HO-GJM" secondAttribute="bottom" constant="15" id="rGX-2i-nVO"/>
+                            <constraint firstItem="15s-bv-aUy" firstAttribute="trailing" secondItem="kZ9-gM-04T" secondAttribute="trailing" constant="15" id="zi5-dw-2YI"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="15s-bv-aUy"/>
                     </view>
-                    <navigationItem key="navigationItem" id="t9o-zS-UlQ"/>
+                    <navigationItem key="navigationItem" title="ZXQRCodeScanner" id="t9o-zS-UlQ">
+                        <barButtonItem key="rightBarButtonItem" title="Torch" id="V6l-B8-HLo">
+                            <connections>
+                                <action selector="onTorch:" destination="QBW-ga-QRI" id="AZr-wr-Kbl"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="imageView" destination="TsQ-HO-GJM" id="RoL-aG-z6S"/>
+                        <outlet property="textView" destination="DFI-mV-Qvo" id="rAV-uP-4Oa"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fk6-F0-egT" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="17446" y="807"/>
+            <point key="canvasLocation" x="17444.927536231884" y="806.91964285714278"/>
         </scene>
         <!--Stack View Controller-->
         <scene sceneID="lxM-vs-hb5">

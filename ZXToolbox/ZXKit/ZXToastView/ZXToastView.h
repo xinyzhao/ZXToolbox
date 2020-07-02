@@ -69,14 +69,17 @@ typedef NS_ENUM(NSInteger, ZXToastPosition) {
 /// The image view
 @property (nonatomic, readonly, nullable) UIImageView *imageView;
 
-/// Toast content insets, default is {64.0, 44.0, 64.0, 44.0}
+/// Toast safe area insets, default is {0, 0, 0, 0}
+//@property (nonatomic, assign) UIEdgeInsets safeAreaInset;
+
+/// Toast content margin, default is {15, 15, 15, 20}
 @property (nonatomic, assign) UIEdgeInsets contentInset;
 
-/// Toast content margin, default is 20.0
-@property (nonatomic, assign) CGFloat contentMargin;
+/// Toast content spacing, default is 8
+@property (nonatomic, assign) CGFloat contentSpacing;
 
-/// Toast content padding, default 8.0
-@property (nonatomic, assign) CGFloat contentPadding;
+/// Toast corner radius, default is 10
+@property (nonatomic, assign) CGFloat cornerRadius;
 
 /// The toast duration, default is 3 sec.
 @property (nonatomic, assign) NSTimeInterval duration;

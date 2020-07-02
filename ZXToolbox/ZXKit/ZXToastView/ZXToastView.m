@@ -51,9 +51,9 @@
 {
     self = [super init];
     if (self) {
-        self.contentInset = UIEdgeInsetsMake(64.0, ZXToastViewMagicWidth, 64.0, ZXToastViewMagicWidth);
-        self.contentMargin = 20.0;
-        self.contentPadding = 8.0;
+        self.contentInset = UIEdgeInsetsMake(15, 15, 15, 20);
+        self.contentSpacing = 8.0;
+        self.cornerRadius = 10.0;
         self.duration = 3.0;
         self.fadeDuration = 0.2;
         self.position = ZXToastPositionCenter;
@@ -273,9 +273,9 @@
 - (void)sizeToFit:(CGSize)size {
     //
     if (self.textLabel) {
-        CGFloat width = size.width - (_contentInset.left + _contentInset.right);
-        CGFloat height = size.height - (_contentInset.top + _contentInset.bottom);
-        CGSize maxSize = CGSizeMake(width - _contentMargin * 2, height - _contentMargin * 2);
+        CGFloat width = size.width - (_safeAreaInset.left + _safeAreaInset.right);
+        CGFloat height = size.height - (_safeAreaInset.top + _safeAreaInset.bottom);
+        CGSize maxSize = CGSizeMake(width - _contentInset.left - _contentInset.right, height - _contentInset.top - _contentInset.bottom);
         CGSize msgSize = [self.textLabel sizeThatFits:maxSize];
         // UILabel can return a size larger than the max size when the number of lines is 1
         msgSize = CGSizeMake(MIN(maxSize.width, msgSize.width),
@@ -285,54 +285,54 @@
     //
     CGRect toastFrame = CGRectZero;
     if (self.activityView) {
-        toastFrame.size.width = _contentMargin * 2 + self.activityView.bounds.size.width;
-        toastFrame.size.height = _contentMargin * 2 + self.activityView.bounds.size.height;
+        toastFrame.size.width = _contentInset.left + _contentInset.right + self.activityView.bounds.size.width;
+        toastFrame.size.height = _contentInset.top + _contentInset.bottom + self.activityView.bounds.size.height;
     } else if (self.imageView) {
-        toastFrame.size.width = _contentMargin * 2 + self.imageView.bounds.size.width;
-        toastFrame.size.height = _contentMargin * 2 + self.imageView.bounds.size.height;
+        toastFrame.size.width = _contentInset.left + _contentInset.right + self.imageView.bounds.size.width;
+        toastFrame.size.height = _contentInset.top + _contentInset.bottom + self.imageView.bounds.size.height;
     }
     if (self.textLabel) {
-        CGFloat width = _contentMargin * 2 + self.textLabel.bounds.size.width;
+        CGFloat width = _contentInset.left + _contentInset.right + self.textLabel.bounds.size.width;
         toastFrame.size.width = MAX(toastFrame.size.width, width);
         if (self.activityView || self.imageView) {
-            toastFrame.size.height += _contentPadding + self.textLabel.bounds.size.height;
+            toastFrame.size.height += _contentSpacing + self.textLabel.bounds.size.height;
         } else {
-            toastFrame.size.height = _contentMargin * 2 + self.textLabel.bounds.size.height;
+            toastFrame.size.height = _contentInset.top + _contentInset.bottom + self.textLabel.bounds.size.height;
         }
     }
     //
     switch (self.position) {
         case ZXToastPositionTop:
             toastFrame.origin.x = (size.width - toastFrame.size.width) / 2;
-            toastFrame.origin.y = _contentInset.top;
+            toastFrame.origin.y = _safeAreaInset.top;
             break;
         case ZXToastPositionBottom:
             toastFrame.origin.x = (size.width - toastFrame.size.width) / 2;
-            toastFrame.origin.y = size.height - toastFrame.size.height - _contentInset.bottom;
+            toastFrame.origin.y = size.height - toastFrame.size.height - _safeAreaInset.bottom;
             break;
         case ZXToastPositionLeft:
-            toastFrame.origin.x = _contentInset.left;
+            toastFrame.origin.x = _safeAreaInset.left;
             toastFrame.origin.y = (size.height - toastFrame.size.height) / 2;
             break;
         case ZXToastPositionRight:
-            toastFrame.origin.x = size.width - toastFrame.size.width - _contentInset.right;
+            toastFrame.origin.x = size.width - toastFrame.size.width - _safeAreaInset.right;
             toastFrame.origin.y = (size.height - toastFrame.size.height) / 2;
             break;
         case ZXToastPositionTopLeft:
-            toastFrame.origin.x = _contentInset.left;
-            toastFrame.origin.y = _contentInset.top;
+            toastFrame.origin.x = _safeAreaInset.left;
+            toastFrame.origin.y = _safeAreaInset.top;
             break;
         case ZXToastPositionTopRight:
-            toastFrame.origin.x = size.width - toastFrame.size.width - _contentInset.right;
-            toastFrame.origin.y = _contentInset.top;
+            toastFrame.origin.x = size.width - toastFrame.size.width - _safeAreaInset.right;
+            toastFrame.origin.y = _safeAreaInset.top;
             break;
         case ZXToastPositionBottomLeft:
-            toastFrame.origin.x = _contentInset.left;
-            toastFrame.origin.y = size.height - toastFrame.size.height - _contentInset.bottom;
+            toastFrame.origin.x = _safeAreaInset.left;
+            toastFrame.origin.y = size.height - toastFrame.size.height - _safeAreaInset.bottom;
             break;
         case ZXToastPositionBottomRight:
-            toastFrame.origin.x = size.width - toastFrame.size.width - _contentInset.right;
-            toastFrame.origin.y = size.height - toastFrame.size.height - _contentInset.bottom;
+            toastFrame.origin.x = size.width - toastFrame.size.width - _safeAreaInset.right;
+            toastFrame.origin.y = size.height - toastFrame.size.height - _safeAreaInset.bottom;
             break;
         default:
             toastFrame.origin.x = (size.width - toastFrame.size.width) / 2;
@@ -349,19 +349,19 @@
     }
     //
     if (self.activityView) {
-        self.activityView.center = CGPointMake(toastFrame.size.width / 2, _contentMargin + self.activityView.bounds.size.height / 2);
+        self.activityView.center = CGPointMake(toastFrame.size.width / 2, _contentInset.top + self.activityView.bounds.size.height / 2);
     } else if (self.imageView) {
-        self.imageView.center = CGPointMake(toastFrame.size.width / 2, _contentMargin + self.imageView.bounds.size.height / 2);
+        self.imageView.center = CGPointMake(toastFrame.size.width / 2, _contentInset.top + self.imageView.bounds.size.height / 2);
     }
     if (self.textLabel) {
         CGRect frame = self.textLabel.frame;
         frame.origin.x = (toastFrame.size.width - frame.size.width) / 2;
         if (self.activityView) {
-            frame.origin.y = _contentPadding + self.activityView.frame.origin.y + self.activityView.frame.size.height;
+            frame.origin.y = _contentSpacing + self.activityView.frame.origin.y + self.activityView.frame.size.height;
         } else if (self.imageView) {
-            frame.origin.y = _contentPadding + self.imageView.frame.origin.y + self.imageView.frame.size.height;
+            frame.origin.y = _contentSpacing + self.imageView.frame.origin.y + self.imageView.frame.size.height;
         } else {
-            frame.origin.y = _contentMargin;
+            frame.origin.y = _contentInset.top;
         }
         self.textLabel.frame = frame;
     }
@@ -377,7 +377,7 @@
         return;
     }
     //
-    _bubbleView.layer.cornerRadius = _contentMargin / 2;
+    _bubbleView.layer.cornerRadius = _cornerRadius;
     _bubbleView.layer.masksToBounds = YES;
     //
     [self sizeToFit:view.bounds.size];

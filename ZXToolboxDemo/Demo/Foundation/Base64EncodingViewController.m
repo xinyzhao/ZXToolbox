@@ -48,6 +48,7 @@
 - (IBAction)onCopy:(id)sender {
     if (_textView.text.length > 0) {
         [[UIPasteboard generalPasteboard] setString:_textView.text];
+        AudioServicesPlaySystemSound(1001);
         ZXToastView *toastView = [[ZXToastView alloc] initWithText:@"Copied to clipboard"];
         [toastView showInView:self.textView];
     }

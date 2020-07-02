@@ -88,6 +88,7 @@
         UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"Cancel" style:UIAlertActionStyleCancel handler:nil];
         UIAlertAction *copy = [UIAlertAction actionWithTitle:@"Copy to pasteboard" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [[UIPasteboard generalPasteboard] setImage:image];
+            AudioServicesPlaySystemSound(1001);
             ZXToastView *toastView = [[ZXToastView alloc] initWithText:@"Copy success"];
             [toastView showInView:weakSelf.view];
         }];
