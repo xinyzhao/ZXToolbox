@@ -538,16 +538,18 @@
     UIImage *image = nil;
     CMTime atTime = CMTimeMakeWithSeconds(time, NSEC_PER_SEC);
     CMTime actualTime = kCMTimeZero;
-    /*/ 不能用 copyPixelBufferForItemTime，原因是 iPhoneXR/iPhoneXS 在暂停或停止播放后 Copy 出来的 Image 是无效的
-    CVPixelBufferRef pixelBuffer = [_videoOutput copyPixelBufferForItemTime:atTime itemTimeForDisplay:&actualTime];
-    if (pixelBuffer) {
-        NSLog(@"copyImageAtTime:%.2f actualTime:%.2f", CMTimeGetSeconds(atTime), CMTimeGetSeconds(actualTime));
-        CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBuffer];
-        CVBufferRelease(pixelBuffer);
-        image = [UIImage imageWithCIImage:ciImage scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
-    }*/
     //
-    if (self.playerItem.asset) {
+    if ([_videoOutput hasNewPixelBufferForItemTime:atTime]) {
+        CVPixelBufferRef pixelBuffer = [_videoOutput copyPixelBufferForItemTime:atTime itemTimeForDisplay:&actualTime];
+        if (pixelBuffer) {
+            NSLog(@"copyImageAtTime:%.2f actualTime:%.2f", CMTimeGetSeconds(atTime), CMTimeGetSeconds(actualTime));
+            CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBuffer];
+            image = [UIImage imageWithCIImage:ciImage scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
+            CVBufferRelease(pixelBuffer);
+        }
+    }
+    //
+    if (image == nil && self.playerItem.asset) {
         NSError *error = nil;
         AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:self.playerItem.asset];
         generator.appliesPreferredTrackTransform = YES;
