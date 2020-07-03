@@ -51,6 +51,7 @@
 {
     self = [super init];
     if (self) {
+        self.safeAreaInset = UIEdgeInsetsZero;
         self.contentInset = UIEdgeInsetsMake(15, 15, 15, 20);
         self.contentSpacing = 8.0;
         self.cornerRadius = 10.0;

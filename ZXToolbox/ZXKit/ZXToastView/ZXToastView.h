@@ -70,7 +70,7 @@ typedef NS_ENUM(NSInteger, ZXToastPosition) {
 @property (nonatomic, readonly, nullable) UIImageView *imageView;
 
 /// Toast safe area insets, default is {0, 0, 0, 0}
-//@property (nonatomic, assign) UIEdgeInsets safeAreaInset;
+@property (nonatomic, assign) UIEdgeInsets safeAreaInset;
 
 /// Toast content margin, default is {15, 15, 15, 20}
 @property (nonatomic, assign) UIEdgeInsets contentInset;
