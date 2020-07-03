@@ -132,7 +132,7 @@
 - (void)attachLayer {
     if (_attachView) {
         if (self.playerLayer) {
-            _playerLayer.frame = _attachView.bounds;
+            _playerLayer.frame = _attachView.layer.bounds;
             [_attachView.layer insertSublayer:_playerLayer atIndex:0];
             [self addLayerObserver];
         }
@@ -549,7 +549,7 @@
         }
     }
     //
-    if (image == nil && self.playerItem.asset) {
+    if (image == nil && [self.playerItem.asset tracksWithMediaType:AVMediaTypeVideo].count > 0) {
         NSError *error = nil;
         AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:self.playerItem.asset];
         generator.appliesPreferredTrackTransform = YES;
