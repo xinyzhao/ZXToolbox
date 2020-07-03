@@ -562,7 +562,7 @@
             imageRef = [generator copyCGImageAtTime:atTime actualTime:&actualTime error:&error];
         }
         if (error) {
-            NSLog(@"copyImageAtTime:%.2f error:%@", time, error.localizedDescription);
+            NSLog(@"copyImageAtTime:%.2f error:%@", time, error);
         } else {
             NSLog(@"copyImageAtTime:%.2f actualTime:%.2f", time, CMTimeGetSeconds(actualTime));
         }
