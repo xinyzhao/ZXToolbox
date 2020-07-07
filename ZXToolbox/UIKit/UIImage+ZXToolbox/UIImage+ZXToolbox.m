@@ -39,33 +39,30 @@ UIImage * UIImageCombineToRect(UIImage *image1, UIImage *image2, CGRect rect) {
     return result;
 }
 
-NSData * UIImageCompressToData(UIImage *image, NSUInteger bytes) {
-    if (bytes < 1024) {
-        bytes = 1024;
-        NSLog(@">[COMPRESS] Not less than %d bytes", (int)bytes);
-    }
-    NSData *data = UIImageJPEGRepresentation(image, 1.f);
+NSData * UIImageCompressToData(UIImage *image, NSUInteger bytes, float quality, float scale) {
+    NSData *data = UIImageJPEGRepresentation(image, 1.0);
     NSLog(@">[IMAGE] size:%@ bytes:%d", NSStringFromCGSize(image.size), (int)data.length);
-    int retry = 0;
+    BOOL broken = NO;
     while (data.length > bytes) {
-        CGFloat quality = (float)bytes / data.length;
-        if (quality < 0.1f) {
-            quality = 0.1f;
+        CGFloat q = (float)bytes / data.length;
+        if (q < quality) {
+            q = quality;
         }
-        data = UIImageJPEGRepresentation(image, quality);
+        data = UIImageJPEGRepresentation(image, q);
+        if (broken) { break; }
         if (data.length > bytes) {
-            float scale = (float)bytes / data.length;
-            if (scale < 0.1f) {
-                scale = 0.1f;
+            float s = (float)bytes / data.length;
+            if (s < scale) {
+                s = scale;
+                broken = YES;
             }
-            CGSize size = UIImageSizeToScale(image, scale);
+            CGSize size = UIImageSizeToScale(image, s);
             image = UIImageScaleToSize(image, size);
-            data = UIImageJPEGRepresentation(image, 1.f);
+            data = UIImageJPEGRepresentation(image, 1.0);
         }
-        retry++;
     }
-    NSLog(@">[COMPRESSED] size:%@ bytes:%d retry:%d",
-          NSStringFromCGSize(image.size), (int)data.length, retry);
+    NSLog(@">[COMPRESSED] size:%@ bytes:%d",
+          NSStringFromCGSize(image.size), (int)data.length);
     return data;
 }
 
@@ -336,7 +333,11 @@ UIImage * UIImageToThumbnail(UIImage *image, CGSize size, BOOL scaleAspectFill) 
 }
 
 - (NSData *)compressToData:(NSUInteger)bytes {
-    return UIImageCompressToData(self, bytes);
+    return [self compressToData:bytes quality:0.5 scale:0.5];
+}
+
+- (NSData *)compressToData:(NSUInteger)bytes quality:(float)quality scale:(float)scale {
+    return UIImageCompressToData(self, bytes, quality, scale);
 }
 
 - (UIImage *)croppingToRect:(CGRect)rect {

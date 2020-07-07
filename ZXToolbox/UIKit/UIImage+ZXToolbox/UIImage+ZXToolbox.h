@@ -31,7 +31,11 @@
 UIKIT_EXTERN UIImage * UIImageCombineToRect(UIImage *image1, UIImage *image2, CGRect rect);
 
 /// 压缩
-UIKIT_EXTERN NSData * UIImageCompressToData(UIImage *image, NSUInteger bytes);
+/// @param image The image
+/// @param bytes The maximum bytes of data
+/// @param quality The minimum quality of compression
+/// @param scale The minimum scale of image size
+UIKIT_EXTERN NSData * UIImageCompressToData(UIImage *image, NSUInteger bytes, float quality, float scale);
 
 /// 裁剪
 UIKIT_EXTERN UIImage * UIImageCroppingToRect(UIImage *image, CGRect rect);
@@ -75,6 +79,7 @@ UIKIT_EXTERN UIImage * UIImageToThumbnail(UIImage *image, CGSize size, BOOL scal
 
 /// 压缩
 - (NSData *)compressToData:(NSUInteger)bytes;
+- (NSData *)compressToData:(NSUInteger)bytes quality:(float)quality scale:(float)scale;
 
 /// 裁剪
 - (UIImage *)croppingToRect:(CGRect)rect;
