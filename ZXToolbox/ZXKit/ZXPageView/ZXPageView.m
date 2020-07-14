@@ -77,7 +77,7 @@
 }
 
 - (void)dealloc {
-    [self.timer invalidate];
+    [self stopPaging];
     NSLog(@"%s", __func__);
 }
 
@@ -356,19 +356,37 @@
 #pragma mark Auto paging
 
 - (void)setTimeInterval:(NSTimeInterval)timeInterval {
-    _timeInterval = timeInterval;
-    //
-    [self.timer invalidate];
-    //
-    if (_timeInterval >= 0.01) {
-        self.timer = [ZXTargetTimer scheduledTimerWithTimeInterval:_timeInterval target:self selector:@selector(pagingTimer:) userInfo:nil repeats:YES];
+    self.pagingInterval = timeInterval;
+}
+
+- (NSTimeInterval)timeInterval {
+    return self.pagingInterval;
+}
+
+- (void)setPagingInterval:(NSTimeInterval)pagingInterval {
+    _pagingInterval = pagingInterval;
+    [self startPaging];
+}
+
+- (void)startPaging {
+    [self stopPaging];
+    if (_pagingInterval >= 0.01 && _timer == nil) {
+        _timer = [ZXTargetTimer scheduledTimerWithTimeInterval:_pagingInterval target:self selector:@selector(pagingTimer:) userInfo:nil repeats:YES];
+        [[NSRunLoop currentRunLoop] addTimer:_timer.timer forMode:NSRunLoopCommonModes];
+    }
+}
+
+- (void)stopPaging {
+    if (_timer) {
+        [_timer invalidate];
+        _timer = nil;
     }
 }
 
 - (void)pagingTimer:(NSTimer *)timer {
     if (_numberOfPages > 0) {
         NSTimeInterval time = [[NSDate date] timeIntervalSince1970] - _timestamp;
-        if (time > _timeInterval) {
+        if (time > _pagingInterval) {
             if (!self.scrollView.isTracking && !self.scrollView.isDragging && !self.scrollView.isDecelerating) {
                 self.currentPage = [self contentPage] + 1;
             }

@@ -27,52 +27,40 @@
 
 @class ZXPageView;
 
-/**
- ZXPageViewDelegate
- */
+/// ZXPageViewDelegate
 @protocol ZXPageViewDelegate <NSObject>
 @required
-/**
- Make an UIView object for page
 
- @param pageView The pageView
- @param index The index of page
- @return An subview for page
- */
+/// Make an UIView object for page
+/// @param pageView The pageView
+/// @param index The index of page
+/// @return An subview for page
 - (UIView *)pageView:(ZXPageView *)pageView subviewForPageAtIndex:(NSInteger)index;
 
 @optional
-/**
- The subview will display
 
- @param pageView The pageView
- @param subview The subview
- @param index The index of page
- */
+/// The subview will display
+/// @param pageView The pageView
+/// @param subview The subview
+/// @param index The index of page
 - (void)pageView:(ZXPageView *)pageView willDisplaySubview:(UIView *)subview forPageAtIndex:(NSInteger)index;
 
 @end
 
-/**
- Direction of scrolling
- */
+/// Direction of scrolling
 typedef NS_ENUM(NSInteger, ZXPageViewDirection) {
     ZXPageViewDirectionHorizontal,
     ZXPageViewDirectionVertical,
 };
 
-/**
- Paging mode
- */
+/// Paging mode
 typedef NS_ENUM(NSInteger, ZXPagingMode) {
     ZXPagingModeEndless, // End to end, both of orientation
     ZXPagingModeForward, // Left to right on horizontal, up to down on vertical
     //ZXPagingModeReverse, // Right to left on horizontal, down to up on vertical, doesn't yet support
 };
 
-/**
- ZXPageView
- */
+/// ZXPageView
 @interface ZXPageView : UIView
 /// Delegate, see ZXPageViewDelegate
 @property (nonatomic, weak) id<ZXPageViewDelegate> delegate;
@@ -82,8 +70,10 @@ typedef NS_ENUM(NSInteger, ZXPagingMode) {
 @property (nonatomic, assign) NSInteger currentPage;
 /// The number of pages, default is 0
 @property (nonatomic, assign) NSInteger numberOfPages;
+/// Time interval for auto-paging, default 0 mean no auto-paging, deprecated.
+@property (nonatomic, assign) NSTimeInterval timeInterval __attribute__((deprecated("Replaced by pagingInterval!")));
 /// Time interval for auto-paging, default 0 mean no auto-paging
-@property (nonatomic, assign) NSTimeInterval timeInterval;
+@property (nonatomic, assign) NSTimeInterval pagingInterval;
 /// Orientation, default ZXPagingModeEndless
 @property (nonatomic, assign) ZXPagingMode pagingMode;
 /// Scale factor for page, default is {1.0, 1.0}
@@ -95,26 +85,23 @@ typedef NS_ENUM(NSInteger, ZXPagingMode) {
 /// The subview will display, instead of delegate methods
 @property (nonatomic, copy) void (^willDisplaySubviewForPageAtIndex)(NSInteger index);
 
-/**
- Set current page with animated
-
- @param currentPage The current page
- @param animated animated or immediately
- */
+/// Set current page with animated
+/// @param currentPage The current page
+/// @param animated animated or immediately
 - (void)setCurrentPage:(NSInteger)currentPage animated:(BOOL)animated;
 
-/**
- Get subview for page at index
-
- @param index Page index
- @return subview
- */
+/// Get subview for page at index
+/// @param index Page index
 - (UIView *)subviewForPageAtIndex:(NSInteger)index;
    
-/**
- Reload data
- */
+/// Reload data
 - (void)reloadData;
+
+/// Start paging when pagingInterval great than 0.01 sec.
+- (void)startPaging;
+
+/// Stop paging if running
+- (void)stopPaging;
 
 @end
 
