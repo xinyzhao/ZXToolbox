@@ -28,7 +28,6 @@
 
 @interface ZXPlayer ()
 @property (nonatomic, strong) AVPlayer *player;
-@property (nonatomic, strong) AVPlayerItem *playerItem;
 @property (nonatomic, strong) AVPlayerLayer *playerLayer;
 @property (nonatomic, strong) AVPlayerItemVideoOutput *videoOutput;
 
@@ -51,10 +50,34 @@
     return [[ZXPlayer alloc] initWithURL:URL];
 }
 
++ (instancetype)playerWithAsset:(AVAsset *)asset {
+    return [[ZXPlayer alloc] initWithAsset:asset];
+}
+
++ (instancetype)playerWithPlayerItem:(AVPlayerItem *)playerItem {
+    return [[ZXPlayer alloc] initWithPlayerItem:playerItem];
+}
+
 - (instancetype)initWithURL:(NSURL *)URL {
     self = [self init];
     if (self) {
         self.URL = URL;
+    }
+    return self;
+}
+
+- (instancetype)initWithAsset:(AVAsset *)asset {
+    self = [self init];
+    if (self) {
+        self.asset = asset;
+    }
+    return self;
+}
+
+- (instancetype)initWithPlayerItem:(AVPlayerItem *)playerItem {
+    self = [self init];
+    if (self) {
+        self.playerItem = playerItem;
     }
     return self;
 }
@@ -82,34 +105,20 @@
 #pragma mark Load & Unload
 
 - (void)reload {
-    [self unload];
+    if (self.playerItem) {
+        [self.playerItem addOutput:self.videoOutput];
+    }
+    if (self.player) {
+        if (@available(iOS 10.0, *)) {
+            self.player.automaticallyWaitsToMinimizeStalling = NO;
+        }
+        self.player.muted = self.muted;
+        self.player.volume = self.volume;
+    }
     //
-    dispatch_async(dispatch_get_global_queue(0, 0), ^{
-        if (self.URL) {
-            AVURLAsset *asset = [AVURLAsset URLAssetWithURL:self.URL options:nil];
-            if (asset) {
-                self.playerItem = [AVPlayerItem playerItemWithAsset:asset];
-            }
-        }
-        if (self.playerItem) {
-            [self.playerItem addOutput:self.videoOutput];
-            //
-            self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
-        }
-        if (self.player) {
-            if (@available(iOS 10.0, *)) {
-                self.player.automaticallyWaitsToMinimizeStalling = NO;
-            }
-            self.player.muted = self.muted;
-            self.player.volume = self.volume;
-        }
-        //
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self addItemObserver];
-            [self addPlayerObserver];
-            [self attachLayer];
-        });
-    });
+    [self addItemObserver];
+    [self addPlayerObserver];
+    [self attachLayer];
 }
 
 - (void)unload {
@@ -117,8 +126,7 @@
     [self removeTimeObserver];
     [self removePlayerObserver];
     [self removeItemObserver];
-    _playerItem = nil;
-    _player = nil;
+    self.player = nil;
 }
 
 #pragma mark Attach & Detach
@@ -154,13 +162,13 @@
 
 - (void)addItemObserver {
     [self removeItemObserver];
-    if (_playerItem) {
-        [_playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
-        [_playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
-        [_playerItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
+    if (self.playerItem) {
+        [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew|NSKeyValueObservingOptionOld context:nil];
+        [self.playerItem addObserver:self forKeyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:nil];
+        [self.playerItem addObserver:self forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:nil];
         //
         __weak typeof(self) weakSelf = self;
-        _playerItemDidPlayToEndTimeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
+        self.playerItemDidPlayToEndTimeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
             if (note.object == weakSelf.playerItem) {
                 weakSelf.status = ZXPlaybackStatusEnded;
             }
@@ -169,18 +177,18 @@
 }
 
 - (void)removeItemObserver {
-    if (_playerItem) {
+    if (self.playerItem) {
         @try {
-            [_playerItem removeObserver:self forKeyPath:@"status"];
-            [_playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
-            [_playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
+            [self.playerItem removeObserver:self forKeyPath:@"status"];
+            [self.playerItem removeObserver:self forKeyPath:@"loadedTimeRanges"];
+            [self.playerItem removeObserver:self forKeyPath:@"playbackBufferEmpty"];
         } @catch (NSException *ex) {
             NSLog(@"%@", ex.description);
         }
         //
-        if (_playerItemDidPlayToEndTimeObserver) {
-            [[NSNotificationCenter defaultCenter] removeObserver:_playerItemDidPlayToEndTimeObserver];
-            _playerItemDidPlayToEndTimeObserver = nil;
+        if (self.playerItemDidPlayToEndTimeObserver) {
+            [[NSNotificationCenter defaultCenter] removeObserver:self.playerItemDidPlayToEndTimeObserver];
+            self.playerItemDidPlayToEndTimeObserver = nil;
         }
     }
 }
@@ -251,6 +259,10 @@
 
 #pragma mark Getter
 
+- (AVPlayerItem * _Nullable)playerItem {
+    return _player.currentItem;
+}
+
 - (ZXBrightnessView *)brightnessView {
     if (_brightnessView == nil) {
         _brightnessView = [ZXBrightnessView brightnessView];
@@ -295,7 +307,7 @@
 }
 
 - (BOOL)isReadToPlay {
-    return _playerItem.status == AVPlayerItemStatusReadyToPlay;
+    return self.playerItem.status == AVPlayerItemStatusReadyToPlay;
 }
 
 - (BOOL)isPlaying {
@@ -321,8 +333,23 @@
 #pragma mark Setter
 
 - (void)setURL:(NSURL *)URL {
-    _URL = [URL copy];
-    [self reload];
+    if (URL) {
+        self.asset = [AVURLAsset URLAssetWithURL:URL options:nil];
+    }
+}
+
+- (void)setAsset:(AVAsset *)asset {
+    if (asset) {
+        self.playerItem = [AVPlayerItem playerItemWithAsset:asset];
+    }
+}
+
+- (void)setPlayerItem:(AVPlayerItem *)playerItem {
+    [self unload];
+    if (playerItem) {
+        self.player = [AVPlayer playerWithPlayerItem:playerItem];
+        [self reload];
+    }
 }
 
 - (void)setPlaybackStatus:(void (^)(ZXPlaybackStatus))playbackStatus {
@@ -416,7 +443,7 @@
             [self playAtRate];
         }
         //
-        if (_playerItem.isPlaybackBufferEmpty) {
+        if (self.playerItem.isPlaybackBufferEmpty) {
             self.status = ZXPlaybackStatusBuffering;
         }
     }
@@ -452,8 +479,8 @@
 
 - (NSTimeInterval)currentTime {
     NSTimeInterval time = 0.f;
-    if (_playerItem.status == AVPlayerItemStatusReadyToPlay) {
-        time = CMTimeGetSeconds(_playerItem.currentTime);
+    if (self.playerItem.status == AVPlayerItemStatusReadyToPlay) {
+        time = CMTimeGetSeconds(self.playerItem.currentTime);
         if (time < 0.f) {
             time = 0.f;
         }
@@ -463,13 +490,10 @@
 
 - (NSTimeInterval)duration {
     NSTimeInterval duration = 0.f;
-    if (_playerItem.status == AVPlayerItemStatusReadyToPlay) {
-        duration = CMTimeGetSeconds(_playerItem.duration);
-    } else if (_playerItem.asset) {
-        duration = CMTimeGetSeconds(_playerItem.asset.duration);
-    } else if (_URL) {
-        AVURLAsset *asset = [[AVURLAsset alloc] initWithURL:_URL options:nil];
-        duration = CMTimeGetSeconds(asset.duration);
+    if (self.playerItem.status == AVPlayerItemStatusReadyToPlay) {
+        duration = CMTimeGetSeconds(self.playerItem.duration);
+    } else if (self.playerItem.asset) {
+        duration = CMTimeGetSeconds(self.playerItem.asset.duration);
     }
     // Strange occurred in some iOS version
     if (isnan(duration) || isinf(duration)) {
@@ -490,7 +514,7 @@
         CMTime toTime = CMTimeMakeWithSeconds(floor(time), NSEC_PER_SEC);
         //
         __weak typeof(self) weakSelf = self;
-        [_playerItem seekToTime:toTime completionHandler:^(BOOL finished) {
+        [self.playerItem seekToTime:toTime completionHandler:^(BOOL finished) {
             if (weakSelf.playbackTime) {
                 weakSelf.playbackTime(time, duration);
             }
@@ -513,7 +537,7 @@
         CMTime toTime = CMTimeMakeWithSeconds(floor(time), NSEC_PER_SEC);
         //
         __weak typeof(self) weakSelf = self;
-        [_playerItem seekToTime:toTime toleranceBefore:tolerance toleranceAfter:tolerance completionHandler:^(BOOL finished) {
+        [self.playerItem seekToTime:toTime toleranceBefore:tolerance toleranceAfter:tolerance completionHandler:^(BOOL finished) {
             if (weakSelf.playbackTime) {
                 weakSelf.playbackTime(time, duration);
             }
@@ -563,12 +587,12 @@
                 [self addTimeObserver];
             }
             if (_playerStatus) {
-                _playerStatus(status, _playerItem.error);
+                _playerStatus(status, self.playerItem.error);
             }
         }
         
     } else if ([keyPath isEqualToString:@"loadedTimeRanges"]) {
-        CMTimeRange timeRange = [_playerItem.loadedTimeRanges.firstObject CMTimeRangeValue];
+        CMTimeRange timeRange = [self.playerItem.loadedTimeRanges.firstObject CMTimeRangeValue];
         NSTimeInterval loaded = CMTimeGetSeconds(timeRange.start) + CMTimeGetSeconds(timeRange.duration);
         NSTimeInterval duration = [self duration];
         if (_loadedTime) {
@@ -577,7 +601,7 @@
         
     } else if ([keyPath isEqualToString:@"playbackBufferEmpty"]) {
         if (_playing) {
-            if (_playerItem.isPlaybackBufferEmpty) {
+            if (self.playerItem.isPlaybackBufferEmpty) {
                 self.status = ZXPlaybackStatusBuffering;
             } else {
                 [self playAtRate];

@@ -38,7 +38,7 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 
 @interface ZXPlayer : NSObject
 
-@property (nonatomic, copy) NSURL *URL;
+@property (nonatomic, nullable, readonly) AVPlayerItem *playerItem;
 
 @property (nonatomic, readonly) NSTimeInterval currentTime;
 @property (nonatomic, readonly) NSTimeInterval duration;
@@ -71,10 +71,32 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 /// AVLayerVideoGravityResizeAspect is default.
 @property (nonatomic, copy) AVLayerVideoGravity videoGravity;
 
+/// Creates a ZXPlayer instance by URL
+/// @param URL The URL
 + (instancetype)playerWithURL:(NSURL *)URL;
 
+/// Creates a ZXPlayer instance
+/// @param asset An AVAsset instance
++ (instancetype)playerWithAsset:(AVAsset *)asset;
+
+/// Creates a ZXPlayer instance
+/// @param playerItem An AVPlayerItem instance
++ (instancetype)playerWithPlayerItem:(AVPlayerItem *)playerItem;
+
+/// Initializes a ZXPlayer by URL
+/// @param URL The URL
 - (instancetype)initWithURL:(NSURL *)URL;
 
+/// Initializes a ZXPlayer by AVAsset
+/// @param asset An AVAsset instance
+- (instancetype)initWithAsset:(AVAsset *)asset;
+
+/// Initializes a ZXPlayer by AVPlayerItem
+/// @param playerItem An AVPlayerItem instance
+- (instancetype)initWithPlayerItem:(AVPlayerItem *)playerItem;
+
+/// Attach to view of preview
+/// @param view The view
 - (void)attachToView:(UIView *)view;
 
 - (void)play;
