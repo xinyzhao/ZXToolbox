@@ -81,6 +81,9 @@ Drag the built ZXToolbox.framework into your Xcode project.
 
 ### Foundation
 
+* AVAsset+ZXToolbox.h
+> 204 No Content
+
 * AVAudioSession+ZXToolbox
 
 ```

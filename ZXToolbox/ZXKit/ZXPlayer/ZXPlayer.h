@@ -26,6 +26,8 @@
 #import <AVFoundation/AVFoundation.h>
 #import <MediaPlayer/MediaPlayer.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
     ZXPlaybackStatusBuffering,
     ZXPlaybackStatusPlaying,
@@ -48,11 +50,11 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 @property (nonatomic, readonly) BOOL isPaused;
 @property (nonatomic, readonly) BOOL isEnded;
 
-@property (nonatomic, copy) void (^playerStatus)(AVPlayerStatus status, NSError *error);
-@property (nonatomic, copy) void (^loadedTime)(NSTimeInterval time, NSTimeInterval duration);
+@property (nonatomic, nullable, copy) void (^playerStatus)(AVPlayerStatus status, NSError * _Nullable error);
+@property (nonatomic, nullable, copy) void (^loadedTime)(NSTimeInterval time, NSTimeInterval duration);
 
-@property (nonatomic, copy) void (^playbackStatus)(ZXPlaybackStatus status);
-@property (nonatomic, copy) void (^playbackTime)(NSTimeInterval time, NSTimeInterval duration);
+@property (nonatomic, nullable, copy) void (^playbackStatus)(ZXPlaybackStatus status);
+@property (nonatomic, nullable, copy) void (^playbackTime)(NSTimeInterval time, NSTimeInterval duration);
 @property (nonatomic, assign) NSTimeInterval playbackTimeInterval;
 
 @property (nonatomic, readonly) UIPanGestureRecognizer *panGestureRecognizer;
@@ -93,13 +95,15 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 - (void)seekToTime:(NSTimeInterval)time tolerance:(CMTime)tolerance playAfter:(BOOL)playAfter;
 
 /// Preview image for video
-@property (nonatomic, readonly) UIImage *previewImage;
+@property (nonatomic, nullable, readonly) UIImage *previewImage;
 
 /// Get video image for current time
-@property (nonatomic, readonly) UIImage *currentImage;
+@property (nonatomic, nullable, readonly) UIImage *currentImage;
 
 /// Return an image for video at or near the specified time.
 /// @param time The requested time
-- (UIImage *)copyImageAtTime:(NSTimeInterval)time;
+- (UIImage  * _Nullable)copyImageAtTime:(NSTimeInterval)time;
 
 @end
+
+NS_ASSUME_NONNULL_END

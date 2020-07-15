@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "2.5.6"
+  s.version      = "2.5.7"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -20,6 +20,12 @@ Pod::Spec.new do |s|
   s.source_files = "ZXToolbox/ZXToolbox.h"
   s.public_header_files = "ZXToolbox/ZXToolbox.h"
 
+  s.subspec "AVAsset+ZXToolbox" do |ss|
+    ss.source_files = "ZXToolbox/Foundation/AVAsset+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/Foundation/AVAsset+ZXToolbox/*.h"
+    ss.frameworks = "AVFoundation"
+  end
+  
   s.subspec "AVAudioSession+ZXToolbox" do |ss|
     ss.source_files = "ZXToolbox/Foundation/AVAudioSession+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/Foundation/AVAudioSession+ZXToolbox/*.h"

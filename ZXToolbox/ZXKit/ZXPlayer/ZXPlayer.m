@@ -536,39 +536,16 @@
 
 - (UIImage *)copyImageAtTime:(NSTimeInterval)time {
     UIImage *image = nil;
-    CMTime atTime = CMTimeMakeWithSeconds(time, NSEC_PER_SEC);
-    CMTime actualTime = kCMTimeZero;
     //
+    CMTime atTime = CMTimeMakeWithSeconds(time, NSEC_PER_SEC);
     if ([_videoOutput hasNewPixelBufferForItemTime:atTime]) {
+        CMTime actualTime = kCMTimeZero;
         CVPixelBufferRef pixelBuffer = [_videoOutput copyPixelBufferForItemTime:atTime itemTimeForDisplay:&actualTime];
         if (pixelBuffer) {
             NSLog(@"copyImageAtTime:%.2f actualTime:%.2f", CMTimeGetSeconds(atTime), CMTimeGetSeconds(actualTime));
             CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBuffer];
             image = [UIImage imageWithCIImage:ciImage scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
             CVBufferRelease(pixelBuffer);
-        }
-    }
-    //
-    if (image == nil && [self.playerItem.asset tracksWithMediaType:AVMediaTypeVideo].count > 0) {
-        NSError *error = nil;
-        AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:self.playerItem.asset];
-        generator.appliesPreferredTrackTransform = YES;
-        generator.requestedTimeToleranceBefore = kCMTimeZero;
-        generator.requestedTimeToleranceAfter = kCMTimeZero;
-        CGImageRef imageRef = [generator copyCGImageAtTime:atTime actualTime:&actualTime error:&error];
-        if (imageRef == nil) {
-            generator.requestedTimeToleranceBefore = kCMTimePositiveInfinity;
-            generator.requestedTimeToleranceAfter = kCMTimePositiveInfinity;
-            imageRef = [generator copyCGImageAtTime:atTime actualTime:&actualTime error:&error];
-        }
-        if (error) {
-            NSLog(@"copyImageAtTime:%.2f error:%@", time, error);
-        } else {
-            NSLog(@"copyImageAtTime:%.2f actualTime:%.2f", time, CMTimeGetSeconds(actualTime));
-        }
-        if (imageRef) {
-            image = [[UIImage alloc] initWithCGImage:imageRef];
-            CGImageRelease(imageRef);
         }
     }
     //
