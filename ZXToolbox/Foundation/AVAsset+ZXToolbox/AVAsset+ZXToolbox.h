@@ -32,6 +32,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Return an image for video at or near the specified time.
 /// @param time The requested time
+- (UIImage *)copyImageAtTime:(NSTimeInterval)time;
+
+/// Return an image for video at or near the specified time.
+/// @param time The requested time
 /// @param tolerance The temporal tolerance time.
 /// Pass kCMTimeZero to request sample accurate seeking (this may incur additional decoding delay).
 - (UIImage *)copyImageAtTime:(NSTimeInterval)time tolerance:(CMTime)tolerance;

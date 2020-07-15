@@ -28,8 +28,7 @@
 @implementation AVAsset (ZXToolbox)
 
 - (UIImage *)copyImageAtTime:(NSTimeInterval)time {
-    UIImage *image = nil;
-    return image;
+    return [self copyImageAtTime:time tolerance:kCMTimePositiveInfinity];
 }
 
 - (UIImage *)copyImageAtTime:(NSTimeInterval)time tolerance:(CMTime)tolerance {
