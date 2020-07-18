@@ -97,7 +97,7 @@
             }
             // State
             _state = NSURLSessionTaskStateSuspended;
-            _task = [session dataTaskWithRequest:request];
+            _task = [session dataTaskWithRequest:[request copy]];
         }
     }
     return self;
