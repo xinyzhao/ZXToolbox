@@ -370,12 +370,12 @@
 
 #pragma mark Show
 
-- (void)showInView:(UIView *)view {
+- (instancetype)showInView:(UIView *)view {
     if (view == nil) {
-        return;
+        return self;
     }
     if (self.activityView == nil && self.textLabel == nil && self.imageView == nil) {
-        return;
+        return self;
     }
     //
     _bubbleView.layer.cornerRadius = _cornerRadius;
@@ -417,6 +417,8 @@
     } else {
         [self showAnimated:YES];
     }
+    //
+    return self;
 }
 
 - (void)showStatus:(NSString *)text {

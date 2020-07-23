@@ -120,7 +120,7 @@ typedef NS_ENUM(NSInteger, ZXToastPosition) {
 
 /// Show toast in view
 /// @param view The superview
-- (void)showInView:(UIView *)view;
+- (instancetype)showInView:(UIView *)view;
 
 /// Show the status text
 /// @param text The text to be displayed
