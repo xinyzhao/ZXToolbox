@@ -196,7 +196,7 @@
 - (ZXDownloadTask *)downloadTaskWithURL:(NSURL *)URL {
     ZXDownloadTask *task = [self downloadTaskForURL:URL];
     if (task == nil && _isActive) {
-        task = [[ZXDownloadTask alloc] initWithURL:URL path:_downloadPath session:_session];
+        task = [[ZXDownloadTask alloc] initWithURL:URL path:_downloadPath session:_session resumeBroken:_resumeBrokenEnabled];
         [self addTask:task];
     }
     return task;
