@@ -54,6 +54,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param session The URL session
 - (instancetype)initWithURL:(NSURL *)URL path:(NSString *)path session:(NSURLSession *)session;
 
+/// Init
+/// @param URL The download URL
+/// @param path The local path of download
+/// @param session The URL session
+/// @param resumeBroken Resume broken download or not
+- (instancetype)initWithURL:(NSURL *)URL path:(NSString *)path session:(NSURLSession *)session resumeBroken:(BOOL)resumeBroken;
+
 /// Add observer
 /// @param observer The observer
 /// @param state A block object to be executed when the download state changed.

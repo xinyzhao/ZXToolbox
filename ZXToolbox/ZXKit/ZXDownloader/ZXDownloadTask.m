@@ -67,6 +67,10 @@
 @implementation ZXDownloadTask
 
 - (instancetype)initWithURL:(NSURL *)URL path:(NSString *)path session:(NSURLSession *)session {
+    return [self initWithURL:URL path:path session:session resumeBroken:YES];
+}
+
+- (instancetype)initWithURL:(NSURL *)URL path:(NSString *)path session:(NSURLSession *)session resumeBroken:(BOOL)resumeBroken {
     self = [super init];
     if (self) {
         //
@@ -87,12 +91,12 @@
             _totalBytesWritten = [self fileSizeAtPath:_cacheFilePath];
             _totalBytesExpectedToWrite = 0;
             _observers = [[NSMutableArray alloc] init];
-            // Range
-            // bytes=x-y ==  x byte ~ y byte
-            // bytes=x-  ==  x byte ~ end
-            // bytes=-y  ==  head ~ y byte
             NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-            if (_totalBytesWritten > 0) {
+            if (resumeBroken && _totalBytesWritten > 0) {
+                // Range
+                // bytes=x-y ==  x byte ~ y byte
+                // bytes=x-  ==  x byte ~ end
+                // bytes=-y  ==  head ~ y byte
                 [request setValue:[NSString stringWithFormat:@"bytes=%lld-", _totalBytesWritten] forHTTPHeaderField:@"Range"];
             }
             // State

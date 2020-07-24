@@ -42,6 +42,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// The current number of concurrent downloads
 @property (nonatomic, readonly) NSInteger currentConcurrentDownloadCount;
 
+/// Resume broken download enabled or not, default is YES
+@property (nonatomic, assign) BOOL resumeBrokenEnabled;
+
 /// Enable to allow untrusted SSL certificates, default YES.
 @property (nonatomic, assign) BOOL allowInvalidCertificates;
 

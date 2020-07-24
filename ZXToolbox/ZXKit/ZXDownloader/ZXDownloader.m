@@ -61,6 +61,7 @@
         _currentTasks = [[NSMutableDictionary alloc] init];
         _downloadPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:NSStringFromClass([self class])];
         _allowInvalidCertificates = YES;
+        _resumeBrokenEnabled = YES;
         _isActive = YES;
     }
     return self;
