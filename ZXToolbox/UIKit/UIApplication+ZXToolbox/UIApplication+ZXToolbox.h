@@ -24,7 +24,13 @@
 //
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface UIApplication (ZXToolbox)
+/// for iOS 13
+@property (class, nonatomic, readonly, nullable) UIWindow *keyWindow;
+/// 安全区域
+@property (class, nonatomic, readonly) UIEdgeInsets safeAreaInsets;
 
 /// 打开应用设置界面，成功则返回YES，否则为NO
 - (BOOL)openSettingsURL;
@@ -45,3 +51,5 @@
 @property (nonatomic, assign) BOOL idleTimerEnabled;
 
 @end
+
+NS_ASSUME_NONNULL_END

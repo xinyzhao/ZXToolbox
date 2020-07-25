@@ -37,6 +37,35 @@
 
 @implementation UIApplication (ZXToolbox)
 
++ (UIWindow *)keyWindow {
+    UIWindow *window = nil;
+    if (@available(iOS 13.0, *)) {
+        for (UIWindowScene *scene in [UIApplication sharedApplication].connectedScenes) {
+            if (scene.activationState == UISceneActivationStateForegroundActive) {
+                window = scene.windows.firstObject;
+                break;
+            }
+        }
+    } else {
+        window = [UIApplication sharedApplication].keyWindow;
+    }
+    return window;
+}
+
++ (UIEdgeInsets)safeAreaInsets {
+    UIEdgeInsets insets = UIEdgeInsetsZero;
+    UIViewController *vc = UIApplication.keyWindow.rootViewController;
+    if (vc) {
+        if (@available(iOS 11.0, *)) {
+            insets = vc.view.safeAreaInsets;
+        } else {
+            insets.top = vc.topLayoutGuide.length;
+            insets.bottom = vc.bottomLayoutGuide.length;
+        }
+    }
+    return insets;
+}
+
 - (BOOL)openSettingsURL {
     NSURL *url = nil;
     if(@available(iOS 8.0, *)) {
