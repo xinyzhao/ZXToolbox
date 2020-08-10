@@ -79,6 +79,7 @@
                   @"ZXHaloLabel",
                   @"ZXImageBroswer",
                   @"ZXKeychain",
+                  @"ZXKVObserver",
                   @"ZXLineChartView",
                   @"ZXLocalAuthentication",
                   @"ZXLocationManager",

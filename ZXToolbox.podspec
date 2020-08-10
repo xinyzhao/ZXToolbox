@@ -237,6 +237,11 @@ Pod::Spec.new do |s|
     ss.frameworks = "Security"
   end
   
+  s.subspec "ZXKVObserver" do |ss|
+    ss.source_files = "ZXToolbox/ZXKit/ZXKVObserver/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/ZXKit/ZXKVObserver/*.h"
+  end
+  
   s.subspec "ZXLineChartView" do |ss|
     ss.source_files = "ZXToolbox/ZXKit/ZXLineChartView/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXLineChartView/*.h"

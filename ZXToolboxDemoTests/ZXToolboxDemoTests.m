@@ -323,6 +323,21 @@
     }
 }
 
+- (void)testZXKVObserver {
+    ZXDownloader *obj = [ZXDownloader defaultDownloader];
+    ZXKVObserver *obs = [[ZXKVObserver alloc] init];
+    [obs addObserver:obj forKeyPath:@"downloadPath" options:NSKeyValueObservingOptionNew context:NULL observeValue:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change) {
+        NSLogA(@"%@", [change objectForKey:NSKeyValueChangeNewKey]);
+    }];
+    obj.downloadPath = @"1";
+    obj.downloadPath = @"2";
+    obj.downloadPath = @"3";
+    [obs removeObserver];
+    obj.downloadPath = @"4";
+    obj.downloadPath = @"5";
+    obj.downloadPath = @"6";
+}
+
 - (void)testZXLocalAuthentication {
     NSLogA(@"#canEvaluatePolicy:%d", [ZXLocalAuthentication canEvaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics]);
 }
