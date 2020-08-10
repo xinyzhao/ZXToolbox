@@ -26,12 +26,14 @@
 #import "ZXBrightnessView.h"
 #import "UIColor+ZXToolbox.h"
 #import "ZXToolbox+Macros.h"
+#import "ZXKVObserver.h"
 
 @interface ZXBrightnessView ()
 @property (nonatomic, strong) UIView *levelView;
 @property (nonatomic, strong) NSTimer *disappearTimer;
 @property (nonatomic, assign) BOOL willDisappear;
 @property (nonatomic, weak) id applicationDidChangeStatusBarOrientationObserver;
+@property (nonatomic, strong) ZXKVObserver *mainScreenBrightnessObserver;
 
 @end
 
@@ -89,6 +91,8 @@
             imageView.tag = i;
             [self.levelView addSubview:imageView];
         }
+        //
+        _mainScreenBrightnessObserver = [[ZXKVObserver alloc] init];
     }
     return self;
 }
@@ -124,34 +128,23 @@
 - (void)addObserver {
     [self removeObserver];
     //
-    [[UIScreen mainScreen] addObserver:self forKeyPath:@"brightness" options:NSKeyValueObservingOptionNew context:NULL];
-    //
     __weak typeof(self) weakSelf = self;
     _applicationDidChangeStatusBarOrientationObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidChangeStatusBarOrientationNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
         [weakSelf setNeedsLayout];
     }];
+    //
+    [_mainScreenBrightnessObserver addObserver:[UIScreen mainScreen] forKeyPath:@"brightness" options:NSKeyValueObservingOptionNew context:NULL observeValue:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change) {
+        CGFloat level = [change[NSKeyValueChangeNewKey] floatValue];
+        [weakSelf presentViewAnimated];
+        [weakSelf updateBrightnessLevel:level];
+    }];
 }
 
 - (void)removeObserver {
-    @try {
-        [[UIScreen mainScreen] removeObserver:self forKeyPath:@"brightness"];
-    } @catch (NSException *ex) {
-        NSLog(@"%@", ex.description);
-    }
     if (_applicationDidChangeStatusBarOrientationObserver) {
         [[NSNotificationCenter defaultCenter] removeObserver:_applicationDidChangeStatusBarOrientationObserver];
     }
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context {
-    if ([keyPath isEqualToString:@"brightness"]) {
-        CGFloat level = [change[@"new"] floatValue];
-        [self presentViewAnimated];
-        [self updateBrightnessLevel:level];
-    }
+    [_mainScreenBrightnessObserver removeObserver];
 }
 
 #pragma mark Present

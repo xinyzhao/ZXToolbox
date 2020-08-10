@@ -26,6 +26,7 @@
 #import "ZXDownloadTask.h"
 #import "ZXDownloader.h"
 #import "ZXCommonCrypto.h"
+#import "ZXKVObserver.h"
 #import <UIKit/UIKit.h>
 
 /// ZXDownloadObserver
@@ -61,6 +62,8 @@
 @property (nonatomic, assign) int64_t totalBytesExpectedToWrite;
 
 @property (nonatomic, assign) NSURLSessionTaskState state;
+
+@property (nonatomic, strong) ZXKVObserver *taskStateObserver;
 
 @end
 
@@ -103,6 +106,8 @@
             _state = NSURLSessionTaskStateSuspended;
             _task = [session dataTaskWithRequest:[request copy]];
         }
+        //
+        _taskStateObserver = [[ZXKVObserver alloc] init];
     }
     return self;
 }

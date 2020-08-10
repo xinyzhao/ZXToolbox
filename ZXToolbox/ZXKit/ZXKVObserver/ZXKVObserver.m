@@ -52,6 +52,10 @@
 
 - (void)removeObserver {
     [self.object removeObserver:self forKeyPath:self.keyPath context:self.context];
+    self.object = nil;
+    self.keyPath = nil;
+    self.options = 0;
+    self.context = NULL;
 }
 
 - (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary<NSKeyValueChangeKey, id> *)change context:(nullable void *)context {

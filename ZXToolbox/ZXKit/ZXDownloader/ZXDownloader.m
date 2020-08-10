@@ -24,6 +24,7 @@
 //
 
 #import "ZXDownloader.h"
+#import "ZXKVObserver.h"
 #import <UIKit/UIKit.h>
 
 @interface ZXDownloader () <NSURLSessionDataDelegate>
@@ -243,40 +244,30 @@
 - (void)addTaskObserver:(ZXDownloadTask *)task {
     if (task) {
         [self removeTaskObserver:task];
-        [task addObserver:self forKeyPath:@"state" options:NSKeyValueObservingOptionNew context:nil];
+        ZXKVObserver *taskStateObserver = [task valueForKey:@"taskStateObserver"];
+        //
+        __weak typeof(self) weakSelf = self;
+        [taskStateObserver addObserver:task forKeyPath:@"state" options:NSKeyValueObservingOptionNew context:NULL observeValue:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change) {
+            NSURLSessionTaskState state = [change[NSKeyValueChangeNewKey] integerValue];
+            switch (state) {
+                case NSURLSessionTaskStateCanceling:
+                case NSURLSessionTaskStateCompleted:
+                    [weakSelf removeTask:task];
+                    break;
+                default:
+                    break;
+            }
+        }];
     }
 }
 
 - (void)removeTaskObserver:(ZXDownloadTask *)task {
     if (task) {
-        @try {
-            [task removeObserver:self forKeyPath:@"state"];
-        } @catch (NSException *ex) {
-            //NSLog(@"%@", ex.description);
-        }
+        ZXKVObserver *taskStateObserver = [task valueForKey:@"taskStateObserver"];
+        [taskStateObserver removeObserver];
     }
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-    if ([keyPath isEqualToString:@"state"]) {
-        ZXDownloadTask *task = object;
-        switch (task.state) {
-            case NSURLSessionTaskStateRunning:
-                break;
-            case NSURLSessionTaskStateSuspended:
-                break;
-            case NSURLSessionTaskStateCanceling:
-                [self removeTask:task];
-                break;
-            case NSURLSessionTaskStateCompleted:
-                [self removeTask:task];
-                break;
-            default:
-                break;
-        }
-    }
-}
-    
 #pragma mark <NSURLSessionTaskDelegate>
 
 /* The task has received a request specific authentication challenge.

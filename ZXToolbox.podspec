@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "2.5.9"
+  s.version      = "2.6.0"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -181,6 +181,7 @@ Pod::Spec.new do |s|
 
   s.subspec "ZXBrightnessView" do |ss|
   	ss.dependency "ZXToolbox/UIColor+ZXToolbox"
+    ss.dependency "ZXToolbox/ZXKVObserver"
     ss.dependency "ZXToolbox/ZXToolbox+Macros"
     ss.source_files = "ZXToolbox/ZXKit/ZXBrightnessView/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXBrightnessView/*.h"
@@ -204,6 +205,7 @@ Pod::Spec.new do |s|
 
   s.subspec "ZXDownloader" do |ss|
   	ss.dependency "ZXToolbox/ZXCommonCrypto"
+    ss.dependency "ZXToolbox/ZXKVObserver"
     ss.source_files = "ZXToolbox/ZXKit/ZXDownloader/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXDownloader/*.h"
   end
@@ -289,6 +291,7 @@ Pod::Spec.new do |s|
 
   s.subspec "ZXPlayer" do |ss|
     ss.dependency "ZXToolbox/ZXBrightnessView"
+    ss.dependency "ZXToolbox/ZXKVObserver"
     ss.source_files = "ZXToolbox/ZXKit/ZXPlayer/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXPlayer/*.h"
     ss.frameworks = "AVFoundation", "MediaPlayer"
