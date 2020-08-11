@@ -40,9 +40,9 @@
 + (UIWindow *)keyWindow {
     UIWindow *window = nil;
     if (@available(iOS 13.0, *)) {
-        for (UIWindowScene *scene in [UIApplication sharedApplication].connectedScenes) {
-            if (scene.activationState == UISceneActivationStateForegroundActive) {
-                window = scene.windows.firstObject;
+        for (UIWindow *win in [UIApplication sharedApplication].windows) {
+            if (win.isKeyWindow) {
+                window = win;
                 break;
             }
         }
