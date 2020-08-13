@@ -113,6 +113,10 @@
 }
 
 - (void)testNSStringNumberValue {
+    NSString *str = [NSString stringWithNumber:@(arc4random())];
+    NSLogA(@"str: %@", str);
+    NSLogA(@"arr: %@", [str numberComponents]);
+    //
     NSMutableArray *arr = [[NSMutableArray alloc] init];
     for (int i = 2; i <= 36; i++) {
         [arr addObject:[NSString stringWithFormat:@"[Base10]100 -> [Base%d]%@", i, [NSString stringWithValue:@"100" baseIn:10 baseOut:i alphabet:nil]]];

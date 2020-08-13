@@ -310,6 +310,10 @@ NSLogA(@"#%@ -> %@", num, str3);
 * NSString+NumberValue
 
 ```
+NSString *str = [NSString stringWithNumber:@(arc4random())];
+NSLogA(@"str: %@", str);
+NSLogA(@"arr: %@", [str numberComponents]);
+//
 NSMutableArray *arr = [[NSMutableArray alloc] init];
 for (int i = 2; i <= 36; i++) {
     [arr addObject:[NSString stringWithFormat:@"[Base10]100 -> [Base%d]%@", i, [NSString stringWithValue:@"100" baseIn:10 baseOut:i alphabet:nil]]];
@@ -319,6 +323,19 @@ NSLogA(@"%@", arr);
 > Output:
 
 ```
+str: 2033282857
+arr: (
+    2,
+    0,
+    3,
+    3,
+    2,
+    8,
+    2,
+    8,
+    5,
+    7
+)
 (
     "[Base10]100 -> [Base2]1100100",
     "[Base10]100 -> [Base3]10201",

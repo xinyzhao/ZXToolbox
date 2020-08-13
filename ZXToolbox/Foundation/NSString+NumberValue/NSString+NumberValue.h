@@ -46,6 +46,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) unsigned long long unsignedLongLongValue;
 @property (readonly) NSUInteger unsignedIntegerValue;
 
+/// An array containing the number components. (read-only)
+@property (nullable, readonly, copy) NSArray<NSNumber *> *numberComponents;
+
 /**
  Convert a numeric string of baseIn radix to a numeric string of baseOut radix.
  Reference https://github.com/MikeMcl/bignumber.js/blob/master/bignumber.js

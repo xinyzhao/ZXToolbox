@@ -94,6 +94,15 @@
     return [[[NSString numberFormatter] numberFromString:self] unsignedIntegerValue];
 }
 
+- (NSArray<NSNumber *> * _Nullable)numberComponents {
+    NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:self.length];
+    for (NSUInteger i = 0; i < self.length; i++) {
+        NSString *str = [self substringWithRange:NSMakeRange(i, 1)];
+        array[i] = [NSString numberFromString:str];
+    }
+    return array.count > 0 ? [array copy] : nil;
+}
+
 + (NSString *)stringWithValue:(id)value baseIn:(int)baseIn baseOut:(int)baseOut alphabet:(NSString *_Nullable)alphabet {
     // String
     NSString *str = nil;
