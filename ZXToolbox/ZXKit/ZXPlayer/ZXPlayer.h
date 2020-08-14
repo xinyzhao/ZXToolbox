@@ -122,10 +122,6 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 /// Get video image for current time
 @property (nonatomic, nullable, readonly) UIImage *currentImage;
 
-/// Return an image for video at or near the specified time.
-/// @param time The requested time
-- (UIImage  * _Nullable)copyImageAtTime:(NSTimeInterval)time;
-
 @end
 
 NS_ASSUME_NONNULL_END

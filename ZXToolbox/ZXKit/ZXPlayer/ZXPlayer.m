@@ -24,6 +24,7 @@
 //
 
 #import "ZXPlayer.h"
+#import "AVAsset+ZXToolbox.h"
 #import "ZXBrightnessView.h"
 #import "ZXKVObserver.h"
 
@@ -578,22 +579,18 @@
 #pragma mark Image
 
 - (UIImage *)previewImage {
-    return [self copyImageAtTime:0];
+    return [self.playerItem.asset copyImageAtTime:0];
 }
 
 - (UIImage *)currentImage {
-    return [self copyImageAtTime:self.currentTime];
-}
-
-- (UIImage *)copyImageAtTime:(NSTimeInterval)time {
     UIImage *image = nil;
     //
-    CMTime atTime = CMTimeMakeWithSeconds(time, NSEC_PER_SEC);
-    if ([_videoOutput hasNewPixelBufferForItemTime:atTime]) {
+    CMTime time = self.playerItem.currentTime;
+    if ([_videoOutput hasNewPixelBufferForItemTime:time]) {
         CMTime actualTime = kCMTimeZero;
-        CVPixelBufferRef pixelBuffer = [_videoOutput copyPixelBufferForItemTime:atTime itemTimeForDisplay:&actualTime];
+        CVPixelBufferRef pixelBuffer = [_videoOutput copyPixelBufferForItemTime:time itemTimeForDisplay:&actualTime];
         if (pixelBuffer) {
-            NSLog(@"copyImageAtTime:%.2f actualTime:%.2f", CMTimeGetSeconds(atTime), CMTimeGetSeconds(actualTime));
+            NSLog(@"currentImage:%.2f actualTime:%.2f", CMTimeGetSeconds(time), CMTimeGetSeconds(actualTime));
             CIImage *ciImage = [CIImage imageWithCVPixelBuffer:pixelBuffer];
             image = [UIImage imageWithCIImage:ciImage scale:[UIScreen mainScreen].scale orientation:UIImageOrientationUp];
             CVBufferRelease(pixelBuffer);

@@ -290,6 +290,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "ZXPlayer" do |ss|
+    ss.dependency "ZXToolbox/AVAsset+ZXToolbox"
     ss.dependency "ZXToolbox/ZXBrightnessView"
     ss.dependency "ZXToolbox/ZXKVObserver"
     ss.source_files = "ZXToolbox/ZXKit/ZXPlayer/*.{h,m}"
