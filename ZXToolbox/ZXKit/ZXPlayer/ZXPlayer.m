@@ -100,7 +100,6 @@
         _volumeFactor = 0.5;
         _volume = 1.0;
         _muted = NO;
-        _rate = 0.0;
         _videoGravity = AVLayerVideoGravityResizeAspect;
         //
         _playerItemStatusObserver = [[ZXKVObserver alloc] init];
@@ -211,7 +210,7 @@
                 if (weakSelf.playerItem.isPlaybackBufferEmpty) {
                     weakSelf.status = ZXPlaybackStatusBuffering;
                 } else {
-                    [weakSelf playAtRate];
+                    [weakSelf play];
                 }
             }
         }];
@@ -450,11 +449,6 @@
     }
 }
 
-- (void)setRate:(float)rate {
-    _rate = rate;
-    [self playAtRate];
-}
-
 - (void)setVideoGravity:(AVLayerVideoGravity)videoGravity {
     _videoGravity = [videoGravity copy];
     if (_playerLayer) {
@@ -485,17 +479,8 @@
         if (self.isEnded) {
             [self seekToTime:0 playAfter:YES];
         } else {
-            [self playAtRate];
+            [_player play];
         }
-    }
-}
-
-- (void)playAtRate {
-    _playing = YES;
-    //
-    if (self.isReadToPlay) {
-        _player.rate = _rate;
-        [_player play];
     }
 }
 
@@ -508,7 +493,7 @@
 }
 
 - (void)resume {
-    if (self.isReadToPlay && self.isPaused) {
+    if (self.isPaused) {
         [self play];
     }
 }

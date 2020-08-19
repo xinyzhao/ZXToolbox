@@ -65,9 +65,6 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 @property (nonatomic, assign) float volume NS_AVAILABLE(10_7, 7_0);
 @property (nonatomic, getter=isMuted) BOOL muted NS_AVAILABLE(10_7, 7_0);
 
-/// Rate of playback, default is 0 not to setting.
-@property (nonatomic, assign) float rate;
-
 /// AVLayerVideoGravityResizeAspect is default.
 @property (nonatomic, copy) AVLayerVideoGravity videoGravity;
 
