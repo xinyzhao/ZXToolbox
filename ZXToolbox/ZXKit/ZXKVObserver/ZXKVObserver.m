@@ -56,6 +56,7 @@
     self.keyPath = nil;
     self.options = 0;
     self.context = NULL;
+    self.observeValue = NULL;
 }
 
 - (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary<NSKeyValueChangeKey, id> *)change context:(nullable void *)context {

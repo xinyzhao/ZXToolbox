@@ -247,7 +247,7 @@
         __weak typeof(self) weakSelf = self;
         [_playerRateObserver addObserver:_player forKeyPath:@"rate" options:NSKeyValueObservingOptionNew context:NULL observeValue:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change) {
             BOOL isPlaying = ABS([[change objectForKey:@"new"] floatValue]) > 0.0;
-            if (isPlaying) {
+            if (isPlaying && !weakSelf.isEnded) {
                 weakSelf.status = ZXPlaybackStatusPlaying;
             } else if (!weakSelf.isBuffering && !weakSelf.isSeeking && !weakSelf.isEnded) {
                 weakSelf.status = ZXPlaybackStatusPaused;
