@@ -46,6 +46,8 @@
 @property (nonatomic, strong) ZXKVObserver *playerItemStatusObserver;
 @property (nonatomic, strong) ZXKVObserver *playerItemLoadedTimeRangesObserver;
 @property (nonatomic, strong) ZXKVObserver *playerItemPlaybackBufferEmptyObserver;
+@property (nonatomic, strong) ZXKVObserver *playerItemPlaybackBufferFullObserver;
+@property (nonatomic, strong) ZXKVObserver *playerItemPlaybackLikelyToKeepUpObserver;
 @property (nonatomic, strong) ZXKVObserver *playerRateObserver;
 @property (nonatomic, strong) ZXKVObserver *attachViewLayerBoundsObserver;
 
@@ -103,7 +105,9 @@
         //
         _playerItemStatusObserver = [[ZXKVObserver alloc] init];
         _playerItemLoadedTimeRangesObserver = [[ZXKVObserver alloc] init];
-        _playerItemLoadedTimeRangesObserver = [[ZXKVObserver alloc] init];
+        _playerItemPlaybackBufferEmptyObserver = [[ZXKVObserver alloc] init];
+        _playerItemPlaybackBufferFullObserver = [[ZXKVObserver alloc] init];
+        _playerItemPlaybackLikelyToKeepUpObserver = [[ZXKVObserver alloc] init];
         _playerRateObserver = [[ZXKVObserver alloc] init];
         _attachViewLayerBoundsObserver = [[ZXKVObserver alloc] init];
     }
@@ -183,6 +187,10 @@
             if (status != old) {
                 if (status == AVPlayerStatusReadyToPlay) {
                     [weakSelf addTimeObserver];
+                    //
+                    if (weakSelf.playing) {
+                        [weakSelf play];
+                    }
                 }
                 if (weakSelf.playerStatus) {
                     weakSelf.playerStatus(status, weakSelf.playerItem.error);
@@ -198,6 +206,7 @@
             }
         }];
         [_playerItemPlaybackBufferEmptyObserver addObserver:self.playerItem forKeyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:NULL observeValue:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change) {
+            //NSLog(@"playbackBufferEmpty %@", change[NSKeyValueChangeNewKey]);
             if (weakSelf.playing) {
                 if (weakSelf.playerItem.isPlaybackBufferEmpty) {
                     weakSelf.status = ZXPlaybackStatusBuffering;
@@ -205,6 +214,12 @@
                     [weakSelf playAtRate];
                 }
             }
+        }];
+        [_playerItemPlaybackBufferFullObserver addObserver:self.playerItem forKeyPath:@"playbackBufferFull" options:NSKeyValueObservingOptionNew context:NULL observeValue:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change) {
+            //NSLog(@"playbackBufferFull %@", change[NSKeyValueChangeNewKey]);
+        }];
+        [_playerItemPlaybackLikelyToKeepUpObserver addObserver:self.playerItem forKeyPath:@"playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:NULL observeValue:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change) {
+            //NSLog(@"playbackLikelyToKeepUp %@", change[NSKeyValueChangeNewKey]);
         }];
         _playerItemDidPlayToEndTimeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
             if (note.object == weakSelf.playerItem) {
@@ -218,6 +233,8 @@
     [_playerItemStatusObserver removeObserver];
     [_playerItemLoadedTimeRangesObserver removeObserver];
     [_playerItemPlaybackBufferEmptyObserver removeObserver];
+    [_playerItemPlaybackBufferFullObserver removeObserver];
+    [_playerItemPlaybackLikelyToKeepUpObserver removeObserver];
     if (_playerItemDidPlayToEndTimeObserver) {
         [[NSNotificationCenter defaultCenter] removeObserver:_playerItemDidPlayToEndTimeObserver];
         _playerItemDidPlayToEndTimeObserver = nil;
@@ -470,17 +487,15 @@
         } else {
             [self playAtRate];
         }
-        //
-        if (self.playerItem.isPlaybackBufferEmpty) {
-            self.status = ZXPlaybackStatusBuffering;
-        }
     }
 }
 
 - (void)playAtRate {
-    [_player play];
-    if (_rate > 0) {
+    _playing = YES;
+    //
+    if (self.isReadToPlay) {
         _player.rate = _rate;
+        [_player play];
     }
 }
 
