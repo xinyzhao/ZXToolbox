@@ -50,8 +50,6 @@
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
         downloader = [[ZXDownloader alloc] init];
-        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
-        downloader.session = [NSURLSession sessionWithConfiguration:config delegate:downloader delegateQueue:nil];
     });
     return downloader;
 }
@@ -60,41 +58,35 @@
     self = [super init];
     if (self) {
         _currentTasks = [[NSMutableDictionary alloc] init];
+        _runningTasks = [[NSMutableArray alloc] init];
+        _waitingTasks = [[NSMutableArray alloc] init];
         _downloadPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:NSStringFromClass([self class])];
         _allowInvalidCertificates = YES;
         _resumeBrokenEnabled = YES;
         _isActive = YES;
+        [self addObservers];
     }
     return self;
 }
 
 - (void)dealloc {
-    if (_willResignActiveObserver) {
-        [[NSNotificationCenter defaultCenter] removeObserver:_willResignActiveObserver];
-        _willResignActiveObserver = nil;
-    }
-    if (_didEnterBackgroundObserver) {
-        [[NSNotificationCenter defaultCenter] removeObserver:_didEnterBackgroundObserver];
-        _didEnterBackgroundObserver = nil;
-    }
-    if (_willEnterForegroundObserver) {
-        [[NSNotificationCenter defaultCenter] removeObserver:_willEnterForegroundObserver];
-        _willEnterForegroundObserver = nil;
-    }
-    if (_didBecomeActiveObserver) {
-        [[NSNotificationCenter defaultCenter] removeObserver:_didBecomeActiveObserver];
-        _didBecomeActiveObserver = nil;
-    }
+    [self removeObservers];
 }
 
 #pragma mark Session
 
-- (void)setSession:(NSURLSession *)session {
-    _session = session;
-    //
+- (NSURLSession *)session {
+    if (_session == nil) {
+        NSURLSessionConfiguration *config = [NSURLSessionConfiguration defaultSessionConfiguration];
+        _session = [NSURLSession sessionWithConfiguration:config delegate:self delegateQueue:nil];
+    }
+    return _session;
+}
+
+#pragma mark Observers
+
+- (void)addObservers {
     __weak typeof(self) weakSelf = self;
-    _runningTasks = [[NSMutableArray alloc] init];
-    _waitingTasks = [[NSMutableArray alloc] init];
     //
     if (_willResignActiveObserver == nil) {
         _willResignActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
@@ -119,6 +111,25 @@
     }
 }
 
+- (void)removeObservers {
+    if (_willResignActiveObserver) {
+        [[NSNotificationCenter defaultCenter] removeObserver:_willResignActiveObserver];
+        _willResignActiveObserver = nil;
+    }
+    if (_didEnterBackgroundObserver) {
+        [[NSNotificationCenter defaultCenter] removeObserver:_didEnterBackgroundObserver];
+        _didEnterBackgroundObserver = nil;
+    }
+    if (_willEnterForegroundObserver) {
+        [[NSNotificationCenter defaultCenter] removeObserver:_willEnterForegroundObserver];
+        _willEnterForegroundObserver = nil;
+    }
+    if (_didBecomeActiveObserver) {
+        [[NSNotificationCenter defaultCenter] removeObserver:_didBecomeActiveObserver];
+        _didBecomeActiveObserver = nil;
+    }
+}
+
 #pragma mark Background && Foreground
 
 - (void)enterBackground {
@@ -134,6 +145,7 @@
         }
         //
         [self cancelAllTasks];
+        _session = nil;
     }
 }
 
@@ -161,7 +173,7 @@
 #pragma mark Concurrency
 
 - (NSInteger)maxConcurrentDownloadCount {
-    return _session.configuration.HTTPMaximumConnectionsPerHost;
+    return self.session.configuration.HTTPMaximumConnectionsPerHost;
 }
 
 - (NSInteger)currentConcurrentDownloadCount {
@@ -197,7 +209,7 @@
 - (ZXDownloadTask *)downloadTaskWithURL:(NSURL *)URL {
     ZXDownloadTask *task = [self downloadTaskForURL:URL];
     if (task == nil && _isActive) {
-        task = [[ZXDownloadTask alloc] initWithURL:URL path:_downloadPath session:_session resumeBroken:_resumeBrokenEnabled];
+        task = [[ZXDownloadTask alloc] initWithURL:URL path:_downloadPath session:self.session resumeBroken:_resumeBrokenEnabled];
         [self addTask:task];
     }
     return task;
