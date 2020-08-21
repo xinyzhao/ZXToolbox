@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "2.6.4"
+  s.version      = "2.6.5"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -202,9 +202,15 @@ Pod::Spec.new do |s|
     ss.source_files = "ZXToolbox/ZXKit/ZXCoordinate2D/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXCoordinate2D/*.h"
   end
+  
+  s.subspec "ZXDispatchQueue" do |ss|
+    ss.source_files = "ZXToolbox/ZXKit/ZXDispatchQueue/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/ZXKit/ZXDispatchQueue/*.h"
+  end
 
   s.subspec "ZXDownloader" do |ss|
-  	ss.dependency "ZXToolbox/ZXCommonCrypto"
+    ss.dependency "ZXToolbox/ZXCommonCrypto"
+    ss.dependency "ZXToolbox/ZXDispatchQueue"
     ss.dependency "ZXToolbox/ZXKVObserver"
     ss.source_files = "ZXToolbox/ZXKit/ZXDownloader/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXDownloader/*.h"

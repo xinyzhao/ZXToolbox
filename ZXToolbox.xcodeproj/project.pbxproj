@@ -225,6 +225,8 @@
 		70D8449C23C706DA0042E305 /* ZXToolboxDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D8449B23C706DA0042E305 /* ZXToolboxDemoTests.m */; };
 		70D844B323C707200042E305 /* ZXToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7000AC4722E9C1CC00651E44 /* ZXToolbox.framework */; };
 		70D844B423C707200042E305 /* ZXToolbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7000AC4722E9C1CC00651E44 /* ZXToolbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		70F2728724EFC3B300DD1A9F /* ZXDispatchQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F2728524EFC3B300DD1A9F /* ZXDispatchQueue.m */; };
+		70F2728824EFC3B300DD1A9F /* ZXDispatchQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F2728624EFC3B300DD1A9F /* ZXDispatchQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70F673CA234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70F673CB234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F673C8234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m */; };
 		70F673CE234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 70F673CD234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle */; };
@@ -526,6 +528,8 @@
 		70D8449723C706DA0042E305 /* ZXToolboxDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZXToolboxDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		70D8449B23C706DA0042E305 /* ZXToolboxDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXToolboxDemoTests.m; sourceTree = "<group>"; };
 		70D8449D23C706DA0042E305 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		70F2728524EFC3B300DD1A9F /* ZXDispatchQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXDispatchQueue.m; sourceTree = "<group>"; };
+		70F2728624EFC3B300DD1A9F /* ZXDispatchQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXDispatchQueue.h; sourceTree = "<group>"; };
 		70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+ZXToolbox.h"; sourceTree = "<group>"; };
 		70F673C8234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+ZXToolbox.m"; sourceTree = "<group>"; };
 		70F673CD234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = "UIDevice+ZXToolbox.bundle"; sourceTree = "<group>"; };
@@ -838,6 +842,7 @@
 				7000ACD022E9C22F00651E44 /* ZXCircularProgressView */,
 				7000ACAD22E9C22F00651E44 /* ZXCommonCrypto */,
 				705F48AF23C9BFFE002AADC8 /* ZXCoordinate2D */,
+				70F2728424EFC3B300DD1A9F /* ZXDispatchQueue */,
 				70A7B5B323B0B7990080C95A /* ZXDownloader */,
 				7000ACC722E9C22F00651E44 /* ZXDrawingView */,
 				7000ACE822E9C22F00651E44 /* ZXHaloLabel */,
@@ -1454,6 +1459,15 @@
 			path = Class;
 			sourceTree = "<group>";
 		};
+		70F2728424EFC3B300DD1A9F /* ZXDispatchQueue */ = {
+			isa = PBXGroup;
+			children = (
+				70F2728624EFC3B300DD1A9F /* ZXDispatchQueue.h */,
+				70F2728524EFC3B300DD1A9F /* ZXDispatchQueue.m */,
+			);
+			path = ZXDispatchQueue;
+			sourceTree = "<group>";
+		};
 		70F673C6234EDCA4009A6FF2 /* UIDevice+ZXToolbox */ = {
 			isa = PBXGroup;
 			children = (
@@ -1506,6 +1520,7 @@
 				7000AD3B22E9C22F00651E44 /* UIView+ZXToolbox.h in Headers */,
 				7000AD3822E9C22F00651E44 /* UIViewController+ZXToolbox.h in Headers */,
 				7000AD4022E9C22F00651E44 /* UIScreen+ZXToolbox.h in Headers */,
+				70F2728824EFC3B300DD1A9F /* ZXDispatchQueue.h in Headers */,
 				7000AD4322E9C22F00651E44 /* UIScrollView+ZXToolbox.h in Headers */,
 				70BC8B5823C5B8D100DD952B /* ZXKeychainItem+Match.h in Headers */,
 				70D4BD2623A9DC47000D28E2 /* ZXImageBroswerCell.h in Headers */,
@@ -1789,6 +1804,7 @@
 				7000AD8022E9C22F00651E44 /* ZXQRCodeReader.m in Sources */,
 				70BC8B4D23C5B6B000DD952B /* ZXKeychainItem+InternetPassword.m in Sources */,
 				7000AD2622E9C22F00651E44 /* JSONObject.m in Sources */,
+				70F2728724EFC3B300DD1A9F /* ZXDispatchQueue.m in Sources */,
 				7000AD2922E9C22F00651E44 /* NSString+URLEncoding.m in Sources */,
 				7000AD2422E9C22F00651E44 /* NSFileManager+ZXToolbox.m in Sources */,
 				7000AD9722E9C22F00651E44 /* ZXQRCodeScanner.m in Sources */,
@@ -1998,7 +2014,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2020.08.19;
+				CURRENT_PROJECT_VERSION = 2020.08.21;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2011,7 +2027,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.3;
+				MARKETING_VERSION = 2.6.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolbox;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2025,7 +2041,7 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2020.08.19;
+				CURRENT_PROJECT_VERSION = 2020.08.21;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2038,7 +2054,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.3;
+				MARKETING_VERSION = 2.6.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolbox;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2053,7 +2069,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2020.08.13;
+				CURRENT_PROJECT_VERSION = 2020.08.21;
 				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = ZXToolboxDemo/main.pch;
 				INFOPLIST_FILE = ZXToolboxDemo/Info.plist;
@@ -2062,7 +2078,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.2;
+				MARKETING_VERSION = 2.6.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolboxDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2076,7 +2092,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2020.08.13;
+				CURRENT_PROJECT_VERSION = 2020.08.21;
 				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = ZXToolboxDemo/main.pch;
 				INFOPLIST_FILE = ZXToolboxDemo/Info.plist;
@@ -2085,7 +2101,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.2;
+				MARKETING_VERSION = 2.6.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolboxDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

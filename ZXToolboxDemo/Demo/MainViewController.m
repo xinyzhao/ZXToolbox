@@ -73,6 +73,7 @@
                   @"ZXCircularProgressView",
                   @"ZXCommonCrypto",
                   @"ZXCoordinate2D",
+                  @"ZXDispatchQueue",
                   @"ZXDownloader",
                   @"ZXDrawingView",
                   @"ZXHTTPClient",

@@ -25,6 +25,7 @@
 
 #import "ZXDownloader.h"
 #import "ZXKVObserver.h"
+#import "ZXDispatchQueue.h"
 #import <UIKit/UIKit.h>
 
 @interface ZXDownloader () <NSURLSessionDataDelegate>
@@ -90,23 +91,31 @@
     //
     if (_willResignActiveObserver == nil) {
         _willResignActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillResignActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-            [weakSelf enterBackground];
+            [ZXDispatchQueue.main asyncAfter:@"ZXDownloader.enterBackground/enterForeground" deadline:0.1 execute:^(NSString * _Nonnull event) {
+                [weakSelf enterBackground];
+            }];
         }];
     }
     if (_didEnterBackgroundObserver == nil) {
         _didEnterBackgroundObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidEnterBackgroundNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-            [weakSelf enterBackground];
+            [ZXDispatchQueue.main asyncAfter:@"ZXDownloader.enterBackground/enterForeground" deadline:0.1 execute:^(NSString * _Nonnull event) {
+                [weakSelf enterBackground];
+            }];
         }];
     }
     //
     if (_willEnterForegroundObserver == nil) {
         _willEnterForegroundObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationWillEnterForegroundNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-            [weakSelf enterForeground];
+            [ZXDispatchQueue.main asyncAfter:@"ZXDownloader.enterBackground/enterForeground" deadline:0.1 execute:^(NSString * event) {
+                [weakSelf enterForeground];
+            }];
         }];
     }
     if (_didBecomeActiveObserver == nil) {
         _didBecomeActiveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidBecomeActiveNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
-            [weakSelf enterForeground];
+            [ZXDispatchQueue.main asyncAfter:@"ZXDownloader.enterBackground/enterForeground" deadline:0.1 execute:^(NSString * event) {
+                [weakSelf enterForeground];
+            }];
         }];
     }
 }
@@ -208,7 +217,7 @@
 
 - (ZXDownloadTask *)downloadTaskWithURL:(NSURL *)URL {
     ZXDownloadTask *task = [self downloadTaskForURL:URL];
-    if (task == nil && _isActive) {
+    if (task == nil) {
         task = [[ZXDownloadTask alloc] initWithURL:URL path:_downloadPath session:self.session resumeBroken:_resumeBrokenEnabled];
         [self addTask:task];
     }
