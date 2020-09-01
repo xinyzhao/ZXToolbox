@@ -25,6 +25,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  ZXPopoverView
  */
@@ -32,17 +34,17 @@
 /**
  Presented View
  */
-@property (nonatomic, strong) UIView *presentedView;
+@property (nonatomic, nullable, strong) UIView *presentedView;
 
 /**
  Presented background color, default [[UIColor blackColor] colorWithAlphaComponent:0.4]
  */
-@property (nonatomic, strong) UIColor *presentedBackgroundColor;
+@property (nonatomic, nullable, strong) UIColor *presentedBackgroundColor;
 
 /**
  Presenting View
  */
-@property (nonatomic, weak) UIView *presentingView;
+@property (nonatomic, nullable, weak) UIView *presentingView;
 
 /**
  Presenting duration of animation, default 0.3 secend
@@ -57,7 +59,7 @@
 /**
  Action block when tap on background without presented view
  */
-@property (nonatomic, copy) void (^touchedBackgroundBlock)(void);
+@property (nonatomic, nullable, copy) void (^touchedBackgroundBlock)(void);
 
 @end
 
@@ -81,7 +83,7 @@
  @param animated animated
  @param completion completion block
  */
-- (void)presentView:(UIView *)view animated:(BOOL)animated completion:(void (^)(void))completion;
+- (void)presentView:(UIView *)view animated:(BOOL)animated completion:(void (^ _Nullable)(void))completion;
 
 /**
  Present view
@@ -92,7 +94,7 @@
  @param animated animated
  @param completion completion block
  */
-- (void)presentView:(UIView *)view from:(CGRect)from to:(CGRect)to animated:(BOOL)animated completion:(void(^)(void))completion;
+- (void)presentView:(UIView *)view from:(CGRect)from to:(CGRect)to animated:(BOOL)animated completion:(void(^ _Nullable)(void))completion;
 
 /**
  Dismiss view
@@ -100,6 +102,8 @@
  @param flag animated
  @param completion completion block
  */
-- (void)dismissViewAnimated:(BOOL)flag completion:(void(^)(void))completion;
+- (void)dismissViewAnimated:(BOOL)flag completion:(void(^ _Nullable)(void))completion;
 
 @end
+
+NS_ASSUME_NONNULL_END

@@ -33,14 +33,14 @@
 - (instancetype)initWithURL:(NSURL *)URL {
     self = [super init];
     if (self) {
-        self.player = [ZXPlayer playerWithURL:URL];
-        [self.player attachToView:self.view];
+        _player = [ZXPlayer playerWithURL:URL];
+        [_player attachToView:self.view];
     }
     return self;
 }
 
 - (void)dealloc {
-    [self.player stop];
+    [_player stop];
 }
 
 - (void)viewDidLoad {

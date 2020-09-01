@@ -25,10 +25,12 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @class ZXPlayer;
 
 @interface ZXPlayerViewController : UIViewController
-@property (nonatomic, strong) ZXPlayer *player;
+@property (nonatomic, strong, readonly) ZXPlayer *player;
 
 /// Default is YES
 @property (nonatomic, assign) BOOL shouldAutorotate;
@@ -41,3 +43,5 @@
 - (instancetype)initWithURL:(NSURL *)URL;
 
 @end
+
+NS_ASSUME_NONNULL_END
