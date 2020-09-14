@@ -34,23 +34,26 @@
 - (UIImage *)copyImageAtTime:(NSTimeInterval)time tolerance:(CMTime)tolerance {
     UIImage *image = nil;
     //
-    CMTime atTime = CMTimeMakeWithSeconds(time, NSEC_PER_SEC);
-    CMTime actualTime = kCMTimeZero;
-    NSError *error = nil;
-    AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:self];
-    generator.appliesPreferredTrackTransform = YES;
-    generator.requestedTimeToleranceBefore = tolerance;
-    generator.requestedTimeToleranceAfter = tolerance;
-    CGImageRef imageRef = [generator copyCGImageAtTime:atTime actualTime:&actualTime error:&error];
-    if (imageRef) {
-        image = [[UIImage alloc] initWithCGImage:imageRef];
-        CGImageRelease(imageRef);
-    }
-    if (image) {
-        NSLog(@"copyImageAtTime:%.3f torlerance:%.3f actualTime:%.3f", time, CMTimeGetSeconds(tolerance), CMTimeGetSeconds(actualTime));
-    }
-    if (error) {
-        NSLog(@"copyImageAtTime:%.3f torlerance:%.3f error:%@", time, CMTimeGetSeconds(tolerance), error);
+    AVAssetTrack *track = [[self tracksWithMediaType: AVMediaTypeVideo] firstObject];
+    if (track) {
+        CMTime atTime = CMTimeMakeWithSeconds(time, NSEC_PER_SEC);
+        CMTime actualTime = kCMTimeZero;
+        NSError *error = nil;
+        AVAssetImageGenerator *generator = [[AVAssetImageGenerator alloc] initWithAsset:self];
+        generator.appliesPreferredTrackTransform = YES;
+        generator.requestedTimeToleranceBefore = tolerance;
+        generator.requestedTimeToleranceAfter = tolerance;
+        CGImageRef imageRef = [generator copyCGImageAtTime:atTime actualTime:&actualTime error:&error];
+        if (imageRef) {
+            image = [[UIImage alloc] initWithCGImage:imageRef];
+            CGImageRelease(imageRef);
+        }
+        if (image) {
+            NSLog(@"copyImageAtTime:%.3f torlerance:%.3f actualTime:%.3f", time, CMTimeGetSeconds(tolerance), CMTimeGetSeconds(actualTime));
+        }
+        if (error) {
+            NSLog(@"copyImageAtTime:%.3f torlerance:%.3f error:%@", time, CMTimeGetSeconds(tolerance), error);
+        }
     }
     //
     return image;
