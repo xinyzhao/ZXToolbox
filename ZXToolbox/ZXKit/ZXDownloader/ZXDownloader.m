@@ -63,7 +63,6 @@
         _waitingTasks = [[NSMutableArray alloc] init];
         _downloadPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) firstObject] stringByAppendingPathComponent:NSStringFromClass([self class])];
         _allowInvalidCertificates = YES;
-        _resumeBrokenEnabled = YES;
         _isActive = YES;
         [self addObservers];
     }
@@ -218,7 +217,7 @@
 - (ZXDownloadTask *)downloadTaskWithURL:(NSURL *)URL {
     ZXDownloadTask *task = [self downloadTaskForURL:URL];
     if (task == nil) {
-        task = [[ZXDownloadTask alloc] initWithURL:URL path:_downloadPath session:self.session resumeBroken:_resumeBrokenEnabled];
+        task = [[ZXDownloadTask alloc] initWithURL:URL path:_downloadPath session:self.session];
         [self addTask:task];
     }
     return task;

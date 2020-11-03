@@ -273,11 +273,11 @@
     ZXDownloadTask *task = [ZXDownloader.defaultDownloader downloadTaskWithURL:url];
     [task addObserver:self state:^(NSURLSessionTaskState state, NSString * _Nullable filePath, NSError * _Nullable error) {
         NSLogA(@"#state: %d filePath: %@ error: %@", (int)state, filePath, error);
+        if (state == NSURLSessionTaskStateCompleted && filePath) {
+            [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
+        }
         if (state != NSURLSessionTaskStateRunning) {
             [expectation fulfill];
-        }
-        if (filePath) {
-            [[NSFileManager defaultManager] removeItemAtPath:filePath error:nil];
         }
     } progress:^(int64_t receivedSize, int64_t expectedSize, float progress) {
         NSLogA(@"#receivedSize: %lld expectedSize: %lld progress: %.2f", receivedSize, expectedSize, progress);

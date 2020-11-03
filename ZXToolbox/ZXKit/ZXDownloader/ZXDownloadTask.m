@@ -39,7 +39,7 @@
 @property (nonatomic, copy) void(^progress)(int64_t receivedSize, int64_t expectedSize, float progress);
 
 /// The state block
-@property (nonatomic, copy) void(^state)(NSURLSessionTaskState state, NSString *finalFilePath, NSError *error);
+@property (nonatomic, copy) void(^state)(NSURLSessionTaskState state, NSString *filePath, NSError *error);
 
 @end
 
@@ -53,8 +53,8 @@
 
 @property (nonatomic, strong) NSMutableArray *observers;
 
-@property (nonatomic, strong) NSString *cacheFilePath;
-@property (nonatomic, strong) NSString *finalFilePath;
+@property (nonatomic, strong) NSString *temporaryFilePath;
+@property (nonatomic, strong) NSString *destinationFilePath;
 
 @property (nonatomic, strong) NSOutputStream *outputStream;
 
@@ -64,18 +64,20 @@
 @property (nonatomic, assign) NSURLSessionTaskState state;
 
 @property (nonatomic, strong) ZXKVObserver *taskStateObserver;
+@property (nonatomic, weak) NSURLSession *session;
 
 @end
 
 @implementation ZXDownloadTask
 
 - (instancetype)initWithURL:(NSURL *)URL path:(NSString *)path session:(NSURLSession *)session {
-    return [self initWithURL:URL path:path session:session resumeBroken:YES];
-}
-
-- (instancetype)initWithURL:(NSURL *)URL path:(NSString *)path session:(NSURLSession *)session resumeBroken:(BOOL)resumeBroken {
     self = [super init];
     if (self) {
+        //
+        _session = session;
+        _observers = [[NSMutableArray alloc] init];
+        _taskStateObserver = [[ZXKVObserver alloc] init];
+        _state = NSURLSessionTaskStateSuspended;
         //
         BOOL isDirectory = NO;
         if (path == nil) {
@@ -89,25 +91,22 @@
         if (URL) {
             _URL = [URL copy];
             _taskIdentifier = _URL.taskIdentifier;
-            _cacheFilePath = [path stringByAppendingPathComponent:_taskIdentifier];
-            _finalFilePath = [path stringByAppendingPathComponent:[_URL lastPathComponent]];
-            _totalBytesWritten = [self fileSizeAtPath:_cacheFilePath];
+            _temporaryFilePath = [path stringByAppendingPathComponent:_taskIdentifier];
+            _destinationFilePath = [path stringByAppendingPathComponent:[_URL lastPathComponent]];
+            _totalBytesWritten = [self fileSizeAtPath:_temporaryFilePath];
             _totalBytesExpectedToWrite = 0;
-            _observers = [[NSMutableArray alloc] init];
-            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:URL];
-            if (resumeBroken && _totalBytesWritten > 0) {
+            //
+            NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:_URL];
+            if (_totalBytesWritten > 0) {
                 // Range
                 // bytes=x-y ==  x byte ~ y byte
                 // bytes=x-  ==  x byte ~ end
                 // bytes=-y  ==  head ~ y byte
                 [request setValue:[NSString stringWithFormat:@"bytes=%lld-", _totalBytesWritten] forHTTPHeaderField:@"Range"];
             }
-            // State
-            _state = NSURLSessionTaskStateSuspended;
-            _task = [session dataTaskWithRequest:[request copy]];
+            //
+            _task = [_session dataTaskWithRequest:[request copy]];
         }
-        //
-        _taskStateObserver = [[ZXKVObserver alloc] init];
     }
     return self;
 }
@@ -138,9 +137,9 @@
 
 - (NSString *)filePath {
     if (_state == NSURLSessionTaskStateCompleted) {
-        return _finalFilePath;
+        return _destinationFilePath;
     }
-    return _cacheFilePath;
+    return _temporaryFilePath;
 }
 
 - (uint64_t)fileSizeAtPath:(NSString *)path {
@@ -171,8 +170,8 @@
 
 - (void)resume {
     BOOL isDir = NO;
-    if ([[NSFileManager defaultManager] fileExistsAtPath:_finalFilePath isDirectory:&isDir] && !isDir) {
-        id userInfo = @{NSLocalizedFailureReasonErrorKey:@"Could not perform an operation because the destination file already exists."};
+    if ([[NSFileManager defaultManager] fileExistsAtPath:_destinationFilePath isDirectory:&isDir] && !isDir) {
+        id userInfo = @{NSLocalizedFailureReasonErrorKey:@"Could not perform an operation because the destination file already exists.", @"NSDestinationFilePath":_destinationFilePath};
         NSError *error = [NSError errorWithDomain:NSCocoaErrorDomain code:NSFileWriteFileExistsError userInfo:userInfo];
         [self setState:NSURLSessionTaskStateCompleted withError:error];
     } else if (_state == NSURLSessionTaskStateSuspended) {
@@ -252,7 +251,7 @@
 
 - (void)openOutputStreamWithAppend:(BOOL)append {
     if (_outputStream == nil) {
-        _outputStream = [NSOutputStream outputStreamToFileAtPath:_cacheFilePath append:append];
+        _outputStream = [NSOutputStream outputStreamToFileAtPath:_temporaryFilePath append:append];
         [_outputStream open];
     }
 }
@@ -270,16 +269,20 @@
 #pragma mark <NSURLSessionTaskDelegate>
 
 /* Sent as the last message related to a specific task.  Error may be
-* nil, which implies that no error occurred and this task is complete.
-*/
+ * nil, which implies that no error occurred and this task is complete.
+ */
 - (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task didCompleteWithError:(nullable NSError *)error
 {
     [self closeOutputStream];
     if (error == nil && task.state == NSURLSessionTaskStateCompleted) {
-        [[NSFileManager defaultManager] removeItemAtPath:_finalFilePath error:nil];
-        [[NSFileManager defaultManager] moveItemAtPath:_cacheFilePath
-                                                toPath:_finalFilePath
+        [[NSFileManager defaultManager] removeItemAtPath:_destinationFilePath error:nil];
+        [[NSFileManager defaultManager] moveItemAtPath:_temporaryFilePath
+                                                toPath:_destinationFilePath
                                                  error:&error];
+    } else {
+        NSMutableDictionary *userInfo = [error.userInfo mutableCopy];
+        userInfo[NSURLErrorKey] = _task.URL.absoluteString;
+        error = [NSError errorWithDomain:error.domain code:error.code userInfo:userInfo];
     }
     [self setState:task.state withError:error];
 }
@@ -287,50 +290,58 @@
 #pragma mark <NSURLSessionDataDelegate>
 
 /* The task has received a response and no further messages will be
-* received until the completion block is called. The disposition
-* allows you to cancel a request or to turn a data task into a
-* download task. This delegate message is optional - if you do not
-* implement it, you can get the response as a property of the task.
-*
-* This method will not be called for background upload tasks (which cannot be converted to download tasks).
-*/
+ * received until the completion block is called. The disposition
+ * allows you to cancel a request or to turn a data task into a
+ * download task. This delegate message is optional - if you do not
+ * implement it, you can get the response as a property of the task.
+ *
+ * This method will not be called for background upload tasks (which cannot be converted to download tasks).
+ */
 - (void)URLSession:(NSURLSession *)session
           dataTask:(NSURLSessionDataTask *)dataTask
 didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler
 {
-    BOOL append = NO;
     if ([response isKindOfClass:[NSHTTPURLResponse class]]) {
         NSHTTPURLResponse *http = (NSHTTPURLResponse *)response;
         switch (http.statusCode) {
             case 200: // OK
+            {
+                _totalBytesWritten = 0;
+                self.totalBytesExpectedToWrite = http.expectedContentLength;
+                [self openOutputStreamWithAppend:NO];
                 break;
+            }
             case 206: // Partial Content
-                append = YES;
+            {
+                self.totalBytesExpectedToWrite = _totalBytesWritten + http.expectedContentLength;
+                [self openOutputStreamWithAppend:YES];
                 break;
+            }
+            case 416: // Requested Range Not Satisfiable
+            {
+                [[NSFileManager defaultManager] removeItemAtPath:_temporaryFilePath error:nil];
+                id userInfo = @{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"%ld %@", (long)http.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:http.statusCode]], NSURLErrorKey:_task.URL.absoluteString};
+                NSError *error = [NSError errorWithDomain:@"HTTPStatusCode" code:http.statusCode userInfo:userInfo];
+                [self setState:NSURLSessionTaskStateCompleted withError:error];
+                break;
+            }
             default:
             {
-                id userInfo = @{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"%ld %@", (long)http.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:http.statusCode]]};
+                id userInfo = @{NSLocalizedDescriptionKey:[NSString stringWithFormat:@"%ld %@", (long)http.statusCode, [NSHTTPURLResponse localizedStringForStatusCode:http.statusCode]], NSURLErrorKey:_task.URL.absoluteString};
                 NSError *error = [NSError errorWithDomain:@"HTTPStatusCode" code:http.statusCode userInfo:userInfo];
                 [self setState:NSURLSessionTaskStateCompleted withError:error];
                 return;
             }
         }
     }
-    //
-    if (append) {
-        self.totalBytesExpectedToWrite = response.expectedContentLength + _totalBytesWritten;
-    } else {
-        self.totalBytesExpectedToWrite = response.expectedContentLength;
-    }
-    [self openOutputStreamWithAppend:append];
 }
 
 /* Sent when data is available for the delegate to consume.  It is
-* assumed that the delegate will retain and not copy the data.  As
-* the data may be discontiguous, you should use
-* [NSData enumerateByteRangesUsingBlock:] to access it.
-*/
+ * assumed that the delegate will retain and not copy the data.  As
+ * the data may be discontiguous, you should use
+ * [NSData enumerateByteRangesUsingBlock:] to access it.
+ */
 - (void)URLSession:(NSURLSession *)session
           dataTask:(NSURLSessionDataTask *)dataTask
     didReceiveData:(NSData *)data
