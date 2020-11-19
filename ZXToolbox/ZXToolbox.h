@@ -74,7 +74,7 @@ FOUNDATION_EXPORT const unsigned char ZXToolboxVersionString[];
 #import "ZXHTTPClient.h"
 #import "ZXImageBroswer.h"
 #import "ZXKeychain.h"
-#import "ZXKVObserver.h"
+#import "ZXKeyValueObserver.h"
 #import "ZXLineChartView.h"
 #import "ZXLocalAuthentication.h"
 #import "ZXLocationManager.h"

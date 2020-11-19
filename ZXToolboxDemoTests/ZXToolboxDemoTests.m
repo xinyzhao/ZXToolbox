@@ -327,16 +327,16 @@
     }
 }
 
-- (void)testZXKVObserver {
+- (void)testZXKeyValueObserver {
     ZXDownloader *obj = [ZXDownloader defaultDownloader];
-    ZXKVObserver *obs = [[ZXKVObserver alloc] init];
-    [obs addObserver:obj forKeyPath:@"downloadPath" options:NSKeyValueObservingOptionNew context:NULL observeValue:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change) {
+    ZXKeyValueObserver *obs = [[ZXKeyValueObserver alloc] init];
+    [obs observe:obj keyPath:@"downloadPath" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
         NSLogA(@"%@", [change objectForKey:NSKeyValueChangeNewKey]);
     }];
     obj.downloadPath = @"1";
     obj.downloadPath = @"2";
     obj.downloadPath = @"3";
-    [obs removeObserver];
+    [obs invalidate];
     obj.downloadPath = @"4";
     obj.downloadPath = @"5";
     obj.downloadPath = @"6";

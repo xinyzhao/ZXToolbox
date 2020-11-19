@@ -26,7 +26,7 @@
 #import "ZXDownloadTask.h"
 #import "ZXDownloader.h"
 #import "ZXCommonCrypto.h"
-#import "ZXKVObserver.h"
+#import "ZXKeyValueObserver.h"
 #import <UIKit/UIKit.h>
 
 /// ZXDownloadObserver
@@ -63,7 +63,7 @@
 
 @property (nonatomic, assign) NSURLSessionTaskState state;
 
-@property (nonatomic, strong) ZXKVObserver *taskStateObserver;
+@property (nonatomic, strong) ZXKeyValueObserver *taskStateObserver;
 @property (nonatomic, weak) NSURLSession *session;
 
 @end
@@ -76,7 +76,7 @@
         //
         _session = session;
         _observers = [[NSMutableArray alloc] init];
-        _taskStateObserver = [[ZXKVObserver alloc] init];
+        _taskStateObserver = [[ZXKeyValueObserver alloc] init];
         _state = NSURLSessionTaskStateSuspended;
         //
         BOOL isDirectory = NO;

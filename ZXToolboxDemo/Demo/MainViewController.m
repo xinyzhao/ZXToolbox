@@ -80,7 +80,7 @@
                   @"ZXHaloLabel",
                   @"ZXImageBroswer",
                   @"ZXKeychain",
-                  @"ZXKVObserver",
+                  @"ZXKeyValueObserver",
                   @"ZXLineChartView",
                   @"ZXLocalAuthentication",
                   @"ZXLocationManager",

@@ -24,7 +24,7 @@
 //
 
 #import "ZXDownloader.h"
-#import "ZXKVObserver.h"
+#import "ZXKeyValueObserver.h"
 #import "ZXDispatchQueue.h"
 #import <UIKit/UIKit.h>
 
@@ -264,10 +264,10 @@
 - (void)addTaskObserver:(ZXDownloadTask *)task {
     if (task) {
         [self removeTaskObserver:task];
-        ZXKVObserver *taskStateObserver = [task valueForKey:@"taskStateObserver"];
+        ZXKeyValueObserver *taskStateObserver = [task valueForKey:@"taskStateObserver"];
         //
         __weak typeof(self) weakSelf = self;
-        [taskStateObserver addObserver:task forKeyPath:@"state" options:NSKeyValueObservingOptionNew context:NULL observeValue:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change) {
+        [taskStateObserver observe:task keyPath:@"state" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
             NSURLSessionTaskState state = [change[NSKeyValueChangeNewKey] integerValue];
             switch (state) {
                 case NSURLSessionTaskStateCanceling:
@@ -283,8 +283,8 @@
 
 - (void)removeTaskObserver:(ZXDownloadTask *)task {
     if (task) {
-        ZXKVObserver *taskStateObserver = [task valueForKey:@"taskStateObserver"];
-        [taskStateObserver removeObserver];
+        ZXKeyValueObserver *taskStateObserver = [task valueForKey:@"taskStateObserver"];
+        [taskStateObserver invalidate];
     }
 }
 

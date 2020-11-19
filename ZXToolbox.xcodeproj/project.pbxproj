@@ -230,8 +230,8 @@
 		70F673CA234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70F673CB234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F673C8234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m */; };
 		70F673CE234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 70F673CD234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle */; };
-		70F77AE724E16AA20062C21F /* ZXKVObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F77AE524E16AA20062C21F /* ZXKVObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		70F77AE824E16AA20062C21F /* ZXKVObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F77AE624E16AA20062C21F /* ZXKVObserver.m */; };
+		70F77AE724E16AA20062C21F /* ZXKeyValueObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F77AE524E16AA20062C21F /* ZXKeyValueObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70F77AE824E16AA20062C21F /* ZXKeyValueObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F77AE624E16AA20062C21F /* ZXKeyValueObserver.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -533,8 +533,8 @@
 		70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+ZXToolbox.h"; sourceTree = "<group>"; };
 		70F673C8234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+ZXToolbox.m"; sourceTree = "<group>"; };
 		70F673CD234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = "UIDevice+ZXToolbox.bundle"; sourceTree = "<group>"; };
-		70F77AE524E16AA20062C21F /* ZXKVObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXKVObserver.h; sourceTree = "<group>"; };
-		70F77AE624E16AA20062C21F /* ZXKVObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXKVObserver.m; sourceTree = "<group>"; };
+		70F77AE524E16AA20062C21F /* ZXKeyValueObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXKeyValueObserver.h; sourceTree = "<group>"; };
+		70F77AE624E16AA20062C21F /* ZXKeyValueObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXKeyValueObserver.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -849,7 +849,7 @@
 				7000AD1622E9C22F00651E44 /* ZXHTTPClient */,
 				70D4BD1B23A9DC47000D28E2 /* ZXImageBroswer */,
 				705A8FCE23C2D4F200BE361F /* ZXKeychain */,
-				70F77AE424E16A720062C21F /* ZXKVObserver */,
+				70F77AE424E16A720062C21F /* ZXKeyValueObserver */,
 				7000AD0D22E9C22F00651E44 /* ZXLineChartView */,
 				7000ACC122E9C22F00651E44 /* ZXLocalAuthentication */,
 				7000ACBE22E9C22F00651E44 /* ZXLocationManager */,
@@ -1478,13 +1478,13 @@
 			path = "UIDevice+ZXToolbox";
 			sourceTree = "<group>";
 		};
-		70F77AE424E16A720062C21F /* ZXKVObserver */ = {
+		70F77AE424E16A720062C21F /* ZXKeyValueObserver */ = {
 			isa = PBXGroup;
 			children = (
-				70F77AE524E16AA20062C21F /* ZXKVObserver.h */,
-				70F77AE624E16AA20062C21F /* ZXKVObserver.m */,
+				70F77AE524E16AA20062C21F /* ZXKeyValueObserver.h */,
+				70F77AE624E16AA20062C21F /* ZXKeyValueObserver.m */,
 			);
-			path = ZXKVObserver;
+			path = ZXKeyValueObserver;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1515,7 +1515,7 @@
 				70AE9F0124A993CD001B81EE /* AVAudioSession+ZXToolbox.h in Headers */,
 				7000AD4822E9C22F00651E44 /* UIImage+ZXToolbox.h in Headers */,
 				7000AD3722E9C22F00651E44 /* UITableViewCell+ZXToolbox.h in Headers */,
-				70F77AE724E16AA20062C21F /* ZXKVObserver.h in Headers */,
+				70F77AE724E16AA20062C21F /* ZXKeyValueObserver.h in Headers */,
 				7000AD4622E9C22F00651E44 /* UITextField+ZXToolbox.h in Headers */,
 				7000AD3B22E9C22F00651E44 /* UIView+ZXToolbox.h in Headers */,
 				7000AD3822E9C22F00651E44 /* UIViewController+ZXToolbox.h in Headers */,
@@ -1800,7 +1800,7 @@
 				7000AD7722E9C22F00651E44 /* ZXNavigationController.m in Sources */,
 				70A7B5BB23B0B7990080C95A /* ZXDownloadTask.m in Sources */,
 				7000AD5622E9C22F00651E44 /* ZXPopoverView.m in Sources */,
-				70F77AE824E16AA20062C21F /* ZXKVObserver.m in Sources */,
+				70F77AE824E16AA20062C21F /* ZXKeyValueObserver.m in Sources */,
 				7000AD8022E9C22F00651E44 /* ZXQRCodeReader.m in Sources */,
 				70BC8B4D23C5B6B000DD952B /* ZXKeychainItem+InternetPassword.m in Sources */,
 				7000AD2622E9C22F00651E44 /* JSONObject.m in Sources */,

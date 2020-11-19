@@ -1,5 +1,5 @@
 //
-// ZXKVObserver.h
+// ZXKeyValueObserver.h
 // https://github.com/xinyzhao/ZXToolbox
 //
 // Copyright (c) 2020 Zhao Xin
@@ -27,13 +27,13 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZXKVObserver : NSObject
+@interface ZXKeyValueObserver : NSObject
 
-typedef void (^ZXKVObserveValue)(NSDictionary<NSKeyValueChangeKey, id> * _Nullable change);
+typedef void (^ZXKeyValueChangeHandler)(NSDictionary<NSKeyValueChangeKey, id> * _Nullable change, void * _Nullable context);
 
-- (void)addObserver:(NSObject *)object forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(nullable void *)context observeValue:(ZXKVObserveValue)observeValue;
+- (void)observe:(NSObject *)object keyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(nullable void *)context changeHandler:(ZXKeyValueChangeHandler)changeHandler;
 
-- (void)removeObserver;
+- (void)invalidate;
 
 @end
 
