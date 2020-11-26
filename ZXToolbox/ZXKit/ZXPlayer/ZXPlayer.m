@@ -159,7 +159,9 @@
 
 - (void)reload {
     if (self.playerItem) {
-        [self.playerItem removeOutput:self.videoOutput];
+        if ([self.playerItem.outputs containsObject:self.videoOutput]) {
+            [self.playerItem removeOutput:self.videoOutput];
+        }
         [self.playerItem addOutput:self.videoOutput];
     }
     if (self.player) {
