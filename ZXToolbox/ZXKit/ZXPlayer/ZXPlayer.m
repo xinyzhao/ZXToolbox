@@ -166,7 +166,7 @@
     }
     if (self.player) {
         if (@available(iOS 10.0, *)) {
-            self.player.automaticallyWaitsToMinimizeStalling = NO;
+            self.player.automaticallyWaitsToMinimizeStalling = YES;
         }
         self.player.muted = self.muted;
         self.player.volume = self.volume;
@@ -216,20 +216,18 @@
             }
         }];
         [_playerItemPlaybackBufferEmptyObserver observe:self.playerItem keyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
-            //NSLog(@"playbackBufferEmpty %@", change[NSKeyValueChangeNewKey]);
-            if (weakSelf.playing) {
-                if (weakSelf.playerItem.isPlaybackBufferEmpty) {
-                    weakSelf.status = ZXPlaybackStatusBuffering;
-                } else {
-                    [weakSelf play];
-                }
-            }
+//            NSLog(@"playbackBufferEmpty %@", change[NSKeyValueChangeNewKey]);
         }];
         [_playerItemPlaybackBufferFullObserver observe:self.playerItem keyPath:@"playbackBufferFull" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
-            //NSLog(@"playbackBufferFull %@", change[NSKeyValueChangeNewKey]);
+//            NSLog(@"playbackBufferFull %@", change[NSKeyValueChangeNewKey]);
         }];
         [_playerItemPlaybackLikelyToKeepUpObserver observe:self.playerItem keyPath:@"playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
-            //NSLog(@"playbackLikelyToKeepUp %@", change[NSKeyValueChangeNewKey]);
+//            NSLog(@"playbackLikelyToKeepUp %@", change[NSKeyValueChangeNewKey]);
+            if (!weakSelf.playerItem.playbackLikelyToKeepUp) {
+                weakSelf.status = ZXPlaybackStatusBuffering;
+            } else if (weakSelf.playing) {
+                [weakSelf play];
+            }
         }];
         _playerItemDidPlayToEndTimeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
             if (note.object == weakSelf.playerItem) {
@@ -255,14 +253,32 @@
     [self removePlayerRateObserver];
     if (_player) {
         __weak typeof(self) weakSelf = self;
-        [_playerRateObserver observe:_player keyPath:@"rate" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
-            BOOL isPlaying = ABS([[change objectForKey:@"new"] floatValue]) > 0.0;
-            if (isPlaying && !weakSelf.isEnded) {
-                weakSelf.status = ZXPlaybackStatusPlaying;
-            } else if (!weakSelf.isBuffering && !weakSelf.isSeeking && !weakSelf.isEnded) {
-                weakSelf.status = ZXPlaybackStatusPaused;
-            }
-        }];
+        if (@available(iOS 10.0, *)) {
+            [_playerRateObserver observe:_player keyPath:@"timeControlStatus" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
+                if (!weakSelf.isEnded && weakSelf.playerItem.playbackLikelyToKeepUp) {
+                    switch (weakSelf.player.timeControlStatus) {
+                        case AVPlayerTimeControlStatusPaused:
+                            weakSelf.status = ZXPlaybackStatusPaused;
+                            break;
+                        case AVPlayerTimeControlStatusWaitingToPlayAtSpecifiedRate:
+                            break;
+                        case AVPlayerTimeControlStatusPlaying:
+                            weakSelf.status = ZXPlaybackStatusPlaying;
+                            break;
+                    }
+                }
+            }];
+        } else {
+            [_playerRateObserver observe:_player keyPath:@"rate" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
+                if (!weakSelf.isEnded && weakSelf.playerItem.playbackLikelyToKeepUp) {
+                    if (ABS([[change objectForKey:@"new"] floatValue]) > 0.0) {
+                        weakSelf.status = ZXPlaybackStatusPlaying;
+                    } else {
+                        weakSelf.status = ZXPlaybackStatusPaused;
+                    }
+                }
+            }];
+        }
     }
 }
 
@@ -526,8 +542,8 @@
 
 - (void)seekToTime:(NSTimeInterval)time playAfter:(BOOL)playAfter {
     if (self.isReadToPlay) {
-        self.status = ZXPlaybackStatusSeeking;
-        [_player pause];
+//        self.status = ZXPlaybackStatusSeeking;
+//        [_player pause];
         //
         NSTimeInterval duration = [self duration];
         if (time > duration) {
@@ -540,17 +556,17 @@
             if (weakSelf.playbackTime) {
                 weakSelf.playbackTime(time, duration);
             }
-            if (finished && playAfter) {
-                [weakSelf play];
-            }
+//            if (finished && playAfter) {
+//                [weakSelf play];
+//            }
         }];
     }
 }
 
 - (void)seekToTime:(NSTimeInterval)time tolerance:(CMTime)tolerance playAfter:(BOOL)playAfter {
     if (self.isReadToPlay) {
-        self.status = ZXPlaybackStatusSeeking;
-        [_player pause];
+//        self.status = ZXPlaybackStatusSeeking;
+//        [_player pause];
         //
         NSTimeInterval duration = [self duration];
         if (time > duration) {
@@ -563,9 +579,9 @@
             if (weakSelf.playbackTime) {
                 weakSelf.playbackTime(time, duration);
             }
-            if (finished && playAfter) {
-                [weakSelf play];
-            }
+//            if (finished && playAfter) {
+//                [weakSelf play];
+//            }
         }];
     }
 }
