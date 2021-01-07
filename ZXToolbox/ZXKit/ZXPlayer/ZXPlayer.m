@@ -222,11 +222,13 @@
 //            NSLog(@"playbackBufferFull %@", change[NSKeyValueChangeNewKey]);
         }];
         [_playerItemPlaybackLikelyToKeepUpObserver observe:self.playerItem keyPath:@"playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
-//            NSLog(@"playbackLikelyToKeepUp %@", change[NSKeyValueChangeNewKey]);
+            NSLog(@"playbackLikelyToKeepUp %@", change[NSKeyValueChangeNewKey]);
             if (!weakSelf.playerItem.playbackLikelyToKeepUp) {
                 weakSelf.status = ZXPlaybackStatusBuffering;
             } else if (weakSelf.playing) {
-                [weakSelf play];
+                weakSelf.status = ZXPlaybackStatusPlaying;
+            } else {
+                weakSelf.status = ZXPlaybackStatusPaused;
             }
         }];
         _playerItemDidPlayToEndTimeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
@@ -422,6 +424,7 @@
 - (void)setStatus:(ZXPlaybackStatus)status {
     if (_status != status) {
         _status = status;
+        NSLog(@"playback status %ld", (long)_status);
         //
         if (_playbackStatus) {
             _playbackStatus(_status);
