@@ -101,6 +101,8 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 /// The player is end at play.
 @property (nonatomic, readonly) BOOL isEnded;
 
+/// Indicates the desired rate of playback; 0.0 means "paused", 1.0 indicates a desire to play at the natural rate of the current item.
+@property (nonatomic, assign) float rate;
 /// The audio playback volume for the player.
 @property (nonatomic, assign) float volume NS_AVAILABLE(10_7, 7_0);
 /// A Boolean value that indicates whether the audio output of the player is muted.

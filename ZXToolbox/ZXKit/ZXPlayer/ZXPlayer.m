@@ -492,6 +492,16 @@
     [self unload];
 }
 
+#pragma mark Rate
+
+- (void)setRate:(float)rate {
+    _player.rate = rate;
+}
+
+- (float)rate {
+    return  _player.rate;
+}
+
 #pragma mark Time
 
 - (NSTimeInterval)currentTime {
