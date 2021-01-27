@@ -32,7 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
     ZXPlaybackStatusBuffering,
     ZXPlaybackStatusPlaying,
-    ZXPlaybackStatusSeeking,
     ZXPlaybackStatusPaused,
     ZXPlaybackStatusEnded,
 };
@@ -95,8 +94,6 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 /// The player is ready to play.
 @property (nonatomic, readonly) BOOL isPlaying;
 /// The player is ready to play.
-@property (nonatomic, readonly) BOOL isSeeking;
-/// The player is ready to play.
 @property (nonatomic, readonly) BOOL isPaused;
 /// The player is end at play.
 @property (nonatomic, readonly) BOOL isEnded;
@@ -132,15 +129,15 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 
 /// Moves the playback cursor and play when the seek operation has completed.
 /// @param time The time to which to seek.
-/// @param playAfter Play when seek completed
-- (void)seekToTime:(NSTimeInterval)time playAfter:(BOOL)playAfter;
+/// @param completion completion handler
+- (void)seekToTime:(NSTimeInterval)time completion:(void (^_Nullable)(BOOL finished))completion;
 
 /// Sets the current playback time within a specified time bound and invokes the specified block when the seek operation completes or is interrupted.
 /// @param time The time to which to seek.
 /// @param tolerance The temporal tolerance time.
 /// Pass kCMTimeZero to request sample accurate seeking (this may incur additional decoding delay).
-/// @param playAfter Play when seek completed
-- (void)seekToTime:(NSTimeInterval)time tolerance:(CMTime)tolerance playAfter:(BOOL)playAfter;
+/// @param completion completion handler
+- (void)seekToTime:(NSTimeInterval)time tolerance:(CMTime)tolerance completion:(void (^_Nullable)(BOOL finished))completion;
 
 /// A UIPanGestureRecognizer of player view.
 @property (nonatomic, readonly) UIPanGestureRecognizer *panGestureRecognizer;

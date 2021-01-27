@@ -447,10 +447,6 @@
     return _status == ZXPlaybackStatusBuffering;
 }
 
-- (BOOL)isSeeking {
-    return _status == ZXPlaybackStatusSeeking;
-}
-
 - (BOOL)isPaused {
     return _status == ZXPlaybackStatusPaused;
 }
@@ -466,7 +462,12 @@
     //
     if (self.isReadToPlay) {
         if (self.isEnded) {
-            [self seekToTime:0 playAfter:YES];
+            __weak typeof(_player) player = _player;
+            [self seekToTime:0 completion:^(BOOL finished) {
+                if (finished) {
+                    [player play];
+                }
+            }];
         } else {
             [_player play];
         }
@@ -553,49 +554,27 @@
 
 #pragma mark Seek
 
-- (void)seekToTime:(NSTimeInterval)time playAfter:(BOOL)playAfter {
+- (void)seekToTime:(NSTimeInterval)time completion:(void (^_Nullable)(BOOL finished))completion {
     if (self.isReadToPlay) {
-//        self.status = ZXPlaybackStatusSeeking;
-//        [_player pause];
-        //
         NSTimeInterval duration = [self duration];
         if (time > duration) {
             time = duration;
         }
         CMTime toTime = CMTimeMakeWithSeconds(floor(time), NSEC_PER_SEC);
         //
-        __weak typeof(self) weakSelf = self;
-        [self.playerItem seekToTime:toTime completionHandler:^(BOOL finished) {
-            if (weakSelf.playbackTime) {
-                weakSelf.playbackTime(time, duration);
-            }
-//            if (finished && playAfter) {
-//                [weakSelf play];
-//            }
-        }];
+        [self.playerItem seekToTime:toTime completionHandler:completion];
     }
 }
 
-- (void)seekToTime:(NSTimeInterval)time tolerance:(CMTime)tolerance playAfter:(BOOL)playAfter {
+- (void)seekToTime:(NSTimeInterval)time tolerance:(CMTime)tolerance completion:(void (^_Nullable)(BOOL finished))completion {
     if (self.isReadToPlay) {
-//        self.status = ZXPlaybackStatusSeeking;
-//        [_player pause];
-        //
         NSTimeInterval duration = [self duration];
         if (time > duration) {
             time = duration;
         }
         CMTime toTime = CMTimeMakeWithSeconds(floor(time), NSEC_PER_SEC);
         //
-        __weak typeof(self) weakSelf = self;
-        [self.playerItem seekToTime:toTime toleranceBefore:tolerance toleranceAfter:tolerance completionHandler:^(BOOL finished) {
-            if (weakSelf.playbackTime) {
-                weakSelf.playbackTime(time, duration);
-            }
-//            if (finished && playAfter) {
-//                [weakSelf play];
-//            }
-        }];
+        [self.playerItem seekToTime:toTime toleranceBefore:tolerance toleranceAfter:tolerance completionHandler:completion];
     }
 }
 
@@ -720,7 +699,7 @@
                     if (time > duration) {
                         time = duration;
                     }
-                    [self seekToTime:time playAfter:pan.state == UIGestureRecognizerStateEnded];
+                    [self seekToTime:time completion:nil];
                 }
             } else if (isBrightness) {
                 if (_brightnessFactor > 0.00) {
