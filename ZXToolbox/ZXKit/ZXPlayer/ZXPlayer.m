@@ -257,7 +257,7 @@
         __weak typeof(self) weakSelf = self;
         if (@available(iOS 10.0, *)) {
             [_playerRateObserver observe:_player keyPath:@"timeControlStatus" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
-                if (!weakSelf.isEnded && weakSelf.playerItem.playbackLikelyToKeepUp) {
+                if (weakSelf.playerItem.playbackLikelyToKeepUp) {
                     switch (weakSelf.player.timeControlStatus) {
                         case AVPlayerTimeControlStatusPaused:
                             weakSelf.status = ZXPlaybackStatusPaused;
@@ -272,7 +272,7 @@
             }];
         } else {
             [_playerRateObserver observe:_player keyPath:@"rate" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
-                if (!weakSelf.isEnded && weakSelf.playerItem.playbackLikelyToKeepUp) {
+                if (weakSelf.playerItem.playbackLikelyToKeepUp) {
                     if (ABS([[change objectForKey:@"new"] floatValue]) > 0.0) {
                         weakSelf.status = ZXPlaybackStatusPlaying;
                     } else {
