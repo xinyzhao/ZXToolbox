@@ -426,6 +426,10 @@
         _status = status;
         NSLog(@"playback status %ld", (long)_status);
         //
+        if (_status == ZXPlaybackStatusEnded && _playing) {
+            _playing = false;
+        }
+        //
         if (_playbackStatus) {
             _playbackStatus(_status);
         }
