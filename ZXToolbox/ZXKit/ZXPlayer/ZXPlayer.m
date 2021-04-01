@@ -102,6 +102,7 @@
         _volume = 1.0;
         _muted = NO;
         _videoGravity = AVLayerVideoGravityResizeAspect;
+        _rate = 1.0;
         //
         _playerItemStatusObserver = [[ZXKeyValueObserver alloc] init];
         _playerItemLoadedTimeRangesObserver = [[ZXKeyValueObserver alloc] init];
@@ -423,6 +424,11 @@
 
 - (void)setStatus:(ZXPlaybackStatus)status {
     if (_status != status) {
+        if (_status == ZXPlaybackStatusEnded && status == ZXPlaybackStatusPaused) {
+            // The status can’t from Ended to Paused
+            return;
+        }
+        //
         _status = status;
         NSLog(@"playback status %ld", (long)_status);
         //
@@ -466,14 +472,14 @@
     //
     if (self.isReadToPlay) {
         if (self.isEnded) {
-            __weak typeof(_player) player = _player;
+            __weak typeof(self) weakSelf = self;
             [self seekToTime:0 completion:^(BOOL finished) {
                 if (finished) {
-                    [player play];
+                    weakSelf.player.rate = weakSelf.rate;
                 }
             }];
         } else {
-            [_player play];
+            _player.rate = _rate;
         }
     }
 }
@@ -500,11 +506,11 @@
 #pragma mark Rate
 
 - (void)setRate:(float)rate {
-    _player.rate = rate;
-}
-
-- (float)rate {
-    return  _player.rate;
+    _rate = rate;
+    //
+    if (self.isPlaying) {
+        _player.rate = rate;
+    }
 }
 
 #pragma mark Time
