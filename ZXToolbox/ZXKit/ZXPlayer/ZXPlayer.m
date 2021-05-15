@@ -207,6 +207,10 @@
                     weakSelf.playerStatus(status, weakSelf.playerItem.error);
                 }
             }
+            // https://ja.stackoverflow.com/questions/37142
+            if (status == AVPlayerStatusFailed) {
+                [weakSelf unload];
+            }
         }];
         [_playerItemLoadedTimeRangesObserver observe:self.playerItem keyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
             CMTimeRange timeRange = [weakSelf.playerItem.loadedTimeRanges.firstObject CMTimeRangeValue];
