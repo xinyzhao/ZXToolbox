@@ -169,19 +169,17 @@
 #pragma mark AVPlayer
 
 - (void)setPlayer:(AVPlayer *)player {
+    [self unload];
+    //
     if (player) {
         _player = player;
         [self reload];
-    } else {
-        [self unload];
     }
 }
 
 #pragma mark Load & Unload
 
 - (void)reload {
-    [self unload];
-    //
     if (self.playerItem) {
         if ([self.playerItem.outputs containsObject:self.videoOutput]) {
             [self.playerItem removeOutput:self.videoOutput];
