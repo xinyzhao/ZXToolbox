@@ -122,10 +122,19 @@
 
 #pragma mark NSURL
 
+- (NSURL *)URL {
+    if ([self.asset isKindOfClass:AVURLAsset.class]) {
+        AVURLAsset *asset = (AVURLAsset *)self.asset;
+        return asset.URL;
+    }
+    return nil;
+}
+
 - (void)setURL:(NSURL *)URL {
-    _URL = [URL copy];
-    if (_URL) {
-        self.asset = [AVURLAsset URLAssetWithURL:_URL options:nil];
+    if (URL) {
+        self.asset = [AVURLAsset URLAssetWithURL:URL options:nil];
+    } else {
+        [self unload];
     }
 }
 
@@ -138,6 +147,8 @@
 - (void)setAsset:(AVAsset *)asset {
     if (asset) {
         self.playerItem = [AVPlayerItem playerItemWithAsset:asset];
+    } else {
+        [self unload];
     }
 }
 
@@ -148,23 +159,36 @@
 }
 
 - (void)setPlayerItem:(AVPlayerItem *)playerItem {
-    [self unload];
-    //
     if (playerItem) {
         self.player = [AVPlayer playerWithPlayerItem:playerItem];
+    } else {
+        [self unload];
+    }
+}
+
+#pragma mark AVPlayer
+
+- (void)setPlayer:(AVPlayer *)player {
+    if (player) {
+        _player = player;
         [self reload];
+    } else {
+        [self unload];
     }
 }
 
 #pragma mark Load & Unload
 
 - (void)reload {
+    [self unload];
+    //
     if (self.playerItem) {
         if ([self.playerItem.outputs containsObject:self.videoOutput]) {
             [self.playerItem removeOutput:self.videoOutput];
         }
         [self.playerItem addOutput:self.videoOutput];
     }
+    //
     if (self.player) {
         if (@available(iOS 10.0, *)) {
             self.player.automaticallyWaitsToMinimizeStalling = YES;
@@ -183,7 +207,7 @@
     [self removePlayerTimeObserver];
     [self removePlayerRateObserver];
     [self removeItemObserver];
-    self.player = nil;
+    _player = nil;
 }
 
 #pragma mark Observers
