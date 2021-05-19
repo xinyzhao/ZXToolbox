@@ -133,6 +133,8 @@
 		7000ADA322E9C22F00651E44 /* ZXHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AD1822E9C22F00651E44 /* ZXHTTPClient.m */; };
 		7000ADA422E9C22F00651E44 /* ZXHTTPSecurity.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AD1922E9C22F00651E44 /* ZXHTTPSecurity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000ADA522E9C22F00651E44 /* ZXHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AD1A22E9C22F00651E44 /* ZXHTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70259A622655090B0022C91C /* ZXDebugTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 70259A602655090A0022C91C /* ZXDebugTools.m */; };
+		70259A632655090B0022C91C /* ZXDebugTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 70259A612655090A0022C91C /* ZXDebugTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70271314249F0C02001850B5 /* ZXToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7000AC4722E9C1CC00651E44 /* ZXToolbox.framework */; };
 		70271316249F1120001850B5 /* ZXCoordinate2D.m in Sources */ = {isa = PBXBuildFile; fileRef = 70271315249F1120001850B5 /* ZXCoordinate2D.m */; };
 		70271318249F56CF001850B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70271317249F56CF001850B5 /* Main.storyboard */; };
@@ -397,6 +399,8 @@
 		7000ADA622E9D16D00651E44 /* ZXToolbox.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ZXToolbox.podspec; sourceTree = "<group>"; };
 		7000ADA722E9D16D00651E44 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		7000ADA822E9D16D00651E44 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		70259A602655090A0022C91C /* ZXDebugTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXDebugTools.m; sourceTree = "<group>"; };
+		70259A612655090A0022C91C /* ZXDebugTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXDebugTools.h; sourceTree = "<group>"; };
 		70271315249F1120001850B5 /* ZXCoordinate2D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXCoordinate2D.m; sourceTree = "<group>"; };
 		70271317249F56CF001850B5 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		7027131C24A1A7ED001850B5 /* Base64EncodingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Base64EncodingViewController.h; sourceTree = "<group>"; };
@@ -842,6 +846,7 @@
 				7000ACD022E9C22F00651E44 /* ZXCircularProgressView */,
 				7000ACAD22E9C22F00651E44 /* ZXCommonCrypto */,
 				705F48AF23C9BFFE002AADC8 /* ZXCoordinate2D */,
+				70259A5F2655090A0022C91C /* ZXDebugTools */,
 				70F2728424EFC3B300DD1A9F /* ZXDispatchQueue */,
 				70A7B5B323B0B7990080C95A /* ZXDownloader */,
 				7000ACC722E9C22F00651E44 /* ZXDrawingView */,
@@ -1181,6 +1186,15 @@
 			path = ZXHTTPClient;
 			sourceTree = "<group>";
 		};
+		70259A5F2655090A0022C91C /* ZXDebugTools */ = {
+			isa = PBXGroup;
+			children = (
+				70259A612655090A0022C91C /* ZXDebugTools.h */,
+				70259A602655090A0022C91C /* ZXDebugTools.m */,
+			);
+			path = ZXDebugTools;
+			sourceTree = "<group>";
+		};
 		7027131924A1A7B0001850B5 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
@@ -1512,6 +1526,7 @@
 				70D4BD2223A9DC47000D28E2 /* UIImageView+ZXImageBroswer.h in Headers */,
 				7000AD4522E9C22F00651E44 /* UIButton+ZXToolbox.h in Headers */,
 				7000AD3F22E9C22F00651E44 /* UIColor+ZXToolbox.h in Headers */,
+				70259A632655090B0022C91C /* ZXDebugTools.h in Headers */,
 				70AE9F0124A993CD001B81EE /* AVAudioSession+ZXToolbox.h in Headers */,
 				7000AD4822E9C22F00651E44 /* UIImage+ZXToolbox.h in Headers */,
 				7000AD3722E9C22F00651E44 /* UITableViewCell+ZXToolbox.h in Headers */,
@@ -1765,6 +1780,7 @@
 				70BC8B4523C5B55D00DD952B /* ZXKeychainItem+GenericPassword.m in Sources */,
 				705A8FDA23C2E32100BE361F /* ZXKeychainItem.m in Sources */,
 				70D4BD2723A9DC47000D28E2 /* ZXImageBroswerCell.m in Sources */,
+				70259A622655090B0022C91C /* ZXDebugTools.m in Sources */,
 				7000AD9122E9C22F00651E44 /* ZXTabBarItemController.m in Sources */,
 				70271316249F1120001850B5 /* ZXCoordinate2D.m in Sources */,
 				7000AD2E22E9C22F00651E44 /* NSDate+ZXToolbox.m in Sources */,

@@ -203,6 +203,11 @@ Pod::Spec.new do |s|
     ss.public_header_files = "ZXToolbox/ZXKit/ZXCoordinate2D/*.h"
   end
   
+  s.subspec "ZXDebugTools" do |ss|
+    ss.source_files = "ZXToolbox/ZXKit/ZXDebugTools/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/ZXKit/ZXDebugTools/*.h"
+  end
+  
   s.subspec "ZXDispatchQueue" do |ss|
     ss.source_files = "ZXToolbox/ZXKit/ZXDispatchQueue/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXDispatchQueue/*.h"
