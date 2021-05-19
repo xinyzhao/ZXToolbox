@@ -30,7 +30,7 @@
 + (void)blockTheQueue:(dispatch_queue_t)queue duration:(NSTimeInterval)duration repeat:(BOOL)repeat interval:(NSTimeInterval)interval {
     dispatch_async(queue, ^{
         // Block the queue temporarily using a semaphore
-        [self lowCostSemaphoreWait:duration];
+        [ZXDebugTools lowCostSemaphoreWait:duration];
 
         // Queue up another blocking attempt to happen shortly
         dispatch_time_t delayTime = dispatch_time(DISPATCH_TIME_NOW, interval * NSEC_PER_SEC);
