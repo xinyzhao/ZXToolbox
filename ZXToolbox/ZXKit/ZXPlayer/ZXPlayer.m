@@ -160,7 +160,9 @@
 
 - (void)setPlayerItem:(AVPlayerItem *)playerItem {
     if (playerItem) {
+        [self.playerItem removeOutput:self.videoOutput];
         self.player = [AVPlayer playerWithPlayerItem:playerItem];
+        [self.playerItem addOutput:self.videoOutput];
     } else {
         [self unload];
     }
@@ -173,6 +175,13 @@
     //
     if (player) {
         _player = player;
+        //
+        if (@available(iOS 10.0, *)) {
+            _player.automaticallyWaitsToMinimizeStalling = YES;
+        }
+        _player.muted = self.muted;
+        _player.volume = self.volume;
+        //
         [self reload];
     }
 }
@@ -180,21 +189,6 @@
 #pragma mark Load & Unload
 
 - (void)reload {
-    if (self.playerItem) {
-        if ([self.playerItem.outputs containsObject:self.videoOutput]) {
-            [self.playerItem removeOutput:self.videoOutput];
-        }
-        [self.playerItem addOutput:self.videoOutput];
-    }
-    //
-    if (self.player) {
-        if (@available(iOS 10.0, *)) {
-            self.player.automaticallyWaitsToMinimizeStalling = YES;
-        }
-        self.player.muted = self.muted;
-        self.player.volume = self.volume;
-    }
-    //
     [self addItemObserver];
     [self addPlayerRateObserver];
     [self attachLayer];
