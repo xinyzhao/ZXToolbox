@@ -25,28 +25,30 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface NSFileManager (ZXToolbox)
 
 // Bundle
-+ (NSString*)bundleFile:(NSString*)file;
++ (nullable NSString *)bundleFile:(NSString*)file;
 
 // Caches
-+ (NSString*)cachesDirectory;
-+ (NSString*)cachesDirectory:(NSString *)subpath;
-+ (NSString*)cachesFile:(NSString*)file;
-+ (NSString*)cachesFile:(NSString*)file inDirectory:(NSString *)subpath;
++ (nullable NSString *)cachesDirectory;
++ (nullable NSString *)cachesDirectory:(NSString *)subpath;
++ (nullable NSString *)cachesFile:(NSString *)file;
++ (nullable NSString *)cachesFile:(NSString *)file inDirectory:(NSString *)subpath;
 
 // Documents
-+ (NSString*)documentDirectory;
-+ (NSString*)documentDirectory:(NSString *)subpath;
-+ (NSString*)documentFile:(NSString*)file;
-+ (NSString*)documentFile:(NSString *)file inDirectory:(NSString *)subpath;
++ (nullable NSString *)documentDirectory;
++ (nullable NSString *)documentDirectory:(NSString *)subpath;
++ (nullable NSString *)documentFile:(NSString *)file;
++ (nullable NSString *)documentFile:(NSString *)file inDirectory:(NSString *)subpath;
 
 // Temporary
-+ (NSString *)temporaryDirectory;
-+ (NSString *)temporaryDirectory:(NSString *)subpath;
-+ (NSString *)temporaryFile:(NSString *)file;
-+ (NSString *)temporaryFile:(NSString *)file inDirectory:(NSString *)subpath;
++ (nullable NSString *)temporaryDirectory;
++ (nullable NSString *)temporaryDirectory:(NSString *)subpath;
++ (nullable NSString *)temporaryFile:(NSString *)file;
++ (nullable NSString *)temporaryFile:(NSString *)file inDirectory:(NSString *)subpath;
 
 // File size
 + (uint64_t)fileSizeAtPath:(NSString *)path;
@@ -56,3 +58,5 @@
 - (BOOL)removeItemAtPath:(NSString *)path error:(NSError **)error exclude:(NSArray *)exclusions;
 
 @end
+
+NS_ASSUME_NONNULL_END

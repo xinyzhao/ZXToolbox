@@ -29,13 +29,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface AVAudioSession (ZXToolbox)
 /// eg AVAudioSessionPortHeadsetMic etc.
-@property (nonatomic, copy) NSString *currentInput;
+@property (nonatomic, nullable, copy) NSString *currentInput;
 /// eg AVAudioSessionPortBuiltInSpeaker etc.
-@property (nonatomic, readonly) NSString *currentOutput;
+@property (nonatomic, nullable, readonly) NSString *currentOutput;
 /// with AVAudioSessionCategoryPlayAndRecord
 @property (nonatomic, getter=isOverrideSpeaker) BOOL overrideSpeaker;
 /// Audio session route change observer block
-@property (nonatomic, copy) void (^audioSessionRouteChange)(AVAudioSessionRouteDescription *previousRoute, AVAudioSessionRouteChangeReason reason);
+@property (nonatomic, nullable, copy) void (^audioSessionRouteChange)(AVAudioSessionRouteDescription *previousRoute, AVAudioSessionRouteChangeReason reason);
 
 @end
 

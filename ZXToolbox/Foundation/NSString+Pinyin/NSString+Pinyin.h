@@ -25,6 +25,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 #pragma mark - NSString 拼音样式
 
 /**
@@ -136,3 +138,5 @@ extern NSString* NSStringPinyinFirstLetter(NSString *string);
 - (NSString *)stringByPinyinFirstLetter;
 
 @end
+
+NS_ASSUME_NONNULL_END

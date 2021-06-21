@@ -25,6 +25,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 // yyyy-MM-dd HH:mm:ss
 extern NSString *const kZXToolboxDateFormatDateTime;
 // yyyy-MM-dd
@@ -37,9 +39,9 @@ extern NSString *const kZXToolboxDateFormatTime;
 
 + (NSDateFormatter *)dateFormatter;
 
-+ (NSDate *)dateWithString:(NSString *)string format:(NSString *)format;
++ (nullable NSDate *)dateWithString:(NSString *)string format:(NSString  * _Nullable)format;
 
-- (NSString *)stringWithFormat:(NSString *)format;
+- (NSString *)stringWithFormat:(NSString * _Nullable)format;
 - (NSString *)dateString; //NSDateToolboxFormatDate
 - (NSString *)dateTimeString; //NSDateToolboxFormatDateTime
 - (NSString *)timeString; //NSDateToolboxFormatTime
@@ -47,8 +49,8 @@ extern NSString *const kZXToolboxDateFormatTime;
 - (NSDate *)prevDayDate; // 前一天
 - (NSDate *)nextDayDate; // 后一天
 
-- (NSDate *)prevMonthDate; // 上个月
-- (NSDate *)nextMonthDate; // 下个月
+- (nullable NSDate *)prevMonthDate; // 上个月
+- (nullable NSDate *)nextMonthDate; // 下个月
 
 - (BOOL)isToday; // 今天
 - (BOOL)isTomorrow; // 明天
@@ -62,3 +64,5 @@ extern NSString *const kZXToolboxDateFormatTime;
 - (NSInteger)numberOfDaysInMonth; // 当月天数
 
 @end
+
+NS_ASSUME_NONNULL_END

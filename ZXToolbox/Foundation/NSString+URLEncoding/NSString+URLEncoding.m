@@ -54,11 +54,12 @@
     if (set) {
         return [self stringByAddingPercentEncodingWithAllowedCharacters:set];
     }
-    return nil;
+    return self;
 }
 
 - (NSString *)stringByURLDecoding {
-    return [self stringByRemovingPercentEncoding];
+    NSString *str = [self stringByRemovingPercentEncoding];
+    return str ? str : self;
 }
 
 @end

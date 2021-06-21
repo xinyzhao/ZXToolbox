@@ -25,6 +25,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  NSObject (ZXToolbox)
  */
@@ -96,3 +98,5 @@
 - (void)performBlock:(void(^)(id object))block withObject:(id)object afterDelay:(NSTimeInterval)delayInSeconds;
 
 @end
+
+NS_ASSUME_NONNULL_END

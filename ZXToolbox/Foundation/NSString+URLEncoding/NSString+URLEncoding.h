@@ -25,6 +25,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /// NSURL Encoding Component
 typedef NS_ENUM(NSInteger, NSStringURLEncoding) {
     /// NSCharacterSet.URLUserAllowedCharacterSet
@@ -52,3 +54,5 @@ typedef NS_ENUM(NSInteger, NSStringURLEncoding) {
 - (NSString *)stringByURLDecoding;
 
 @end
+
+NS_ASSUME_NONNULL_END

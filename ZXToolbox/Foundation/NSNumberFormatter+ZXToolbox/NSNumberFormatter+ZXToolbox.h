@@ -25,6 +25,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface NSNumberFormatter (ZXToolbox)
 
 /// Get string for specified format
@@ -33,10 +35,12 @@
 /// @param minimumDecimal Minimum length of decimal
 /// @param maximumDecimal Maximum length of decimal
 /// @param paddingZeros Padding zeros for decimal if less than minimumDecimal
-- (NSString *)stringFromNumber:(NSNumber *)number
+- (nullable NSString *)stringFromNumber:(NSNumber *)number
                  integerFormat:(NSString *)integerFormat
                 minimumDecimal:(NSUInteger)minimumDecimal
                 maximumDecimal:(NSUInteger)maximumDecimal
                   paddingZeros:(BOOL)paddingZeros;
 
 @end
+
+NS_ASSUME_NONNULL_END
