@@ -46,7 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param obj JSON object (NSDictionary/NSArray)
  @return Return NSData if converted, nil otherwise
  */
-+ (nullable NSData *)dataWithJSONObject:(id)obj;
++ (nullable NSData *)JSONDataWithObject:(id)obj;
 
 /**
  Generate JSON data from a JSON object with options
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param opt Writing options, see NSJSONWritingOptions
  @return Return NSData if converted, nil otherwise
  */
-+ (nullable NSData *)dataWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt;
++ (nullable NSData *)JSONDataWithObject:(id)obj options:(NSJSONWritingOptions)opt;
 
 /**
  Generate JSON data from a JSON object with options
@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param error If an internal error occurs, upon return contains an NSError object with code NSPropertyListWriteInvalidError that describes the problem.
  @return Return NSData if converted, nil otherwise
  */
-+ (nullable NSData *)dataWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError **)error;
++ (nullable NSData *)JSONDataWithObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError **)error;
 
 /**
  Generate JSON string from a JSON object
@@ -73,7 +73,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param obj JSON object (NSDictionary/NSArray)
  @return Return NSString if converted, nil otherwise
  */
-+ (nullable NSString *)stringWithJSONObject:(id)obj;
++ (nullable NSString *)JSONStringWithObject:(id)obj;
 
 /**
  Generate JSON data from a JSON object  with options
@@ -82,7 +82,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param opt Writing options, see NSJSONWritingOptions
  @return Return NSString if converted, nil otherwise
  */
-+ (nullable NSString *)stringWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt;
++ (nullable NSString *)JSONStringWithObject:(id)obj options:(NSJSONWritingOptions)opt;
 
 /**
  Generate JSON data from a JSON object  with options
@@ -92,7 +92,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param error If an internal error occurs, upon return contains an NSError object with code NSPropertyListWriteInvalidError that describes the problem.
  @return Return NSString if converted, nil otherwise
  */
-+ (nullable NSString *)stringWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError **)error;
++ (nullable NSString *)JSONStringWithObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError **)error;
 
 /**
  Create a JSON object from JSON data
@@ -148,6 +148,20 @@ NS_ASSUME_NONNULL_BEGIN
  */
 + (nullable id)JSONObjectWithString:(NSString *)str options:(NSJSONReadingOptions)opt error:(NSError **)error;
 
+@end
+
+@interface JSONObject (DEPRECATED)
++ (nullable NSData *)dataWithJSONObject:(id)obj API_DEPRECATED("Use JSONDataWithObject: instead", ios(7.0,13.0));
+
++ (nullable NSData *)dataWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt API_DEPRECATED("Use JSONDataWithObject:options: instead", ios(7.0,13.0));
+
++ (nullable NSData *)dataWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError **)error API_DEPRECATED("Use JSONDataWithObject:options:error: instead", ios(7.0,13.0));
+
++ (nullable NSString *)stringWithJSONObject:(id)obj API_DEPRECATED("Use JSONStringWithObject: instead", ios(7.0,13.0));
+
++ (nullable NSString *)stringWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt  API_DEPRECATED("Use JSONStringWithObject:options: instead", ios(7.0,13.0));
+
++ (nullable NSString *)stringWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError **)error API_DEPRECATED("Use JSONStringWithObject:options:error: instead", ios(7.0,13.0));
 @end
 
 NS_ASSUME_NONNULL_END

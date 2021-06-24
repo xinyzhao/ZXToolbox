@@ -153,6 +153,12 @@
 		70988F382335F3B30002A8A3 /* UIControl+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */; };
 		709DF5FC24BEF9F100075E6F /* AVAsset+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 709DF5FA24BEF9F100075E6F /* AVAsset+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		709DF5FD24BEF9F100075E6F /* AVAsset+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 709DF5FB24BEF9F100075E6F /* AVAsset+ZXToolbox.m */; };
+		70A6381A268423640050E111 /* NSObject+JSONObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 70A63818268423640050E111 /* NSObject+JSONObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70A6381B268423640050E111 /* NSObject+JSONObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A63819268423640050E111 /* NSObject+JSONObject.m */; };
+		70A638222684288F0050E111 /* NSData+JSONObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 70A638202684288F0050E111 /* NSData+JSONObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70A638232684288F0050E111 /* NSData+JSONObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A638212684288F0050E111 /* NSData+JSONObject.m */; };
+		70A6382A268434130050E111 /* NSString+JSONObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 70A63828268434130050E111 /* NSString+JSONObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70A6382B268434130050E111 /* NSString+JSONObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A63829268434130050E111 /* NSString+JSONObject.m */; };
 		70A7B5B823B0B7990080C95A /* ZXDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 70A7B5B423B0B7990080C95A /* ZXDownloader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70A7B5B923B0B7990080C95A /* ZXDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A7B5B523B0B7990080C95A /* ZXDownloader.m */; };
 		70A7B5BA23B0B7990080C95A /* ZXDownloadTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 70A7B5B623B0B7990080C95A /* ZXDownloadTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -422,6 +428,12 @@
 		70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+ZXToolbox.m"; sourceTree = "<group>"; };
 		709DF5FA24BEF9F100075E6F /* AVAsset+ZXToolbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AVAsset+ZXToolbox.h"; sourceTree = "<group>"; };
 		709DF5FB24BEF9F100075E6F /* AVAsset+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AVAsset+ZXToolbox.m"; sourceTree = "<group>"; };
+		70A63818268423640050E111 /* NSObject+JSONObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+JSONObject.h"; sourceTree = "<group>"; };
+		70A63819268423640050E111 /* NSObject+JSONObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JSONObject.m"; sourceTree = "<group>"; };
+		70A638202684288F0050E111 /* NSData+JSONObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+JSONObject.h"; sourceTree = "<group>"; };
+		70A638212684288F0050E111 /* NSData+JSONObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+JSONObject.m"; sourceTree = "<group>"; };
+		70A63828268434130050E111 /* NSString+JSONObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+JSONObject.h"; sourceTree = "<group>"; };
+		70A63829268434130050E111 /* NSString+JSONObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+JSONObject.m"; sourceTree = "<group>"; };
 		70A7B5B423B0B7990080C95A /* ZXDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXDownloader.h; sourceTree = "<group>"; };
 		70A7B5B523B0B7990080C95A /* ZXDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXDownloader.m; sourceTree = "<group>"; };
 		70A7B5B623B0B7990080C95A /* ZXDownloadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXDownloadTask.h; sourceTree = "<group>"; };
@@ -675,6 +687,12 @@
 			children = (
 				7000AC6522E9C22E00651E44 /* JSONObject.h */,
 				7000AC6422E9C22E00651E44 /* JSONObject.m */,
+				70A63818268423640050E111 /* NSObject+JSONObject.h */,
+				70A63819268423640050E111 /* NSObject+JSONObject.m */,
+				70A638202684288F0050E111 /* NSData+JSONObject.h */,
+				70A638212684288F0050E111 /* NSData+JSONObject.m */,
+				70A63828268434130050E111 /* NSString+JSONObject.h */,
+				70A63829268434130050E111 /* NSString+JSONObject.m */,
 			);
 			path = JSONObject;
 			sourceTree = "<group>";
@@ -1508,6 +1526,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70A638222684288F0050E111 /* NSData+JSONObject.h in Headers */,
 				7000AD2722E9C22F00651E44 /* JSONObject.h in Headers */,
 				70BC8B4C23C5B6B000DD952B /* ZXKeychainItem+InternetPassword.h in Headers */,
 				7000AD3022E9C22F00651E44 /* NSArray+ZXToolbox.h in Headers */,
@@ -1570,6 +1589,7 @@
 				7000AD8522E9C22F00651E44 /* ZXPlayer.h in Headers */,
 				7000AD8722E9C22F00651E44 /* ZXPlayerViewController.h in Headers */,
 				7000AD6F22E9C22F00651E44 /* ZXPhotoLibrary.h in Headers */,
+				70A6382A268434130050E111 /* NSString+JSONObject.h in Headers */,
 				70F673CA234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h in Headers */,
 				7000AD5722E9C22F00651E44 /* ZXPopoverView.h in Headers */,
 				7000AD5222E9C22F00651E44 /* ZXPopoverWindow.h in Headers */,
@@ -1598,6 +1618,7 @@
 				7000AC4C22E9C1CC00651E44 /* ZXToolbox.h in Headers */,
 				7000AD9522E9C22F00651E44 /* ZXToolbox+Macros.h in Headers */,
 				70BC8B6023C5B94200DD952B /* ZXKeychainItem+Return.h in Headers */,
+				70A6381A268423640050E111 /* NSObject+JSONObject.h in Headers */,
 				7000AD9F22E9C22F00651E44 /* ZXURLProtocol.h in Headers */,
 				7000AD8E22E9C22F00651E44 /* ZXURLSession.h in Headers */,
 			);
@@ -1740,6 +1761,7 @@
 				7000AD7222E9C22F00651E44 /* ZXCircularProgressView.m in Sources */,
 				7000AD8622E9C22F00651E44 /* ZXPlayerViewController.m in Sources */,
 				70F673CB234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m in Sources */,
+				70A638232684288F0050E111 /* NSData+JSONObject.m in Sources */,
 				7000AD5122E9C22F00651E44 /* ZXPopoverWindow.m in Sources */,
 				7000AD2B22E9C22F00651E44 /* NSString+Base64Encoding.m in Sources */,
 				70BC8B6123C5B94200DD952B /* ZXKeychainItem+Return.m in Sources */,
@@ -1795,6 +1817,7 @@
 				70BC8B3923C581B400DD952B /* ZXKeychainItem+Attribute.m in Sources */,
 				7000AD7922E9C22F00651E44 /* ZXScriptMessageHandler.m in Sources */,
 				7000AD7522E9C22F00651E44 /* ZXNetworkTrafficMonitor.m in Sources */,
+				70A6381B268423640050E111 /* NSObject+JSONObject.m in Sources */,
 				7000AD9222E9C22F00651E44 /* ZXTabBarController.m in Sources */,
 				7000AD2122E9C22F00651E44 /* NSString+Pinyin.m in Sources */,
 				7000AD5022E9C22F00651E44 /* ZXTargetTimer.m in Sources */,
@@ -1820,6 +1843,7 @@
 				7000AD8022E9C22F00651E44 /* ZXQRCodeReader.m in Sources */,
 				70BC8B4D23C5B6B000DD952B /* ZXKeychainItem+InternetPassword.m in Sources */,
 				7000AD2622E9C22F00651E44 /* JSONObject.m in Sources */,
+				70A6382B268434130050E111 /* NSString+JSONObject.m in Sources */,
 				70F2728724EFC3B300DD1A9F /* ZXDispatchQueue.m in Sources */,
 				7000AD2922E9C22F00651E44 /* NSString+URLEncoding.m in Sources */,
 				7000AD2422E9C22F00651E44 /* NSFileManager+ZXToolbox.m in Sources */,
