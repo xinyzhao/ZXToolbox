@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) int cpuType;
 
 /// Proximity state observer block
-@property (nonatomic, copy) void (^proximityStateDidChange)(BOOL proximityState);
+@property (nonatomic, nullable, copy) void (^proximityStateDidChange)(BOOL proximityState);
 
 @end
 

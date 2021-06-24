@@ -25,6 +25,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface UITableViewCell (ZXToolbox)
 
 /**
@@ -38,3 +40,5 @@
 @property (nonatomic, assign) UIEdgeInsets separatorInset;
 
 @end
+
+NS_ASSUME_NONNULL_END

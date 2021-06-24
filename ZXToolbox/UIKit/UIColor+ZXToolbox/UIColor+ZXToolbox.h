@@ -25,6 +25,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  Make color from HEX string, RGB format
  eg. @"0xRRGGBB", @"#RRGGBB", @"RRGGBB"
@@ -52,7 +54,7 @@ UIKIT_EXTERN UIColor* UIColorFromRGB(NSInteger value, CGFloat alpha);
  @param prefix Prefix of color string, eg '#'
  @return HEX string of the color with prefix
  */
-UIKIT_EXTERN NSString *UIColorToHEX(UIColor *color, NSString *prefix);
+UIKIT_EXTERN NSString *UIColorToHEX(UIColor *color, NSString * _Nullable prefix);
 
 /**
  UIColor category
@@ -123,7 +125,7 @@ UIKIT_EXTERN NSString *UIColorToHEX(UIColor *color, NSString *prefix);
  @param prefix Prefix of color
  @return HEX string of the color with prefix
  */
-- (NSString *)stringValueWithPrefix:(NSString *)prefix;
+- (NSString *)stringValueWithPrefix:(NSString * _Nullable)prefix;
 
 /**
  Return the integer value of the color
@@ -190,3 +192,5 @@ UIKIT_EXTERN NSString *UIColorToHEX(UIColor *color, NSString *prefix);
 - (CGFloat)brightness;
 
 @end
+
+NS_ASSUME_NONNULL_END

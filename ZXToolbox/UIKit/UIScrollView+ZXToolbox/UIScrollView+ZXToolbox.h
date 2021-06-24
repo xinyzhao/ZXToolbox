@@ -25,9 +25,13 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface UIScrollView (ZXToolbox)
 
 - (void)scrollToTop:(BOOL)animated;
 - (void)scrollToBottom:(BOOL)animated;
 
 @end
+
+NS_ASSUME_NONNULL_END

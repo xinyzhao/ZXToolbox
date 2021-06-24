@@ -25,6 +25,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface UIViewController (ZXToolbox) <UIGestureRecognizerDelegate>
 
 /// The top view controller on the stack.
@@ -40,3 +42,5 @@
 @property(nonatomic, strong) UIView *zx_bottomLayoutView;
 
 @end
+
+NS_ASSUME_NONNULL_END

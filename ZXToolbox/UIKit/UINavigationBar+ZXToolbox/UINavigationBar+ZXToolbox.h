@@ -31,11 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Set font for title
 /// @param font UIFont
-- (void)setTitleFont:(UIFont *)font;
+- (void)setTitleFont:(UIFont * _Nullable)font;
 
 /// Set color for title
 /// @param color UIColor
-- (void)setTitleColor:(UIColor *)color;
+- (void)setTitleColor:(UIColor * _Nullable)color;
 
 @end
 
