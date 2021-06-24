@@ -53,9 +53,9 @@
 
 - (void)testJSONObject {
     id src = @{@"string":@"json", @"array":@[@1,@2,@3], @"object":@{@"a":@"a", @"b":@"b", @"c":@"c"}};
-    id str = [JSONObject stringWithJSONObject:src];
-    id pty = [JSONObject stringWithJSONObject:src options:NSJSONWritingPrettyPrinted];
-    id obj = [JSONObject JSONObjectWithString:str];
+    id str = [src JSONString];
+    id pty = [src JSONStringWithOptions:NSJSONWritingPrettyPrinted];
+    id obj = [str JSONObject];
     NSLogA(@"#JSONString: %@", str);
     NSLogA(@"#JSONPretty: %@", pty);
     NSLogA(@"#JSONObject: %@", obj);
@@ -113,15 +113,15 @@
 }
 
 - (void)testNSStringNumberValue {
-    NSString *str = [NSString stringWithNumber:@(arc4random())];
-    NSLogA(@"str: %@", str);
-    NSLogA(@"arr: %@", [str numberComponents]);
+    NSString *str = @"123456789";
+    NSLogA(@"Number: %@", str);
+    NSLogA(@"Components: %@", [str numberComponents]);
     //
-    NSMutableArray *arr = [[NSMutableArray alloc] init];
-    for (int i = 2; i <= 36; i++) {
-        [arr addObject:[NSString stringWithFormat:@"[Base10]100 -> [Base%d]%@", i, [NSString stringWithValue:@"100" baseIn:10 baseOut:i alphabet:nil]]];
+    NSString *alphabet = [NSString defaultAlphabet];
+    NSLogA(@"Alphabet: %@", alphabet);
+    for (int i = 2; i <= alphabet.length; i++) {
+        NSLog(@"[%02d] %@", i, [NSString stringWithValue:str baseIn:10 baseOut:i alphabet:nil]);
     }
-    NSLogA(@"%@", arr);
 }
 
 - (void)testNSStringPinyin {
