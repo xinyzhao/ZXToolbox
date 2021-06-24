@@ -28,10 +28,32 @@
 @implementation UIScrollView (ZXToolbox)
 
 - (void)scrollToTop:(BOOL)animated {
-    __weak typeof(self) weakSelf = self;
-    dispatch_async(dispatch_get_main_queue(),^{
-        [weakSelf setContentOffset:CGPointZero animated:animated];
-    });
+    if ([self isKindOfClass:UITableView.class]) {
+        UITableView *tableView = (UITableView *)self;
+        __weak typeof(tableView) weakSelf = tableView;
+        dispatch_async(dispatch_get_main_queue(),^{
+            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+            [weakSelf scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionTop animated:animated];
+            if (weakSelf.tableHeaderView || weakSelf.contentInset.top > 0) {
+                [weakSelf setContentOffset:CGPointZero animated:animated];
+            }
+        });
+    } else if ([self isKindOfClass:UICollectionView.class]) {
+        UICollectionView *collectionView = (UICollectionView *)self;
+        __weak typeof(collectionView) weakSelf = collectionView;
+        dispatch_async(dispatch_get_main_queue(),^{
+            NSIndexPath *indexPath = [NSIndexPath indexPathForItem:0 inSection:0];
+            [weakSelf scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionTop animated:animated];
+            if (weakSelf.contentInset.top > 0) {
+                [weakSelf setContentOffset:CGPointZero animated:animated];
+            }
+        });
+    } else {
+        __weak typeof(self) weakSelf = self;
+        dispatch_async(dispatch_get_main_queue(),^{
+            [weakSelf setContentOffset:CGPointZero animated:animated];
+        });
+    }
 }
 
 - (void)scrollToBottom:(BOOL)animated {
@@ -47,16 +69,28 @@
                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
                 [weakSelf scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:animated];
             }
+            if (weakSelf.tableFooterView || weakSelf.contentInset.bottom > 0) {
+                CGFloat y = weakSelf.contentSize.height - weakSelf.bounds.size.height;
+                if (y > 0.f) {
+                    [weakSelf setContentOffset:CGPointMake(0, y) animated:animated];
+                }
+            }
         });
     } else if ([self isKindOfClass:UICollectionView.class]) {
         UICollectionView *collectionView = (UICollectionView *)self;
         __weak typeof(collectionView) weakSelf = collectionView;
         dispatch_async(dispatch_get_main_queue(),^{
             NSInteger section = [weakSelf numberOfSections] - 1;
-            NSInteger row = [weakSelf numberOfItemsInSection:section] - 1;
-            if (section >= 0 && section != NSNotFound && row >= 0 && row != NSNotFound) {
-                NSIndexPath *indexPath = [NSIndexPath indexPathForRow:row inSection:section];
+            NSInteger item = [weakSelf numberOfItemsInSection:section] - 1;
+            if (section >= 0 && section != NSNotFound && item >= 0 && item != NSNotFound) {
+                NSIndexPath *indexPath = [NSIndexPath indexPathForItem:item inSection:section];
                 [weakSelf scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionBottom animated:animated];
+            }
+            if (weakSelf.contentInset.bottom > 0) {
+                CGFloat y = weakSelf.contentSize.height - weakSelf.bounds.size.height;
+                if (y > 0.f) {
+                    [weakSelf setContentOffset:CGPointMake(0, y) animated:animated];
+                }
             }
         });
     } else {
