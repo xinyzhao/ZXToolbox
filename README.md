@@ -310,7 +310,7 @@ NSLogA(@"#%@ -> %@", num, str3);
 * NSString+NumberValue
 
 ```
-NSString *str = [NSString stringWithNumber:@(arc4random())];
+NSString *str = @"123456789";
 NSLogA(@"Number: %@", str);
 NSLogA(@"Components: %@", [str numberComponents]);
 //
