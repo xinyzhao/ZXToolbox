@@ -123,9 +123,9 @@ NSLogA(@"#base64DecodedString: %@", str);
 
 ```
 id src = @{@"string":@"json", @"array":@[@1,@2,@3], @"object":@{@"a":@"a", @"b":@"b", @"c":@"c"}};
-id str = [JSONObject stringWithJSONObject:src];
-id pty = [JSONObject stringWithJSONObject:src options:NSJSONWritingPrettyPrinted];
-id obj = [JSONObject JSONObjectWithString:str];
+id str = [src JSONString];
+id pty = [src JSONStringWithOptions:NSJSONWritingPrettyPrinted];
+id obj = [str JSONObject];
 NSLogA(@"#JSONString: %@", str);
 NSLogA(@"#JSONPretty: %@", pty);
 NSLogA(@"#JSONObject: %@", obj);
@@ -311,68 +311,125 @@ NSLogA(@"#%@ -> %@", num, str3);
 
 ```
 NSString *str = [NSString stringWithNumber:@(arc4random())];
-NSLogA(@"str: %@", str);
-NSLogA(@"arr: %@", [str numberComponents]);
+NSLogA(@"Number: %@", str);
+NSLogA(@"Components: %@", [str numberComponents]);
 //
-NSMutableArray *arr = [[NSMutableArray alloc] init];
-for (int i = 2; i <= 36; i++) {
-    [arr addObject:[NSString stringWithFormat:@"[Base10]100 -> [Base%d]%@", i, [NSString stringWithValue:@"100" baseIn:10 baseOut:i alphabet:nil]]];
+NSString *alphabet = [NSString defaultAlphabet];
+NSLogA(@"Alphabet: %@", alphabet);
+for (int i = 2; i <= alphabet.length; i++) {
+    NSLog(@"[%02d] %@", i, [NSString stringWithValue:str baseIn:10 baseOut:i alphabet:nil]);
 }
-NSLogA(@"%@", arr);
 ```
 > Output:
 
 ```
-str: 2033282857
-arr: (
+Number: 123456789
+Components: (
+    1,
     2,
-    0,
     3,
-    3,
-    2,
-    8,
-    2,
-    8,
+    4,
     5,
-    7
+    6,
+    7,
+    8,
+    9
 )
-(
-    "[Base10]100 -> [Base2]1100100",
-    "[Base10]100 -> [Base3]10201",
-    "[Base10]100 -> [Base4]1210",
-    "[Base10]100 -> [Base5]400",
-    "[Base10]100 -> [Base6]244",
-    "[Base10]100 -> [Base7]202",
-    "[Base10]100 -> [Base8]144",
-    "[Base10]100 -> [Base9]121",
-    "[Base10]100 -> [Base10]100",
-    "[Base10]100 -> [Base11]91",
-    "[Base10]100 -> [Base12]84",
-    "[Base10]100 -> [Base13]79",
-    "[Base10]100 -> [Base14]72",
-    "[Base10]100 -> [Base15]6A",
-    "[Base10]100 -> [Base16]64",
-    "[Base10]100 -> [Base17]5F",
-    "[Base10]100 -> [Base18]5A",
-    "[Base10]100 -> [Base19]55",
-    "[Base10]100 -> [Base20]50",
-    "[Base10]100 -> [Base21]4G",
-    "[Base10]100 -> [Base22]4C",
-    "[Base10]100 -> [Base23]48",
-    "[Base10]100 -> [Base24]44",
-    "[Base10]100 -> [Base25]40",
-    "[Base10]100 -> [Base26]3M",
-    "[Base10]100 -> [Base27]3J",
-    "[Base10]100 -> [Base28]3G",
-    "[Base10]100 -> [Base29]3D",
-    "[Base10]100 -> [Base30]3A",
-    "[Base10]100 -> [Base31]37",
-    "[Base10]100 -> [Base32]34",
-    "[Base10]100 -> [Base33]31",
-    "[Base10]100 -> [Base34]2W",
-    "[Base10]100 -> [Base35]2U",
-    "[Base10]100 -> [Base36]2S"
-)
+Alphabet: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+[02] 111010110111100110100010101
+[03] 22121022020212200
+[04] 13112330310111
+[05] 223101104124
+[06] 20130035113
+[07] 3026236221
+[08] 726746425
+[09] 277266780
+[10] 123456789
+[11] 63762A05
+[12] 35418A99
+[13] 1C767471
+[14] 12579781
+[15] AC89BC9
+[16] 75BCD15
+[17] 51G2A21
+[18] 3B60F89
+[19] 2BG64AE
+[20] 1IBC1J9
+[21] 194GH7F
+[22] 11L0805
+[23] J43JFB
+[24] FC2EGL
+[25] CG15LE
+[26] AA44A1
+[27] 8G86NI
+[28] 74NQB1
+[29] 60FSHJ
+[30] 52CE69
+[31] 49L302
+[32] 3LNJ8L
+[33] 353C3R
+[34] 2OD2I1
+[35] 2C9G1T
+[36] 21I3V9
+[37] 1SWB9a
+[38] 1L7YEX
+[39] 1EE96R
+[40] 1890JT
+[41] 12SBJ8
+[42] dSEZF
+[43] a4XL5
+[44] WfD05
+[45] U4aE9
+[46] RQGJB
+[47] PE549
+[48] NCFWL
+[49] LKHiF
+[50] JbWZd
+[51] ICZ6I
+[52] Gk151
+[53] FYDNK
+[54] ES1cj
+[55] DR28n
+[56] CUtXT
+[57] BdaMX
+[58] AqhNJ
+[59] AB6qu
+[60] 9VXX9
+[61] 8ttNm
+[62] 8M0kX
+[63] 7qkGa
+[64] 7MyqL
+[65] 6xZZE
+[66] 6XRpR
+[67] 68W4h
+[68] 5qh91
+[69] 5Utwv
+[70] 59#IT
+[71] 4y$c1
+[72] 4gs'j
+[73] 4PP(#
+[74] 48n4+
+[75] 3%l#d
+[76] 3rI7X
+[77] 3dWe)
+[78] 3QC3R
+[79] 3DVjD
+[80] 31A9'
+[81] 2(Oz*
+[82] 2x,on
+[83] 2n-)G
+[84] 2eOxv
+[85] 2V2b'
+[86] 2M8W5
+[87] 2Df+m
+[88] 25EM5
+[89] 1\B0?
+[90] 1;Vq9
+[91] 1*-e1
+[92] 1$o9v
+[93] 1yjAX
+[94] 1sy29
+[95] 1m~eE
 ```
 
 * NSString+Pinyin

@@ -103,6 +103,10 @@
     return array.count > 0 ? [array copy] : nil;
 }
 
++ (NSString *)defaultAlphabet {
+    return @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+}
+
 + (NSString *)stringWithValue:(id)value baseIn:(int)baseIn baseOut:(int)baseOut alphabet:(NSString *_Nullable)alphabet {
     // String
     NSString *str = nil;
@@ -115,9 +119,7 @@
     }
     // Alphabet
     if (alphabet == nil) {
-        alphabet = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    } else {
-        alphabet = [alphabet uppercaseString];
+        alphabet = [self defaultAlphabet];
     }
     NSMutableArray *ALPHABET = [[NSMutableArray alloc] initWithCapacity:alphabet.length];
     for (int i = 0; i < alphabet.length; i++) {
