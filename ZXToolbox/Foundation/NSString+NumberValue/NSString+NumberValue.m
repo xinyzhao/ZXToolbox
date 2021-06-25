@@ -156,7 +156,10 @@
     // Reverse
     NSMutableString *strOut = [[NSMutableString alloc] initWithCapacity:arr.count];
     for (int i = (int)arr.count; i > 0; i--) {
-        [strOut appendString:ALPHABET[[arr[i - 1] intValue]]];
+        int j = [arr[i - 1] intValue];
+        if (j >= 0 && j < ALPHABET.count) {
+            [strOut appendString:ALPHABET[j]];
+        }
     }
     return [strOut copy];
 }
