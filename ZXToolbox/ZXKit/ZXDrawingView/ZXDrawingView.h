@@ -25,6 +25,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  ZXDrawingView
  */
@@ -69,3 +71,5 @@
 - (void)removeLastLine;
 
 @end
+
+NS_ASSUME_NONNULL_END

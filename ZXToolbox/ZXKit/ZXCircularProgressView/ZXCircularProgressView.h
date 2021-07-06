@@ -25,6 +25,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 /**
  进度风格
 
@@ -51,6 +53,8 @@ typedef NS_ENUM(NSUInteger, ZXCircularProgressViewStyle) {
 /// 进度颜色，默认 [UIView tintColor]
 @property (nonatomic, strong) UIColor *progressTintColor;
 /// 轨道颜色，默认 nil
-@property (nonatomic, strong) UIColor *trackTintColor;
+@property (nonatomic, strong, nullable) UIColor *trackTintColor;
 
 @end
+
+NS_ASSUME_NONNULL_END

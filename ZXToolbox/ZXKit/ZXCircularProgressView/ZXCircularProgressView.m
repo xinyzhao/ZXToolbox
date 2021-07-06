@@ -36,7 +36,7 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super initWithCoder:aDecoder];
     if (self) {
-        [self viewDidLoad];
+        [self setupView];
     }
     return self;
 }
@@ -45,12 +45,12 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        [self viewDidLoad];
+        [self setupView];
     }
     return self;
 }
 
-- (void)viewDidLoad {
+- (void)setupView {
     self.backgroundColor = [UIColor clearColor];
     //
     _trackLayer = [CAShapeLayer layer];
