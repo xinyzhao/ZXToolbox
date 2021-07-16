@@ -99,6 +99,7 @@ FOUNDATION_EXPORT const unsigned char ZXToolboxVersionString[];
 #import "ZXTabBar.h"
 #import "ZXTabBarController.h"
 #import "ZXTagView.h"
+#import "ZXTextAttributes.h"
 #import "ZXTimer.h"
 #import "ZXToastView.h"
 #import "ZXToolbox+Macros.h"

@@ -102,6 +102,7 @@
                   @"ZXTabBar",
                   @"ZXTabBarController",
                   @"ZXTagView",
+                  @"ZXTextAttributes",
                   @"ZXTimer",
                   @"ZXToastView",
                   @"ZXToolbox+Macros",

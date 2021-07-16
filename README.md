@@ -656,6 +656,9 @@ NSLogA(@"#adapt height: %.2f for base width %.2f = %.2f", size.width, size.heigh
 
 ### ZXKit
 
+* ZXTextAttributes
+> 204 No Content
+
 * ZXAuthorizationHelper
 > 204 No Content
 

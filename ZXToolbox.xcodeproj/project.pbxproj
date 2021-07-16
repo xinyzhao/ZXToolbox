@@ -233,6 +233,9 @@
 		70D8449C23C706DA0042E305 /* ZXToolboxDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D8449B23C706DA0042E305 /* ZXToolboxDemoTests.m */; };
 		70D844B323C707200042E305 /* ZXToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7000AC4722E9C1CC00651E44 /* ZXToolbox.framework */; };
 		70D844B423C707200042E305 /* ZXToolbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7000AC4722E9C1CC00651E44 /* ZXToolbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		70DEDDA926A1925D00451313 /* ZXTextAttributesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DEDDA826A1925D00451313 /* ZXTextAttributesViewController.m */; };
+		70ED5F8726A01012000901CD /* ZXTextAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 70ED5F8526A01012000901CD /* ZXTextAttributes.m */; };
+		70ED5F8826A01012000901CD /* ZXTextAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 70ED5F8626A01012000901CD /* ZXTextAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70F2728724EFC3B300DD1A9F /* ZXDispatchQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F2728524EFC3B300DD1A9F /* ZXDispatchQueue.m */; };
 		70F2728824EFC3B300DD1A9F /* ZXDispatchQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F2728624EFC3B300DD1A9F /* ZXDispatchQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70F673CA234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -544,6 +547,10 @@
 		70D8449723C706DA0042E305 /* ZXToolboxDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZXToolboxDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		70D8449B23C706DA0042E305 /* ZXToolboxDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXToolboxDemoTests.m; sourceTree = "<group>"; };
 		70D8449D23C706DA0042E305 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		70DEDDA726A1925D00451313 /* ZXTextAttributesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXTextAttributesViewController.h; sourceTree = "<group>"; };
+		70DEDDA826A1925D00451313 /* ZXTextAttributesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXTextAttributesViewController.m; sourceTree = "<group>"; };
+		70ED5F8526A01012000901CD /* ZXTextAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXTextAttributes.m; sourceTree = "<group>"; };
+		70ED5F8626A01012000901CD /* ZXTextAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXTextAttributes.h; sourceTree = "<group>"; };
 		70F2728524EFC3B300DD1A9F /* ZXDispatchQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXDispatchQueue.m; sourceTree = "<group>"; };
 		70F2728624EFC3B300DD1A9F /* ZXDispatchQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXDispatchQueue.h; sourceTree = "<group>"; };
 		70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+ZXToolbox.h"; sourceTree = "<group>"; };
@@ -893,6 +900,7 @@
 				7000ACF322E9C22F00651E44 /* ZXTabBar */,
 				7000ACFE22E9C22F00651E44 /* ZXTabBarController */,
 				7000ACDF22E9C22F00651E44 /* ZXTagView */,
+				70ED5F8426A01012000901CD /* ZXTextAttributes */,
 				7000AC9D22E9C22E00651E44 /* ZXTimer */,
 				7000AD1322E9C22F00651E44 /* ZXToastView */,
 				7000AD0322E9C22F00651E44 /* ZXToolbox+Macros */,
@@ -1296,6 +1304,8 @@
 				70AE9EF624A8D0CB001B81EE /* ZXStackViewController.m */,
 				70AE9EF824A8D0EC001B81EE /* ZXTagViewController.h */,
 				70AE9EF924A8D0EC001B81EE /* ZXTagViewController.m */,
+				70DEDDA726A1925D00451313 /* ZXTextAttributesViewController.h */,
+				70DEDDA826A1925D00451313 /* ZXTextAttributesViewController.m */,
 				70AE9EFB24A8D0FD001B81EE /* ZXToastViewController.h */,
 				70AE9EFC24A8D0FD001B81EE /* ZXToastViewController.m */,
 			);
@@ -1491,6 +1501,15 @@
 			path = Class;
 			sourceTree = "<group>";
 		};
+		70ED5F8426A01012000901CD /* ZXTextAttributes */ = {
+			isa = PBXGroup;
+			children = (
+				70ED5F8626A01012000901CD /* ZXTextAttributes.h */,
+				70ED5F8526A01012000901CD /* ZXTextAttributes.m */,
+			);
+			path = ZXTextAttributes;
+			sourceTree = "<group>";
+		};
 		70F2728424EFC3B300DD1A9F /* ZXDispatchQueue */ = {
 			isa = PBXGroup;
 			children = (
@@ -1613,6 +1632,7 @@
 				7000AD7B22E9C22F00651E44 /* ZXTagView.h in Headers */,
 				705A8FD123C2D51000BE361F /* ZXKeychain.h in Headers */,
 				7000AD4D22E9C22F00651E44 /* ZXTargetTimer.h in Headers */,
+				70ED5F8826A01012000901CD /* ZXTextAttributes.h in Headers */,
 				7000AD4F22E9C22F00651E44 /* ZXTimer.h in Headers */,
 				7000ADA022E9C22F00651E44 /* ZXToastView.h in Headers */,
 				7000AC4C22E9C1CC00651E44 /* ZXToolbox.h in Headers */,
@@ -1810,6 +1830,7 @@
 				7000AD6722E9C22F00651E44 /* ZXLocalAuthentication.m in Sources */,
 				7000AD3E22E9C22F00651E44 /* UIColor+ZXToolbox.m in Sources */,
 				70A7B5B923B0B7990080C95A /* ZXDownloader.m in Sources */,
+				70ED5F8726A01012000901CD /* ZXTextAttributes.m in Sources */,
 				7000AD8122E9C22F00651E44 /* ZXHaloLabel.m in Sources */,
 				7000AD1D22E9C22F00651E44 /* NSObject+ZXToolbox.m in Sources */,
 				70BC8B5523C5B7E500DD952B /* ZXKeychainItem+Password.m in Sources */,
@@ -1884,6 +1905,7 @@
 				70AE9EA324A8CB06001B81EE /* UIButtonViewController.m in Sources */,
 				70AE9EFA24A8D0EC001B81EE /* ZXTagViewController.m in Sources */,
 				70AE9EEE24A8D091001B81EE /* ZXQRCodeGeneratorViewController.m in Sources */,
+				70DEDDA926A1925D00451313 /* ZXTextAttributesViewController.m in Sources */,
 				70AE9EDC24A8CF3B001B81EE /* ZXPageViewController.m in Sources */,
 				70D8449223C706DA0042E305 /* main.m in Sources */,
 				70AE9E9D24A8C9D3001B81EE /* NSStringPinyinViewController.m in Sources */,
@@ -2109,7 +2131,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2020.08.21;
+				CURRENT_PROJECT_VERSION = 2021.07.16;
 				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = ZXToolboxDemo/main.pch;
 				INFOPLIST_FILE = ZXToolboxDemo/Info.plist;
@@ -2118,7 +2140,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.5;
+				MARKETING_VERSION = 2.7.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolboxDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2132,7 +2154,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2020.08.21;
+				CURRENT_PROJECT_VERSION = 2021.07.16;
 				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = ZXToolboxDemo/main.pch;
 				INFOPLIST_FILE = ZXToolboxDemo/Info.plist;
@@ -2141,7 +2163,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.5;
+				MARKETING_VERSION = 2.7.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolboxDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

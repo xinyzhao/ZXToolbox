@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "2.7.5"
+  s.version      = "2.7.6"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -369,6 +369,11 @@ Pod::Spec.new do |s|
     ss.public_header_files = "ZXToolbox/ZXKit/ZXTagView/*.h"
   end
 
+  s.subspec "ZXTextAttributes" do |ss|
+    ss.source_files = "ZXToolbox/ZXKit/ZXTextAttributes/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/ZXKit/ZXTextAttributes/*.h"
+  end
+  
   s.subspec "ZXTimer" do |ss|
     ss.source_files = "ZXToolbox/ZXKit/ZXTimer/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXTimer/*.h"
