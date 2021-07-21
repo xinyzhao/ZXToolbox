@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Create && Remove
 - (BOOL)createDirectoryAtPath:(NSString *)path error:(NSError **)error;
-- (BOOL)removeItemAtPath:(NSString *)path error:(NSError **)error exclude:(NSArray *)exclusions;
+- (BOOL)removeItemAtPath:(NSString *)path error:(NSError **)error exclude:(NSArray * _Nullable)exclusions;
 
 @end
 
