@@ -322,11 +322,6 @@ Pod::Spec.new do |s|
     ss.public_header_files = "ZXToolbox/ZXKit/ZXPopoverView/*.h"
   end
 
-  s.subspec "ZXPopoverWindow" do |ss|
-    ss.source_files = "ZXToolbox/ZXKit/ZXPopoverWindow/*.{h,m}"
-    ss.public_header_files = "ZXToolbox/ZXKit/ZXPopoverWindow/*.h"
-  end
-
   s.subspec "ZXQRCodeGenerator" do |ss|
     ss.source_files = "ZXToolbox/ZXKit/ZXQRCodeGenerator/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXQRCodeGenerator/*.h"

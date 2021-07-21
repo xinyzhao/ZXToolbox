@@ -90,7 +90,6 @@ FOUNDATION_EXPORT const unsigned char ZXToolboxVersionString[];
 #import "ZXPlayer.h"
 #import "ZXPlayerViewController.h"
 #import "ZXPopoverView.h"
-#import "ZXPopoverWindow.h"
 #import "ZXQRCodeGenerator.h"
 #import "ZXQRCodeReader.h"
 #import "ZXQRCodeScanner.h"

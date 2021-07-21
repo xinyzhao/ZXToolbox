@@ -956,9 +956,6 @@ NSLogA(@"#WWANReceived: %lld bytes", data.WWANReceived);
 * ZXPopoverView
 > 204 No Content
 
-* ZXPopoverWindow
-> 204 No Content
-
 * ZXQRCodeGenerator
 
 ```

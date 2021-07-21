@@ -93,7 +93,6 @@
                   @"ZXPlayer",
                   @"ZXPlayerViewController",
                   @"ZXPopoverView",
-                  @"ZXPopoverWindow",
                   @"ZXQRCodeGenerator",
                   @"ZXQRCodeReader",
                   @"ZXQRCodeScanner",

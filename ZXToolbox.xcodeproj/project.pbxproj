@@ -58,8 +58,6 @@
 		7000AD4E22E9C22F00651E44 /* ZXBlockTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACA022E9C22F00651E44 /* ZXBlockTimer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD4F22E9C22F00651E44 /* ZXTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACA122E9C22F00651E44 /* ZXTimer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD5022E9C22F00651E44 /* ZXTargetTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACA222E9C22F00651E44 /* ZXTargetTimer.m */; };
-		7000AD5122E9C22F00651E44 /* ZXPopoverWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACA422E9C22F00651E44 /* ZXPopoverWindow.m */; };
-		7000AD5222E9C22F00651E44 /* ZXPopoverWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACA522E9C22F00651E44 /* ZXPopoverWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD5322E9C22F00651E44 /* ZXBrightnessView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACA722E9C22F00651E44 /* ZXBrightnessView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD5422E9C22F00651E44 /* ZXBrightnessView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7000ACA822E9C22F00651E44 /* ZXBrightnessView.bundle */; };
 		7000AD5522E9C22F00651E44 /* ZXBrightnessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACA922E9C22F00651E44 /* ZXBrightnessView.m */; };
@@ -330,8 +328,6 @@
 		7000ACA022E9C22F00651E44 /* ZXBlockTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXBlockTimer.h; sourceTree = "<group>"; };
 		7000ACA122E9C22F00651E44 /* ZXTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXTimer.h; sourceTree = "<group>"; };
 		7000ACA222E9C22F00651E44 /* ZXTargetTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXTargetTimer.m; sourceTree = "<group>"; };
-		7000ACA422E9C22F00651E44 /* ZXPopoverWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXPopoverWindow.m; sourceTree = "<group>"; };
-		7000ACA522E9C22F00651E44 /* ZXPopoverWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXPopoverWindow.h; sourceTree = "<group>"; };
 		7000ACA722E9C22F00651E44 /* ZXBrightnessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXBrightnessView.h; sourceTree = "<group>"; };
 		7000ACA822E9C22F00651E44 /* ZXBrightnessView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ZXBrightnessView.bundle; sourceTree = "<group>"; };
 		7000ACA922E9C22F00651E44 /* ZXBrightnessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXBrightnessView.m; sourceTree = "<group>"; };
@@ -891,7 +887,6 @@
 				7000ACEE22E9C22F00651E44 /* ZXPlayer */,
 				7040F6CD23824410009EFB1F /* ZXPlayerViewController */,
 				7000ACAA22E9C22F00651E44 /* ZXPopoverView */,
-				7000ACA322E9C22F00651E44 /* ZXPopoverWindow */,
 				7000ACD322E9C22F00651E44 /* ZXQRCodeGenerator */,
 				7000ACE522E9C22F00651E44 /* ZXQRCodeReader */,
 				7000AD0522E9C22F00651E44 /* ZXQRCodeScanner */,
@@ -920,15 +915,6 @@
 				7000ACA122E9C22F00651E44 /* ZXTimer.h */,
 			);
 			path = ZXTimer;
-			sourceTree = "<group>";
-		};
-		7000ACA322E9C22F00651E44 /* ZXPopoverWindow */ = {
-			isa = PBXGroup;
-			children = (
-				7000ACA522E9C22F00651E44 /* ZXPopoverWindow.h */,
-				7000ACA422E9C22F00651E44 /* ZXPopoverWindow.m */,
-			);
-			path = ZXPopoverWindow;
 			sourceTree = "<group>";
 		};
 		7000ACA622E9C22F00651E44 /* ZXBrightnessView */ = {
@@ -1611,7 +1597,6 @@
 				70A6382A268434130050E111 /* NSString+JSONObject.h in Headers */,
 				70F673CA234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h in Headers */,
 				7000AD5722E9C22F00651E44 /* ZXPopoverView.h in Headers */,
-				7000AD5222E9C22F00651E44 /* ZXPopoverWindow.h in Headers */,
 				705F48A923C97701002AADC8 /* ZXCoordinate2D.h in Headers */,
 				7000AD7322E9C22F00651E44 /* ZXQRCodeGenerator.h in Headers */,
 				70BC8B4023C5865700DD952B /* ZXKeychainItem+Certificate.h in Headers */,
@@ -1782,7 +1767,6 @@
 				7000AD8622E9C22F00651E44 /* ZXPlayerViewController.m in Sources */,
 				70F673CB234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m in Sources */,
 				70A638232684288F0050E111 /* NSData+JSONObject.m in Sources */,
-				7000AD5122E9C22F00651E44 /* ZXPopoverWindow.m in Sources */,
 				7000AD2B22E9C22F00651E44 /* NSString+Base64Encoding.m in Sources */,
 				70BC8B6123C5B94200DD952B /* ZXKeychainItem+Return.m in Sources */,
 				70BC8B4123C5865700DD952B /* ZXKeychainItem+Certificate.m in Sources */,
