@@ -71,10 +71,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Get the popover view
-
- @return ZXPopoverView
  */
-- (ZXPopoverView *)popoverView;
+@property (nonatomic, readonly) ZXPopoverView *popoverView;
 
 /**
  Present view

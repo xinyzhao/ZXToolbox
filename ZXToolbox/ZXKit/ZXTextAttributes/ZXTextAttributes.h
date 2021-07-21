@@ -83,7 +83,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)initWithHost:(id)object;
 
 /// The attributes
-- (NSDictionary<NSAttributedStringKey, id> *)attributes;
+@property (nonatomic, readonly) NSDictionary<NSAttributedStringKey, id> *attributes;
 
 /// Creates an attributed string with the specified string and attributes.
 /// @param string The string
