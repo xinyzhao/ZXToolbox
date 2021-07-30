@@ -74,7 +74,14 @@
         url = [NSURL URLWithString:[NSString stringWithFormat:@"prefs:root==%@", [NSBundle mainBundle].infoDictionary[@"CFBundleIdentifier"]]];
     }
     if([self canOpenURL:url]) {
-        return [self openURL:url];
+        if(@available(iOS 10.0, *)) {
+            [self openURL:url options:@{} completionHandler:^(BOOL success) {
+                //return success;
+            }];
+            return YES;
+        } else {
+            return [self openURL:url];
+        }
     }
     return NO;
 }

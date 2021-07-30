@@ -324,6 +324,22 @@ UIImage * UIImageToThumbnail(UIImage *image, CGSize size, BOOL scaleAspectFill) 
     return UIImageFromColor(color, size);
 }
 
+- (CGFloat)adaptiveHeight:(CGFloat)width {
+    CGSize size = self.size;
+    CGFloat h = size.height > 0 ? size.height : 1;
+    CGFloat w = size.width > 0 ? size.width : 1;
+    CGFloat scale = h / w;
+    return width * scale;
+}
+
+- (CGFloat)adaptiveWidth:(CGFloat)height {
+    CGSize size = self.size;
+    CGFloat h = size.height > 0 ? size.height : 1;
+    CGFloat w = size.width > 0 ? size.width : 1;
+    CGFloat scale = w / h;
+    return height * scale;
+}
+
 - (UIImage *)blurImage:(CGFloat)radius {
     return UIImageGaussianBlur(self, radius);
 }

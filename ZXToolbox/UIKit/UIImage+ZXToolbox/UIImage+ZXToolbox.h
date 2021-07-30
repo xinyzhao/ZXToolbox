@@ -73,6 +73,12 @@ UIKIT_EXTERN UIImage * UIImageToThumbnail(UIImage *image, CGSize size, BOOL scal
 + (UIImage *)imageWithColor:(UIColor *)color;
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
 
+/// 自适应高度: 宽度固定, 等比缩放
+- (CGFloat)adaptiveHeight:(CGFloat)width;
+
+/// 自适应宽度: 高度固定, 等比缩放
+- (CGFloat)adaptiveWidth:(CGFloat)height;
+
 /// 高斯模糊
 - (UIImage *)blurImage:(CGFloat)radius;
 
