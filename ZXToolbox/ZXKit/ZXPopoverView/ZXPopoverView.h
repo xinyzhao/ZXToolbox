@@ -85,6 +85,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Present view
+ 
+ @param view presention view
+ @param safeArea Coss over the safe area, default is YES
+ @param animated animated
+ @param completion completion block
+ */
+- (void)presentView:(UIView *)view safeArea:(BOOL)safeArea animated:(BOOL)animated completion:(void (^ _Nullable)(void))completion;
+
+/**
+ Present view
 
  @param view presention view
  @param from from point

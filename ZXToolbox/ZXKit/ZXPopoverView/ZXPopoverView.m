@@ -86,7 +86,11 @@
     return popoverView;
 }
 
-- (void)presentView:(UIView *)view animated:(BOOL)flag completion:(void (^)(void))completion {
+- (void)presentView:(UIView *)view animated:(BOOL)animated completion:(void (^)(void))completion {
+    [self presentView:view safeArea:YES animated:animated completion:completion];
+}
+
+- (void)presentView:(UIView *)view safeArea:(BOOL)safeArea animated:(BOOL)animated completion:(void (^)(void))completion {
     self.popoverView.frame = self.bounds;
     //
     CGRect from = self.popoverView.frame;
@@ -94,13 +98,17 @@
     from.size.height = view.frame.size.height;
     //
     CGRect to = from;
-    if (@available(iOS 11.0, *)) {
-        to.origin.y = self.safeAreaLayoutGuide.layoutFrame.origin.y + self.safeAreaLayoutGuide.layoutFrame.size.height - view.frame.size.height;
+    if (safeArea) {
+        if (@available(iOS 11.0, *)) {
+            to.origin.y = self.safeAreaLayoutGuide.layoutFrame.origin.y + self.safeAreaLayoutGuide.layoutFrame.size.height - view.frame.size.height;
+        } else {
+            to.origin.y = self.frame.size.height - view.frame.size.height;
+        }
     } else {
         to.origin.y = self.frame.size.height - view.frame.size.height;
     }
     //
-    [self presentView:view from:from to:to animated:flag completion:completion];
+    [self presentView:view from:from to:to animated:animated completion:completion];
 }
 
 - (void)presentView:(UIView *)view from:(CGRect)from to:(CGRect)to animated:(BOOL)animated completion:(void(^)(void))completion {
