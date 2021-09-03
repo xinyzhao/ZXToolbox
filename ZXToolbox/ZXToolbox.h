@@ -94,6 +94,7 @@ FOUNDATION_EXPORT const unsigned char ZXToolboxVersionString[];
 #import "ZXQRCodeReader.h"
 #import "ZXQRCodeScanner.h"
 #import "ZXScriptMessageHandler.h"
+#import "ZXSemaphore.h"
 #import "ZXStackView.h"
 #import "ZXTabBar.h"
 #import "ZXTabBarController.h"

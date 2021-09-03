@@ -47,7 +47,10 @@
 }
 
 + (NSData *)JSONDataWithObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError **)error {
-    return [NSJSONSerialization dataWithJSONObject:obj options:opt error:error];
+    if ([self isValidJSONObject:obj]) {
+        return [NSJSONSerialization dataWithJSONObject:obj options:opt error:error];
+    }
+    return nil;
 }
 
 #pragma mark JSONObject

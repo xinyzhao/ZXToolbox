@@ -97,6 +97,7 @@
                   @"ZXQRCodeReader",
                   @"ZXQRCodeScanner",
                   @"ZXScriptMessageHandler",
+                  @"ZXSemaphore",
                   @"ZXStackView",
                   @"ZXTabBar",
                   @"ZXTabBarController",

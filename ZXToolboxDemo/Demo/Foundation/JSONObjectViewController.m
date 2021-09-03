@@ -32,7 +32,7 @@
 - (IBAction)onParse:(id)sender {
     if (_textView.text.length > 0) {
         id obj = [_textView.text JSONObject];
-        if ([obj isValidJSONObject:obj]) {
+        if ([obj isValidJSONObject]) {
             NSError *error;
             NSString *str = [obj JSONStringWithOptions:0 error:&error];
             if (error) {

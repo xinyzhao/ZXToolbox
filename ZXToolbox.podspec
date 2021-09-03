@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "2.7.6"
+  s.version      = "2.7.7"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -342,6 +342,11 @@ Pod::Spec.new do |s|
     ss.source_files = "ZXToolbox/ZXKit/ZXScriptMessageHandler/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXScriptMessageHandler/*.h"
     ss.frameworks = "WebKit"
+  end
+  
+  s.subspec "ZXSemaphore" do |ss|
+    ss.source_files = "ZXToolbox/ZXKit/ZXSemaphore/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/ZXKit/ZXSemaphore/*.h"
   end
 
   s.subspec "ZXStackView" do |ss|

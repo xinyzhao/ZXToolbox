@@ -989,6 +989,9 @@ NSLogA(@"#ZXQRCodeReader %@", results);
 * ZXScriptMessageHandler
 > 204 No Content
 
+* ZXSemaphore
+> 204 No Content
+
 * ZXStackView
 > 204 No Content
 
