@@ -36,6 +36,7 @@
 @end
 
 @implementation ZXSemaphore
+@synthesize count = _count;
 
 - (instancetype)init {
     self = [super init];
@@ -53,6 +54,14 @@
         _count = count;
     }
     return self;
+}
+
+- (NSInteger)count {
+    NSInteger count = 0;
+    dispatch_semaphore_wait(_semaphore_1, DISPATCH_TIME_FOREVER);
+    count = _count;
+    dispatch_semaphore_signal(_semaphore_1);
+    return count;
 }
 
 - (void)signal:(NSInteger)count {
