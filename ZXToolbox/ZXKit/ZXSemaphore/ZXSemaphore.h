@@ -40,8 +40,15 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param count The starting value for the semaphore.
 - (instancetype)initWithCount:(NSInteger)count;
 
+/// 增加或减少信号量
+/// Signal (increment or decrement) for the semaphore.
+/// @param count The signal value for the semaphore.
+/// @param checkValue Check value for the semaphore.
+- (void)signal:(NSInteger)count checkValue:(BOOL)checkValue;
+
 /// @Brief 增加或减少信号量
 /// @Discussion Signal (increment or decrement) for the semaphore.
+/// @Discussion The parameter checkValue is YES.
 /// @param count The signal value for the semaphore.
 - (void)signal:(NSInteger)count;
 
@@ -53,7 +60,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)wait:(dispatch_time_t)timeout queue:(dispatch_queue_t)queue completion:(void (^)(intptr_t result))handler;
 
 /// @Brief 等待信号量，直到超时或信号量为0
-/// @Discussion timeout is DISPATCH_TIME_FOREVER, queue is dispatch_get_main_queue().
+/// @Discussion The timeout is DISPATCH_TIME_FOREVER, queue is dispatch_get_main_queue().
 /// @param handler The handler when completion.
 - (void)wait:(void (^)(intptr_t result))handler;
 

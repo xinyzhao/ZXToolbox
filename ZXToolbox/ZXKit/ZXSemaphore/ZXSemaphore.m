@@ -64,13 +64,35 @@
     return count;
 }
 
-- (void)signal:(NSInteger)count {
+- (void)signal:(NSInteger)count checkValue:(BOOL)checkValue {
     dispatch_semaphore_wait(_semaphore_1, DISPATCH_TIME_FOREVER);
-    _count += count;
-    if (_count == 0) {
-        dispatch_semaphore_signal(_semaphore_0);
+    BOOL signal = !checkValue;
+    if (!signal) {
+        if (_count > 0) {
+            if (count > 0) {
+                signal = YES;
+            } else if (count < 0 && _count + count >= 0) {
+                signal = YES;
+            }
+        } else if (_count < 0) {
+            if (count < 0) {
+                signal = YES;
+            } else if (count > 0 && _count + count <= 0) {
+                signal = YES;
+            }
+        }
+    }
+    if (signal) {
+        _count += count;
+        if (_count == 0) {
+            dispatch_semaphore_signal(_semaphore_0);
+        }
     }
     dispatch_semaphore_signal(_semaphore_1);
+}
+
+- (void)signal:(NSInteger)count {
+    [self signal:count checkValue:YES];
 }
 
 - (void)wait:(dispatch_time_t)timeout queue:(dispatch_queue_t)queue completion:(void (^)(intptr_t result))handler {
