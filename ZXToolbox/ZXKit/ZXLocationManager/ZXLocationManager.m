@@ -109,6 +109,9 @@
      didUpdateLocations:(NSArray<CLLocation *> *)locations {
     // location
     self.location = [locations lastObject];
+    if (self.didUpdateLocation) {
+        self.didUpdateLocation(self.location, nil);
+    }
     // geocoder
     [[[CLGeocoder alloc] init] reverseGeocodeLocation:_location completionHandler:^(NSArray *array, NSError *error){
         CLPlacemark *placemark = [array lastObject];

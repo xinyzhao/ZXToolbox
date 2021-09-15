@@ -36,10 +36,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param maximumDecimal Maximum length of decimal
 /// @param paddingZeros Padding zeros for decimal if less than minimumDecimal
 - (nullable NSString *)stringFromNumber:(NSNumber *)number
-                 integerFormat:(NSString *)integerFormat
-                minimumDecimal:(NSUInteger)minimumDecimal
-                maximumDecimal:(NSUInteger)maximumDecimal
-                  paddingZeros:(BOOL)paddingZeros;
+                          integerFormat:(NSString *)integerFormat
+                         minimumDecimal:(NSUInteger)minimumDecimal
+                         maximumDecimal:(NSUInteger)maximumDecimal
+                           paddingZeros:(BOOL)paddingZeros;
 
 @end
 

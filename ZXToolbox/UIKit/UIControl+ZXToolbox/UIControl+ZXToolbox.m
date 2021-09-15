@@ -46,12 +46,10 @@ void onTimeIntervalForControlEvents(id obj, SEL sel) {
 + (BOOL)resolveInstanceMethod:(SEL)sel {
     NSString *str = NSStringFromSelector(sel);
     if ([str hasPrefix:kTimeIntervalForControlEvents0]) {
-        // 动态添加实例方法
-        class_addMethod([self class], sel, (IMP)onTimeIntervalForControlEvents, "v@:");
+        class_addMethod([self class], sel, (IMP)onTimeIntervalForControlEvents, "v@:"); // 动态添加实例方法
         return YES;
-    } else {
-        return [super resolveInstanceMethod:sel];
     }
+    return [super resolveInstanceMethod:sel];
 }
 
 - (SEL)selectorForControlEvents:(UIControlEvents)controlEvents {
@@ -62,12 +60,22 @@ void onTimeIntervalForControlEvents(id obj, SEL sel) {
 #pragma mark timeIntervalByUserInteractionEnabled
 
 - (void)setTimeIntervalByUserInteractionEnabled:(BOOL)timeIntervalByUserInteractionEnabled {
-    objc_setAssociatedObject(self, @selector(timeIntervalByUserInteractionEnabled), @(timeIntervalByUserInteractionEnabled), OBJC_ASSOCIATION_ASSIGN);
+    self.timeIntervalMode = timeIntervalByUserInteractionEnabled ? UIControlTimeIntervalModeEvent : UIControlTimeIntervalModeState;
 }
 
 - (BOOL)timeIntervalByUserInteractionEnabled {
-    id obj = objc_getAssociatedObject(self, @selector(timeIntervalByUserInteractionEnabled));
-    return obj ? [obj boolValue] : NO;
+    return self.timeIntervalMode == UIControlTimeIntervalModeEvent;
+}
+
+#pragma mark timeIntervalMode
+
+- (void)setTimeIntervalMode:(UIControlTimeIntervalMode)timeIntervalMode {
+    objc_setAssociatedObject(self, @selector(timeIntervalMode), @(timeIntervalMode), OBJC_ASSOCIATION_ASSIGN);
+}
+
+- (UIControlTimeIntervalMode)timeIntervalMode {
+    id obj = objc_getAssociatedObject(self, @selector(timeIntervalMode));
+    return obj ? [obj integerValue] : UIControlTimeIntervalModeState;
 }
 
 #pragma mark timeIntervalForControlEvents
@@ -89,7 +97,7 @@ void onTimeIntervalForControlEvents(id obj, SEL sel) {
 
 - (void)setTimeInteval:(NSTimeInterval)timeInterval forControlEvents:(UIControlEvents)controlEvents {
     [self removeTimeIntevalForControlEvents:controlEvents];
-    if (timeInterval > 0.01) {
+    if (timeInterval > UIControlTimeIntervalMinimum) {
         [self.timeIntervalForControlEvents setObject:@(timeInterval) forKey:@(controlEvents)];
         SEL sel = [self selectorForControlEvents:controlEvents];
         [self addTarget:self action:sel forControlEvents:controlEvents];
@@ -104,19 +112,25 @@ void onTimeIntervalForControlEvents(id obj, SEL sel) {
 
 - (void)onTimeIntervalForControlEvents:(UIControlEvents)controlEvents {
     NSTimeInterval timeInterval = [[self.timeIntervalForControlEvents objectForKey:@(controlEvents)] doubleValue];
-    if (timeInterval > 0.01) {
+    if (timeInterval > UIControlTimeIntervalMinimum) {
         // Disabled
-        if (self.timeIntervalByUserInteractionEnabled) {
-            self.userInteractionEnabled = NO;
-        } else {
-            self.enabled = NO;
+        switch (self.timeIntervalMode) {
+            case UIControlTimeIntervalModeState:
+                self.enabled = NO;
+                break;
+            case UIControlTimeIntervalModeEvent:
+                self.userInteractionEnabled = NO;
+                break;
         }
         // Delay enabled
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeInterval * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if (self.timeIntervalByUserInteractionEnabled) {
-                self.userInteractionEnabled = YES;
-            } else {
-                self.enabled = YES;
+            switch (self.timeIntervalMode) {
+                case UIControlTimeIntervalModeState:
+                    self.enabled = YES;
+                    break;
+                case UIControlTimeIntervalModeEvent:
+                    self.userInteractionEnabled = YES;
+                    break;
             }
         });
     }

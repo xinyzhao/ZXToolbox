@@ -186,7 +186,7 @@
 
 - (void)testUIControl {
     UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
-    button.timeIntervalByUserInteractionEnabled = YES;
+    button.timeIntervalMode = UIControlTimeIntervalModeState;
     [button setTimeInteval:1 forControlEvents:UIControlEventTouchUpInside];
     [button removeTimeIntevalForControlEvents:UIControlEventTouchUpInside];
 }
@@ -264,6 +264,23 @@
     NSLogA(@"#W-C: %fm", ZXCoordinate2DDistanceMeters(world, china));
     NSLogA(@"#C-B: %fm", ZXCoordinate2DDistanceMeters(china, baidu));
     NSLogA(@"#W-B: %fm", ZXCoordinate2DDistanceMeters(world, baidu));
+}
+
+- (void)testZXDispatchQueue {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testZXDispatchQueue"];
+    [ZXDispatchQueue.global asyncAfter:@"event_5" deadline:5 execute:^(NSString * _Nonnull event) {
+            NSLogA(@"#event_5 ended");
+        [expectation fulfill];
+    }];
+    [ZXDispatchQueue.global asyncAfter:@"event_2" deadline:2 execute:^(NSString * _Nonnull event) {
+            NSLogA(@"#event_2 ended");
+    }];
+    [ZXDispatchQueue.global asyncAfter:@"event_1" deadline:1 execute:^(NSString * _Nonnull event) {
+            NSLogA(@"#event_1 ended");
+    }];
+    [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
+        NSLogA(@"#testZXDispatchQueue timeout");
+    }];
 }
 
 - (void)testZXDownloader {
@@ -418,6 +435,26 @@
     UIImage *image = [ZXQRCodeGenerator imageWithText:@"ZXQRCodeReader"];
     id results = [ZXQRCodeReader decodeQRCodeImage:image];
     NSLogA(@"#ZXQRCodeReader %@", results);
+}
+
+- (void)testZXSemaphore {
+    XCTestExpectation *expectation = [self expectationWithDescription:@"testZXSemaphore"];
+    ZXSemaphore *s = [[ZXSemaphore alloc] initWithCount:2];
+    [s wait:^(intptr_t result) {
+        NSLogA(@"#ZXSemaphore wait out");
+        [expectation fulfill];
+    }];
+    [ZXDispatchQueue.global asyncAfter:@"event_3" deadline:3 execute:^(NSString * _Nonnull event) {
+        NSLogA(@"#global fired");
+        [s signal:-1];
+    }];
+    [ZXDispatchQueue.main asyncAfter:@"event_2" deadline:2 execute:^(NSString * _Nonnull event) {
+        NSLogA(@"#main fired");
+        [s signal:-1];
+    }];
+    [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
+        NSLogA(@"#testZXSemaphore wait out");
+    }];
 }
 
 - (void)testNaN {

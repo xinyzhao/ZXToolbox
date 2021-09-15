@@ -56,13 +56,13 @@ NS_ASSUME_NONNULL_BEGIN
  Convert a numeric string of baseIn radix to a numeric string of baseOut radix.
  Reference https://github.com/MikeMcl/bignumber.js/blob/master/bignumber.js
  
- Eg. [NSString stringWithValue:@"255" baseIn:10 baseOut:16 uppercase:NO] returns @"ff".
- Eg. [NSString stringWithValue:@"ff" baseIn:16 baseOut:10 uppercase:NO] returns @"255".
+ Eg. [NSString stringWithValue:@"255" baseIn:10 baseOut:16 alphabet:nil] returns @"ff".
+ Eg. [NSString stringWithValue:@"ff" baseIn:16 baseOut:10 alphabet:nil] returns @"255".
  
  @param value The numeric value, a NSNumber or NSString object
- @param baseIn From base radix, range is 2 to 36.
- @param baseOut To base radix, range is 2 to 36.
- @param alphabet Default is "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ" if not specified.
+ @param baseIn From base radix, range is 2 to alphabet.count.
+ @param baseOut To base radix, range is 2 to alphabet.count.
+ @param alphabet Default is [NSString defaultAlphabet] if not specified.
  @return The string of base baseOut
  */
 + (NSString *)stringWithValue:(id)value baseIn:(int)baseIn baseOut:(int)baseOut alphabet:(NSString *_Nullable)alphabet;
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
  Convert a numeric string from radix to base 10.
 
  @param value The numeric value, a NSNumber or NSString object
- @param radix The base to use for the string representation. Radix must be at least 2 and at most 36.
+ @param radix The base to use for the string representation. Radix must be at least 2 and at most [NSString defaultAlphabet].count.
  @return The string of base radix
  */
 + (NSString *)stringWithValue:(id)value radix:(int)radix;
@@ -79,7 +79,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  Convert a numeric string from base 10 to radix.
 
- @param radix The base to use for the string representation. radix must be at least 2 and at most 36.
+ @param radix The base to use for the string representation. radix must be at least 2 and at most [NSString defaultAlphabet].count.
  @return The string of base radix
  */
 - (NSString *)stringByRadix:(int)radix;
