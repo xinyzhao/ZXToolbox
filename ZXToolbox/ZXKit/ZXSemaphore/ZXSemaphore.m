@@ -69,15 +69,11 @@
     BOOL signal = !checkValue;
     if (!signal) {
         if (_count > 0) {
-            if (count > 0) {
-                signal = YES;
-            } else if (count < 0 && _count + count >= 0) {
+            if (count < 0 && _count + count >= 0) {
                 signal = YES;
             }
         } else if (_count < 0) {
-            if (count < 0) {
-                signal = YES;
-            } else if (count > 0 && _count + count <= 0) {
+            if (count > 0 && _count + count <= 0) {
                 signal = YES;
             }
         }
