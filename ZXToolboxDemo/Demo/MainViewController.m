@@ -114,6 +114,11 @@
     [self.tableView reloadData];
 }
 
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(nullable id)sender {
+    UIViewController *vc = segue.destinationViewController;
+    vc.title = segue.identifier;
+}
+
 #pragma mark <UITableViewDataSource>
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {

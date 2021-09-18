@@ -84,7 +84,7 @@
                         <segue destination="7t5-Lx-WmI" kind="show" id="o1X-Wh-5wS"/>
                         <segue destination="F6u-NA-74h" kind="show" id="RD7-od-fYk"/>
                         <segue destination="ZdY-LV-UPU" kind="show" id="17s-Fz-mZx"/>
-                        <segue destination="dqd-Jj-Ft4" kind="show" id="rVm-qE-MJy"/>
+                        <segue destination="dqd-Jj-Ft4" kind="show" identifier="ZXPageView" id="rVm-qE-MJy"/>
                         <segue destination="oaQ-Hb-h92" kind="show" id="hlt-Xw-HGO"/>
                         <segue destination="ZYp-b8-fRB" kind="show" id="Nai-m8-nGp"/>
                         <segue destination="QC1-ud-8YL" kind="show" identifier="ZXQRCodeGenerator" id="5KO-k3-pUe"/>

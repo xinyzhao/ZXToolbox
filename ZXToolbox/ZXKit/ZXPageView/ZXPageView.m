@@ -26,12 +26,19 @@
 #import "ZXPageView.h"
 #import "ZXTimer.h"
 
-@interface ZXPageView () <UIScrollViewDelegate>
+@interface ZXPageView () <UIScrollViewDelegate, NSCacheDelegate>
+/// 滚动视图
 @property (nonatomic, strong) UIScrollView *scrollView;
+/// 当前显示的视图，当视图不在显示范围内则缓存到pageCache
 @property (nonatomic, strong) NSMutableDictionary *pageViews;
+/// 在内存宽裕时，缓存之前显示的视图，重用这些对象，以提高应用性能；
+/// 当内存紧张时，将从缓存中删除一些不显示的视图，从而最小化内存占用。
 @property (nonatomic, strong) NSCache *pageCache;
+/// 当前索引
 @property (nonatomic, assign) NSInteger currentIndex;
+/// 时间戳
 @property (nonatomic, assign) NSTimeInterval timestamp;
+/// 计时器
 @property (nonatomic, strong) ZXTargetTimer *timer;
 
 @end
@@ -74,6 +81,7 @@
     
     self.pageViews = [[NSMutableDictionary alloc] init];
     self.pageCache = [[NSCache alloc] init];
+    //self.pageCache.delegate = self;
 }
 
 - (void)dealloc {
@@ -206,7 +214,9 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     //
-    self.scrollView.frame = self.bounds;
+    if (!CGRectEqualToRect(_scrollView.frame, self.bounds)) {
+        self.scrollView.frame = self.bounds;
+    }
     [self resetEdgeInset];
     [self layoutPageView];
 }
@@ -310,10 +320,10 @@
     if (view == nil) {
         view = [self.pageCache objectForKey:@(index)];
         if (view) {
+            //NSLog(@"Cache[-] %s %d", __func__, (int)index);
             [self.pageViews setObject:view forKey:@(index)];
             [self.pageCache removeObjectForKey:@(index)];
             [self.scrollView addSubview:view];
-            //NSLog(@"%s %d", __func__, (int)index);
         }
     }
     if (view == nil) {
@@ -345,7 +355,7 @@
     NSMutableArray *allKeys = [self.pageViews.allKeys mutableCopy];
     [allKeys removeObjectsInArray:keys];
     for (id key in allKeys) {
-        //NSLog(@"%s %d", __func__, [key intValue]);
+        //NSLog(@"Cache[+] %s %d", __func__, [key intValue]);
         UIView *view = [self.pageViews objectForKey:key];
         [self.pageCache setObject:view forKey:key];
         [self.pageViews removeObjectForKey:key];
