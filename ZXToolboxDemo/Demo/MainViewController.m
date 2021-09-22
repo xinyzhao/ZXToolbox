@@ -33,6 +33,7 @@
     self.dataArray = @[
         @{@"title":@"Foundation",
           @"rows":@[
+                  @"AVAsset+ZXToolbox",
                   @"AVAudioSession+ZXToolbox",
                   @"Base64Encoding",
                   @"JSONObject",
