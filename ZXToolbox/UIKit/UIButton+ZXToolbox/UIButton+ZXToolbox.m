@@ -64,8 +64,11 @@
 }
 
 - (void)zx_setBounds:(CGRect)rect {
+    CGRect bounds = self.bounds;
     [self zx_setBounds:rect];
-    [self layoutTitleImage];
+    if (!CGRectEqualToRect(bounds, rect)) { // Bugs fixes for Xcode 13
+        [self layoutTitleImage];
+    }
 }
 
 - (void)setTitleImageLayout:(UIButtonTitleImageLayout)titleImageLayout {
