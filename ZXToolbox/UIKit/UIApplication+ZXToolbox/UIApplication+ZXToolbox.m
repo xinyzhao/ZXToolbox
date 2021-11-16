@@ -108,7 +108,7 @@
 #pragma mark NetworkActivityIndicator
 
 - (void)setNetworkActivityIndicatorCount:(NSUInteger)networkActivityIndicatorCount {
-    objc_setAssociatedObject(self, @selector(networkActivityIndicatorCount), @(networkActivityIndicatorCount), OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @selector(networkActivityIndicatorCount), @(networkActivityIndicatorCount), OBJC_ASSOCIATION_RETAIN);
     self.networkActivityIndicatorVisible = networkActivityIndicatorCount > 0;
 }
 

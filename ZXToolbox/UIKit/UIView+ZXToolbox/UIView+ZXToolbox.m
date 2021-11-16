@@ -24,30 +24,71 @@
 //
 
 #import "UIView+ZXToolbox.h"
-//#import "NSObject+ZXToolbox.h"
-//#import <objc/runtime.h>
+#import <objc/runtime.h>
 
 @implementation UIView (ZXToolbox)
 
-//+ (void)load {
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        [self swizzleMethod:@selector(intrinsicContentSize) with:@selector(inherentContentSize)];
-//    });
-//}
-//
-//- (void)setInherentContentSize:(CGSize)inherentContentSize {
-//    objc_setAssociatedObject(self, @selector(inherentContentSize), NSStringFromCGSize(inherentContentSize), OBJC_ASSOCIATION_COPY_NONATOMIC);
-//    [self invalidateIntrinsicContentSize];
-//}
-//
-//- (CGSize)inherentContentSize {
-//    NSString *str = objc_getAssociatedObject(self, @selector(inherentContentSize));
-//    if (str) {
-//        return CGSizeFromString(str);
-//    }
-//    return [self inherentContentSize];
-//}
+- (void)setIntrinsicContentInset:(UIEdgeInsets)inset {
+    UIEdgeInsets oldInset = [self intrinsicContentInset];
+    BOOL isExchanged = !UIEdgeInsetsEqualToEdgeInsets(oldInset, UIEdgeInsetsZero);
+    BOOL isUnchanged = UIEdgeInsetsEqualToEdgeInsets(inset, UIEdgeInsetsZero);
+    // 保存数值
+    const void *key = @selector(intrinsicContentInset);
+    NSValue *value = nil;
+    if (!isUnchanged) {
+        value = [NSValue valueWithUIEdgeInsets:inset];
+    }
+    objc_setAssociatedObject(self, key, nil, OBJC_ASSOCIATION_RETAIN);
+    // 新旧不同
+    if (!UIEdgeInsetsEqualToEdgeInsets(inset, oldInset)) {
+        Method intrinsic = class_getInstanceMethod(self.class, @selector(intrinsicContentSize));
+        Method extrinsic = class_getInstanceMethod(self.class, @selector(extrinsicContentSize));
+        // 还原方法
+        if (isUnchanged) {
+            if (isExchanged) {
+                method_exchangeImplementations(intrinsic, extrinsic);
+            }
+        } else {
+            // 设置新值
+            CGSize size = [self intrinsicContentSize];
+            if (isExchanged) {
+                size = [self extrinsicContentSize];
+            }
+            size.width += inset.left + inset.right;
+            size.height += inset.top + inset.bottom;
+            [self setExtrinsicContentSize:size];
+            // 交换方法
+            if (!isExchanged) {
+                method_exchangeImplementations(intrinsic, extrinsic);
+            }
+        }
+    }
+}
+
+- (UIEdgeInsets)intrinsicContentInset {
+    NSValue *value = objc_getAssociatedObject(self, @selector(intrinsicContentInset));
+    if (value) {
+        return value.UIEdgeInsetsValue;
+    }
+    return UIEdgeInsetsZero;
+}
+
+- (void)setExtrinsicContentSize:(CGSize)size {
+    const void *key = @selector(extrinsicContentSize);
+    NSValue *value = nil;
+    if (!CGSizeEqualToSize(size, CGSizeZero)) {
+        value = [NSValue valueWithCGSize:size];
+    }
+    objc_setAssociatedObject(self, key, value, OBJC_ASSOCIATION_RETAIN);
+}
+
+- (CGSize)extrinsicContentSize {
+    NSValue *value = objc_getAssociatedObject(self, @selector(extrinsicContentSize));
+    if (value) {
+        return value.CGSizeValue;
+    }
+    return [self intrinsicContentSize];
+}
 
 - (nullable UIImage *)captureImage {
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, 0);

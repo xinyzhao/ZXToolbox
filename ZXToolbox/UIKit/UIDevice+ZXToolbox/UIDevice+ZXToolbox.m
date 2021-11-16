@@ -143,7 +143,7 @@
 }
 
 - (void)setProximityStateDidChangeObserver:(id)proximityStateDidChangeObserver {
-    objc_setAssociatedObject(self, @selector(proximityStateDidChangeObserver), proximityStateDidChangeObserver, OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @selector(proximityStateDidChangeObserver), proximityStateDidChangeObserver, OBJC_ASSOCIATION_RETAIN);
 }
 
 - (id)proximityStateDidChangeObserver {

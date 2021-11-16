@@ -70,7 +70,7 @@ void onTimeIntervalForControlEvents(id obj, SEL sel) {
 #pragma mark timeIntervalMode
 
 - (void)setTimeIntervalMode:(UIControlTimeIntervalMode)timeIntervalMode {
-    objc_setAssociatedObject(self, @selector(timeIntervalMode), @(timeIntervalMode), OBJC_ASSOCIATION_ASSIGN);
+    objc_setAssociatedObject(self, @selector(timeIntervalMode), @(timeIntervalMode), OBJC_ASSOCIATION_RETAIN);
 }
 
 - (UIControlTimeIntervalMode)timeIntervalMode {
