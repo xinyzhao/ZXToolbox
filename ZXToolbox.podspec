@@ -64,6 +64,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "NSObject+ZXToolbox" do |ss|
+    ss.dependency "ZXToolbox/ZXDeallocObject"
     ss.source_files = "ZXToolbox/Foundation/NSObject+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/Foundation/NSObject+ZXToolbox/*.h"
   end
@@ -201,6 +202,11 @@ Pod::Spec.new do |s|
   s.subspec "ZXCoordinate2D" do |ss|
     ss.source_files = "ZXToolbox/ZXKit/ZXCoordinate2D/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXCoordinate2D/*.h"
+  end
+  
+  s.subspec "ZXDeallocObject" do |ss|
+    ss.source_files = "ZXToolbox/ZXKit/ZXDeallocObject/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/ZXKit/ZXDeallocObject/*.h"
   end
   
   s.subspec "ZXDebugTools" do |ss|

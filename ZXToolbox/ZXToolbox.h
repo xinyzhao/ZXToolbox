@@ -70,6 +70,7 @@ FOUNDATION_EXPORT const unsigned char ZXToolboxVersionString[];
 #import "ZXCircularProgressView.h"
 #import "ZXCommonCrypto.h"
 #import "ZXCoordinate2D.h"
+#import "ZXDeallocObject.h"
 #import "ZXDebugTools.h"
 #import "ZXDispatchQueue.h"
 #import "ZXDownloader.h"

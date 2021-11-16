@@ -735,6 +735,9 @@ NSLogA(@"#W-B: %fm", ZXCoordinate2DDistanceMeters(world, baidu));
 #C-B: 870.298132m
 #W-B: 1352.293468m
 ```
+* ZXDeallocObject
+> 204 No Content
+
 * ZXDebugTools
 > 204 No Content
 

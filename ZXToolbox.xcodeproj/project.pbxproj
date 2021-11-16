@@ -139,6 +139,8 @@
 		7027131E24A1A7ED001850B5 /* Base64EncodingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7027131D24A1A7ED001850B5 /* Base64EncodingViewController.m */; };
 		7040F6CB23824182009EFB1F /* UINavigationController+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7040F6C923824182009EFB1F /* UINavigationController+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7040F6CC23824182009EFB1F /* UINavigationController+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 7040F6CA23824182009EFB1F /* UINavigationController+ZXToolbox.m */; };
+		704EA53A2743A00400BA5962 /* ZXDeallocObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 704EA5382743A00400BA5962 /* ZXDeallocObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		704EA53B2743A00400BA5962 /* ZXDeallocObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 704EA5392743A00400BA5962 /* ZXDeallocObject.m */; };
 		705A8FD123C2D51000BE361F /* ZXKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = 705A8FCF23C2D51000BE361F /* ZXKeychain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		705A8FD223C2D51000BE361F /* ZXKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 705A8FD023C2D51000BE361F /* ZXKeychain.m */; };
 		705A8FD923C2E32100BE361F /* ZXKeychainItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 705A8FD723C2E32100BE361F /* ZXKeychainItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -415,6 +417,8 @@
 		702E538E23D8478200D8B0CF /* Location.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Location.gpx; sourceTree = "<group>"; };
 		7040F6C923824182009EFB1F /* UINavigationController+ZXToolbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+ZXToolbox.h"; sourceTree = "<group>"; };
 		7040F6CA23824182009EFB1F /* UINavigationController+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+ZXToolbox.m"; sourceTree = "<group>"; };
+		704EA5382743A00400BA5962 /* ZXDeallocObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXDeallocObject.h; sourceTree = "<group>"; };
+		704EA5392743A00400BA5962 /* ZXDeallocObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXDeallocObject.m; sourceTree = "<group>"; };
 		705A8FCF23C2D51000BE361F /* ZXKeychain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXKeychain.h; sourceTree = "<group>"; };
 		705A8FD023C2D51000BE361F /* ZXKeychain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXKeychain.m; sourceTree = "<group>"; };
 		705A8FD723C2E32100BE361F /* ZXKeychainItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXKeychainItem.h; sourceTree = "<group>"; };
@@ -871,6 +875,7 @@
 				7000ACD022E9C22F00651E44 /* ZXCircularProgressView */,
 				7000ACAD22E9C22F00651E44 /* ZXCommonCrypto */,
 				705F48AF23C9BFFE002AADC8 /* ZXCoordinate2D */,
+				704EA53727439FF400BA5962 /* ZXDeallocObject */,
 				70259A5F2655090A0022C91C /* ZXDebugTools */,
 				70F2728424EFC3B300DD1A9F /* ZXDispatchQueue */,
 				70A7B5B323B0B7990080C95A /* ZXDownloader */,
@@ -1334,6 +1339,15 @@
 			path = ZXPlayerViewController;
 			sourceTree = "<group>";
 		};
+		704EA53727439FF400BA5962 /* ZXDeallocObject */ = {
+			isa = PBXGroup;
+			children = (
+				704EA5382743A00400BA5962 /* ZXDeallocObject.h */,
+				704EA5392743A00400BA5962 /* ZXDeallocObject.m */,
+			);
+			path = ZXDeallocObject;
+			sourceTree = "<group>";
+		};
 		705A8FCE23C2D4F200BE361F /* ZXKeychain */ = {
 			isa = PBXGroup;
 			children = (
@@ -1634,6 +1648,7 @@
 				7000AD4D22E9C22F00651E44 /* ZXTargetTimer.h in Headers */,
 				70ED5F8826A01012000901CD /* ZXTextAttributes.h in Headers */,
 				7000AD4F22E9C22F00651E44 /* ZXTimer.h in Headers */,
+				704EA53A2743A00400BA5962 /* ZXDeallocObject.h in Headers */,
 				7000ADA022E9C22F00651E44 /* ZXToastView.h in Headers */,
 				7000AC4C22E9C1CC00651E44 /* ZXToolbox.h in Headers */,
 				7000AD9522E9C22F00651E44 /* ZXToolbox+Macros.h in Headers */,
@@ -1812,6 +1827,7 @@
 				70BC8B5D23C5B90400DD952B /* ZXKeychainItem+Value.m in Sources */,
 				70BC8B4923C5B68000DD952B /* ZXKeychainItem+Identity.m in Sources */,
 				7000AD4722E9C22F00651E44 /* UITextField+ZXToolbox.m in Sources */,
+				704EA53B2743A00400BA5962 /* ZXDeallocObject.m in Sources */,
 				7000AD9C22E9C22F00651E44 /* ZXLineChartView.m in Sources */,
 				7000AD3222E9C22F00651E44 /* NSNumberFormatter+ZXToolbox.m in Sources */,
 				7000AD8D22E9C22F00651E44 /* ZXURLSession.m in Sources */,

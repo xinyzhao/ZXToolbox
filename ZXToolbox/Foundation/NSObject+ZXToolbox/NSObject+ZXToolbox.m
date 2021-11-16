@@ -25,22 +25,7 @@
 
 #import "NSObject+ZXToolbox.h"
 #import <objc/runtime.h>
-
-@interface NSObject (NSObject_ZXToolbox)
-@property (nonatomic, copy) NSString *performAfterDelayUUIDString;
-@end
-
-@implementation NSObject (NSObject_ZXToolbox)
-
-- (void)setPerformAfterDelayUUIDString:(NSString *)UUIDString {
-    objc_setAssociatedObject(self, @selector(performAfterDelayUUIDString), UUIDString, OBJC_ASSOCIATION_COPY);
-}
-
-- (NSString *)performAfterDelayUUIDString {
-    return objc_getAssociatedObject(self, @selector(performAfterDelayUUIDString));
-}
-
-@end
+#import "ZXDeallocObject.h"
 
 @implementation NSObject (ZXToolbox)
 
@@ -118,45 +103,18 @@
     }
 }
 
-- (BOOL)respondsToMethod:(SEL)selector {
-    return selector && [self respondsToSelector:selector];
-}
-
-- (void)performMethod:(SEL)selector {
-    if ([self respondsToMethod:selector]) {
-        IMP imp = [self methodForSelector:selector];
-        void (*func)(id, SEL) = (void *)imp;
-        func(self, selector);
+- (void)setAssociatedObject:(const void *)key value:(id)value policy:(objc_AssociationPolicy)policy {
+    if (policy == OBJC_ASSOCIATION_ASSIGN) {
+        ZXDeallocObject *obj = [[ZXDeallocObject alloc] initWithBlock:^{
+            objc_setAssociatedObject(self, key, nil, OBJC_ASSOCIATION_ASSIGN);
+        }];
+        objc_setAssociatedObject(value, (__bridge const void *)(obj.deallocBlock), obj, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     }
+    objc_setAssociatedObject(self, key, value, policy);
 }
 
-- (void)performMethod:(SEL)selector withObject:(id)object {
-    if ([self respondsToMethod:selector]) {
-        IMP imp = [self methodForSelector:selector];
-        void (*func)(id, SEL, id) = (void *)imp;
-        func(self, selector, object);
-    }
-}
-
-- (void)performMethod:(SEL)selector withObject:(id)object1 withObject:(id)object2 {
-    if ([self respondsToMethod:selector]) {
-        IMP imp = [self methodForSelector:selector];
-        void (*func)(id, SEL, id, id) = (void *)imp;
-        func(self, selector, object1, object2);
-    }
-}
-
-- (void)performBlock:(void(^)(id object))block withObject:(id)object afterDelay:(NSTimeInterval)delayInSeconds {
-    NSString *uuidString = NSUUID.UUID.UUIDString;
-    self.performAfterDelayUUIDString = uuidString;
-    __weak typeof(self) weakSelf = self;
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if ([weakSelf.performAfterDelayUUIDString isEqualToString:uuidString]) {
-            if (block) {
-                block(object);
-            }
-        }
-    });
+- (id)getAssociatedObject:(const void *)key {
+    return objc_getAssociatedObject(self, key);
 }
 
 @end
