@@ -31,7 +31,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 冻结滚动
 @property (nonatomic) BOOL isScrollFreezed;
 /// 冻结偏移量
-@property (nonatomic) CGPoint scrollFreezedOffset;
+@property (nonatomic) CGPoint freezedContentOffset;
 /// 冻结的子视图
 @property (nonatomic, weak, nullable) UIScrollView *freezedChildView;
 /// 冻结的父视图

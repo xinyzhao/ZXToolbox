@@ -51,14 +51,14 @@
     return NO;
 }
 
-- (void)setScrollFreezedOffset:(CGPoint)offset {
-    const void *key = @selector(scrollFreezedOffset);
+- (void)setFreezedContentOffset:(CGPoint)offset {
+    const void *key = @selector(freezedContentOffset);
     id value = [NSValue valueWithCGPoint:offset];
     objc_setAssociatedObject(self, key, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (CGPoint)scrollFreezedOffset {
-    const void *key = @selector(scrollFreezedOffset);
+- (CGPoint)freezedContentOffset {
+    const void *key = @selector(freezedContentOffset);
     NSValue *value = objc_getAssociatedObject(self, key);
     if (value) {
         return value.CGPointValue;
@@ -121,7 +121,7 @@
             }
             //
             CGPoint contentOffset = newPoint;
-            CGPoint freezedOffset = self.scrollFreezedOffset;
+            CGPoint freezedOffset = self.freezedContentOffset;
             BOOL isScrollFreezed = self.isScrollFreezed;
             //
             if (self.freezedChildView) {
