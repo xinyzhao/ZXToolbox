@@ -24,8 +24,8 @@
 //
 
 #import "UIScrollView+ZXToolbox.h"
+#import "NSObject+ZXToolbox.h"
 #import "ZXKeyValueObserver.h"
-#import <objc/runtime.h>
 
 @interface UIScrollView ()
 @property (nonatomic, strong, nullable) ZXKeyValueObserver *scrollFreezedObserver;
@@ -39,14 +39,14 @@
 - (void)setIsScrollFreezed:(BOOL)isScrollFreezed {
     const void *key = @selector(isScrollFreezed);
     id value = [NSNumber numberWithBool:isScrollFreezed];
-    objc_setAssociatedObject(self, key, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:key value:value policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (BOOL)isScrollFreezed {
     const void *key = @selector(isScrollFreezed);
-    NSNumber *value = objc_getAssociatedObject(self, key);
+    NSNumber *value = [self getAssociatedObject:key];
     if (value) {
-        return value.boolValue;
+        return [value boolValue];
     }
     return NO;
 }
@@ -54,12 +54,12 @@
 - (void)setFreezedContentOffset:(CGPoint)offset {
     const void *key = @selector(freezedContentOffset);
     id value = [NSValue valueWithCGPoint:offset];
-    objc_setAssociatedObject(self, key, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:key value:value policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (CGPoint)freezedContentOffset {
     const void *key = @selector(freezedContentOffset);
-    NSValue *value = objc_getAssociatedObject(self, key);
+    NSValue *value = [self getAssociatedObject:key];
     if (value) {
         return value.CGPointValue;
     }
@@ -68,24 +68,24 @@
 
 - (void)setFreezedChildView:(UIScrollView *)freezedChildView {
     const void *key = @selector(freezedChildView);
-    objc_setAssociatedObject(self, key, freezedChildView, OBJC_ASSOCIATION_ASSIGN);
+    [self setAssociatedObject:key value:freezedChildView policy:OBJC_ASSOCIATION_ASSIGN];
     [self addScrollFreezedObserver];
 }
 
 - (UIScrollView *)freezedChildView {
     const void *key = @selector(freezedChildView);
-    return objc_getAssociatedObject(self, key);
+    return [self getAssociatedObject:key];
 }
 
 - (void)setFreezedSuperView:(UIScrollView *)freezedSuperView {
     const void *key = @selector(freezedSuperView);
-    objc_setAssociatedObject(self, key, freezedSuperView, OBJC_ASSOCIATION_ASSIGN);
+    [self setAssociatedObject:key value:freezedSuperView policy:OBJC_ASSOCIATION_ASSIGN];
     [self addScrollFreezedObserver];
 }
 
 - (UIScrollView *)freezedSuperView {
     const void *key = @selector(freezedSuperView);
-    return objc_getAssociatedObject(self, key);
+    return [self getAssociatedObject:key];
 }
 
 #pragma mark UIGestureRecognizerDelegate
@@ -158,12 +158,12 @@
 
 - (void)setScrollFreezedObserver:(ZXKeyValueObserver *)observer {
     const void *key = @selector(scrollFreezedObserver);
-    objc_setAssociatedObject(self, key, observer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:key value:observer policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (ZXKeyValueObserver *)scrollFreezedObserver {
     const void *key = @selector(scrollFreezedObserver);
-    return objc_getAssociatedObject(self, key);
+    return [self getAssociatedObject:key];
 }
 
 - (void)dealloc {

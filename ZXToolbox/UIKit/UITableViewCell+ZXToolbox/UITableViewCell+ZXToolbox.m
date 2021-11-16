@@ -24,7 +24,7 @@
 //
 
 #import "UITableViewCell+ZXToolbox.h"
-#import <objc/runtime.h>
+#import "NSObject+ZXToolbox.h"
 
 @implementation UITableViewCell (ZXToolbox)
 
@@ -57,11 +57,11 @@
 #pragma mark Getter & Setter
 
 - (void)saveSeparatorColor:(UIColor *)separatorColor {
-    objc_setAssociatedObject(self, @selector(separatorColor), separatorColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:@selector(separatorColor) value:separatorColor policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (UIColor *)separatorColor {
-    UIColor *color = objc_getAssociatedObject(self, @selector(separatorColor));
+    UIColor *color = [self getAssociatedObject:@selector(separatorColor)];
     if (color == nil) {
         color = [[UITableView alloc] init].separatorColor;
         self.separatorColor = color;
@@ -70,18 +70,18 @@
 }
 
 - (void)setSeparatorInset:(UIEdgeInsets)separatorInset {
-    NSString *str = NSStringFromUIEdgeInsets(separatorInset);
-    objc_setAssociatedObject(self, @selector(separatorInset), str, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    NSValue *value = [NSValue valueWithUIEdgeInsets:separatorInset];
+    [self setAssociatedObject:@selector(separatorInset) value:value policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (UIEdgeInsets)separatorInset {
     UIEdgeInsets inset = UIEdgeInsetsZero;
-    NSString *str = objc_getAssociatedObject(self, @selector(separatorInset));
-    if (str == nil) {
+    NSValue *value = [self getAssociatedObject:@selector(separatorInset)];
+    if (value) {
+        inset = [value UIEdgeInsetsValue];
+    } else {
         inset = [[UITableView alloc] init].separatorInset;
         self.separatorInset = inset;
-    } else {
-        inset = UIEdgeInsetsFromString(str);
     }
     return inset;
 }

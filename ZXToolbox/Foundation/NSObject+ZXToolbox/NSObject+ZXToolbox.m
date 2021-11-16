@@ -24,8 +24,8 @@
 //
 
 #import "NSObject+ZXToolbox.h"
-#import <objc/runtime.h>
 #import "ZXDeallocObject.h"
+#import <objc/runtime.h>
 
 @implementation NSObject (ZXToolbox)
 

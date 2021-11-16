@@ -24,7 +24,7 @@
 //
 
 #import "ZXTextAttributes.h"
-#import <objc/runtime.h>
+#import "NSObject+ZXToolbox.h"
 
 @interface ZXTextAttributes ()
 @property (nonatomic, weak, nullable) id hostObject;
@@ -154,16 +154,16 @@
 @implementation NSObject (ZXTextAttributes)
 
 - (ZXTextAttributes *)textAttributes {
-    ZXTextAttributes *obj = objc_getAssociatedObject(self, @selector(textAttributes));
+    ZXTextAttributes *obj = [self getAssociatedObject:@selector(textAttributes)];
     if (obj == nil) {
         obj = [[ZXTextAttributes alloc] initWithHost:self];
-        objc_setAssociatedObject(self, @selector(textAttributes), obj, OBJC_ASSOCIATION_RETAIN);
+        [self setAssociatedObject:@selector(textAttributes) value:obj policy:OBJC_ASSOCIATION_RETAIN];
     }
     return obj;
 }
 
 - (void)setTextAttributes:(ZXTextAttributes *)att {
-    objc_setAssociatedObject(self, @selector(textAttributes), att, OBJC_ASSOCIATION_RETAIN);
+    [self setAssociatedObject:@selector(textAttributes) value:att policy:OBJC_ASSOCIATION_RETAIN];
 }
 
 @end

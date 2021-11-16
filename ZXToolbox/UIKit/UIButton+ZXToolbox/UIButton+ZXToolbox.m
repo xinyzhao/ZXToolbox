@@ -25,7 +25,6 @@
 
 #import "UIButton+ZXToolbox.h"
 #import "NSObject+ZXToolbox.h"
-#import <objc/runtime.h>
 
 @implementation UIButton (ZXToolbox)
 
@@ -72,22 +71,22 @@
 }
 
 - (void)setTitleImageLayout:(UIButtonTitleImageLayout)titleImageLayout {
-    objc_setAssociatedObject(self, @selector(titleImageLayout), @(titleImageLayout), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:@selector(titleImageLayout) value:@(titleImageLayout) policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
     [self layoutTitleImage];
 }
 
 - (UIButtonTitleImageLayout)titleImageLayout {
-    NSNumber *number = objc_getAssociatedObject(self, @selector(titleImageLayout));
+    NSNumber *number = [self getAssociatedObject:@selector(titleImageLayout)];
     return [number integerValue];
 }
 
 - (void)setTitleImageSpacing:(CGFloat)titleImageSpacing {
-    objc_setAssociatedObject(self, @selector(titleImageSpacing), @(titleImageSpacing), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:@selector(titleImageSpacing) value:@(titleImageSpacing) policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
     [self layoutTitleImage];
 }
 
 - (CGFloat)titleImageSpacing {
-    NSNumber *number = objc_getAssociatedObject(self, @selector(titleImageSpacing));
+    NSNumber *number = [self getAssociatedObject:@selector(titleImageSpacing)];
     return [number floatValue];
 }
 

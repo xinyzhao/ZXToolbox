@@ -27,7 +27,7 @@
 #import "ZXCommonCrypto.h"
 #import "ZXKeychain.h"
 #import "ZXToolbox+Macros.h"
-#import <objc/runtime.h>
+#import "NSObject+ZXToolbox.h"
 #import <sys/utsname.h>
 #import <sys/types.h>
 #import <sys/sysctl.h>
@@ -125,7 +125,7 @@
 #pragma mark Proximity State
 
 - (void)setProximityStateDidChange:(void (^)(BOOL))proximityStateDidChange {
-    objc_setAssociatedObject(self, @selector(proximityStateDidChange), proximityStateDidChange, OBJC_ASSOCIATION_COPY);
+    [self setAssociatedObject:@selector(proximityStateDidChange) value:proximityStateDidChange policy:OBJC_ASSOCIATION_COPY];
     // Add observer
     if (self.proximityStateDidChangeObserver == nil) {
         __weak typeof(self) weakSelf = self;
@@ -139,15 +139,15 @@
 }
 
 - (void (^)(BOOL))proximityStateDidChange {
-    return objc_getAssociatedObject(self, @selector(proximityStateDidChange));
+    return [self getAssociatedObject:@selector(proximityStateDidChange)];
 }
 
 - (void)setProximityStateDidChangeObserver:(id)proximityStateDidChangeObserver {
-    objc_setAssociatedObject(self, @selector(proximityStateDidChangeObserver), proximityStateDidChangeObserver, OBJC_ASSOCIATION_RETAIN);
+    [self setAssociatedObject:@selector(proximityStateDidChangeObserver) value:proximityStateDidChangeObserver policy:OBJC_ASSOCIATION_RETAIN];
 }
 
 - (id)proximityStateDidChangeObserver {
-    return objc_getAssociatedObject(self, @selector(proximityStateDidChangeObserver));
+    return [self getAssociatedObject:@selector(proximityStateDidChangeObserver)];
 }
 
 - (void)dealloc

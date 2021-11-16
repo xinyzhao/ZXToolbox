@@ -24,7 +24,7 @@
 //
 
 #import "AVAudioSession+ZXToolbox.h"
-#import <objc/runtime.h>
+#import "NSObject+ZXToolbox.h"
 
 @interface AVAudioSession ()
 @property (nonatomic, weak) id audioSessionRouteChangeObserver;
@@ -60,7 +60,7 @@
 }
 
 - (void)setOverrideSpeaker:(BOOL)overrideSpeaker {
-    objc_setAssociatedObject(self, @selector(isOverrideSpeaker), @(overrideSpeaker), OBJC_ASSOCIATION_RETAIN);
+    [self setAssociatedObject:@selector(isOverrideSpeaker) value:@(overrideSpeaker) policy:OBJC_ASSOCIATION_RETAIN];
     //
     if ([self.category isEqualToString:AVAudioSessionCategoryPlayAndRecord]) {
         NSError *error = nil;
@@ -76,12 +76,12 @@
 }
 
 - (BOOL)isOverrideSpeaker {
-    NSNumber *number = objc_getAssociatedObject(self, @selector(isOverrideSpeaker));
+    NSNumber *number = [self getAssociatedObject:@selector(isOverrideSpeaker)];
     return number ? [number boolValue] : false;
 }
 
 - (void)setAudioSessionRouteChange:(void (^)(AVAudioSessionRouteDescription * _Nonnull, AVAudioSessionRouteChangeReason))audioSessionRouteChange {
-    objc_setAssociatedObject(self, @selector(audioSessionRouteChange), audioSessionRouteChange, OBJC_ASSOCIATION_COPY);
+    [self setAssociatedObject:@selector(audioSessionRouteChange) value:audioSessionRouteChange policy:OBJC_ASSOCIATION_COPY];
     //
     if (self.audioSessionRouteChangeObserver == nil) {
         __weak typeof(self) weakSelf = self;
@@ -113,15 +113,15 @@
 }
 
 - (void (^)(AVAudioSessionRouteDescription *, AVAudioSessionRouteChangeReason))audioSessionRouteChange {
-    return objc_getAssociatedObject(self, @selector(audioSessionRouteChange));
+    return [self getAssociatedObject:@selector(audioSessionRouteChange)];
 }
 
 - (void)setAudioSessionRouteChangeObserver:(id)audioSessionRouteChangeObserver {
-    objc_setAssociatedObject(self, @selector(audioSessionRouteChangeObserver), audioSessionRouteChangeObserver, OBJC_ASSOCIATION_ASSIGN);
+    [self setAssociatedObject:@selector(audioSessionRouteChangeObserver) value:audioSessionRouteChangeObserver policy:OBJC_ASSOCIATION_ASSIGN];
 }
 
 - (id)audioSessionRouteChangeObserver {
-    return objc_getAssociatedObject(self, @selector(audioSessionRouteChangeObserver));
+    return [self getAssociatedObject:@selector(audioSessionRouteChangeObserver)];
 }
 
 - (void)dealloc

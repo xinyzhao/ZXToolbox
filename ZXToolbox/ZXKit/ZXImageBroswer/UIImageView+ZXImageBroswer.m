@@ -24,7 +24,7 @@
 //
 
 #import "UIImageView+ZXImageBroswer.h"
-#import <objc/runtime.h>
+#import "NSObject+ZXToolbox.h"
 #import "ZXCommonCrypto.h"
 #import "ZXURLSession.h"
 
@@ -42,11 +42,11 @@
 #pragma mark Task
 
 - (void)setDownloadTask:(NSURLSessionDownloadTask *)downloadTask {
-    objc_setAssociatedObject(self, @selector(downloadTask), downloadTask, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:@selector(downloadTask) value:downloadTask policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (NSURLSessionDownloadTask *)downloadTask {
-    return objc_getAssociatedObject(self, @selector(downloadTask));
+    return [self getAssociatedObject:@selector(downloadTask)];
 }
 
 #pragma mark URL

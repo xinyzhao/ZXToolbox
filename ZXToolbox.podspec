@@ -27,6 +27,7 @@ Pod::Spec.new do |s|
   end
   
   s.subspec "AVAudioSession+ZXToolbox" do |ss|
+    ss.dependency "ZXToolbox/NSObject+ZXToolbox"
     ss.source_files = "ZXToolbox/Foundation/AVAudioSession+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/Foundation/AVAudioSession+ZXToolbox/*.h"
     ss.frameworks = "AVFoundation"
@@ -91,6 +92,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "UIApplication+ZXToolbox" do |ss|
+    ss.dependency "ZXToolbox/NSObject+ZXToolbox"
     ss.source_files = "ZXToolbox/UIKit/UIApplication+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/UIKit/UIApplication+ZXToolbox/*.h"
   end
@@ -107,11 +109,13 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "UIControl+ZXToolbox" do |ss|
+    ss.dependency "ZXToolbox/NSObject+ZXToolbox"
     ss.source_files = "ZXToolbox/UIKit/UIControl+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/UIKit/UIControl+ZXToolbox/*.h"
   end
   
   s.subspec "UIDevice+ZXToolbox" do |ss|
+    ss.dependency "ZXToolbox/NSObject+ZXToolbox"
     ss.dependency "ZXToolbox/ZXCommonCrypto"
     ss.dependency "ZXToolbox/ZXKeychain"
     ss.dependency "ZXToolbox/ZXToolbox+Macros"
@@ -142,11 +146,13 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "UIScrollView+ZXToolbox" do |ss|
+    ss.dependency "ZXToolbox/NSObject+ZXToolbox"
     ss.source_files = "ZXToolbox/UIKit/UIScrollView+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/UIKit/UIScrollView+ZXToolbox/*.h"
   end
 
   s.subspec "UITableViewCell+ZXToolbox" do |ss|
+    ss.dependency "ZXToolbox/NSObject+ZXToolbox"
     ss.source_files = "ZXToolbox/UIKit/UITableViewCell+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/UIKit/UITableViewCell+ZXToolbox/*.h"
   end
@@ -158,12 +164,13 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "UIView+ZXToolbox" do |ss|
-    #ss.dependency "ZXToolbox/NSObject+ZXToolbox"
+    ss.dependency "ZXToolbox/NSObject+ZXToolbox"
     ss.source_files = "ZXToolbox/UIKit/UIView+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/UIKit/UIView+ZXToolbox/*.h"
   end
 
   s.subspec "UIViewController+ZXToolbox" do |ss|
+    ss.dependency "ZXToolbox/NSObject+ZXToolbox"
     ss.source_files = "ZXToolbox/UIKit/UIViewController+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/UIKit/UIViewController+ZXToolbox/*.h"
   end
@@ -244,6 +251,7 @@ Pod::Spec.new do |s|
   end
   
   s.subspec "ZXImageBroswer" do |ss|
+    ss.dependency "ZXToolbox/NSObject+ZXToolbox"
     ss.dependency "ZXToolbox/ZXCommonCrypto"
     ss.dependency "ZXToolbox/ZXURLSession"
     ss.source_files = "ZXToolbox/ZXKit/ZXImageBroswer/*.{h,m}"
@@ -324,6 +332,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "ZXPopoverView" do |ss|
+    ss.dependency "ZXToolbox/NSObject+ZXToolbox"
     ss.source_files = "ZXToolbox/ZXKit/ZXPopoverView/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXPopoverView/*.h"
   end
@@ -376,6 +385,7 @@ Pod::Spec.new do |s|
   end
 
   s.subspec "ZXTextAttributes" do |ss|
+    ss.dependency "ZXToolbox/NSObject+ZXToolbox"
     ss.source_files = "ZXToolbox/ZXKit/ZXTextAttributes/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXTextAttributes/*.h"
   end
