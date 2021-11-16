@@ -28,8 +28,21 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UIScrollView (ZXToolbox)
+/// 冻结滚动
+@property (nonatomic) BOOL isScrollFreezed;
+/// 冻结偏移量
+@property (nonatomic) CGPoint scrollFreezedOffset;
+/// 冻结的子视图
+@property (nonatomic, weak, nullable) UIScrollView *freezedChildView;
+/// 冻结的父视图
+@property (nonatomic, weak, nullable) UIScrollView *freezedSuperView;
 
+/// 滚动到顶部
+/// @param animated 是否以动画的形式
 - (void)scrollToTop:(BOOL)animated;
+
+/// 滚动到底部
+/// @param animated 是否以动画的形式
 - (void)scrollToBottom:(BOOL)animated;
 
 @end

@@ -24,8 +24,153 @@
 //
 
 #import "UIScrollView+ZXToolbox.h"
+#import "ZXKeyValueObserver.h"
+#import <objc/runtime.h>
+
+@interface UIScrollView ()
+@property (nonatomic, strong, nullable) ZXKeyValueObserver *scrollFreezedObserver;
+
+@end
 
 @implementation UIScrollView (ZXToolbox)
+
+#pragma mark isScrollFreezed
+
+- (void)setIsScrollFreezed:(BOOL)isScrollFreezed {
+    const void *key = @selector(isScrollFreezed);
+    id value = [NSNumber numberWithBool:isScrollFreezed];
+    objc_setAssociatedObject(self, key, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (BOOL)isScrollFreezed {
+    const void *key = @selector(isScrollFreezed);
+    NSNumber *value = objc_getAssociatedObject(self, key);
+    if (value) {
+        return value.boolValue;
+    }
+    return NO;
+}
+
+- (void)setScrollFreezedOffset:(CGPoint)offset {
+    const void *key = @selector(scrollFreezedOffset);
+    id value = [NSValue valueWithCGPoint:offset];
+    objc_setAssociatedObject(self, key, value, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (CGPoint)scrollFreezedOffset {
+    const void *key = @selector(scrollFreezedOffset);
+    NSValue *value = objc_getAssociatedObject(self, key);
+    if (value) {
+        return value.CGPointValue;
+    }
+    return CGPointZero;
+}
+
+- (void)setFreezedChildView:(UIScrollView *)freezedChildView {
+    const void *key = @selector(freezedChildView);
+    objc_setAssociatedObject(self, key, freezedChildView, OBJC_ASSOCIATION_ASSIGN);
+    [self addScrollFreezedObserver];
+}
+
+- (UIScrollView *)freezedChildView {
+    const void *key = @selector(freezedChildView);
+    return objc_getAssociatedObject(self, key);
+}
+
+- (void)setFreezedSuperView:(UIScrollView *)freezedSuperView {
+    const void *key = @selector(freezedSuperView);
+    objc_setAssociatedObject(self, key, freezedSuperView, OBJC_ASSOCIATION_ASSIGN);
+    [self addScrollFreezedObserver];
+}
+
+- (UIScrollView *)freezedSuperView {
+    const void *key = @selector(freezedSuperView);
+    return objc_getAssociatedObject(self, key);
+}
+
+#pragma mark UIGestureRecognizerDelegate
+// 当一个手势识别器或其他手势识别器的识别被另一个手势识别器阻塞时调用
+// 返回YES，允许两者同时识别。默认实现返回NO(默认情况下不能同时识别两个手势)
+// 注意：返回YES保证允许同时识别。返回NO不能保证防止同时识别，因为其他手势的委托可能返回YES
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+    if (self.freezedChildView) {
+        return YES;
+    }
+    return NO;
+}
+
+#pragma mark Freezed Observer
+
+- (void)addScrollFreezedObserver {
+    if (self.freezedChildView == nil && self.freezedSuperView == nil) {
+        [self removeScrollFreezedObserver];
+        return;
+    }
+    ZXKeyValueObserver *observer = self.scrollFreezedObserver;
+    if (observer == nil) {
+        observer = [[ZXKeyValueObserver alloc] init];
+        [observer observe:self keyPath:@"contentOffset" options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
+            CGPoint oldPoint = [change[NSKeyValueChangeOldKey] CGPointValue];
+            CGPoint newPoint = [change[NSKeyValueChangeNewKey] CGPointValue];
+            CGFloat x = ABS(newPoint.x - oldPoint.x);
+            CGFloat y = ABS(newPoint.y - oldPoint.y);
+            BOOL isHorizontal = x >= y;
+            BOOL isVertical = x <= y;
+            if (x == 0 && y == 0) {
+                return;
+            }
+            //
+            CGPoint contentOffset = newPoint;
+            CGPoint freezedOffset = self.scrollFreezedOffset;
+            BOOL isScrollFreezed = self.isScrollFreezed;
+            //
+            if (self.freezedChildView) {
+                if (isScrollFreezed) {
+                    self.contentOffset = freezedOffset;
+                } else {
+                    if ((isHorizontal && (contentOffset.x >= freezedOffset.x)) ||
+                        (isVertical && (contentOffset.y >= freezedOffset.y))) {
+                        self.contentOffset = freezedOffset;
+                        self.isScrollFreezed = YES;
+                        self.freezedChildView.isScrollFreezed = NO;
+                    }
+                }
+            } else if (self.freezedSuperView) {
+                if (isScrollFreezed) {
+                    self.contentOffset = freezedOffset;
+                } else {
+                    if ((isHorizontal && (contentOffset.x <= freezedOffset.x)) ||
+                        (isVertical && (contentOffset.y <= freezedOffset.y))) {
+                        self.isScrollFreezed = YES;
+                        self.freezedSuperView.isScrollFreezed = NO;
+                    }
+                }
+            }
+        }];
+        self.scrollFreezedObserver = observer;
+    }
+}
+
+- (void)removeScrollFreezedObserver {
+    [self.scrollFreezedObserver invalidate];
+    self.scrollFreezedObserver = nil;
+}
+
+- (void)setScrollFreezedObserver:(ZXKeyValueObserver *)observer {
+    const void *key = @selector(scrollFreezedObserver);
+    objc_setAssociatedObject(self, key, observer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+}
+
+- (ZXKeyValueObserver *)scrollFreezedObserver {
+    const void *key = @selector(scrollFreezedObserver);
+    return objc_getAssociatedObject(self, key);
+}
+
+- (void)dealloc {
+    [self removeScrollFreezedObserver];
+}
+
+#pragma mark Scroll to position
 
 - (void)scrollToTop:(BOOL)animated {
     if ([self isKindOfClass:UITableView.class]) {
