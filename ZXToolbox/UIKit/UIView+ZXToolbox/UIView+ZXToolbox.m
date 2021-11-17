@@ -24,72 +24,8 @@
 //
 
 #import "UIView+ZXToolbox.h"
-#import "NSObject+ZXToolbox.h"
-
-static char intrinsicContentInsetKey;
-static char extrinsicContentSizeKey;
 
 @implementation UIView (ZXToolbox)
-
-- (void)setIntrinsicContentInset:(UIEdgeInsets)inset {
-    UIEdgeInsets oldInset = [self intrinsicContentInset];
-    BOOL isExchanged = !UIEdgeInsetsEqualToEdgeInsets(oldInset, UIEdgeInsetsZero);
-    BOOL isUnchanged = UIEdgeInsetsEqualToEdgeInsets(inset, UIEdgeInsetsZero);
-    // 保存数值
-    NSValue *value = nil;
-    if (!isUnchanged) {
-        value = [NSValue valueWithUIEdgeInsets:inset];
-    }
-    [self setAssociatedObject:&intrinsicContentInsetKey value:value policy:OBJC_ASSOCIATION_RETAIN];
-    // 新旧不同
-    if (!UIEdgeInsetsEqualToEdgeInsets(inset, oldInset)) {
-        Method intrinsic = class_getInstanceMethod(self.class, @selector(intrinsicContentSize));
-        Method extrinsic = class_getInstanceMethod(self.class, @selector(extrinsicContentSize));
-        // 还原方法
-        if (isUnchanged) {
-            if (isExchanged) {
-                method_exchangeImplementations(intrinsic, extrinsic);
-            }
-        } else {
-            // 设置新值
-            CGSize size = [self intrinsicContentSize];
-            if (isExchanged) {
-                size = [self extrinsicContentSize];
-            }
-            size.width += inset.left + inset.right;
-            size.height += inset.top + inset.bottom;
-            [self setExtrinsicContentSize:size];
-            // 交换方法
-            if (!isExchanged) {
-                method_exchangeImplementations(intrinsic, extrinsic);
-            }
-        }
-    }
-}
-
-- (UIEdgeInsets)intrinsicContentInset {
-    NSValue *value = [self getAssociatedObject:&intrinsicContentInsetKey];
-    if (value) {
-        return value.UIEdgeInsetsValue;
-    }
-    return UIEdgeInsetsZero;
-}
-
-- (void)setExtrinsicContentSize:(CGSize)size {
-    NSValue *value = nil;
-    if (!CGSizeEqualToSize(size, CGSizeZero)) {
-        value = [NSValue valueWithCGSize:size];
-    }
-    [self setAssociatedObject:&extrinsicContentSizeKey value:value policy:OBJC_ASSOCIATION_RETAIN];
-}
-
-- (CGSize)extrinsicContentSize {
-    NSValue *value = [self getAssociatedObject:&extrinsicContentSizeKey];
-    if (value) {
-        return value.CGSizeValue;
-    }
-    return [self intrinsicContentSize];
-}
 
 - (nullable UIImage *)captureImage {
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, 0);

@@ -28,10 +28,6 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UIView (ZXToolbox)
-
-/// Modify intrinsicContentSize by setting intrinsicContentInset
-@property (nonatomic, assign) UIEdgeInsets intrinsicContentInset;
-
 /**
  Capture the view snapshot image
  

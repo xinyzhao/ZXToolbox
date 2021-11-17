@@ -28,15 +28,8 @@
 #import "ZXKeyValueObserver.h"
 
 static char isScrollFreezedKey;
-static char freezedContentOffsetKey;
-static char freezedChildViewKey;
-static char freezedSuperViewKey;
-static char scrollFreezedObserverKey;
-
-@interface UIScrollView ()
-@property (nonatomic, strong, nullable) ZXKeyValueObserver *scrollFreezedObserver;
-
-@end
+static char freezedViewsKey;
+static char shouldRecognizeSimultaneouslyKey;
 
 @implementation UIScrollView (ZXToolbox)
 
@@ -45,6 +38,12 @@ static char scrollFreezedObserverKey;
 - (void)setIsScrollFreezed:(BOOL)isScrollFreezed {
     id value = [NSNumber numberWithBool:isScrollFreezed];
     [self setAssociatedObject:&isScrollFreezedKey value:value policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
+    //
+    if (isScrollFreezed) {
+        for (UIScrollView *view in self.freezedViews.objectEnumerator) {
+            view.isScrollFreezed = NO;
+        }
+    }
 }
 
 - (BOOL)isScrollFreezed {
@@ -55,35 +54,30 @@ static char scrollFreezedObserverKey;
     return NO;
 }
 
-- (void)setFreezedContentOffset:(CGPoint)offset {
-    id value = [NSValue valueWithCGPoint:offset];
-    [self setAssociatedObject:&freezedContentOffsetKey value:value policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
+- (void)setFreezedViews:(NSHashTable<UIScrollView *> * _Nonnull)freezedViews {
+    [self setAssociatedObject:&freezedViewsKey value:freezedViews policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
-- (CGPoint)freezedContentOffset {
-    NSValue *value = [self getAssociatedObject:&freezedContentOffsetKey];
-    if (value) {
-        return value.CGPointValue;
+- (NSHashTable<UIScrollView *> *)freezedViews {
+    NSHashTable *obj = [self getAssociatedObject:&freezedViewsKey];
+    if (obj == nil) {
+        obj = [NSHashTable weakObjectsHashTable];
+        [self setFreezedViews:obj];
     }
-    return CGPointZero;
+    return obj;
 }
 
-- (void)setFreezedChildView:(UIScrollView *)freezedChildView {
-    [self setAssociatedObject:&freezedChildViewKey value:freezedChildView policy:OBJC_ASSOCIATION_ASSIGN];
-    [self addScrollFreezedObserver];
+- (void)setShouldRecognizeSimultaneously:(BOOL)shouldRecognizeSimultaneously {
+    NSNumber *value = [NSNumber numberWithBool:shouldRecognizeSimultaneously];
+    [self setAssociatedObject:&shouldRecognizeSimultaneouslyKey value:value policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
-- (UIScrollView *)freezedChildView {
-    return [self getAssociatedObject:&freezedChildViewKey];
-}
-
-- (void)setFreezedSuperView:(UIScrollView *)freezedSuperView {
-    [self setAssociatedObject:&freezedSuperViewKey value:freezedSuperView policy:OBJC_ASSOCIATION_ASSIGN];
-    [self addScrollFreezedObserver];
-}
-
-- (UIScrollView *)freezedSuperView {
-    return [self getAssociatedObject:&freezedSuperViewKey];
+- (BOOL)shouldRecognizeSimultaneously {
+    NSNumber *number = [self getAssociatedObject:&shouldRecognizeSimultaneouslyKey];
+    if (number) {
+        return [number boolValue];
+    }
+    return NO;
 }
 
 #pragma mark UIGestureRecognizerDelegate
@@ -91,79 +85,10 @@ static char scrollFreezedObserverKey;
 // 返回YES，允许两者同时识别。默认实现返回NO(默认情况下不能同时识别两个手势)
 // 注意：返回YES保证允许同时识别。返回NO不能保证防止同时识别，因为其他手势的委托可能返回YES
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
-    if (self.freezedChildView) {
+    if (self.shouldRecognizeSimultaneously) {
         return YES;
     }
     return NO;
-}
-
-#pragma mark Freezed Observer
-
-- (void)addScrollFreezedObserver {
-    if (self.freezedChildView == nil && self.freezedSuperView == nil) {
-        [self removeScrollFreezedObserver];
-        return;
-    }
-    ZXKeyValueObserver *observer = self.scrollFreezedObserver;
-    if (observer == nil) {
-        observer = [[ZXKeyValueObserver alloc] init];
-        [observer observe:self keyPath:@"contentOffset" options:NSKeyValueObservingOptionOld|NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
-            CGPoint oldPoint = [change[NSKeyValueChangeOldKey] CGPointValue];
-            CGPoint newPoint = [change[NSKeyValueChangeNewKey] CGPointValue];
-            CGFloat x = ABS(newPoint.x - oldPoint.x);
-            CGFloat y = ABS(newPoint.y - oldPoint.y);
-            BOOL isHorizontal = x >= y;
-            BOOL isVertical = x <= y;
-            if (x == 0 && y == 0) {
-                return;
-            }
-            //
-            CGPoint contentOffset = newPoint;
-            CGPoint freezedOffset = self.freezedContentOffset;
-            BOOL isScrollFreezed = self.isScrollFreezed;
-            //
-            if (self.freezedChildView) {
-                if (isScrollFreezed) {
-                    self.contentOffset = freezedOffset;
-                } else {
-                    if ((isHorizontal && (contentOffset.x >= freezedOffset.x)) ||
-                        (isVertical && (contentOffset.y >= freezedOffset.y))) {
-                        self.contentOffset = freezedOffset;
-                        self.isScrollFreezed = YES;
-                        self.freezedChildView.isScrollFreezed = NO;
-                    }
-                }
-            } else if (self.freezedSuperView) {
-                if (isScrollFreezed) {
-                    self.contentOffset = freezedOffset;
-                } else {
-                    if ((isHorizontal && (contentOffset.x <= freezedOffset.x)) ||
-                        (isVertical && (contentOffset.y <= freezedOffset.y))) {
-                        self.isScrollFreezed = YES;
-                        self.freezedSuperView.isScrollFreezed = NO;
-                    }
-                }
-            }
-        }];
-        self.scrollFreezedObserver = observer;
-    }
-}
-
-- (void)removeScrollFreezedObserver {
-    [self.scrollFreezedObserver invalidate];
-    self.scrollFreezedObserver = nil;
-}
-
-- (void)setScrollFreezedObserver:(ZXKeyValueObserver *)observer {
-    [self setAssociatedObject:&scrollFreezedObserverKey value:observer policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
-}
-
-- (ZXKeyValueObserver *)scrollFreezedObserver {
-    return [self getAssociatedObject:&scrollFreezedObserverKey];
-}
-
-- (void)dealloc {
-    [self removeScrollFreezedObserver];
 }
 
 #pragma mark Scroll to position
