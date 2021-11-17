@@ -28,6 +28,8 @@
 #import "ZXCommonCrypto.h"
 #import "ZXURLSession.h"
 
+static char downloadTaskKey;
+
 @implementation UIImageView (ZXImageBroswer)
 
 + (NSCache *)imageCache {
@@ -42,11 +44,11 @@
 #pragma mark Task
 
 - (void)setDownloadTask:(NSURLSessionDownloadTask *)downloadTask {
-    [self setAssociatedObject:@selector(downloadTask) value:downloadTask policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
+    [self setAssociatedObject:&downloadTaskKey value:downloadTask policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (NSURLSessionDownloadTask *)downloadTask {
-    return [self getAssociatedObject:@selector(downloadTask)];
+    return [self getAssociatedObject:&downloadTaskKey];
 }
 
 #pragma mark URL

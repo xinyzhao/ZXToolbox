@@ -26,14 +26,17 @@
 #import "UIViewController+ZXToolbox.h"
 #import "NSObject+ZXToolbox.h"
 
+static char zx_topLayoutViewKey;
+static char zx_bottomLayoutViewKey;
+
 @implementation UIViewController (ZXToolbox)
 
 - (void)setZx_topLayoutView:(UIView *)topLayoutView {
-    [self setAssociatedObject:@selector(zx_topLayoutView) value:topLayoutView policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
+    [self setAssociatedObject:&zx_topLayoutViewKey value:topLayoutView policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (UIView *)zx_topLayoutView {
-    UIView *view = [self getAssociatedObject:@selector(zx_topLayoutView)];
+    UIView *view = [self getAssociatedObject:&zx_topLayoutViewKey];
     if (view == nil) {
         view = [[UIView alloc] initWithFrame:CGRectZero];
         view.translatesAutoresizingMaskIntoConstraints = NO;
@@ -51,11 +54,11 @@
 }
 
 - (void)setZx_bottomLayoutView:(UIView *)bottomLayoutView {
-    [self setAssociatedObject:@selector(zx_bottomLayoutView) value:bottomLayoutView policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
+    [self setAssociatedObject:&zx_bottomLayoutViewKey value:bottomLayoutView policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (UIView *)zx_bottomLayoutView {
-    UIView *view = [self getAssociatedObject:@selector(zx_bottomLayoutView)];
+    UIView *view = [self getAssociatedObject:&zx_bottomLayoutViewKey];
     if (view == nil) {
         view = [[UIView alloc] initWithFrame:CGRectZero];
         view.translatesAutoresizingMaskIntoConstraints = NO;

@@ -26,6 +26,9 @@
 #import "UIView+ZXToolbox.h"
 #import "NSObject+ZXToolbox.h"
 
+static char intrinsicContentInsetKey;
+static char extrinsicContentSizeKey;
+
 @implementation UIView (ZXToolbox)
 
 - (void)setIntrinsicContentInset:(UIEdgeInsets)inset {
@@ -33,12 +36,11 @@
     BOOL isExchanged = !UIEdgeInsetsEqualToEdgeInsets(oldInset, UIEdgeInsetsZero);
     BOOL isUnchanged = UIEdgeInsetsEqualToEdgeInsets(inset, UIEdgeInsetsZero);
     // 保存数值
-    const void *key = @selector(intrinsicContentInset);
     NSValue *value = nil;
     if (!isUnchanged) {
         value = [NSValue valueWithUIEdgeInsets:inset];
     }
-    [self setAssociatedObject:key value:nil policy:OBJC_ASSOCIATION_RETAIN];
+    [self setAssociatedObject:&intrinsicContentInsetKey value:value policy:OBJC_ASSOCIATION_RETAIN];
     // 新旧不同
     if (!UIEdgeInsetsEqualToEdgeInsets(inset, oldInset)) {
         Method intrinsic = class_getInstanceMethod(self.class, @selector(intrinsicContentSize));
@@ -66,7 +68,7 @@
 }
 
 - (UIEdgeInsets)intrinsicContentInset {
-    NSValue *value = [self getAssociatedObject:@selector(intrinsicContentInset)];
+    NSValue *value = [self getAssociatedObject:&intrinsicContentInsetKey];
     if (value) {
         return value.UIEdgeInsetsValue;
     }
@@ -74,16 +76,15 @@
 }
 
 - (void)setExtrinsicContentSize:(CGSize)size {
-    const void *key = @selector(extrinsicContentSize);
     NSValue *value = nil;
     if (!CGSizeEqualToSize(size, CGSizeZero)) {
         value = [NSValue valueWithCGSize:size];
     }
-    [self setAssociatedObject:key value:value policy:OBJC_ASSOCIATION_RETAIN];
+    [self setAssociatedObject:&extrinsicContentSizeKey value:value policy:OBJC_ASSOCIATION_RETAIN];
 }
 
 - (CGSize)extrinsicContentSize {
-    NSValue *value = [self getAssociatedObject:@selector(extrinsicContentSize)];
+    NSValue *value = [self getAssociatedObject:&extrinsicContentSizeKey];
     if (value) {
         return value.CGSizeValue;
     }

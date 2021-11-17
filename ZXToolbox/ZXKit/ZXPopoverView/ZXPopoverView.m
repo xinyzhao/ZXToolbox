@@ -26,6 +26,8 @@
 #import "ZXPopoverView.h"
 #import "NSObject+ZXToolbox.h"
 
+static char popoverViewKey;
+
 @interface ZXPopoverView () <UIGestureRecognizerDelegate>
 @property (nonatomic, assign) CGRect fromFrame;
 @property (nonatomic, assign) CGRect toFrame;
@@ -78,10 +80,10 @@
 @implementation UIView (ZXPopoverView)
 
 - (ZXPopoverView *)popoverView {
-    ZXPopoverView *popoverView = [self getAssociatedObject:@selector(popoverView)];
+    ZXPopoverView *popoverView = [self getAssociatedObject:&popoverViewKey];
     if (popoverView == nil) {
         popoverView = [[ZXPopoverView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        [self setAssociatedObject:@selector(popoverView) value:popoverView policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
+        [self setAssociatedObject:&popoverViewKey value:popoverView policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
     }
     return popoverView;
 }

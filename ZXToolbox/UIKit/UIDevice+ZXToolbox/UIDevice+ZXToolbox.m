@@ -32,6 +32,9 @@
 #import <sys/types.h>
 #import <sys/sysctl.h>
 
+static char proximityStateDidChangeKey;
+static char proximityStateDidChangeObserverKey;
+
 @interface UIDevice ()
 @property (nonatomic, weak) id proximityStateDidChangeObserver;
 
@@ -125,7 +128,7 @@
 #pragma mark Proximity State
 
 - (void)setProximityStateDidChange:(void (^)(BOOL))proximityStateDidChange {
-    [self setAssociatedObject:@selector(proximityStateDidChange) value:proximityStateDidChange policy:OBJC_ASSOCIATION_COPY];
+    [self setAssociatedObject:&proximityStateDidChangeKey value:proximityStateDidChange policy:OBJC_ASSOCIATION_COPY];
     // Add observer
     if (self.proximityStateDidChangeObserver == nil) {
         __weak typeof(self) weakSelf = self;
@@ -139,15 +142,15 @@
 }
 
 - (void (^)(BOOL))proximityStateDidChange {
-    return [self getAssociatedObject:@selector(proximityStateDidChange)];
+    return [self getAssociatedObject:&proximityStateDidChangeKey];
 }
 
 - (void)setProximityStateDidChangeObserver:(id)proximityStateDidChangeObserver {
-    [self setAssociatedObject:@selector(proximityStateDidChangeObserver) value:proximityStateDidChangeObserver policy:OBJC_ASSOCIATION_RETAIN];
+    [self setAssociatedObject:&proximityStateDidChangeObserverKey value:proximityStateDidChangeObserver policy:OBJC_ASSOCIATION_RETAIN];
 }
 
 - (id)proximityStateDidChangeObserver {
-    return [self getAssociatedObject:@selector(proximityStateDidChangeObserver)];
+    return [self getAssociatedObject:&proximityStateDidChangeObserverKey];
 }
 
 - (void)dealloc

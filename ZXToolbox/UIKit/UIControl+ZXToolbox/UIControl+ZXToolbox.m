@@ -26,10 +26,13 @@
 #import "UIControl+ZXToolbox.h"
 #import "NSObject+ZXToolbox.h"
 
-@implementation UIControl (ZXToolbox)
-
 #define kTimeIntervalForControlEvents0 @"onTimeIntervalForControlEvents_"
 #define kTimeIntervalForControlEvents1 @"onTimeIntervalForControlEvents:"
+
+static char timeIntervalModeKey;
+static char timeIntervalForControlEventsKey;
+
+@implementation UIControl (ZXToolbox)
 
 void onTimeIntervalForControlEvents(id obj, SEL sel) {
     NSString *cmd = NSStringFromSelector(sel);
@@ -70,22 +73,22 @@ void onTimeIntervalForControlEvents(id obj, SEL sel) {
 #pragma mark timeIntervalMode
 
 - (void)setTimeIntervalMode:(UIControlTimeIntervalMode)timeIntervalMode {
-    [self setAssociatedObject:@selector(timeIntervalMode) value:@(timeIntervalMode) policy:OBJC_ASSOCIATION_RETAIN];
+    [self setAssociatedObject:&timeIntervalModeKey value:@(timeIntervalMode) policy:OBJC_ASSOCIATION_RETAIN];
 }
 
 - (UIControlTimeIntervalMode)timeIntervalMode {
-    id obj = [self getAssociatedObject:@selector(timeIntervalMode)];
+    id obj = [self getAssociatedObject:&timeIntervalModeKey];
     return obj ? [obj integerValue] : UIControlTimeIntervalModeState;
 }
 
 #pragma mark timeIntervalForControlEvents
 
 - (void)setTimeIntervalForControlEvents:(NSMutableDictionary *)timeIntervalForControlEvents {
-    [self setAssociatedObject:@selector(timeIntervalForControlEvents) value:timeIntervalForControlEvents policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
+    [self setAssociatedObject:&timeIntervalForControlEventsKey value:timeIntervalForControlEvents policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (NSMutableDictionary *)timeIntervalForControlEvents {
-    id obj = [self getAssociatedObject:@selector(timeIntervalForControlEvents)];
+    id obj = [self getAssociatedObject:&timeIntervalForControlEventsKey];
     if (obj == nil) {
         obj = [[NSMutableDictionary alloc] init];
         self.timeIntervalForControlEvents = obj;
