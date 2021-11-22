@@ -27,7 +27,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface UIViewController (ZXToolbox) <UIGestureRecognizerDelegate>
+@interface UIViewController (ZXToolbox)
 
 /// The top view controller on the stack.
 @property(nonatomic, readonly) UIViewController *zx_topViewController;
