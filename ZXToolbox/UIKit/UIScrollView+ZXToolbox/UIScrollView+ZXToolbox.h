@@ -28,19 +28,20 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UIScrollView (ZXToolbox)
-/// 冻结滚动
+/// @brief 冻结滚动
+/// @attention 注意：设置为 true 时会解冻 freezedViews 内的视图
 @property (nonatomic, assign) BOOL isScrollFreezed;
-/// 当本视图冻结时，解冻其它冻结的视图
+/// @brief 当本视图冻结滚动时，解冻其它冻结的视图
 @property (nonatomic, readonly, nonnull) NSHashTable<UIScrollView *> *freezedViews;
-/// The super view needs recognize multiple gestures simultaneously.
-/// 冻结滚动的底层视图（父视图），需要同时识别多个手势，默认为 NO。
+/// @brief 冻结滚动的底层视图（父视图），需要同时识别多个手势，默认为 NO。
+/// @discussion The super view needs recognize multiple gestures simultaneously.
 @property (nonatomic, assign) BOOL shouldRecognizeSimultaneously;
 
-/// 滚动到顶部
+/// @brief 滚动到顶部
 /// @param animated 是否以动画的形式
 - (void)scrollToTop:(BOOL)animated;
 
-/// 滚动到底部
+/// @brief 滚动到底部
 /// @param animated 是否以动画的形式
 - (void)scrollToBottom:(BOOL)animated;
 
