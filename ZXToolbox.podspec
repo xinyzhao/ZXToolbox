@@ -147,6 +147,7 @@ Pod::Spec.new do |s|
 
   s.subspec "UIScrollView+ZXToolbox" do |ss|
     ss.dependency "ZXToolbox/NSObject+ZXToolbox"
+    ss.dependency "ZXToolbox/ZXKeyValueObserver"
     ss.source_files = "ZXToolbox/UIKit/UIScrollView+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/UIKit/UIScrollView+ZXToolbox/*.h"
   end
