@@ -41,7 +41,7 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _queue = dispatch_queue_create("ZXSemaphore", NULL);
+        _queue = dispatch_queue_create("ZXSemaphore", DISPATCH_QUEUE_SERIAL);
         _semaphore_0 = dispatch_semaphore_create(0);
         _semaphore_1 = dispatch_semaphore_create(1);
     }
