@@ -226,11 +226,11 @@
 }
 
 - (void)attachPlayerLayer {
-    if (_playerLayer == nil) {
+    if (_playerLayer == nil && _player) {
         _playerLayer = [AVPlayerLayer playerLayerWithPlayer:_player];
         _playerLayer.videoGravity = _videoGravity;
     }
-    if (_attachView) {
+    if (_attachView && _playerLayer) {
         _playerLayer.frame = _attachView.layer.bounds;
         [_attachView.layer insertSublayer:_playerLayer atIndex:0];
         [self addPlayerLayerObserver];
@@ -594,7 +594,7 @@
 
 - (void)setPlaybackTime:(void (^)(NSTimeInterval, NSTimeInterval))playbackTime {
     _playbackTime = [playbackTime copy];
-    if (_playbackTime) {
+    if (_playbackTime && self.isReadyToPlay) {
         _playbackTime(self.currentTime, self.duration);
     }
 }
