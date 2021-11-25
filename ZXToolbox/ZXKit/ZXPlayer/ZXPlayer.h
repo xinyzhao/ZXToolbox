@@ -88,7 +88,7 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 @property (nonatomic, readonly) NSTimeInterval duration;
 
 /// The player is ready to play.
-@property (nonatomic, readonly) BOOL isReadToPlay;
+@property (nonatomic, readonly) BOOL isReadyToPlay;
 /// A Boolean value that indicates whether playback has consumed all buffered media and that playback will stall or end.
 @property (nonatomic, readonly) BOOL isBuffering;
 /// The player is ready to play.
@@ -108,9 +108,12 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 /// AVLayerVideoGravityResizeAspect is default.
 @property (nonatomic, copy) AVLayerVideoGravity videoGravity;
 
-/// Attach to view of preview
+/// Add preivew layer to the view
 /// @param view The view
 - (void)attachToView:(UIView *)view;
+
+/// Remove preview layer from the view if necessary.
+- (void)detachView;
 
 /// Preview image for video
 @property (nonatomic, nullable, readonly) UIImage *previewImage;
