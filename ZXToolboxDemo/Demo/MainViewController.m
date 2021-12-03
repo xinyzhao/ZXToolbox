@@ -74,6 +74,7 @@
                   @"ZXCircularProgressView",
                   @"ZXCommonCrypto",
                   @"ZXCoordinate2D",
+                  @"ZXDeallocObject",
                   @"ZXDebugTools",
                   @"ZXDispatchQueue",
                   @"ZXDownloader",
