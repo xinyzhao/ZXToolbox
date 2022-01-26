@@ -65,7 +65,6 @@ FOUNDATION_EXPORT const unsigned char ZXToolboxVersionString[];
 #import "UIView+ZXToolbox.h"
 #import "UIViewController+ZXToolbox.h"
 #import "ZXAuthorizationHelper.h"
-#import "ZXBadgeLabel.h"
 #import "ZXBrightnessView.h"
 #import "ZXCircularProgressView.h"
 #import "ZXCommonCrypto.h"

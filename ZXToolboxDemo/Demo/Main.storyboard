@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment version="2304" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -35,14 +35,14 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="cell" textLabel="Efz-Ia-Is8" style="IBUITableViewCellStyleDefault" id="3xl-Qz-Uix">
-                                <rect key="frame" x="0.0" y="28" width="414" height="43.5"/>
+                                <rect key="frame" x="0.0" y="44.5" width="414" height="43.5"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="3xl-Qz-Uix" id="9Lp-jV-yZe">
-                                    <rect key="frame" x="0.0" y="0.0" width="383" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="385.5" height="43.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Efz-Ia-Is8">
-                                            <rect key="frame" x="20" y="0.0" width="355" height="43.5"/>
+                                            <rect key="frame" x="20" y="0.0" width="357.5" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                             <nil key="textColor"/>
@@ -69,7 +69,6 @@
                         <segue destination="tba-4Z-fMq" kind="show" identifier="UIControl+ZXToolbox" id="xnw-Fx-szF"/>
                         <segue destination="7zl-9W-gQN" kind="show" identifier="UIDevice+ZXToolbox" id="or3-Vj-y0s"/>
                         <segue destination="EEO-EY-bot" kind="show" identifier="UIImage+ZXToolbox" id="8GY-eS-rMZ"/>
-                        <segue destination="xEL-oo-1tm" kind="show" id="2aF-sW-FIZ"/>
                         <segue destination="QOc-oR-50v" kind="show" id="ogo-Jj-OAn"/>
                         <segue destination="u6a-bL-RMN" kind="show" id="V9O-t5-uXL"/>
                         <segue destination="etU-KA-gPb" kind="show" id="aow-Cw-uvn"/>
@@ -367,22 +366,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WBJ-5l-rw7" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="5852" y="124"/>
-        </scene>
-        <!--Badge Label View Controller-->
-        <scene sceneID="W3l-bW-Ca2">
-            <objects>
-                <viewController storyboardIdentifier="ZXBadgeLabelViewController" id="xEL-oo-1tm" customClass="ZXBadgeLabelViewController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="YYX-2k-aH3">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="7sx-yN-hdE"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="ekn-oZ-8cT"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="m3C-p4-CiP" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="2135" y="807"/>
         </scene>
         <!--Brightness View Controller-->
         <scene sceneID="kv5-T7-vzO">

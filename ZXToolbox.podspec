@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "2.8.0"
+  s.version      = "2.8.1"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -180,11 +180,6 @@ Pod::Spec.new do |s|
     ss.public_header_files = "ZXToolbox/ZXKit/ZXAuthorizationHelper/*.h"
     ss.frameworks = "AddressBook", "AssetsLibrary", "AVFoundation", "CoreLocation"
     ss.weak_framework = "Contacts", "CoreTelephony", "Photos"
-  end
-
-  s.subspec "ZXBadgeLabel" do |ss|
-    ss.source_files = "ZXToolbox/ZXKit/ZXBadgeLabel/*.{h,m}"
-    ss.public_header_files = "ZXToolbox/ZXKit/ZXBadgeLabel/*.h"
   end
 
   s.subspec "ZXBrightnessView" do |ss|

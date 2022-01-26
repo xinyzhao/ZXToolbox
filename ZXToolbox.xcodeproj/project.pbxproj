@@ -96,8 +96,6 @@
 		7000AD7A22E9C22F00651E44 /* ZXScriptMessageHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACDE22E9C22F00651E44 /* ZXScriptMessageHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD7B22E9C22F00651E44 /* ZXTagView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACE022E9C22F00651E44 /* ZXTagView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD7C22E9C22F00651E44 /* ZXTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACE122E9C22F00651E44 /* ZXTagView.m */; };
-		7000AD7D22E9C22F00651E44 /* ZXBadgeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACE322E9C22F00651E44 /* ZXBadgeLabel.m */; };
-		7000AD7E22E9C22F00651E44 /* ZXBadgeLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACE422E9C22F00651E44 /* ZXBadgeLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD7F22E9C22F00651E44 /* ZXQRCodeReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACE622E9C22F00651E44 /* ZXQRCodeReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD8022E9C22F00651E44 /* ZXQRCodeReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACE722E9C22F00651E44 /* ZXQRCodeReader.m */; };
 		7000AD8122E9C22F00651E44 /* ZXHaloLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACE922E9C22F00651E44 /* ZXHaloLabel.m */; };
@@ -171,7 +169,6 @@
 		70AE9EA924A8CB1D001B81EE /* UIControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE9EA824A8CB1D001B81EE /* UIControlViewController.m */; };
 		70AE9EAC24A8CB2A001B81EE /* UIDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE9EAB24A8CB2A001B81EE /* UIDeviceViewController.m */; };
 		70AE9EAF24A8CB34001B81EE /* UIImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE9EAE24A8CB34001B81EE /* UIImageViewController.m */; };
-		70AE9EB224A8CD52001B81EE /* ZXBadgeLabelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE9EB124A8CD52001B81EE /* ZXBadgeLabelViewController.m */; };
 		70AE9EB524A8CE4C001B81EE /* ZXBrightnessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE9EB424A8CE4C001B81EE /* ZXBrightnessViewController.m */; };
 		70AE9EB824A8CE5C001B81EE /* ZXCircularProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE9EB724A8CE5C001B81EE /* ZXCircularProgressViewController.m */; };
 		70AE9EBB24A8CE69001B81EE /* ZXCommonCryptoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE9EBA24A8CE69001B81EE /* ZXCommonCryptoViewController.m */; };
@@ -370,8 +367,6 @@
 		7000ACDE22E9C22F00651E44 /* ZXScriptMessageHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXScriptMessageHandler.h; sourceTree = "<group>"; };
 		7000ACE022E9C22F00651E44 /* ZXTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXTagView.h; sourceTree = "<group>"; };
 		7000ACE122E9C22F00651E44 /* ZXTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXTagView.m; sourceTree = "<group>"; };
-		7000ACE322E9C22F00651E44 /* ZXBadgeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXBadgeLabel.m; sourceTree = "<group>"; };
-		7000ACE422E9C22F00651E44 /* ZXBadgeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXBadgeLabel.h; sourceTree = "<group>"; };
 		7000ACE622E9C22F00651E44 /* ZXQRCodeReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXQRCodeReader.h; sourceTree = "<group>"; };
 		7000ACE722E9C22F00651E44 /* ZXQRCodeReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXQRCodeReader.m; sourceTree = "<group>"; };
 		7000ACE922E9C22F00651E44 /* ZXHaloLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHaloLabel.m; sourceTree = "<group>"; };
@@ -459,8 +454,6 @@
 		70AE9EAB24A8CB2A001B81EE /* UIDeviceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIDeviceViewController.m; sourceTree = "<group>"; };
 		70AE9EAD24A8CB34001B81EE /* UIImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIImageViewController.h; sourceTree = "<group>"; };
 		70AE9EAE24A8CB34001B81EE /* UIImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIImageViewController.m; sourceTree = "<group>"; };
-		70AE9EB024A8CD52001B81EE /* ZXBadgeLabelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXBadgeLabelViewController.h; sourceTree = "<group>"; };
-		70AE9EB124A8CD52001B81EE /* ZXBadgeLabelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXBadgeLabelViewController.m; sourceTree = "<group>"; };
 		70AE9EB324A8CE4C001B81EE /* ZXBrightnessViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXBrightnessViewController.h; sourceTree = "<group>"; };
 		70AE9EB424A8CE4C001B81EE /* ZXBrightnessViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXBrightnessViewController.m; sourceTree = "<group>"; };
 		70AE9EB624A8CE5C001B81EE /* ZXCircularProgressViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXCircularProgressViewController.h; sourceTree = "<group>"; };
@@ -870,7 +863,6 @@
 			isa = PBXGroup;
 			children = (
 				7000ACC422E9C22F00651E44 /* ZXAuthorizationHelper */,
-				7000ACE222E9C22F00651E44 /* ZXBadgeLabel */,
 				7000ACA622E9C22F00651E44 /* ZXBrightnessView */,
 				7000ACD022E9C22F00651E44 /* ZXCircularProgressView */,
 				7000ACAD22E9C22F00651E44 /* ZXCommonCrypto */,
@@ -1077,15 +1069,6 @@
 			path = ZXTagView;
 			sourceTree = "<group>";
 		};
-		7000ACE222E9C22F00651E44 /* ZXBadgeLabel */ = {
-			isa = PBXGroup;
-			children = (
-				7000ACE422E9C22F00651E44 /* ZXBadgeLabel.h */,
-				7000ACE322E9C22F00651E44 /* ZXBadgeLabel.m */,
-			);
-			path = ZXBadgeLabel;
-			sourceTree = "<group>";
-		};
 		7000ACE522E9C22F00651E44 /* ZXQRCodeReader */ = {
 			isa = PBXGroup;
 			children = (
@@ -1254,8 +1237,6 @@
 		7027131B24A1A7BF001850B5 /* ZXKit */ = {
 			isa = PBXGroup;
 			children = (
-				70AE9EB024A8CD52001B81EE /* ZXBadgeLabelViewController.h */,
-				70AE9EB124A8CD52001B81EE /* ZXBadgeLabelViewController.m */,
 				70AE9EB324A8CE4C001B81EE /* ZXBrightnessViewController.h */,
 				70AE9EB424A8CE4C001B81EE /* ZXBrightnessViewController.m */,
 				70AE9EB624A8CE5C001B81EE /* ZXCircularProgressViewController.h */,
@@ -1593,7 +1574,6 @@
 				70D4BD2623A9DC47000D28E2 /* ZXImageBroswerCell.h in Headers */,
 				70BC8B5023C5B7A100DD952B /* ZXKeychainItem+Key.h in Headers */,
 				7000AD6922E9C22F00651E44 /* ZXAuthorizationHelper.h in Headers */,
-				7000AD7E22E9C22F00651E44 /* ZXBadgeLabel.h in Headers */,
 				7000AD4E22E9C22F00651E44 /* ZXBlockTimer.h in Headers */,
 				7000AD5322E9C22F00651E44 /* ZXBrightnessView.h in Headers */,
 				70A7B5BA23B0B7990080C95A /* ZXDownloadTask.h in Headers */,
@@ -1818,7 +1798,6 @@
 				7000AD4922E9C22F00651E44 /* UIImage+ZXToolbox.m in Sources */,
 				7000AD7422E9C22F00651E44 /* ZXQRCodeGenerator.m in Sources */,
 				7000AD6A22E9C22F00651E44 /* ZXAuthorizationHelper.m in Sources */,
-				7000AD7D22E9C22F00651E44 /* ZXBadgeLabel.m in Sources */,
 				7000AD5922E9C22F00651E44 /* ZXCommonHMAC.m in Sources */,
 				709DF5FD24BEF9F100075E6F /* AVAsset+ZXToolbox.m in Sources */,
 				7000AD5522E9C22F00651E44 /* ZXBrightnessView.m in Sources */,
@@ -1929,7 +1908,6 @@
 				70AE9E9A24A8C9C8001B81EE /* NSStringNumberValueViewController.m in Sources */,
 				70AE9EC424A8CE96001B81EE /* ZXDrawingViewController.m in Sources */,
 				70AE9ED324A8CEFC001B81EE /* ZXLocalAuthenticationViewController.m in Sources */,
-				70AE9EB224A8CD52001B81EE /* ZXBadgeLabelViewController.m in Sources */,
 				70AE9EC124A8CE80001B81EE /* ZXDownloaderViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -69,7 +69,6 @@
         @{@"title":@"ZXKit",
           @"rows":@[
                   @"ZXAuthorizationHelper",
-                  @"ZXBadgeLabel",
                   @"ZXBrightnessView",
                   @"ZXCircularProgressView",
                   @"ZXCommonCrypto",

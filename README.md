@@ -662,9 +662,6 @@ NSLogA(@"#adapt height: %.2f for base width %.2f = %.2f", size.width, size.heigh
 * ZXAuthorizationHelper
 > 204 No Content
 
-* ZXBadgeLabel
-> 204 No Content
-
 * ZXBrightnessView
 > 204 No Content
 
