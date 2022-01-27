@@ -28,6 +28,10 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UIView (ZXToolbox)
+/// @brief 替代子类化并重写intrinsicContentSize方法，在intrinsicContentSize的基础上加减宽高
+/// @discussion Replace subclassing and override intrinsicContentSize method, Add or subtract size from intrinsicContentSize.
+@property (nonatomic, assign) CGSize extrinsicContentSize;
+
 /**
  Capture the view snapshot image
  

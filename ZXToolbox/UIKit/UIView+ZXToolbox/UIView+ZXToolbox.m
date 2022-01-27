@@ -24,8 +24,42 @@
 //
 
 #import "UIView+ZXToolbox.h"
+#import "NSObject+ZXToolbox.h"
+
+static char extrinsicContentSizeKey;
 
 @implementation UIView (ZXToolbox)
+
+- (void)setExtrinsicContentSize:(CGSize)size {
+    NSValue *newer = nil;
+    NSValue *older = [self getAssociatedObject:&extrinsicContentSizeKey];
+    SEL original = @selector(intrinsicContentSize);
+    SEL swizzled = @selector(adjustedIntrinsicContentSize);
+    if (!CGSizeEqualToSize(size, CGSizeZero)) {
+        newer = [NSValue valueWithCGSize:size];
+        //exchange
+        if (older == nil) {
+            [[self class] swizzleMethod:original with:swizzled];
+        }
+    } else if (older) {
+        //restore
+        [[self class] swizzleMethod:original with:swizzled];
+    }
+    [self setAssociatedObject:&extrinsicContentSizeKey value:newer policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
+}
+
+- (CGSize)extrinsicContentSize {
+    NSValue *value = [self getAssociatedObject:&extrinsicContentSizeKey];
+    return value ? [value CGSizeValue] : CGSizeZero;;
+}
+
+- (CGSize)adjustedIntrinsicContentSize {
+    CGSize intrinsic = [self adjustedIntrinsicContentSize];
+    CGSize extrinsic = [self extrinsicContentSize];
+    intrinsic.width += extrinsic.width;
+    intrinsic.height += extrinsic.height;
+    return intrinsic;
+}
 
 - (nullable UIImage *)captureImage {
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, 0);
