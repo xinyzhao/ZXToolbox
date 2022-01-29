@@ -66,13 +66,15 @@
 }
 
 - (void)setupView {
+    self.clipsToBounds = YES;
     self.direction = ZXPageViewDirectionHorizontal;
+    self.pagingEnabled = YES;
+    self.pagingInterval = 0;
     self.pagingMode = ZXPagingModeEndless;
     self.pageScaleFactor = CGPointMake(1.f, 1.f);
     
     self.scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
     self.scrollView.delegate = self;
-    self.scrollView.clipsToBounds = YES;
     self.scrollView.pagingEnabled = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
     self.scrollView.showsHorizontalScrollIndicator = NO;
@@ -111,9 +113,27 @@
     [self setNeedsLayout];
 }
 
+- (void)setScrollEnabled:(BOOL)scrollEnabled {
+    self.scrollView.scrollEnabled = scrollEnabled;
+}
+
+- (void)setPagingEnabled:(BOOL)pagingEnabled {
+    _pagingEnabled = pagingEnabled;
+    if (_pagingEnabled) {
+        [self startPaging];
+    } else {
+        [self stopPaging];
+    }
+}
+
 - (void)setPagingMode:(ZXPagingMode)pagingMode {
     _pagingMode = pagingMode;
     [self setNeedsLayout];
+}
+
+- (void)setPagingInterval:(NSTimeInterval)pagingInterval {
+    _pagingInterval = pagingInterval;
+    [self startPaging];
 }
 
 #pragma mark Getter
@@ -175,6 +195,10 @@
 
 - (NSInteger)currentPage {
     return [self correctPage:self.currentIndex];
+}
+
+- (BOOL)scrollEnabled {
+    return self.scrollView.scrollEnabled;
 }
 
 #pragma mark Layout
@@ -365,22 +389,9 @@
 
 #pragma mark Auto paging
 
-- (void)setTimeInterval:(NSTimeInterval)timeInterval {
-    self.pagingInterval = timeInterval;
-}
-
-- (NSTimeInterval)timeInterval {
-    return self.pagingInterval;
-}
-
-- (void)setPagingInterval:(NSTimeInterval)pagingInterval {
-    _pagingInterval = pagingInterval;
-    [self startPaging];
-}
-
 - (void)startPaging {
     [self stopPaging];
-    if (_pagingInterval >= 0.01 && _timer == nil) {
+    if (_pagingEnabled && _pagingInterval >= 0.01 && _timer == nil) {
         _timer = [ZXTargetTimer scheduledTimerWithTimeInterval:_pagingInterval target:self selector:@selector(pagingTimer:) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:_timer.timer forMode:NSRunLoopCommonModes];
     }
@@ -452,4 +463,14 @@
     }
 }
 
+@end
+
+@implementation ZXPageView (Deprecated)
+- (void)setTimeInterval:(NSTimeInterval)timeInterval {
+    self.pagingInterval = timeInterval;
+}
+
+- (NSTimeInterval)timeInterval {
+    return self.pagingInterval;
+}
 @end
