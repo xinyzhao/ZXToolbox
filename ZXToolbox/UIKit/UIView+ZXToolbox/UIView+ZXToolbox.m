@@ -26,13 +26,13 @@
 #import "UIView+ZXToolbox.h"
 #import "NSObject+ZXToolbox.h"
 
-static char extrinsicContentSizeKey;
+static char intrinsicContentOffsetKey;
 
 @implementation UIView (ZXToolbox)
 
-- (void)setExtrinsicContentSize:(CGSize)size {
+- (void)setIntrinsicContentOffset:(CGSize)size {
     NSValue *newer = nil;
-    NSValue *older = [self getAssociatedObject:&extrinsicContentSizeKey];
+    NSValue *older = [self getAssociatedObject:&intrinsicContentOffsetKey];
     SEL original = @selector(intrinsicContentSize);
     SEL swizzled = @selector(adjustedIntrinsicContentSize);
     if (!CGSizeEqualToSize(size, CGSizeZero)) {
@@ -45,20 +45,20 @@ static char extrinsicContentSizeKey;
         //restore
         [[self class] swizzleMethod:original with:swizzled];
     }
-    [self setAssociatedObject:&extrinsicContentSizeKey value:newer policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
+    [self setAssociatedObject:&intrinsicContentOffsetKey value:newer policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
-- (CGSize)extrinsicContentSize {
-    NSValue *value = [self getAssociatedObject:&extrinsicContentSizeKey];
+- (CGSize)intrinsicContentOffset {
+    NSValue *value = [self getAssociatedObject:&intrinsicContentOffsetKey];
     return value ? [value CGSizeValue] : CGSizeZero;;
 }
 
 - (CGSize)adjustedIntrinsicContentSize {
-    CGSize intrinsic = [self adjustedIntrinsicContentSize];
-    CGSize extrinsic = [self extrinsicContentSize];
-    intrinsic.width += extrinsic.width;
-    intrinsic.height += extrinsic.height;
-    return intrinsic;
+    CGSize size = [self adjustedIntrinsicContentSize];
+    CGSize offset = [self intrinsicContentOffset];
+    size.width += offset.width;
+    size.height += offset.height;
+    return size;
 }
 
 - (nullable UIImage *)captureImage {
