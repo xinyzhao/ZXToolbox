@@ -26,36 +26,40 @@
 #import "UIView+ZXToolbox.h"
 #import "NSObject+ZXToolbox.h"
 
-static char intrinsicContentOffsetKey;
+#define ZXToolboxSubclass @"_ZXToolbox_Subclass"
+
+static char extrinsicContentSizeKey;
 
 @implementation UIView (ZXToolbox)
 
-- (void)setIntrinsicContentOffset:(CGSize)size {
-    NSValue *newer = nil;
-    NSValue *older = [self getAssociatedObject:&intrinsicContentOffsetKey];
-    SEL original = @selector(intrinsicContentSize);
-    SEL swizzled = @selector(adjustedIntrinsicContentSize);
-    if (!CGSizeEqualToSize(size, CGSizeZero)) {
-        newer = [NSValue valueWithCGSize:size];
-        //exchange
-        if (older == nil) {
-            [[self class] swizzleMethod:original with:swizzled];
+- (void)setExtrinsicContentSize:(CGSize)size {
+    Class clsA = [self class];
+    NSString *strA = NSStringFromClass(clsA);
+    if (![strA hasSuffix:ZXToolboxSubclass]) {
+        NSString *strB = [strA stringByAppendingString:ZXToolboxSubclass];
+        Class clsB = NSClassFromString(strB);
+        if (clsB == nil) {
+            clsB = objc_allocateClassPair(clsA, strB.UTF8String, 0);
+            objc_registerClassPair(clsB);
+            //
+            [clsB swizzleMethod:@selector(intrinsicContentSize) with:@selector(zx_intrinsicContentSize)];
         }
-    } else if (older) {
-        //restore
-        [[self class] swizzleMethod:original with:swizzled];
+        object_setClass(self, clsB);
     }
-    [self setAssociatedObject:&intrinsicContentOffsetKey value:newer policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
+    //
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    [self setAssociatedObject:&extrinsicContentSizeKey value:[NSValue valueWithCGSize:size] policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
+    [self invalidateIntrinsicContentSize];
 }
 
-- (CGSize)intrinsicContentOffset {
-    NSValue *value = [self getAssociatedObject:&intrinsicContentOffsetKey];
+- (CGSize)extrinsicContentSize {
+    NSValue *value = [self getAssociatedObject:&extrinsicContentSizeKey];
     return value ? [value CGSizeValue] : CGSizeZero;;
 }
 
-- (CGSize)adjustedIntrinsicContentSize {
-    CGSize size = [self adjustedIntrinsicContentSize];
-    CGSize offset = [self intrinsicContentOffset];
+- (CGSize)zx_intrinsicContentSize   {
+    CGSize size = [self zx_intrinsicContentSize];
+    CGSize offset = [self extrinsicContentSize];
     size.width += offset.width;
     size.height += offset.height;
     return size;
