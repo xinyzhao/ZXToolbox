@@ -92,6 +92,10 @@ NSLogA(@"#category: %@", ad.category);
 NSLogA(@"#currentInput: %@", ad.currentInput);
 NSLogA(@"#currentOutput: %@", ad.currentOutput);
 NSLogA(@"#isOverrideSpeaker: %d", ad.isOverrideSpeaker);
+[AVAudioSession sharedInstance].systemVolumeDidChange = ^(float volume) {
+    NSLogA(@"#systemVolume: %f", volume);
+};
+[AVAudioSession sharedInstance].systemVolume = 0.5;
 ```
 > Output:
 
@@ -100,6 +104,7 @@ NSLogA(@"#isOverrideSpeaker: %d", ad.isOverrideSpeaker);
 #currentInput: (null)
 #currentOutput: Speaker
 #isOverrideSpeaker: 0
+#systemVolume: 0.5
 ```
 
 * Base64Encoding

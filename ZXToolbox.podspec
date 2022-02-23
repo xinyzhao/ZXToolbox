@@ -1,14 +1,14 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "2.8.1"
+  s.version      = "2.8.2"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
                    DESC
   s.homepage     = "https://github.com/xinyzhao/ZXToolbox"
   s.license      = { :type => "MIT", :file => "LICENSE" }
-  s.author             = { "xinyzhao" => "xinyzhao@qq.com" }
+  s.author       = { "xinyzhao" => "xinyzhao@qq.com" }
   s.platform     = :ios, "8.0"
   s.source       = { :git => "https://github.com/xinyzhao/ZXToolbox.git", :tag => "#{s.version}" }
   s.requires_arc = true
@@ -28,9 +28,10 @@ Pod::Spec.new do |s|
   
   s.subspec "AVAudioSession+ZXToolbox" do |ss|
     ss.dependency "ZXToolbox/NSObject+ZXToolbox"
+    ss.dependency "ZXToolbox/ZXKeyValueObserver"
     ss.source_files = "ZXToolbox/Foundation/AVAudioSession+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/Foundation/AVAudioSession+ZXToolbox/*.h"
-    ss.frameworks = "AVFoundation"
+    ss.frameworks = "AVFoundation", "MediaPlayer"
   end
 
   s.subspec "Base64Encoding" do |ss|

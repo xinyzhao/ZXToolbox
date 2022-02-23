@@ -24,6 +24,7 @@
 //
 
 #import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -36,6 +37,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, getter=isOverrideSpeaker) BOOL overrideSpeaker;
 /// Audio session route change observer block
 @property (nonatomic, nullable, copy) void (^audioSessionRouteChange)(AVAudioSessionRouteDescription *previousRoute, AVAudioSessionRouteChangeReason reason);
+/// The system volume, equivalent to outputVolume, but this property can be assignment..
+/// @attention: Cannot be used for KVO, Use "outputVolume" to observing.
+@property (nonatomic, assign) float systemVolume;
+/// The system volume did change observer block
+@property (nonatomic, nullable, copy) void (^systemVolumeDidChange)(float volume);
 
 @end
 

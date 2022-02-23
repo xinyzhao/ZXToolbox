@@ -25,13 +25,17 @@
 
 #import "AVAudioSession+ZXToolbox.h"
 #import "NSObject+ZXToolbox.h"
+#import "ZXKeyValueObserver.h"
 
 static char isOverrideSpeakerKey;
 static char audioSessionRouteChangeKey;
 static char audioSessionRouteChangeObserverKey;
+static char systemVolumeDidChangeKey;
+static char systemVolumeDidChangeObserverKey;
 
 @interface AVAudioSession ()
-@property (nonatomic, weak) id audioSessionRouteChangeObserver;
+@property (nonatomic, strong) id audioSessionRouteChangeObserver;
+@property (nonatomic, strong) ZXKeyValueObserver *systemVolumeDidChangeObserver;
 
 @end
 
@@ -121,19 +125,66 @@ static char audioSessionRouteChangeObserverKey;
 }
 
 - (void)setAudioSessionRouteChangeObserver:(id)audioSessionRouteChangeObserver {
-    [self setAssociatedObject:&audioSessionRouteChangeObserverKey value:audioSessionRouteChangeObserver policy:OBJC_ASSOCIATION_ASSIGN];
+    [self setAssociatedObject:&audioSessionRouteChangeObserverKey value:audioSessionRouteChangeObserver policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (id)audioSessionRouteChangeObserver {
     return [self getAssociatedObject:&audioSessionRouteChangeObserverKey];
 }
 
-- (void)dealloc
-{
+- (float)systemVolume {
+    return self.outputVolume;
+}
+
+- (void)setSystemVolume:(float)systemVolume {
+    static UISlider *volumeSlider = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        MPVolumeView *volumeView = [[MPVolumeView alloc] init];
+        for (UIView *view in [volumeView subviews]){
+            if ([view.class.description isEqualToString:@"MPVolumeSlider"]){
+                volumeSlider = (UISlider *)view;
+                break;
+            }
+        }
+    });
+    volumeSlider.value = systemVolume;
+}
+
+- (void)setSystemVolumeDidChange:(void (^)(float))systemVolumeDidChange {
+    [self setAssociatedObject:&systemVolumeDidChangeKey value:systemVolumeDidChange policy:OBJC_ASSOCIATION_COPY];
+    //
+    if (self.systemVolumeDidChangeObserver == nil) {
+        self.systemVolumeDidChangeObserver = [[ZXKeyValueObserver alloc] init];
+        __weak typeof(self) weakSelf = self;
+        [self.systemVolumeDidChangeObserver observe:self keyPath:@"outputVolume" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
+            float volume = [[change objectForKey:NSKeyValueChangeNewKey] floatValue];
+            weakSelf.systemVolumeDidChange(volume);
+        }];
+    }
+    [self setActive:YES error:nil];
+}
+
+- (void (^)(float))systemVolumeDidChange {
+    return [self getAssociatedObject:&systemVolumeDidChangeKey];
+}
+
+- (void)setSystemVolumeDidChangeObserver:(ZXKeyValueObserver *)systemVolumeDidChangeObserver {
+    [self setAssociatedObject:&systemVolumeDidChangeObserverKey value:systemVolumeDidChangeObserver policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
+}
+
+- (ZXKeyValueObserver *)systemVolumeDidChangeObserver {
+    return [self getAssociatedObject:&systemVolumeDidChangeObserverKey];
+}
+
+- (void)dealloc {
     if (self.audioSessionRouteChangeObserver) {
         [[NSNotificationCenter defaultCenter] removeObserver:self.audioSessionRouteChangeObserver];
         self.audioSessionRouteChangeObserver = nil;
     }
+    if (self.systemVolumeDidChangeObserver) {
+        [self.systemVolumeDidChangeObserver invalidate];
+        self.systemVolumeDidChangeObserver = nil;
+    }
 }
-
 @end

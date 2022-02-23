@@ -41,6 +41,10 @@
     NSLogA(@"#currentInput: %@", ad.currentInput);
     NSLogA(@"#currentOutput: %@", ad.currentOutput);
     NSLogA(@"#isOverrideSpeaker: %d", ad.isOverrideSpeaker);
+    [AVAudioSession sharedInstance].systemVolumeDidChange = ^(float volume) {
+        NSLogA(@"#systemVolume: %f", volume);
+    };
+    [AVAudioSession sharedInstance].systemVolume = 0.5;
 }
 
 - (void)testBase64Encoding {
