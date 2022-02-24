@@ -34,12 +34,14 @@ static char systemVolumeDidChangeKey;
 static char systemVolumeDidChangeObserverKey;
 
 @interface AVAudioSession ()
-@property (nonatomic, strong) id audioSessionRouteChangeObserver;
-@property (nonatomic, strong) ZXKeyValueObserver *systemVolumeDidChangeObserver;
+@property (nonatomic, nullable, strong) id audioSessionRouteChangeObserver;
+@property (nonatomic, nullable, strong) ZXKeyValueObserver *systemVolumeDidChangeObserver;
 
 @end
 
 @implementation AVAudioSession (ZXToolbox)
+
+#pragma mark Input & Output
 
 - (NSString *)currentInput {
     NSArray *inputs = self.currentRoute.inputs;
@@ -67,6 +69,8 @@ static char systemVolumeDidChangeObserverKey;
     return desc.portType;
 }
 
+#pragma mark Override Speaker
+
 - (void)setOverrideSpeaker:(BOOL)overrideSpeaker {
     [self setAssociatedObject:&isOverrideSpeakerKey value:@(overrideSpeaker) policy:OBJC_ASSOCIATION_RETAIN];
     //
@@ -88,9 +92,22 @@ static char systemVolumeDidChangeObserverKey;
     return number ? [number boolValue] : false;
 }
 
+#pragma mark Audio Session Route Change
+
 - (void)setAudioSessionRouteChange:(void (^)(AVAudioSessionRouteDescription * _Nonnull, AVAudioSessionRouteChangeReason))audioSessionRouteChange {
     [self setAssociatedObject:&audioSessionRouteChangeKey value:audioSessionRouteChange policy:OBJC_ASSOCIATION_COPY];
-    //
+    if (audioSessionRouteChange) {
+        [self addAudioSessionRouteChangeObserver];
+    } else {
+        [self removeAudioSessionRouteChangeObserver];
+    }
+}
+
+- (void (^)(AVAudioSessionRouteDescription *, AVAudioSessionRouteChangeReason))audioSessionRouteChange {
+    return [self getAssociatedObject:&audioSessionRouteChangeKey];
+}
+
+- (void)addAudioSessionRouteChangeObserver {
     if (self.audioSessionRouteChangeObserver == nil) {
         __weak typeof(self) weakSelf = self;
         self.audioSessionRouteChangeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVAudioSessionRouteChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
@@ -120,8 +137,11 @@ static char systemVolumeDidChangeObserverKey;
     }
 }
 
-- (void (^)(AVAudioSessionRouteDescription *, AVAudioSessionRouteChangeReason))audioSessionRouteChange {
-    return [self getAssociatedObject:&audioSessionRouteChangeKey];
+- (void)removeAudioSessionRouteChangeObserver {
+    if (self.audioSessionRouteChangeObserver) {
+        [[NSNotificationCenter defaultCenter] removeObserver:self.audioSessionRouteChangeObserver];
+        self.audioSessionRouteChangeObserver = nil;
+    }
 }
 
 - (void)setAudioSessionRouteChangeObserver:(id)audioSessionRouteChangeObserver {
@@ -131,6 +151,8 @@ static char systemVolumeDidChangeObserverKey;
 - (id)audioSessionRouteChangeObserver {
     return [self getAssociatedObject:&audioSessionRouteChangeObserverKey];
 }
+
+#pragma mark System Volume
 
 - (float)systemVolume {
     return self.outputVolume;
@@ -153,7 +175,18 @@ static char systemVolumeDidChangeObserverKey;
 
 - (void)setSystemVolumeDidChange:(void (^)(float))systemVolumeDidChange {
     [self setAssociatedObject:&systemVolumeDidChangeKey value:systemVolumeDidChange policy:OBJC_ASSOCIATION_COPY];
-    //
+    if (systemVolumeDidChange) {
+        [self addSystemVolumeDidChangeObserver];
+    } else {
+        [self removeSystemVolumeDidChangeObserver];
+    }
+}
+
+- (void (^)(float))systemVolumeDidChange {
+    return [self getAssociatedObject:&systemVolumeDidChangeKey];
+}
+
+- (void)addSystemVolumeDidChangeObserver {
     if (self.systemVolumeDidChangeObserver == nil) {
         self.systemVolumeDidChangeObserver = [[ZXKeyValueObserver alloc] init];
         __weak typeof(self) weakSelf = self;
@@ -165,8 +198,11 @@ static char systemVolumeDidChangeObserverKey;
     [self setActive:YES error:nil];
 }
 
-- (void (^)(float))systemVolumeDidChange {
-    return [self getAssociatedObject:&systemVolumeDidChangeKey];
+- (void)removeSystemVolumeDidChangeObserver {
+    if (self.systemVolumeDidChangeObserver) {
+        [self.systemVolumeDidChangeObserver invalidate];
+        self.systemVolumeDidChangeObserver = nil;
+    }
 }
 
 - (void)setSystemVolumeDidChangeObserver:(ZXKeyValueObserver *)systemVolumeDidChangeObserver {
@@ -177,14 +213,10 @@ static char systemVolumeDidChangeObserverKey;
     return [self getAssociatedObject:&systemVolumeDidChangeObserverKey];
 }
 
+#pragma mark Dealloc
+
 - (void)dealloc {
-    if (self.audioSessionRouteChangeObserver) {
-        [[NSNotificationCenter defaultCenter] removeObserver:self.audioSessionRouteChangeObserver];
-        self.audioSessionRouteChangeObserver = nil;
-    }
-    if (self.systemVolumeDidChangeObserver) {
-        [self.systemVolumeDidChangeObserver invalidate];
-        self.systemVolumeDidChangeObserver = nil;
-    }
+    [self removeAudioSessionRouteChangeObserver];
+    [self removeSystemVolumeDidChangeObserver];
 }
 @end
