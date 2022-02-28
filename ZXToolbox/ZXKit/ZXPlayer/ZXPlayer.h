@@ -86,6 +86,8 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 @property (nonatomic, readonly) NSTimeInterval currentTime;
 /// The duration of the player.
 @property (nonatomic, readonly) NSTimeInterval duration;
+/// Returns the preferred loaded time of the player.
+@property (nonatomic, readonly) NSTimeInterval preferredLoadedTime;
 
 /// The player is ready to play.
 @property (nonatomic, readonly) BOOL isReadyToPlay;

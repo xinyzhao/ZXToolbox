@@ -272,11 +272,8 @@
             }
         }];
         [_playerItemLoadedTimeRangesObserver observe:self.playerItem keyPath:@"loadedTimeRanges" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
-            CMTimeRange timeRange = [weakSelf.playerItem.loadedTimeRanges.firstObject CMTimeRangeValue];
-            NSTimeInterval loaded = CMTimeGetSeconds(timeRange.start) + CMTimeGetSeconds(timeRange.duration);
-            NSTimeInterval duration = [weakSelf duration];
             if (weakSelf.loadedTime) {
-                weakSelf.loadedTime(loaded, duration);
+                weakSelf.loadedTime(weakSelf.preferredLoadedTime, weakSelf.duration);
             }
         }];
         [_playerItemPlaybackLikelyToKeepUpObserver observe:self.playerItem keyPath:@"playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
@@ -352,12 +349,11 @@
         // Queue on which to invoke the callback
         dispatch_queue_t mainQueue = dispatch_get_main_queue();
         // Add time observer
-        NSTimeInterval duration = [self duration];
         __weak typeof(self) weakSelf = self;
         _playerTimeObserver = [_player addPeriodicTimeObserverForInterval:interval queue:mainQueue usingBlock:^(CMTime time) {
             if (weakSelf.status == ZXPlaybackStatusPlaying) {
                 if (weakSelf.playbackTime) {
-                    weakSelf.playbackTime(CMTimeGetSeconds(time), duration);
+                    weakSelf.playbackTime(CMTimeGetSeconds(time), weakSelf.duration);
                 }
             }
         }];
@@ -552,43 +548,44 @@
 #pragma mark Time
 
 - (NSTimeInterval)currentTime {
-    NSTimeInterval time = 0.f;
-    if (self.isReadyToPlay) {
-        time = CMTimeGetSeconds(self.playerItem.currentTime);
-        // Strange occurred in some iOS version
-        if (isnan(time) || isinf(time)) {
-            time = 0.f;
-        }
-        if (time < 0.f) {
-            time = 0.f;
-        }
+    CMTime ct = self.playerItem.currentTime;
+    if (CMTIME_IS_NUMERIC(ct)) {
+        return CMTimeGetSeconds(ct);
     }
-    return time;
+    return 0.0;
 }
 
 - (NSTimeInterval)duration {
-    NSTimeInterval duration = 0.f;
-    if (self.isReadyToPlay) {
-        duration = CMTimeGetSeconds(self.playerItem.duration);
-    } else if (self.asset) {
-        duration = CMTimeGetSeconds(self.asset.duration);
+    CMTime duration = self.playerItem.duration;
+    if (CMTIME_IS_NUMERIC(duration)) {
+        return CMTimeGetSeconds(duration);
     }
-    // Strange occurred in some iOS version
-    if (isnan(duration) || isinf(duration)) {
-        duration = 0.f;
+    return 0.0;
+}
+
+- (NSTimeInterval)preferredLoadedTime {
+    CMTime current = self.playerItem.currentTime;
+    NSArray<NSValue *> *ranges = self.playerItem.loadedTimeRanges;
+    for (NSValue *value in ranges) {
+        CMTimeRange range = [value CMTimeRangeValue];
+        int start = CMTimeCompare(current, range.start);
+        int duration = CMTimeCompare(current, range.duration);
+        if (start >= 0 && duration <= 0) {
+            return CMTimeGetSeconds(range.start) + CMTimeGetSeconds(range.duration);
+        }
     }
-    if (duration < 0.f) {
-        duration = 0.f;
+    NSValue *value = ranges.firstObject;
+    if (value) {
+        CMTimeRange range = [value CMTimeRangeValue];
+        return CMTimeGetSeconds(range.start) + CMTimeGetSeconds(range.duration);
     }
-    return duration;
+    return 0.0;
 }
 
 - (void)setLoadedTime:(void (^)(NSTimeInterval, NSTimeInterval))loadedTime {
     _loadedTime = [loadedTime copy];
-    if (_loadedTime && self.playerItem) {
-        CMTimeRange range = [self.playerItem.loadedTimeRanges.firstObject CMTimeRangeValue];
-        NSTimeInterval loaded = CMTimeGetSeconds(range.start) + CMTimeGetSeconds(range.duration);
-        _loadedTime(loaded, self.duration);
+    if (_loadedTime && self.isReadyToPlay) {
+        _loadedTime(self.preferredLoadedTime, self.duration);
     }
 }
 
