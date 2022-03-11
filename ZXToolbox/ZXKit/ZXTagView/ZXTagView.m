@@ -115,8 +115,6 @@
     if (index < _items.count) {
         [_items removeObjectAtIndex:index];
         [self setNeedsLayout];
-        UITableView *t;
-        t.rowHeight = 1;
     }
 }
 
