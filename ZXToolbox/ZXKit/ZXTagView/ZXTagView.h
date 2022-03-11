@@ -25,83 +25,59 @@
 
 #import <UIKit/UIKit.h>
 
-/// ZXTagView
-@interface ZXTagView : UIScrollView
+NS_ASSUME_NONNULL_BEGIN
+UIKIT_EXTERN API_AVAILABLE(ios(9.0))
+@interface ZXTagView : UIView
 
-/**
- Multi-line for items, default is single line, if YES the tag view will be auto break to new line
- */
-@property(nonatomic, assign) BOOL isMultiLine;
+/// The content inset.
+@property (nonatomic, assign) UIEdgeInsets contentInset;
 
-/**
- The spacing for items
- */
-@property (nonatomic, assign) CGFloat spacingForItems;
+/// The line height, default is automatic dimension.
+@property (nonatomic, assign) CGFloat lineHeight;
 
-/**
- The spacing for lines
- */
-@property (nonatomic, assign) CGFloat spacingForLines;
+/// The spacing of between lines, default is 0.
+@property (nonatomic, assign) CGFloat lineSpacing;
 
-/**
- Selected item at index
- */
-@property (nonatomic, assign) NSInteger selectedIndex;
+/// The spacing of between items, default is 0.
+@property (nonatomic, assign) CGFloat itemSpacing;
 
-/**
- Selected index with animated
- @param index The tag index
- @param animated Animated for selection
- */
-- (void)setSelectedIndex:(NSInteger)index animated:(BOOL)animated;
+/// Add an item
+/// @param item The item view
+- (void)addItem:(UIView *)item;
 
-/**
- The tag view selected block
- 
- @param index The selected index
- @param view The selected view
- @param view The Previous selected view
- */
-@property (nonatomic, copy) void (^selectedBlock)(NSInteger index, UIView *view, UIView *prevView);
+/// Insert an item at index
+/// @param item The item view
+/// @param index The index of item
+- (void)insertItem:(UIView *)item atIndex:(NSUInteger)index;
 
-/**
- Number of tags
- */
-@property (nonatomic, readonly) NSInteger numberOfTags;
+/// Get tag view at index
+/// @param index The index of item
+/// @return The item view
+- (nullable UIView *)itemAtIndex:(NSUInteger)index;
 
-/**
- Add tag view with an action block
+/// Remove the item at index
+/// @param index The index of item
+- (void)removeItemAtIndex:(NSUInteger)index;
 
- @param view The tag view
- */
-- (void)addTagView:(UIView *)view;
+/// Removes all occurrences in the array of a given item.
+/// @param item The item
+- (void)removeItem:(UIView *)item;
 
-/**
- Insert tag at index
-
- @param view The tag view
- @param index The index of tag view
- */
-- (void)insertTagView:(UIView *)view atIndex:(NSInteger)index;
-
-/**
- Get tag view at index
-
- @param index The index of tag view
- @return The tag view
- */
-- (UIView *)tagViewAtIndex:(NSInteger)index;
-
-/**
- Remove tag view at index
-
- @param index The index of tag view
- */
-- (void)removeTagAtIndex:(NSInteger)index;
-
-/**
- Remove all tags
- */
-- (void)removeAllTags;
+/// Remove all items
+- (void)removeAllItems;
 
 @end
+
+@interface ZXTagView (Extension)
+/// Number of lines, default is single line
+@property (nonatomic, readonly) NSInteger numberOfLines;
+/// Number of items
+@property (nonatomic, readonly) NSInteger numberOfItems;
+/// The first item view
+@property (nonatomic, readonly, nullable) UIView *firstItem;
+/// The last item view
+@property (nonatomic, readonly, nullable) UIView *lastItem;
+
+@end
+
+NS_ASSUME_NONNULL_END
