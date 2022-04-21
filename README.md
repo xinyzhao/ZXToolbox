@@ -645,7 +645,56 @@ NSLogA(@"#adapt height: %.2f for base width %.2f = %.2f", size.width, size.heigh
 ```
 
 * UIScrollView+ZXToolbox
-> 204 No Content
+
+```
+- (void)viewDidLoad {
+    // 父视图设置
+    scrollView.shouldRecognizeSimultaneously = YES;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    // 垂直滚动时用y值做判断，横向滚动时用x值做判断
+    CGFloat y = 100;
+    //
+    if (scrollView.isScrollFreezed) {
+        // 冻结时，固定滚动位置
+        scrollView.contentOffset.y = y;
+    } else if (scrollView.contentOffset.y >= y) {
+        // 滚动距离超过y时，固定滚动位置，并冻结
+        scrollView.contentOffset.y = y;
+        scrollView.isScrollFreezed = YES;
+    }
+}
+```
+
+```
+// 此处需要从外部传入与此联动的父视图
+UIScrollView *superView = nil;
+// 当前的滚动视图
+UIScrollView *childView = nil;
+
+- (void)viewDidLoad {
+    // 子视图冻结设置正好与父视图相反
+    childView.isScrollFreezed = !superView.isScrollFreezed;
+    // 父子视图相互添加对方到自己的冻结列表内
+    childView.freezedViews.addObject(superView);
+    superView.freezedViews.addObject(childView);
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    // 垂直滚动时用y值做判断，0为最顶部，横向滚动时用x值做判断
+    CGFloat y = 0;
+    //
+    if (scrollView.isScrollFreezed) {
+        // 冻结时, 固定滚动位置
+        scrollView.contentOffset.y = y;
+    } else if (scrollView.contentOffset.y <= y) {
+        // 滚动距离小于等于y时，固定滚动位置，并冻结
+        scrollView.contentOffset.y = y;
+        scrollView.isScrollFreezed = YES;
+    }
+}
+```
 
 * UITableViewCell+ZXToolbox
 > 204 No Content
