@@ -27,6 +27,8 @@
 #import "NSObject+ZXToolbox.h"
 #import "ZXKeyValueObserver.h"
 
+#define ZXToolboxSubclass @"_ZXToolbox_Subclass"
+
 static char isScrollFreezedKey;
 static char freezedViewsKey;
 static char shouldRecognizeSimultaneouslyKey;
@@ -68,6 +70,20 @@ static char shouldRecognizeSimultaneouslyKey;
 }
 
 - (void)setShouldRecognizeSimultaneously:(BOOL)shouldRecognizeSimultaneously {
+    Class clsA = [self class];
+    NSString *strA = NSStringFromClass(clsA);
+    if (![strA hasSuffix:ZXToolboxSubclass]) {
+        NSString *strB = [strA stringByAppendingString:ZXToolboxSubclass];
+        Class clsB = NSClassFromString(strB);
+        if (clsB == nil) {
+            clsB = objc_allocateClassPair(clsA, strB.UTF8String, 0);
+            objc_registerClassPair(clsB);
+            //
+            [clsB swizzleMethod:@selector(gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:) with:@selector(zx_gestureRecognizer:shouldRecognizeSimultaneouslyWithGestureRecognizer:)];
+        }
+        object_setClass(self, clsB);
+    }
+    //
     NSNumber *value = [NSNumber numberWithBool:shouldRecognizeSimultaneously];
     [self setAssociatedObject:&shouldRecognizeSimultaneouslyKey value:value policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
@@ -84,11 +100,11 @@ static char shouldRecognizeSimultaneouslyKey;
 // 当一个手势识别器或其他手势识别器的识别被另一个手势识别器阻塞时调用
 // 返回YES，允许两者同时识别。默认实现返回NO(默认情况下不能同时识别两个手势)
 // 注意：返回YES保证允许同时识别。返回NO不能保证防止同时识别，因为其他手势的委托可能返回YES
-- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+- (BOOL)zx_gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
     if (self.shouldRecognizeSimultaneously) {
         return YES;
     }
-    return NO;
+    return [self zx_gestureRecognizer:gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:otherGestureRecognizer];
 }
 
 #pragma mark Scroll to position
