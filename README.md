@@ -663,6 +663,9 @@ NSLogA(@"#adapt height: %.2f for base width %.2f = %.2f", size.width, size.heigh
         // 滚动距离超过y时，固定滚动位置，并冻结
         scrollView.contentOffset.y = y;
         scrollView.isScrollFreezed = YES;
+    } else if (scrollView.contentOffset.y < 0) {
+        // 如果子视图包含刷新header，建议加上此条逻辑
+        scrollView.contentOffset.y = 0;
     }
 }
 ```
@@ -684,13 +687,21 @@ UIScrollView *childView = nil;
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     // 垂直滚动时用y值做判断，0为最顶部，横向滚动时用x值做判断
     CGFloat y = 0;
-    //
+    // 没有刷新header时的逻辑
     if (scrollView.isScrollFreezed) {
         // 冻结时, 固定滚动位置
         scrollView.contentOffset.y = y;
     } else if (scrollView.contentOffset.y <= y) {
         // 滚动距离小于等于y时，固定滚动位置，并冻结
         scrollView.contentOffset.y = y;
+        scrollView.isScrollFreezed = YES;
+    }
+    // 包含刷新header时的逻辑
+    if (scrollView.isScrollFreezed) {
+        if (scrollView.contentOffset.y > y) {
+            scrollView.contentOffset.y = y;
+        }
+    } else if (scrollView.contentOffset.y <= y) {
         scrollView.isScrollFreezed = YES;
     }
 }
