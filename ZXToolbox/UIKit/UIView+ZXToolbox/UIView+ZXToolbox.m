@@ -32,6 +32,27 @@ static char extrinsicContentSizeKey;
 
 @implementation UIView (ZXToolbox)
 
++ (instancetype)loadNibNamed:(NSString *)name {
+    return [self loadNibNamed:name inBundle:nil];
+}
+
++ (instancetype)loadNibNamed:(NSString *)name inBundle:(NSBundle *)bundle {
+    return [self loadNibNamed:name inBundle:bundle owner:nil options:nil];
+}
+
++ (instancetype)loadNibNamed:(NSString *)name inBundle:(NSBundle *)bundle owner:(id)owner options:(NSDictionary<UINibOptionsKey,id> *)options {
+    if (bundle == nil) {
+        bundle = [NSBundle mainBundle];
+    }
+    NSArray *list = [bundle loadNibNamed:name owner:owner options:options];
+    for (UIView *view in list) {
+        if ([view isKindOfClass:[self class]]) {
+            return view;
+        }
+    }
+    return nil;
+}
+
 - (void)setExtrinsicContentSize:(CGSize)size {
     Class clsA = [self class];
     NSString *strA = NSStringFromClass(clsA);

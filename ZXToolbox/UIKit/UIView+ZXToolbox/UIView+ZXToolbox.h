@@ -29,6 +29,22 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIView (ZXToolbox)
 
+/// Load view from a nib file located in the receiver's bundle.
+/// @param name The name of the nib file, which need not include the .nib extension.
++ (nullable instancetype)loadNibNamed:(NSString *)name;
+
+/// Load view from a nib file located in the receiver's bundle.
+/// @param name The name of the nib file, which need not include the .nib extension.
+/// @param bundle The receiver's bundle.
++ (nullable instancetype)loadNibNamed:(NSString *)name inBundle:(nullable NSBundle *)bundle;
+
+/// Load view from a nib file located in the receiver's bundle.
+/// @param name The name of the nib file, which need not include the .nib extension.
+/// @param bundle The receiver's bundle.
+/// @param owner The object to assign as the nib’s File's Owner object.
+/// @param options A dictionary containing the options to use when opening the nib file. For a list of available keys for this dictionary, see UIKit Nib Loading Options.
++ (nullable instancetype)loadNibNamed:(NSString *)name inBundle:(nullable NSBundle *)bundle owner:(nullable id)owner options:(nullable NSDictionary<UINibOptionsKey,id> *)options;
+
 /// @brief 替代子类化并重写intrinsicContentSize方法，在intrinsicContentSize的基础上调整宽高。
 /// @discussion Replace subclassing and override intrinsicContentSize method, adjust size based on intrinsicContentSize.
 /// @attention 由于 intrinsicContentSize 依赖于 AutoLayout，设置此属性会导致 Autoresizing 相关属性(frame/center)设置失效。
