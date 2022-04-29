@@ -36,12 +36,12 @@
 }
 
 - (IBAction)onForegroundColor:(UITextField *)textField {
-    _textView.textAttributes.foregroundColor = [UIColor colorWithString:textField.text];
+    _textView.textAttributes.foregroundColor = UIColorFromHEXString(textField.text, 1);
     [_textView.textAttributes setAttributedString:_textView.text forKey:@"attributedText"];
 }
 
 - (IBAction)onBackgroundColor:(UITextField *)textField {
-    _textView.textAttributes.backgroundColor = [UIColor colorWithString:textField.text];
+    _textView.textAttributes.backgroundColor = UIColorFromHEXString(textField.text, 1);
     [_textView.textAttributes setAttributedString:_textView.text forKey:@"attributedText"];
 }
 

@@ -176,16 +176,20 @@
 }
 
 - (void)testUIColor {
-    NSLogA(@"#[UIColor colorWithString:] %@", [UIColor colorWithString:@"#999999"]);
-    NSLogA(@"#[UIColor colorWithString:alpha:] %@", [UIColor colorWithString:@"#999999" alpha:0.5]);
-    NSLogA(@"#[UIColor colorWithInteger:] %@", [UIColor colorWithInteger:0x999999]);
-    NSLogA(@"#[UIColor colorWithInteger:alpha:] %@", [UIColor colorWithInteger:0x999999 alpha:0.5]);
+    NSLogA(@"#[UIColor colorWithHEXString:] %@", [UIColor colorWithHEXString:@"#999999"]);
+    NSLogA(@"#[UIColor colorWithHEXString:alpha:] %@", [UIColor colorWithHEXString:@"#999999" alpha:0.5]);
+    NSLogA(@"#[UIColor colorWithRGBInteger:] %@", [UIColor colorWithRGBInteger:0x999999]);
+    NSLogA(@"#[UIColor colorWithRGBInteger:alpha:] %@", [UIColor colorWithRGBInteger:0x999999 alpha:0.5]);
     NSLogA(@"#[UIColor randomColor] %@", [UIColor randomColor]);
     NSLogA(@"#[UIColor inverseColor] %@", [[UIColor blackColor] inverseColor]);
-    NSLogA(@"#[UIColor stringValue] %@", [[UIColor redColor] stringValue]);
-    NSLogA(@"#[UIColor stringValueWithPrefix:] %@", [[UIColor redColor] stringValueWithPrefix:@"#"]);
-    NSLogA(@"#[UIColor integerValue] %lx", (long)[[UIColor redColor] integerValue]);
-    NSLogA(@"#[UIColor integerValueWithAlpha:] %lx", (long)[[UIColor redColor] integerValueWithAlpha:YES]);
+    NSLogA(@"#[UIColor NStringValue] %@", [[UIColor redColor] NSStringValue]);
+    NSLogA(@"#[UIColor NSIntegerValue] %lx", (long)[[UIColor redColor] NSIntegerValue]);
+    UIColorComponents gc = [[UIColor colorWithWhite:0.1 alpha:0.7] grayscaleComponents];
+    NSLogA(@"#[UIColor grayscaleComponents:] white: %f alpha: %f", gc.white, gc.alpha);
+    gc = [[UIColor colorWithHue:0.2 saturation:0.5 brightness:0.8 alpha:0.1] HSBComponents];
+    NSLogA(@"#[UIColor HSBComponents:] h: %f s: %f b: %f alpha: %f", gc.hue, gc.saturation, gc.brightness, gc.alpha);
+    gc = [[UIColor colorWithRed:0.3 green:0.6 blue:0.9 alpha:1.0] RGBComponents];
+    NSLogA(@"#[UIColor RGBComponents:] r: %f g: %f b: %f alpha: %f", gc.red, gc.green, gc.blue, gc.alpha);
 }
 
 - (void)testUIControl {
