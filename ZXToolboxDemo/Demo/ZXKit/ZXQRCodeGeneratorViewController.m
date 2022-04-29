@@ -56,11 +56,11 @@
     //
     UIColor *foreColor = UIColor.blackColor;
     if (_foregroundColorField.text.length > 0) {
-        foreColor = UIColorFromHEXString(_foregroundColorField.text, 1);
+        foreColor = ZXColorFromHEXString(_foregroundColorField.text, 1);
     }
     UIColor *backColor = UIColor.whiteColor;
     if (_backgroundColorField.text.length > 0) {
-        backColor = UIColorFromHEXString(_backgroundColorField.text, 1);
+        backColor = ZXColorFromHEXString(_backgroundColorField.text, 1);
     }
     NSString *level = ZXQRCodeCorrectionLevelMedium;
     switch (_correctionLevelControl.selectedSegmentIndex) {
