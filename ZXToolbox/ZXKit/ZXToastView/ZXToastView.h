@@ -98,24 +98,24 @@ typedef NS_ENUM(NSInteger, ZXToastPosition) {
 
 /// Init toast activity view
 /// @param text The text to be displayed
-- (instancetype)initWithActivity:(NSString * _Nullable)text;
+- (instancetype)initWithActivity:(nullable NSString *)text;
 
 /// Creates a new toast view
 /// @param text The text to be displayed
-- (instancetype)initWithText:(NSString * _Nullable)text;
+- (instancetype)initWithText:(nullable NSString *)text;
 
 /// Creates a new toast view
 /// @param text The text to be displayed
 /// @param duration The toast duration
-- (instancetype)initWithText:(NSString * _Nullable)text
+- (instancetype)initWithText:(nullable NSString *)text
                     duration:(NSTimeInterval)duration;
 
 /// Creates a new toast view
 /// @param image The image
 /// @param text The text to be displayed
 /// @param duration The toast duration
-- (instancetype)initWithImage:(UIImage * _Nullable)image
-                         text:(NSString * _Nullable)text
+- (instancetype)initWithImage:(nullable UIImage *)image
+                         text:(nullable NSString *)text
                      duration:(NSTimeInterval)duration;
 
 /// Show toast in view
@@ -124,7 +124,7 @@ typedef NS_ENUM(NSInteger, ZXToastPosition) {
 
 /// Show the status text
 /// @param text The text to be displayed
-- (void)showStatus:(NSString * _Nullable)text;
+- (void)showStatus:(nullable NSString *)text;
 
 /// Hide the toast
 /// @param animated animated

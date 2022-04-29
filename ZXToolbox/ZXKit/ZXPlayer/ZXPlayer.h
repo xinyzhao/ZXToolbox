@@ -71,7 +71,7 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 @property (nonatomic, strong, nullable) AVPlayerItem *playerItem;
 
 /// A status that indicates whether the player can be used for playback.
-@property (nonatomic, nullable, copy) void (^playerStatus)(AVPlayerStatus status, NSError * _Nullable error);
+@property (nonatomic, nullable, copy) void (^playerStatus)(AVPlayerStatus status, NSError *_Nullable error);
 /// A time ranges indicating media data that is readily available.
 @property (nonatomic, nullable, copy) void (^loadedTime)(NSTimeInterval time, NSTimeInterval duration);
 

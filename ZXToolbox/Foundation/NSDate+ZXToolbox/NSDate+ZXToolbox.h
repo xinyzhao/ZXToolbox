@@ -39,9 +39,9 @@ extern NSString *const kZXToolboxDateFormatTime;
 
 + (NSDateFormatter *)dateFormatter;
 
-+ (nullable NSDate *)dateWithString:(NSString *)string format:(NSString  * _Nullable)format;
++ (nullable NSDate *)dateWithString:(NSString *)string format:(nullable NSString  *)format;
 
-- (NSString *)stringWithFormat:(NSString * _Nullable)format;
+- (NSString *)stringWithFormat:(nullable NSString *)format;
 - (NSString *)dateString; //NSDateToolboxFormatDate
 - (NSString *)dateTimeString; //NSDateToolboxFormatDateTime
 - (NSString *)timeString; //NSDateToolboxFormatTime

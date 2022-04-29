@@ -38,7 +38,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// Set value for specify key, unless the value is nil, in which case send -removeObject:forKey:.
 /// @param obj The value for aKey. A strong reference to the object is maintained by the dictionary.
 /// @param key The key for value.
-- (void)setObject:(id _Nullable)obj forKey:(id)key;
+- (void)setObject:(nullable id)obj forKey:(id)key;
 
 /// Returns the value associated with a given key.
 /// @param key The key for which to return the corresponding value.

@@ -74,7 +74,7 @@
     return self;
 }
 
-- (instancetype)initWithActivity:(NSString * _Nullable)text {
+- (instancetype)initWithActivity:(NSString *)text {
     self = [self initWithText:text];
     if (self) {
         _activityView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
@@ -87,7 +87,7 @@
     return self;
 }
 
-- (instancetype)initWithText:(NSString * _Nullable)text {
+- (instancetype)initWithText:(NSString *)text {
     self = [self init];
     if (self) {
         if (text) {
@@ -106,7 +106,7 @@
     return self;
 }
 
-- (instancetype)initWithText:(NSString * _Nullable)text
+- (instancetype)initWithText:(NSString *)text
                     duration:(NSTimeInterval)duration {
     self = [self initWithText:text];
     if (self) {
@@ -115,8 +115,8 @@
     return self;
 }
 
-- (instancetype)initWithImage:(UIImage * _Nullable)image
-                         text:(NSString * _Nullable)text
+- (instancetype)initWithImage:(UIImage *)image
+                         text:(NSString *)text
                      duration:(NSTimeInterval)duration {
     self = [self initWithText:text duration:duration];
     if (self) {

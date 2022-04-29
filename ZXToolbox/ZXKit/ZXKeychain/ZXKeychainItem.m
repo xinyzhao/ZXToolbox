@@ -72,7 +72,7 @@
     return [self.data copy];
 }
 
-- (void)setObject:(id _Nullable)obj forKey:(id)key {
+- (void)setObject:(id)obj forKey:(id)key {
     if (obj && key) {
         [self.data setObject:obj forKey:key];
     } else if (key) {

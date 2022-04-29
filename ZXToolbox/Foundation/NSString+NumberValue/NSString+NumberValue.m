@@ -94,7 +94,7 @@
     return [[[NSString numberFormatter] numberFromString:self] unsignedIntegerValue];
 }
 
-- (NSArray<NSNumber *> * _Nullable)numberComponents {
+- (NSArray<NSNumber *> *)numberComponents {
     NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:self.length];
     for (NSUInteger i = 0; i < self.length; i++) {
         NSString *str = [self substringWithRange:NSMakeRange(i, 1)];
@@ -107,7 +107,7 @@
     return @"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
 }
 
-+ (NSString *)stringWithValue:(id)value baseIn:(int)baseIn baseOut:(int)baseOut alphabet:(NSString *_Nullable)alphabet {
++ (NSString *)stringWithValue:(id)value baseIn:(int)baseIn baseOut:(int)baseOut alphabet:(nullable NSString *)alphabet {
     // String
     NSString *str = nil;
     if ([value isKindOfClass:NSNumber.class]) {

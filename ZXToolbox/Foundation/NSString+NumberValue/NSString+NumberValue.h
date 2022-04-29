@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly) NSUInteger unsignedIntegerValue;
 
 /// An array containing the number components. (read-only)
-@property (nullable, readonly, copy) NSArray<NSNumber *> *numberComponents;
+@property (readonly, nullable, copy) NSArray<NSNumber *> *numberComponents;
 
 /// Default Alphabet
 + (NSString *)defaultAlphabet;
@@ -65,7 +65,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param alphabet Default is [NSString defaultAlphabet] if not specified.
  @return The string of base baseOut
  */
-+ (NSString *)stringWithValue:(id)value baseIn:(int)baseIn baseOut:(int)baseOut alphabet:(NSString *_Nullable)alphabet;
++ (NSString *)stringWithValue:(id)value baseIn:(int)baseIn baseOut:(int)baseOut alphabet:(nullable NSString *)alphabet;
 
 /**
  Convert a numeric string from radix to base 10.
