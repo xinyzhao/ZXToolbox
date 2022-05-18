@@ -505,6 +505,22 @@ NSLogA(@"#Fragment  : %@", [str stringByURLEncoding:NSStringURLEncodingFragment]
 #Fragment  : %20~%60!@%23$%25%5E&*()-_=+%5B%7B%5D%7D%5C%7C;:'%22,%3C.%3E/?
 ```
 
+* NSURL+ZXToolbox
+
+```
+    NSURL *url1 = [NSURL URLWithString:@"http://www.example.com/" scheme:@"https" user:@"user" password:@"password" host:@"host" port:@2022 path:@"/path" query:@"key1=value1&key2=value2" fragment:@"fragment"];
+    NSURL *url2 = [NSURL URLWithString:@"http://www.example.com" scheme:@"https" user:@"user" password:@"password" host:@"host" port:@2022 path:@"/path!@#$%^&*()" query:@{@"key1":@"value1", @"key2":@"value2"} fragment:@"fragment"];
+    NSLogA(@"#URL1: %@", [url1 URLString]);
+    NSLogA(@"#URL2: %@", [url2 URLString]);
+```
+
+> Output:
+
+```
+#URL1: https://user:password@host:2022/path?key1=value1&key2=value2#fragment
+#URL2: https://user:password@host:2022/path!@%23$%25%5E&*()?key1=value1&key2=value2#fragment
+```
+
 ### UIKit
 
 * UIApplication+ZXToolbox

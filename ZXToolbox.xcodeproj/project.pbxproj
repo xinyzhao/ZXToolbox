@@ -196,6 +196,8 @@
 		70AE9F0224A993CD001B81EE /* AVAudioSession+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE9F0024A993CD001B81EE /* AVAudioSession+ZXToolbox.m */; };
 		70B276C826E20B4B00C4E63A /* ZXSemaphore.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B276C626E20B4B00C4E63A /* ZXSemaphore.m */; };
 		70B276C926E20B4B00C4E63A /* ZXSemaphore.h in Headers */ = {isa = PBXBuildFile; fileRef = 70B276C726E20B4B00C4E63A /* ZXSemaphore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70BBADBD28353E090005575B /* NSURL+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BBADBB28353E090005575B /* NSURL+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70BBADBE28353E090005575B /* NSURL+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BBADBC28353E090005575B /* NSURL+ZXToolbox.m */; };
 		70BC8B3823C581B400DD952B /* ZXKeychainItem+Attribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BC8B3623C581B400DD952B /* ZXKeychainItem+Attribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70BC8B3923C581B400DD952B /* ZXKeychainItem+Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BC8B3723C581B400DD952B /* ZXKeychainItem+Attribute.m */; };
 		70BC8B3C23C5829E00DD952B /* ZXKeychainItem+Class.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BC8B3A23C5829E00DD952B /* ZXKeychainItem+Class.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -504,6 +506,8 @@
 		70AE9F0024A993CD001B81EE /* AVAudioSession+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AVAudioSession+ZXToolbox.m"; sourceTree = "<group>"; };
 		70B276C626E20B4B00C4E63A /* ZXSemaphore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXSemaphore.m; sourceTree = "<group>"; };
 		70B276C726E20B4B00C4E63A /* ZXSemaphore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXSemaphore.h; sourceTree = "<group>"; };
+		70BBADBB28353E090005575B /* NSURL+ZXToolbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURL+ZXToolbox.h"; sourceTree = "<group>"; };
+		70BBADBC28353E090005575B /* NSURL+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURL+ZXToolbox.m"; sourceTree = "<group>"; };
 		70BC8B3623C581B400DD952B /* ZXKeychainItem+Attribute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZXKeychainItem+Attribute.h"; sourceTree = "<group>"; };
 		70BC8B3723C581B400DD952B /* ZXKeychainItem+Attribute.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZXKeychainItem+Attribute.m"; sourceTree = "<group>"; };
 		70BC8B3A23C5829E00DD952B /* ZXKeychainItem+Class.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZXKeychainItem+Class.h"; sourceTree = "<group>"; };
@@ -636,6 +640,7 @@
 				7000AC5C22E9C22E00651E44 /* NSString+Pinyin */,
 				7000AC5322E9C22E00651E44 /* NSString+Unicode */,
 				7000AC6622E9C22E00651E44 /* NSString+URLEncoding */,
+				70BBADB628353DC10005575B /* NSURL+ZXToolbox */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -1442,6 +1447,15 @@
 			path = ZXSemaphore;
 			sourceTree = "<group>";
 		};
+		70BBADB628353DC10005575B /* NSURL+ZXToolbox */ = {
+			isa = PBXGroup;
+			children = (
+				70BBADBB28353E090005575B /* NSURL+ZXToolbox.h */,
+				70BBADBC28353E090005575B /* NSURL+ZXToolbox.m */,
+			);
+			path = "NSURL+ZXToolbox";
+			sourceTree = "<group>";
+		};
 		70D4BD1B23A9DC47000D28E2 /* ZXImageBroswer */ = {
 			isa = PBXGroup;
 			children = (
@@ -1548,6 +1562,7 @@
 				7000AD2F22E9C22F00651E44 /* NSDate+ZXToolbox.h in Headers */,
 				7000AD2522E9C22F00651E44 /* NSFileManager+ZXToolbox.h in Headers */,
 				7000AD1E22E9C22F00651E44 /* NSObject+ZXToolbox.h in Headers */,
+				70BBADBD28353E090005575B /* NSURL+ZXToolbox.h in Headers */,
 				7000AD3322E9C22F00651E44 /* NSNumberFormatter+ZXToolbox.h in Headers */,
 				7000AD2D22E9C22F00651E44 /* NSString+Base64Encoding.h in Headers */,
 				7000AD2022E9C22F00651E44 /* NSString+NumberValue.h in Headers */,
@@ -1787,6 +1802,7 @@
 				705A8FD223C2D51000BE361F /* ZXKeychain.m in Sources */,
 				70AE9F0224A993CD001B81EE /* AVAudioSession+ZXToolbox.m in Sources */,
 				70BC8B5923C5B8D100DD952B /* ZXKeychainItem+Match.m in Sources */,
+				70BBADBE28353E090005575B /* NSURL+ZXToolbox.m in Sources */,
 				7000AD7022E9C22F00651E44 /* ZXPhotoLibrary.m in Sources */,
 				7000AD8B22E9C22F00651E44 /* ZXTabBarItem.m in Sources */,
 				7000AD7C22E9C22F00651E44 /* ZXTagView.m in Sources */,

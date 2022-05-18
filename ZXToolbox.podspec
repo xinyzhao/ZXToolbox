@@ -92,6 +92,11 @@ Pod::Spec.new do |s|
     ss.public_header_files = "ZXToolbox/Foundation/NSString+URLEncoding/*.h"
   end
 
+  s.subspec "NSURL+ZXToolbox" do |ss|
+    ss.source_files = "ZXToolbox/Foundation/NSURL+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/Foundation/NSURL+ZXToolbox/*.h"
+  end
+  
   s.subspec "UIApplication+ZXToolbox" do |ss|
     ss.dependency "ZXToolbox/NSObject+ZXToolbox"
     ss.source_files = "ZXToolbox/UIKit/UIApplication+ZXToolbox/*.{h,m}"

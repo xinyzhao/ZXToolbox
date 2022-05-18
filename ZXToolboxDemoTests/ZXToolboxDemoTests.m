@@ -159,6 +159,13 @@
     NSLogA(@"#Fragment  : %@", [str stringByURLEncoding:NSStringURLEncodingFragment]);
 }
 
+- (void)testNSURL_ZXToobox {
+    NSURL *url1 = [NSURL URLWithString:@"http://www.example.com/" scheme:@"https" user:@"user" password:@"password" host:@"host" port:@2022 path:@"/path" query:@"key1=value1&key2=value2" fragment:@"fragment"];
+    NSURL *url2 = [NSURL URLWithString:@"http://www.example.com" scheme:@"https" user:@"user" password:@"password" host:@"host" port:@2022 path:@"/path!@#$%^&*()" query:@{@"key1":@"value1", @"key2":@"value2"} fragment:@"fragment"];
+    NSLogA(@"#URL1: %@", [url1 URLString]);
+    NSLogA(@"#URL2: %@", [url2 URLString]);
+}
+
 - (void)testUIApplication {
     UIApplication.sharedApplication.idleTimerEnabled = NO;
     [UIApplication.sharedApplication openSettingsURL];
