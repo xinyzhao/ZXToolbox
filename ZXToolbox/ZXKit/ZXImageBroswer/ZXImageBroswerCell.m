@@ -274,6 +274,11 @@
     }
 }
 
+- (void)restore:(BOOL)animated {
+    [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:animated];
+    [self centerImageView];
+}
+
 #pragma mark Target Actions
 
 - (void)onSingleTap:(id)sender {

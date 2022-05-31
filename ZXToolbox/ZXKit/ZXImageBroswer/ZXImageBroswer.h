@@ -45,6 +45,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// Current index of displayed image
 @property (nonatomic, assign) NSInteger currentIndex;
 
+/// Did display image
+@property (nonatomic, copy, nullable) void (^didDisplay)(NSInteger index, id image);
+
 /// On single tap gesture recognizer action
 @property (nonatomic, copy, nullable) void (^onSingleTap)(NSInteger index, id image);
 
@@ -62,21 +65,6 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param index Index of image
 /// @param animated animated or not
 - (void)setCurrentIndex:(NSInteger)index animated:(BOOL)animated;
-
-@end
-
-/// ZXImageBroswer (ZXImageBroswerCell)
-@interface ZXImageBroswer (ZXImageBroswerCell)
-
-/// Register custom cell class
-/// @param cellClass Base on ZXImageBroswerCell subclass
-- (void)registerClass:(nullable Class)cellClass forCellWithReuseIdentifier:(NSString *)identifier;
-
-- (__kindof ZXImageBroswerCell *)dequeueReusableCellForImageAtIndex:(NSInteger)index;
-
-/// Get the cell for index
-/// @param index Index of image
-- (nullable ZXImageBroswerCell *)cellForImageAtIndex:(NSInteger)index;
 
 @end
 

@@ -52,6 +52,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param point The zoom point
 - (void)zoomInPoint:(CGPoint)point;
 
+/// Restore position and size
+- (void)restore:(BOOL)animated;
+
 @end
 
 NS_ASSUME_NONNULL_END
