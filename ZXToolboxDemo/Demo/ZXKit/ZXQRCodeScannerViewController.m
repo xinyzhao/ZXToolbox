@@ -45,8 +45,9 @@
 - (IBAction)onCopy:(id)sender {
     [UIPasteboard generalPasteboard].string = _textView.text;
     AudioServicesPlaySystemSound(1001);
-    ZXToastView *toastView = [[ZXToastView alloc] initWithText:@"Copy success"];
-    [toastView showInView:_textView];
+    ZXToastView *toastView = [[ZXToastView alloc] init];
+    [toastView showText:@"Copy success"];
+    [toastView hideAfter:2];
 }
 
 - (IBAction)onScan:(id)sender {

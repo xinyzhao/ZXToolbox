@@ -39,8 +39,9 @@
         if (str.length > 0) {
             _textView.text = str;
         } else {
-            ZXToastView *toastView = [[ZXToastView alloc] initWithText:@"Can't decoing"];
-            [toastView showInView:self.textView];
+            ZXToastView *toastView = [[ZXToastView alloc] init];
+            [toastView showText:@"Can't decoing"];
+            [toastView hideAfter:2];
         }
     }
 }
@@ -49,8 +50,9 @@
     if (_textView.text.length > 0) {
         [[UIPasteboard generalPasteboard] setString:_textView.text];
         AudioServicesPlaySystemSound(1001);
-        ZXToastView *toastView = [[ZXToastView alloc] initWithText:@"Copied to clipboard"];
-        [toastView showInView:self.textView];
+        ZXToastView *toastView = [[ZXToastView alloc] init];
+        [toastView showText:@"Copied to clipboard"];
+        [toastView hideAfter:2];
     }
 }
 
