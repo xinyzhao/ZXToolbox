@@ -30,10 +30,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// ZXToastStyle
 typedef NS_ENUM(NSInteger, ZXToastStyle) {
-    ZXToastStyleSystem, // follow the system style
-    ZXToastStyleLight,
     ZXToastStyleDark,
-    ZXToastStyleCustom, // for custom view
+    ZXToastStyleLight,
+    ZXToastStyleSystem, // follow the system style
 };
 
 /// ZXToastAnimation
@@ -60,6 +59,9 @@ typedef NS_ENUM(NSInteger, ZXToastAnimation) {
 /// The loading view
 @property (nonatomic, readonly) UIActivityIndicatorView *loadingView;
 
+/// The loading view size
+@property (nonatomic, assign) CGSize loadingSize;
+
 /// Toast content margin, default is {12, 12, 12, 12}
 @property (nonatomic, assign) UIEdgeInsets contentInset;
 
@@ -77,9 +79,6 @@ typedef NS_ENUM(NSInteger, ZXToastAnimation) {
 /// The animation type, default is ZXToastAnimationFade
 @property (nonatomic, assign) ZXToastAnimation animation;
 
-/// Toast safe area insets, default is equal to system safe are
-@property (nonatomic, assign) UIEdgeInsets safeAreaInset;
-
 /// The default view
 @property (nonatomic, readonly) ZXToastEffectView *effectView;
 
@@ -94,9 +93,9 @@ typedef NS_ENUM(NSInteger, ZXToastAnimation) {
 - (void)showText:(nullable NSString *)text;
 
 /// Show the text and image
-/// @param text The text
 /// @param image The image
-- (void)showText:(nullable NSString *)text image:(nullable UIImage *)image;
+/// @param text The text
+- (void)showImage:(UIImage *)image text:(nullable NSString *)text;
 
 /// Show the loading text
 /// @param text The text to be displayed

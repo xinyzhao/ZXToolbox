@@ -93,6 +93,9 @@
     rect.size.width = _contentInset.left + _contentInset.right;
     rect.size.height = _contentInset.top + _contentInset.bottom;
     if (!_loadingView.isHidden) {
+        if (!CGSizeEqualToSize(_loadingSize, CGSizeZero)) {
+            _loadingView.frame = CGRectMake(0, 0, _loadingSize.width, _loadingSize.height);
+        }
         rect.size.width += _loadingView.bounds.size.width;
         rect.size.height += _loadingView.bounds.size.height;
     } else if (!_imageView.isHidden) {
@@ -123,10 +126,10 @@
         rect.size.height += _textLabel.bounds.size.height;
     }
     if (!_loadingView.isHidden) {
-        CGRect frame = _loadingView.bounds;
-        frame.origin.x = (rect.size.width - frame.size.width) / 2;
-        frame.origin.y = _contentInset.top;
-        _loadingView.frame = frame;
+        CGSize size = _loadingView.bounds.size;
+        size.width = rect.size.width / 2;
+        size.height = _contentInset.top + size.height / 2;
+        _loadingView.center = CGPointMake(size.width, size.height);
     }
     if (!_imageView.isHidden) {
         CGRect frame = _imageView.bounds;
@@ -160,7 +163,6 @@
     self = [super init];
     if (self) {
         _animation = ZXToastAnimationFade;
-        _safeAreaInset = UIApplication.safeAreaInsets;
         _centerPoint = CGPointMake(0.5, 0.5);
         //
         UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
@@ -181,10 +183,15 @@
     _effectView.imageView.hidden = YES;
     [_effectView.loadingView stopAnimating];
     //
-    [self showAnimated:YES];
+    if (self.isRunning) {
+        [self prepareForView:nil];
+        self.hidden = NO;
+    } else {
+        [self showAnimated:YES];
+    }
 }
 
-- (void)showText:(nullable NSString *)text image:(nullable UIImage *)image {
+- (void)showImage:(UIImage *)image text:(nullable NSString *)text {
     _effectView.textLabel.text = text;
     _effectView.imageView.image = image;
     //
@@ -192,7 +199,12 @@
     _effectView.imageView.hidden = NO;
     [_effectView.loadingView stopAnimating];
     //
-    [self showAnimated:YES];
+    if (self.isRunning) {
+        [self prepareForView:nil];
+        self.hidden = NO;
+    } else {
+        [self showAnimated:YES];
+    }
 }
 
 - (void)showLoading:(nullable NSString *)text {
@@ -202,7 +214,12 @@
     _effectView.imageView.hidden = YES;
     [_effectView.loadingView startAnimating];
     //
-    [self showAnimated:YES];
+    if (self.isRunning) {
+        [self prepareForView:nil];
+        self.hidden = NO;
+    } else {
+        [self showAnimated:YES];
+    }
 }
 
 - (void)showAnimated:(BOOL)animated {
@@ -366,8 +383,10 @@
         [self addSubview:_customView];
     } else {
         CGSize s = size;
-        s.width -= _safeAreaInset.left + _safeAreaInset.right;
-        s.height -= _safeAreaInset.top + _safeAreaInset.bottom;
+        if (@available(iOS 11.0, *)) {
+            s.width -= self.safeAreaInsets.left + self.safeAreaInsets.right;
+            s.height -= self.safeAreaInsets.top + self.safeAreaInsets.bottom;
+        }
         [_effectView sizeToFit:s];
     }
     //
