@@ -933,7 +933,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="YaP-7J-coh">
-                                <rect key="frame" x="15" y="103" width="384" height="609.5"/>
+                                <rect key="frame" x="15" y="103" width="384" height="656.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Toast message:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tbh-Fb-EE7">
                                         <rect key="frame" x="0.0" y="0.0" width="384" height="20.5"/>
@@ -1116,8 +1116,48 @@
                                             <constraint firstAttribute="height" constant="32" id="yhu-y8-uYw"/>
                                         </constraints>
                                     </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="fHZ-Z5-umy">
+                                    <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="eP9-dM-JU8">
                                         <rect key="frame" x="0.0" y="420.5" width="384" height="32"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Safe area inset" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="iiH-Qq-6jp">
+                                                <rect key="frame" x="0.0" y="0.0" width="118" height="32"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="pNS-TB-8XX">
+                                                <rect key="frame" x="133" y="0.0" width="251" height="32"/>
+                                                <subviews>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Top" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="kLh-b6-n0h">
+                                                        <rect key="frame" x="0.0" y="0.0" width="60" height="32"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                    </textField>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Left" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="mwi-En-n6F">
+                                                        <rect key="frame" x="64" y="0.0" width="59.5" height="32"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                    </textField>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Bottom" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="TSn-14-aau">
+                                                        <rect key="frame" x="127.5" y="0.0" width="60" height="32"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                    </textField>
+                                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Right" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="64Y-eM-uIX">
+                                                        <rect key="frame" x="191.5" y="0.0" width="59.5" height="32"/>
+                                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                        <textInputTraits key="textInputTraits" keyboardType="decimalPad"/>
+                                                    </textField>
+                                                </subviews>
+                                            </stackView>
+                                        </subviews>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="32" id="fL7-nb-qC9"/>
+                                            <constraint firstItem="iiH-Qq-6jp" firstAttribute="width" secondItem="eP9-dM-JU8" secondAttribute="width" multiplier="1/3" constant="-10" id="m9N-Nn-qsA"/>
+                                        </constraints>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="fHZ-Z5-umy">
+                                        <rect key="frame" x="0.0" y="467.5" width="384" height="32"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="User interface" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Amh-Y5-4or">
                                                 <rect key="frame" x="0.0" y="0.0" width="118" height="32"/>
@@ -1144,7 +1184,7 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Wbu-6D-LKi">
-                                        <rect key="frame" x="0.0" y="467.5" width="384" height="32"/>
+                                        <rect key="frame" x="0.0" y="514.5" width="384" height="32"/>
                                         <subviews>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hide after" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="548-IE-ddU">
                                                 <rect key="frame" x="0.0" y="0.0" width="118" height="32"/>
@@ -1164,7 +1204,7 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="z5J-dE-x2Y">
-                                        <rect key="frame" x="0.0" y="514.5" width="384" height="40"/>
+                                        <rect key="frame" x="0.0" y="561.5" width="384" height="40"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wBr-lV-CJq">
                                                 <rect key="frame" x="0.0" y="0.0" width="118" height="40"/>
@@ -1205,7 +1245,7 @@
                                         </constraints>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="682-C8-6SG">
-                                        <rect key="frame" x="0.0" y="569.5" width="384" height="40"/>
+                                        <rect key="frame" x="0.0" y="616.5" width="384" height="40"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SVP-Cr-1TB">
                                                 <rect key="frame" x="0.0" y="0.0" width="184.5" height="40"/>
@@ -1260,6 +1300,10 @@
                         <outlet property="imageWidth" destination="YoH-Df-D5n" id="lkX-je-mJM"/>
                         <outlet property="itemSpacing" destination="sdh-so-1XL" id="NwP-9j-KBf"/>
                         <outlet property="messageView" destination="A3u-Tm-WRO" id="LVQ-Wy-4fl"/>
+                        <outlet property="safeAreaBottom" destination="TSn-14-aau" id="8TY-tG-Uha"/>
+                        <outlet property="safeAreaLeft" destination="mwi-En-n6F" id="1Q9-eu-dTQ"/>
+                        <outlet property="safeAreaRight" destination="64Y-eM-uIX" id="kw3-1B-usg"/>
+                        <outlet property="safeAreaTop" destination="kLh-b6-n0h" id="arm-ek-2S9"/>
                         <outlet property="userInteraction" destination="hsz-dF-zXP" id="4Zo-wk-ZNX"/>
                         <outlet property="userInteractionLabel" destination="txx-K1-kBa" id="7aK-b0-1oi"/>
                     </connections>

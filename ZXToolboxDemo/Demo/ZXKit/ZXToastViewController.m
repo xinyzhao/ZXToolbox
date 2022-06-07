@@ -22,6 +22,10 @@
 @property (weak, nonatomic) IBOutlet UITextField *imageWidth;
 @property (weak, nonatomic) IBOutlet UITextField *imageHeight;
 @property (weak, nonatomic) IBOutlet UITextField *itemSpacing;
+@property (weak, nonatomic) IBOutlet UITextField *safeAreaTop;
+@property (weak, nonatomic) IBOutlet UITextField *safeAreaLeft;
+@property (weak, nonatomic) IBOutlet UITextField *safeAreaBottom;
+@property (weak, nonatomic) IBOutlet UITextField *safeAreaRight;
 @property (weak, nonatomic) IBOutlet UISwitch *userInteraction;
 @property (weak, nonatomic) IBOutlet UILabel *userInteractionLabel;
 @property (weak, nonatomic) IBOutlet UITextField *hideAfterTime;
@@ -64,6 +68,11 @@
     //
     _itemSpacing.text = [NSString stringWithFormat:@"%.1f", _toastView.effectView.itemSpacing];
     //
+    _safeAreaTop.text = [NSString stringWithFormat:@"%.1f", _toastView.safeAreaInset.top];
+    _safeAreaLeft.text = [NSString stringWithFormat:@"%.1f", _toastView.safeAreaInset.left];
+    _safeAreaBottom.text = [NSString stringWithFormat:@"%.1f", _toastView.safeAreaInset.bottom];
+    _safeAreaRight.text = [NSString stringWithFormat:@"%.1f", _toastView.safeAreaInset.right];
+    //
     _userInteraction.on = _toastView.isUserInteractionEnabled;
     [self onUserInteraction:nil];
     //
@@ -102,6 +111,12 @@
     _toastView.effectView.loadingSize = CGSizeMake(w, h);
     //
     _toastView.effectView.itemSpacing = _itemSpacing.text.length > 0 ? [_itemSpacing.text doubleValue] : 0;
+    //
+    t = _safeAreaTop.text.length > 0 ? [_safeAreaTop.text doubleValue] : 0;
+    l = _safeAreaLeft.text.length > 0 ? [_safeAreaLeft.text doubleValue] : 0;
+    b = _safeAreaBottom.text.length > 0 ? [_safeAreaBottom.text doubleValue] : 0;
+    r = _safeAreaRight.text.length > 0 ? [_safeAreaRight.text doubleValue] : 0;
+    _toastView.safeAreaInset = UIEdgeInsetsMake(t, l, b, r);
     //
     _toastView.userInteractionEnabled = _userInteraction.isOn;
 }

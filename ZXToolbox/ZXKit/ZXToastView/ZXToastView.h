@@ -88,6 +88,9 @@ typedef NS_ENUM(NSInteger, ZXToastAnimation) {
 /// Toast center point, default is {0.5, 0.5}
 @property (nonatomic, assign) CGPoint centerPoint;
 
+/// Toast safe area insets, default is equal to system safe are
+@property (nonatomic, assign) UIEdgeInsets safeAreaInset;
+
 /// Change the loading text
 /// @param text The text to be displayed
 - (void)showText:(nullable NSString *)text;

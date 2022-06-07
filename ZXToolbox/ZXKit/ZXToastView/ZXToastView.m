@@ -69,7 +69,7 @@
     //
     _textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _textLabel.numberOfLines = 0;
-    _textLabel.textAlignment = NSTextAlignmentJustified;
+    _textLabel.textAlignment = NSTextAlignmentCenter;
     [self.contentView addSubview:_textLabel];
     //
     _imageView = [[UIImageView alloc] initWithFrame:CGRectZero];
@@ -109,7 +109,10 @@
     }
     if (!_textLabel.isHidden) {
         CGSize maxSize = CGSizeMake(size.width - _contentInset.left - _contentInset.right,
-                                    size.height - _contentInset.top - _contentInset.bottom);
+                                    size.height - rect.size.height);
+        if (!_loadingView.isHidden || !_imageView.isHidden) {
+            size.height -= _itemSpacing;
+        }
         CGSize msgSize = [_textLabel sizeThatFits:maxSize];
         msgSize.width = ceilf(msgSize.width);
         msgSize.height = ceilf(msgSize.height);
@@ -164,6 +167,7 @@
     if (self) {
         _animation = ZXToastAnimationFade;
         _centerPoint = CGPointMake(0.5, 0.5);
+        _safeAreaInset = [UIApplication safeAreaInsets];
         //
         UIBlurEffect *blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleDark];
         _effectView = [[ZXToastEffectView alloc] initWithEffect:blur];
@@ -384,8 +388,8 @@
     } else {
         CGSize s = size;
         if (@available(iOS 11.0, *)) {
-            s.width -= self.safeAreaInsets.left + self.safeAreaInsets.right;
-            s.height -= self.safeAreaInsets.top + self.safeAreaInsets.bottom;
+            s.width -= _safeAreaInset.left + _safeAreaInset.right;
+            s.height -= _safeAreaInset.top + _safeAreaInset.bottom;
         }
         [_effectView sizeToFit:s];
     }
