@@ -74,7 +74,7 @@ typedef NS_ENUM(NSInteger, ZXToastAnimation) {
 @end
 
 /// ZXToastView
-/// The touch events will be captured when displayed, stop captures by setting the userInteractionEnabled to false.
+/// @Discussion The touch events will be captured when displayed, stop captures by setting the userInteractionEnabled to false.
 @interface ZXToastView : UIView
 
 /// Preset style for toast view, default is ZXToastStyleSystem
@@ -83,10 +83,10 @@ typedef NS_ENUM(NSInteger, ZXToastAnimation) {
 /// The animation type, default is ZXToastAnimationFade
 @property (nonatomic, assign) ZXToastAnimation animation;
 
-/// The default effectView view, it's layer.cornerRadius is 16, layer.masksToBounds is true, you can set it by yourself if you needed.
+/// The effectView view, it's layer.cornerRadius is 16, layer.masksToBounds is true, you can set it by yourself if you needed.
 @property (nonatomic, readonly) ZXToastEffectView *effectView;
 
-/// The custom view, replace the effectView
+/// The custom view, replace the effectView if not nil.
 @property (nonatomic, nullable) UIView *customView;
 
 /// Toast center point, default is {0.5, 0.5}
