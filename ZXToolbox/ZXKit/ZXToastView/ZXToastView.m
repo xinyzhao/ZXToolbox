@@ -43,6 +43,7 @@
 @synthesize loadingView = _loadingView;
 @synthesize imageView = _imageView;
 @synthesize textLabel = _textLabel;
+@synthesize contentSize = _contentSize;
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
@@ -63,8 +64,11 @@
 }
 
 - (void)setupView {
-    _contentInset = UIEdgeInsetsMake(12, 12, 12, 12);
-    _itemSpacing = 3;
+    self.layer.cornerRadius = 16;
+    self.layer.masksToBounds = YES;
+    //
+    _contentInset = UIEdgeInsetsMake(16, 16, 16, 16);
+    _itemSpacing = 8;
     _imageSize = CGSizeZero;
     //
     _textLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -78,9 +82,6 @@
     //
     _loadingView = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     [self.contentView addSubview:_loadingView];
-    //
-    self.layer.cornerRadius = 12;
-    self.layer.masksToBounds = YES;
 }
 
 - (void)setEffectStyle:(UIBlurEffectStyle)effectStyle {
@@ -89,64 +90,65 @@
 }
 
 - (void)sizeToFit:(CGSize)size {
-    CGRect rect = CGRectZero;
-    rect.size.width = _contentInset.left + _contentInset.right;
-    rect.size.height = _contentInset.top + _contentInset.bottom;
+    _contentSize = CGSizeZero;
+    size.width -= _contentInset.left + _contentInset.right;
+    size.height -= _contentInset.top + _contentInset.bottom;
+    //
     if (!_loadingView.isHidden) {
         if (!CGSizeEqualToSize(_loadingSize, CGSizeZero)) {
             _loadingView.frame = CGRectMake(0, 0, _loadingSize.width, _loadingSize.height);
         }
-        rect.size.width += _loadingView.bounds.size.width;
-        rect.size.height += _loadingView.bounds.size.height;
+        _contentSize.width = MIN(_loadingView.bounds.size.width, size.width);
+        _contentSize.height = MIN(_loadingView.bounds.size.height, size.height);
     } else if (!_imageView.isHidden) {
         if (CGSizeEqualToSize(_imageSize, CGSizeZero)) {
             [_imageView sizeToFit];
         } else {
             _imageView.frame = CGRectMake(0, 0, _imageSize.width, _imageSize.height);
         }
-        rect.size.width += _imageView.bounds.size.width;
-        rect.size.height += _imageView.bounds.size.height;
+        _contentSize.width = MIN(_imageView.bounds.size.width, size.width);
+        _contentSize.height = MIN(_imageView.bounds.size.height, size.height);
     }
+    //
     if (!_textLabel.isHidden) {
-        CGSize maxSize = CGSizeMake(size.width - _contentInset.left - _contentInset.right,
-                                    size.height - rect.size.height);
-        if (!_loadingView.isHidden || !_imageView.isHidden) {
+        if (_contentSize.height > 0) {
+            size.height -= _contentSize.height;
             size.height -= _itemSpacing;
         }
-        CGSize msgSize = [_textLabel sizeThatFits:maxSize];
+        //
+        CGSize msgSize = [_textLabel sizeThatFits:size];
         msgSize.width = ceilf(msgSize.width);
         msgSize.height = ceilf(msgSize.height);
         // UILabel can return a size larger than the max size when the number of lines is 1
-        msgSize = CGSizeMake(MIN(maxSize.width, msgSize.width),
-                             MIN(maxSize.height, msgSize.height));
-        _textLabel.frame = CGRectMake(0, 0, msgSize.width, msgSize.height);
+        msgSize.width = MIN(size.width, msgSize.width);
+        msgSize.height = MIN(size.height, msgSize.height);
         //
-        CGFloat width = _contentInset.left + _contentInset.right + self.textLabel.bounds.size.width;
-        rect.size.width = MAX(rect.size.width, width);
-        if (!_loadingView.isHidden || !_imageView.isHidden) {
-            rect.size.height += _itemSpacing;
+        _textLabel.bounds = CGRectMake(0, 0, msgSize.width, msgSize.height);
+        //
+        _contentSize.width = MAX(_contentSize.width, msgSize.width);
+        if (_contentSize.height > 0) {
+            _contentSize.height += _itemSpacing;
         }
-        rect.size.height += _textLabel.bounds.size.height;
+        _contentSize.height += msgSize.height;
     }
+    //
+    CGPoint offset = CGPointMake(_contentInset.left + _contentSize.width / 2, _contentInset.top);
     if (!_loadingView.isHidden) {
-        CGSize size = _loadingView.bounds.size;
-        size.width = rect.size.width / 2;
-        size.height = _contentInset.top + size.height / 2;
-        _loadingView.center = CGPointMake(size.width, size.height);
-    }
-    if (!_imageView.isHidden) {
-        CGRect frame = _imageView.bounds;
-        frame.origin.x = (rect.size.width - frame.size.width) / 2;
-        frame.origin.y = _contentInset.top;
-        _imageView.frame = frame;
+        _loadingView.center = CGPointMake(offset.x, offset.y + _loadingView.bounds.size.height / 2);
+        offset.y += _loadingView.bounds.size.height;
+        offset.y += _itemSpacing;
+    } else if (!_imageView.isHidden) {
+        _imageView.center = CGPointMake(offset.x, offset.y + _imageView.bounds.size.height / 2);
+        offset.y += _imageView.bounds.size.height;
+        offset.y += _itemSpacing;
     }
     if (!_textLabel.isHidden) {
-        CGRect frame = _textLabel.bounds;
-        frame.origin.x = (rect.size.width - frame.size.width) / 2;
-        frame.origin.y = rect.size.height - frame.size.height - _contentInset.bottom;
-        _textLabel.frame = frame;
+        _textLabel.center = CGPointMake(offset.x, offset.y + _textLabel.bounds.size.height / 2);
     }
-    self.frame = rect;
+    //
+    _contentSize.width += _contentInset.left + _contentInset.right;
+    _contentSize.height += _contentInset.top + _contentInset.bottom;
+    self.bounds = CGRectMake(0, 0, _contentSize.width, _contentSize.height);
 }
 
 @end
@@ -182,6 +184,7 @@
 
 - (void)showText:(nullable NSString *)text {
     _effectView.textLabel.text = text;
+    _effectView.imageView.image = nil;
     //
     _effectView.textLabel.hidden = NO;
     _effectView.imageView.hidden = YES;
@@ -199,7 +202,7 @@
     _effectView.textLabel.text = text;
     _effectView.imageView.image = image;
     //
-    _effectView.textLabel.hidden = NO;
+    _effectView.textLabel.hidden = text == nil || text.length <= 0;
     _effectView.imageView.hidden = NO;
     [_effectView.loadingView stopAnimating];
     //
@@ -213,8 +216,9 @@
 
 - (void)showLoading:(nullable NSString *)text {
     _effectView.textLabel.text = text;
+    _effectView.imageView.image = nil;
     //
-    _effectView.textLabel.hidden = text == nil;
+    _effectView.textLabel.hidden = text == nil || text.length <= 0;
     _effectView.imageView.hidden = YES;
     [_effectView.loadingView startAnimating];
     //
@@ -321,6 +325,8 @@
         }
         [weakSelf removeFromSuperview];
         weakSelf.runaway = NO;
+        weakSelf.customView.transform = CGAffineTransformIdentity;
+        weakSelf.effectView.transform = CGAffineTransformIdentity;
     };
     //
     if (animated) {

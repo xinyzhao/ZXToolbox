@@ -62,15 +62,19 @@ typedef NS_ENUM(NSInteger, ZXToastAnimation) {
 /// The loading view size
 @property (nonatomic, assign) CGSize loadingSize;
 
-/// Toast content margin, default is {12, 12, 12, 12}
+/// Toast content margin, default is {16, 16, 16, 16}
 @property (nonatomic, assign) UIEdgeInsets contentInset;
 
-/// Toast item spacing, default is 3
+/// Toast content size, include the contentInset size.
+@property (nonatomic, readonly) CGSize contentSize;
+
+/// Toast item spacing, default is 8
 @property (nonatomic, assign) CGFloat itemSpacing;
 
 @end
 
 /// ZXToastView
+/// The touch events will be captured when displayed, stop captures by setting the userInteractionEnabled to false.
 @interface ZXToastView : UIView
 
 /// Preset style for toast view, default is ZXToastStyleSystem
@@ -79,7 +83,7 @@ typedef NS_ENUM(NSInteger, ZXToastAnimation) {
 /// The animation type, default is ZXToastAnimationFade
 @property (nonatomic, assign) ZXToastAnimation animation;
 
-/// The default view
+/// The default effectView view, it's layer.cornerRadius is 16, layer.masksToBounds is true, you can set it by yourself if you needed.
 @property (nonatomic, readonly) ZXToastEffectView *effectView;
 
 /// The custom view, replace the effectView
@@ -88,7 +92,7 @@ typedef NS_ENUM(NSInteger, ZXToastAnimation) {
 /// Toast center point, default is {0.5, 0.5}
 @property (nonatomic, assign) CGPoint centerPoint;
 
-/// Toast safe area insets, default is equal to system safe are
+/// Toast safe area insets, default is equal to system safe area
 @property (nonatomic, assign) UIEdgeInsets safeAreaInset;
 
 /// Change the loading text
