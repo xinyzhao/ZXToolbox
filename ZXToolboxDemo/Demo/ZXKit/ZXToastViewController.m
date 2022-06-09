@@ -40,8 +40,19 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _toastView = [[ZXToastView alloc] init];
+    _toastView.userInteractionEnabled = NO;
     //
-    _animation.selectedSegmentIndex = _toastView.animation == ZXToastAnimationFade ? 0 : 1;
+    switch (_toastView.animation) {
+        case ZXToastAnimationNone:
+            _animation.selectedSegmentIndex = 0;
+            break;
+        case ZXToastAnimationFade:
+            _animation.selectedSegmentIndex = 1;
+            break;
+        case ZXToastAnimationScale:
+            _animation.selectedSegmentIndex = 2;
+            break;
+    }
     //
     _centerX.text = [NSString stringWithFormat:@"%.1f", _toastView.centerPoint.x];
     _centerY.text = [NSString stringWithFormat:@"%.1f", _toastView.centerPoint.y];
@@ -81,7 +92,17 @@
 
 - (void)setupView {
     //
-    _toastView.animation = _animation.selectedSegmentIndex == 0 ? ZXToastAnimationFade : ZXToastAnimationScale;
+    switch (_animation.selectedSegmentIndex) {
+        case 0:
+            _toastView.animation = ZXToastAnimationNone;
+            break;
+        case 1:
+            _toastView.animation = ZXToastAnimationFade;
+            break;
+        case 2:
+            _toastView.animation = ZXToastAnimationScale;
+            break;
+    }
     //
     CGFloat x = _centerX.text.length > 0 ? [_centerX.text doubleValue] : 0.5;
     CGFloat y = _centerY.text.length > 0 ? [_centerY.text doubleValue] : 0.5;
@@ -129,7 +150,6 @@
     [self setupView];
     NSString *text = _messageView.text;
     [_toastView showText:text];
-    [self hideAfter];
 }
 
 - (IBAction)showImage:(id)sender {
@@ -138,27 +158,57 @@
     NSString *file = ZXToolboxBundleFile(@"ZXBrightnessView.bundle", @"brightness@2x.png");
     UIImage *image = [UIImage imageWithContentsOfFile:file];
     [_toastView showImage:image text:text];
-    [self hideAfter];
 }
 
 - (IBAction)showLoading:(id)sender {
     [self setupView];
     NSString *text = _messageView.text;
     [_toastView showLoading:text];
-    [self hideAfter];
 }
 
-- (void)hideAfter {
+- (IBAction)showAnimated:(id)sender {
+    [self setupView];
+    //
+    int seed = arc4random() % 100;
+    _toastView.effectView.textLabel.text = _messageView.text;
+    _toastView.effectView.imageView.hidden = seed < (arc4random() % 100);
+    //
+    NSString *file = ZXToolboxBundleFile(@"ZXBrightnessView.bundle", @"brightness@2x.png");
+    UIImage *image = [UIImage imageWithContentsOfFile:file];
+    _toastView.effectView.imageView.image = image;
+    _toastView.effectView.imageView.hidden = seed < (arc4random() % 100);
+    //
+    if (_toastView.effectView.imageView.hidden) {
+        [_toastView.effectView.loadingView startAnimating];
+    } else {
+        [_toastView.effectView.loadingView stopAnimating];
+    }
+    //
+    [_toastView showAnimated:YES];
+}
+
+- (IBAction)hideAfter:(id)sender {
     NSTimeInterval time = _hideAfterTime.text.length > 0 ? [_hideAfterTime.text doubleValue] : 1;
     [_toastView hideAfter:time];
 }
 
 - (IBAction)hideAnimated:(id)sender {
+    switch (_animation.selectedSegmentIndex) {
+        case 0:
+            _toastView.animation = ZXToastAnimationNone;
+            break;
+        case 1:
+            _toastView.animation = ZXToastAnimationFade;
+            break;
+        case 2:
+            _toastView.animation = ZXToastAnimationScale;
+            break;
+    }
     [_toastView hideAnimated:YES];
 }
 
-- (IBAction)hideAllToasts:(id)sender {
-    [ZXToastView hideAllToasts];
+- (IBAction)hideToasts:(id)sender {
+    [ZXToastView hideToasts];
 }
 
 @end

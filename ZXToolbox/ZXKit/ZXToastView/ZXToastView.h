@@ -37,6 +37,7 @@ typedef NS_ENUM(NSInteger, ZXToastStyle) {
 
 /// ZXToastAnimation
 typedef NS_ENUM(NSInteger, ZXToastAnimation) {
+    ZXToastAnimationNone,
     ZXToastAnimationFade,
     ZXToastAnimationScale,
 };
@@ -110,6 +111,7 @@ typedef NS_ENUM(NSInteger, ZXToastAnimation) {
 
 /// Show the toast with animated
 /// @param animated animated
+/// @discussion If animated is YES and the animation is not ZXToastAnimationNone, the toast will be animation showing.
 - (void)showAnimated:(BOOL)animated;
 
 /// Show the toast in view
@@ -122,10 +124,11 @@ typedef NS_ENUM(NSInteger, ZXToastAnimation) {
 
 /// Hide the toast with animated
 /// @param animated animated
+/// @discussion If animated is YES and the animation is not ZXToastAnimationNone, the toast will be animation hiding.
 - (void)hideAnimated:(BOOL)animated;
 
 /// Remove all toasts
-+ (void)hideAllToasts;
++ (void)hideToasts;
 
 @end
 

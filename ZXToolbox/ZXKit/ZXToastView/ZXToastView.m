@@ -27,13 +27,13 @@
 #import "ZXDispatchQueue.h"
 #import "UIApplication+ZXToolbox.h"
 
-#define ZXToastBackColorDark    [UIColor colorWithWhite:0 alpha:0.6]
-#define ZXToastBackColorLight   [UIColor colorWithWhite:1 alpha:0.6]
-#define ZXToastForeColorDark    [UIColor colorWithWhite:1 alpha:0.8]
-#define ZXToastForeColorLight   [UIColor colorWithWhite:0 alpha:0.8]
-#define ZXToastTransformScale   CGAffineTransformMakeScale(1.167, 1.167)
-#define ZXToastAnimatedShow     0.33
-#define ZXToastAnimatedHide     0.167
+#define ZXToastBackgroundColorDark      [UIColor colorWithWhite:0 alpha:0.6]
+#define ZXToastBackgroundColorLight     [UIColor colorWithWhite:1 alpha:0.6]
+#define ZXToastForegroundColorDark      [UIColor colorWithWhite:1 alpha:0.8]
+#define ZXToastForegroundColorLight     [UIColor colorWithWhite:0 alpha:0.8]
+#define ZXToastAffineTransformScale     CGAffineTransformMakeScale(1.167, 1.167)
+#define ZXToastAnimateShowDuration      0.33
+#define ZXToastAnimateHideDuration      0.167
 
 @interface ZXToastEffectView ()
 
@@ -190,12 +190,7 @@
     _effectView.imageView.hidden = YES;
     [_effectView.loadingView stopAnimating];
     //
-    if (self.isRunning) {
-        [self prepareForView:nil];
-        self.hidden = NO;
-    } else {
-        [self showAnimated:YES];
-    }
+    [self showAnimated:YES];
 }
 
 - (void)showImage:(UIImage *)image text:(nullable NSString *)text {
@@ -206,12 +201,7 @@
     _effectView.imageView.hidden = NO;
     [_effectView.loadingView stopAnimating];
     //
-    if (self.isRunning) {
-        [self prepareForView:nil];
-        self.hidden = NO;
-    } else {
-        [self showAnimated:YES];
-    }
+    [self showAnimated:YES];
 }
 
 - (void)showLoading:(nullable NSString *)text {
@@ -222,82 +212,87 @@
     _effectView.imageView.hidden = YES;
     [_effectView.loadingView startAnimating];
     //
-    if (self.isRunning) {
-        [self prepareForView:nil];
-        self.hidden = NO;
-    } else {
-        [self showAnimated:YES];
-    }
+    [self showAnimated:YES];
 }
 
 - (void)showAnimated:(BOOL)animated {
+    [self prepareForView:nil];
+    [self showAnimation:animated ? _animation : ZXToastAnimationNone];
+}
+
+- (void)showAnimation:(ZXToastAnimation)animation {
     if (self.isRunning) {
         return;
     }
     self.running = YES;
     //
-    if (self.superview == nil) {
-        [self prepareForView:nil];
-    }
-    //
     id key = @(self.superview.hash);
     if (key) {
         ZXToastView *toastView = [[ZXToastView allToasts] objectForKey:key];
-        if (toastView) {
+        if (toastView != self) {
             [toastView hideAnimated:NO];
         }
         [[ZXToastView allToasts] setObject:self forKey:key];
     }
     //
-    self.hidden = NO;
-    self.effectView.hidden = _customView != nil;
+    [_customView.layer removeAllAnimations];
+    [_effectView.layer removeAllAnimations];
     //
-    if (animated) {
-        __weak typeof(self) weakSelf = self;
-        switch (_animation) {
-            case ZXToastAnimationFade:
-            {
-                self.customView.alpha = 0.f;
-                self.effectView.alpha = 0.f;
-                [UIView animateWithDuration:ZXToastAnimatedShow animations:^{
+    switch (animation) {
+        case ZXToastAnimationNone:
+        {
+            _customView.alpha = 1.f;
+            _effectView.alpha = 1.f;
+            _customView.transform = CGAffineTransformIdentity;
+            _effectView.transform = CGAffineTransformIdentity;
+            break;
+        }
+        case ZXToastAnimationFade:
+        {
+            _customView.alpha = 0.f;
+            _effectView.alpha = 0.f;
+            _customView.transform = CGAffineTransformIdentity;
+            _effectView.transform = CGAffineTransformIdentity;
+            __weak typeof(self) weakSelf = self;
+            [UIView animateWithDuration:ZXToastAnimateShowDuration animations:^{
+                weakSelf.customView.alpha = 1.f;
+                weakSelf.effectView.alpha = 1.f;
+            } completion:^(BOOL finished) {
+                if (finished) {
                     weakSelf.customView.alpha = 1.f;
                     weakSelf.effectView.alpha = 1.f;
-                } completion:^(BOOL finished) {
-                    if (finished) {
-                        weakSelf.customView.alpha = 1.f;
-                        weakSelf.effectView.alpha = 1.f;
-                    }
-                }];
-                break;
-            }
-            case ZXToastAnimationScale:
-            {
-                self.customView.alpha = 0.f;
-                self.effectView.alpha = 0.f;
-                self.customView.transform = ZXToastTransformScale;
-                self.effectView.transform = ZXToastTransformScale;
-                [UIView animateWithDuration:ZXToastAnimatedShow animations:^{
+                }
+            }];
+            break;
+        }
+        case ZXToastAnimationScale:
+        {
+            _customView.alpha = 0.f;
+            _effectView.alpha = 0.f;
+            _customView.transform = ZXToastAffineTransformScale;
+            _effectView.transform = ZXToastAffineTransformScale;
+            __weak typeof(self) weakSelf = self;
+            [UIView animateWithDuration:ZXToastAnimateShowDuration animations:^{
+                weakSelf.customView.alpha = 1.f;
+                weakSelf.effectView.alpha = 1.f;
+                weakSelf.customView.transform = CGAffineTransformIdentity;
+                weakSelf.effectView.transform = CGAffineTransformIdentity;
+            } completion:^(BOOL finished) {
+                if (finished) {
                     weakSelf.customView.alpha = 1.f;
                     weakSelf.effectView.alpha = 1.f;
                     weakSelf.customView.transform = CGAffineTransformIdentity;
                     weakSelf.effectView.transform = CGAffineTransformIdentity;
-                } completion:^(BOOL finished) {
-                    if (finished) {
-                        weakSelf.customView.alpha = 1.f;
-                        weakSelf.effectView.alpha = 1.f;
-                        weakSelf.customView.transform = CGAffineTransformIdentity;
-                        weakSelf.effectView.transform = CGAffineTransformIdentity;
-                    }
-                }];
-                break;
-            }
+                }
+            }];
+            break;
         }
     }
 }
 
 - (void)showInView:(nullable UIView *)view {
     [self prepareForView:view];
-    [self showAnimated:YES];
+    [self showAnimation:_animation];
 }
 
 #pragma mark Hiding
@@ -311,6 +306,10 @@
 }
 
 - (void)hideAnimated:(BOOL)animated {
+    [self hideAnimation:animated ? _animation : ZXToastAnimationNone];
+}
+
+- (void)hideAnimation:(ZXToastAnimation)animation {
     if (!self.isRunning || self.isRunaway) {
         return;
     }
@@ -318,49 +317,50 @@
     self.running = NO;
     //
     __weak typeof(self) weakSelf = self;
-    void (^completion)(void) = ^{
+    void (^finish)(BOOL) = ^(BOOL finished) {
         id key = @(weakSelf.superview.hash);
         if (key) {
             [[ZXToastView allToasts] removeObjectForKey:key];
         }
         [weakSelf removeFromSuperview];
         weakSelf.runaway = NO;
-        weakSelf.customView.transform = CGAffineTransformIdentity;
-        weakSelf.effectView.transform = CGAffineTransformIdentity;
     };
     //
-    if (animated) {
-        __weak typeof(self) weakSelf = self;
-        switch (_animation) {
-            case ZXToastAnimationFade:
-            {
-                [UIView animateWithDuration:ZXToastAnimatedHide animations:^{
-                    weakSelf.customView.alpha = 0.f;
-                    weakSelf.effectView.alpha = 0.f;
-                } completion:^(BOOL finished) {
-                    if (finished) {
-                        weakSelf.customView.alpha = 0.f;
-                        weakSelf.effectView.alpha = 0.f;
-                    }
-                    completion();
-                }];
-                break;
-            }
-            case ZXToastAnimationScale:
-            {
-                [UIView animateWithDuration:ZXToastAnimatedHide animations:^{
-                    weakSelf.customView.alpha = 0.f;
-                    weakSelf.effectView.alpha = 0.f;
-                    weakSelf.customView.transform = ZXToastTransformScale;
-                    weakSelf.effectView.transform = ZXToastTransformScale;
-                } completion:^(BOOL finished) {
-                    completion();
-                }];
-                break;
-            }
+    [_customView.layer removeAllAnimations];
+    [_effectView.layer removeAllAnimations];
+    //
+    switch (_animation) {
+        case ZXToastAnimationNone:
+        {
+            finish(YES);
+            break;
         }
-    } else {
-        completion();
+        case ZXToastAnimationFade:
+        {
+            __weak typeof(self) weakSelf = self;
+            [UIView animateWithDuration:ZXToastAnimateHideDuration animations:^{
+                weakSelf.customView.alpha = 0.f;
+                weakSelf.effectView.alpha = 0.f;
+                weakSelf.customView.transform = CGAffineTransformIdentity;
+                weakSelf.effectView.transform = CGAffineTransformIdentity;
+            } completion:^(BOOL finished) {
+                finish(finished);
+            }];
+            break;
+        }
+        case ZXToastAnimationScale:
+        {
+            __weak typeof(self) weakSelf = self;
+            [UIView animateWithDuration:ZXToastAnimateHideDuration animations:^{
+                weakSelf.customView.alpha = 0.f;
+                weakSelf.effectView.alpha = 0.f;
+                weakSelf.customView.transform = ZXToastAffineTransformScale;
+                weakSelf.effectView.transform = ZXToastAffineTransformScale;
+            } completion:^(BOOL finished) {
+                finish(finished);
+            }];
+            break;
+        }
     }
 }
 
@@ -368,12 +368,11 @@
 
 - (void)prepareForView:(nullable UIView *)view {
     if (view == nil) {
-        view = [UIApplication keyWindow];
+        view = self.superview ? self.superview : [UIApplication keyWindow];
     }
     [self setStyle:_style forView:view];
     [self sizeToFit:view.bounds.size];
     //
-    self.hidden = YES;
     [view addSubview:self];
 }
 
@@ -400,6 +399,8 @@
         [_effectView sizeToFit:s];
     }
     //
+    _effectView.hidden = _customView != nil;
+    //
     UIView *view = _customView ? _customView : _effectView;
     view.center = CGPointMake(size.width * _centerPoint.x, size.height * _centerPoint.y);
 }
@@ -408,13 +409,13 @@
     switch (style) {
         case ZXToastStyleDark:
             _effectView.effectStyle = UIBlurEffectStyleDark;
-            _effectView.textLabel.textColor = ZXToastForeColorDark;
-            _effectView.loadingView.color = ZXToastForeColorDark;
+            _effectView.textLabel.textColor = ZXToastForegroundColorDark;
+            _effectView.loadingView.color = ZXToastForegroundColorDark;
             break;
         case ZXToastStyleLight:
             _effectView.effectStyle = UIBlurEffectStyleLight;
-            _effectView.textLabel.textColor = ZXToastForeColorLight;
-            _effectView.loadingView.color = ZXToastForeColorLight;
+            _effectView.textLabel.textColor = ZXToastForegroundColorLight;
+            _effectView.loadingView.color = ZXToastForegroundColorLight;
             break;
         case ZXToastStyleSystem:
             if (@available(iOS 13.0, *)) {
@@ -443,7 +444,7 @@
     return dict;
 }
 
-+ (void)hideAllToasts {
++ (void)hideToasts {
     NSArray *keys = [[self allToasts] allKeys];
     for (id key in keys) {
         ZXToastView *view = [[self allToasts] objectForKey:key];
