@@ -85,10 +85,11 @@ typedef NS_ENUM(NSInteger, ZXToastAnimation) {
 @property (nonatomic, assign) ZXToastAnimation animation;
 
 /// The effectView view, it's layer.cornerRadius is 16, layer.masksToBounds is true, you can set it by yourself if you needed.
+/// You can change the foreground color by setting effectView.tintColor after ZXToastView.style was setting.
 @property (nonatomic, readonly) ZXToastEffectView *effectView;
 
 /// The custom view, replace the effectView if not nil.
-@property (nonatomic, nullable) UIView *customView;
+@property (nonatomic, strong, nullable) UIView *customView;
 
 /// Toast center point, default is {0.5, 0.5}
 @property (nonatomic, assign) CGPoint centerPoint;

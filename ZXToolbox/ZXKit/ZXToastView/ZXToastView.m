@@ -27,10 +27,6 @@
 #import "ZXDispatchQueue.h"
 #import "UIApplication+ZXToolbox.h"
 
-#define ZXToastBackgroundColorDark      [UIColor colorWithWhite:0 alpha:0.6]
-#define ZXToastBackgroundColorLight     [UIColor colorWithWhite:1 alpha:0.6]
-#define ZXToastForegroundColorDark      [UIColor colorWithWhite:1 alpha:0.8]
-#define ZXToastForegroundColorLight     [UIColor colorWithWhite:0 alpha:0.8]
 #define ZXToastAffineTransformScale     CGAffineTransformMakeScale(1.167, 1.167)
 #define ZXToastAnimateShowDuration      0.33
 #define ZXToastAnimateHideDuration      0.167
@@ -87,6 +83,13 @@
 - (void)setEffectStyle:(UIBlurEffectStyle)effectStyle {
     _effectStyle = effectStyle;
     self.effect = [UIBlurEffect effectWithStyle:_effectStyle];
+}
+
+- (void)setTintColor:(UIColor *)tintColor {
+    super.tintColor = tintColor;
+    _textLabel.textColor = tintColor;
+    _imageView.tintColor = tintColor;
+    _loadingView.color = tintColor;
 }
 
 - (void)sizeToFit:(CGSize)size {
@@ -180,6 +183,13 @@
     return self;
 }
 
+- (void)setCustomView:(UIView *)customView {
+    if (_customView != customView) {
+        [_customView removeFromSuperview];
+        _customView = customView;
+    }
+}
+
 #pragma mark Showing
 
 - (void)showText:(nullable NSString *)text {
@@ -221,6 +231,8 @@
 }
 
 - (void)showAnimation:(ZXToastAnimation)animation {
+    [self cancelHideAfter];
+    //
     if (self.isRunning) {
         return;
     }
@@ -297,10 +309,17 @@
 
 #pragma mark Hiding
 
+- (NSString *)hashKey {
+    return [NSString stringWithFormat:@"ZXToastView.hideAfter_%lu", (unsigned long)self.hash];
+}
+
+- (void)cancelHideAfter {
+    [[ZXDispatchQueue main] cancelAfter:self.hashKey];
+}
+
 - (void)hideAfter:(NSTimeInterval)time {
     __weak typeof(self) weakSelf = self;
-    NSString *key = [NSString stringWithFormat:@"ZXToastView.hideAfter_%lu", (unsigned long)self.hash];
-    [[ZXDispatchQueue main] asyncAfter:key deadline:time execute:^(NSString * _Nonnull event) {
+    [[ZXDispatchQueue main] asyncAfter:self.hashKey deadline:time execute:^(NSString * _Nonnull event) {
         [weakSelf hideAnimated:YES];
     }];
 }
@@ -310,6 +329,8 @@
 }
 
 - (void)hideAnimation:(ZXToastAnimation)animation {
+    [self cancelHideAfter];
+    //
     if (!self.isRunning || self.isRunaway) {
         return;
     }
@@ -329,7 +350,7 @@
     [_customView.layer removeAllAnimations];
     [_effectView.layer removeAllAnimations];
     //
-    switch (_animation) {
+    switch (animation) {
         case ZXToastAnimationNone:
         {
             finish(YES);
@@ -409,13 +430,11 @@
     switch (style) {
         case ZXToastStyleDark:
             _effectView.effectStyle = UIBlurEffectStyleDark;
-            _effectView.textLabel.textColor = ZXToastForegroundColorDark;
-            _effectView.loadingView.color = ZXToastForegroundColorDark;
+            _effectView.tintColor = [UIColor lightTextColor];
             break;
         case ZXToastStyleLight:
             _effectView.effectStyle = UIBlurEffectStyleLight;
-            _effectView.textLabel.textColor = ZXToastForegroundColorLight;
-            _effectView.loadingView.color = ZXToastForegroundColorLight;
+            _effectView.tintColor = [UIColor darkTextColor];
             break;
         case ZXToastStyleSystem:
             if (@available(iOS 13.0, *)) {
@@ -448,7 +467,7 @@
     NSArray *keys = [[self allToasts] allKeys];
     for (id key in keys) {
         ZXToastView *view = [[self allToasts] objectForKey:key];
-        [view hideAnimated:NO];
+        [view hideAnimated:YES];
     }
     [[self allToasts] removeAllObjects];
 }

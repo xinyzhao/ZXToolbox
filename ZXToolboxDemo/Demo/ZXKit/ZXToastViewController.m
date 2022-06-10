@@ -40,7 +40,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     _toastView = [[ZXToastView alloc] init];
-    _toastView.userInteractionEnabled = NO;
     //
     switch (_toastView.animation) {
         case ZXToastAnimationNone:
@@ -90,7 +89,7 @@
     _hideAfterTime.text = @"2";
 }
 
-- (void)setupView {
+- (void)setupToast {
     //
     switch (_animation.selectedSegmentIndex) {
         case 0:
@@ -140,74 +139,96 @@
     _toastView.safeAreaInset = UIEdgeInsetsMake(t, l, b, r);
     //
     _toastView.userInteractionEnabled = _userInteraction.isOn;
+    //
+    _toastView.customView = nil;
 }
 
 - (IBAction)onUserInteraction:(id)sender {
-    _userInteractionLabel.text = _userInteraction.isOn ? @"Enabled" : @"Disabled";
+    _userInteractionLabel.text = _userInteraction.isOn ? @"Enabled (Hide after)" : @"Disabled";
 }
 
 - (IBAction)showText:(id)sender {
-    [self setupView];
+    [self setupToast];
     NSString *text = _messageView.text;
     [_toastView showText:text];
+    //
+    if (_toastView.isUserInteractionEnabled) {
+        [self hideAfter:nil];
+    }
 }
 
 - (IBAction)showImage:(id)sender {
-    [self setupView];
+    [self setupToast];
     NSString *text = _messageView.text;
     NSString *file = ZXToolboxBundleFile(@"ZXBrightnessView.bundle", @"brightness@2x.png");
     UIImage *image = [UIImage imageWithContentsOfFile:file];
     [_toastView showImage:image text:text];
+    //
+    if (_toastView.isUserInteractionEnabled) {
+        [self hideAfter:nil];
+    }
 }
 
 - (IBAction)showLoading:(id)sender {
-    [self setupView];
+    [self setupToast];
     NSString *text = _messageView.text;
     [_toastView showLoading:text];
+    //
+    if (_toastView.isUserInteractionEnabled) {
+        [self hideAfter:nil];
+    }
 }
 
 - (IBAction)showAnimated:(id)sender {
-    [self setupView];
+    [self setupToast];
     //
-    int seed = arc4random() % 100;
     _toastView.effectView.textLabel.text = _messageView.text;
-    _toastView.effectView.imageView.hidden = seed < (arc4random() % 100);
     //
     NSString *file = ZXToolboxBundleFile(@"ZXBrightnessView.bundle", @"brightness@2x.png");
-    UIImage *image = [UIImage imageWithContentsOfFile:file];
+    UIImage *image = [[UIImage imageWithContentsOfFile:file] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     _toastView.effectView.imageView.image = image;
-    _toastView.effectView.imageView.hidden = seed < (arc4random() % 100);
     //
-    if (_toastView.effectView.imageView.hidden) {
+    int seed = arc4random() % 100;
+    _toastView.effectView.textLabel.hidden = seed < 30 || seed > 70;
+    _toastView.effectView.imageView.hidden = seed < 20 || seed > 40;
+    if (seed > 60 && seed < 80) {
         [_toastView.effectView.loadingView startAnimating];
     } else {
         [_toastView.effectView.loadingView stopAnimating];
     }
     //
+    if (seed <= 20 || seed >= 80) {
+        UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
+        imageView.backgroundColor = [UIColor grayColor];
+        imageView.tintColor = [UIColor greenColor];
+        imageView.frame = CGRectMake(0, 0, 80, 80);
+        _toastView.customView = imageView;
+    }
+    //
+    NSLogA(@"seed=[%d] text[40,60=%d], image[20,50=%d], loading[50,80=%d]", seed,
+          _toastView.effectView.textLabel.isHidden,
+          _toastView.effectView.imageView.isHidden,
+          _toastView.effectView.loadingView.isHidden);
     [_toastView showAnimated:YES];
+    //
+    if (_toastView.isUserInteractionEnabled) {
+        [self hideAfter:nil];
+    }
 }
 
 - (IBAction)hideAfter:(id)sender {
+    [self setupToast];
     NSTimeInterval time = _hideAfterTime.text.length > 0 ? [_hideAfterTime.text doubleValue] : 1;
     [_toastView hideAfter:time];
 }
 
 - (IBAction)hideAnimated:(id)sender {
-    switch (_animation.selectedSegmentIndex) {
-        case 0:
-            _toastView.animation = ZXToastAnimationNone;
-            break;
-        case 1:
-            _toastView.animation = ZXToastAnimationFade;
-            break;
-        case 2:
-            _toastView.animation = ZXToastAnimationScale;
-            break;
-    }
+    [self setupToast];
     [_toastView hideAnimated:YES];
 }
 
 - (IBAction)hideToasts:(id)sender {
+    [self setupToast];
     [ZXToastView hideToasts];
 }
 
