@@ -192,7 +192,7 @@
 
 #pragma mark Showing
 
-- (void)showText:(nullable NSString *)text {
+- (instancetype)showText:(nullable NSString *)text {
     _effectView.textLabel.text = text;
     _effectView.imageView.image = nil;
     //
@@ -200,10 +200,10 @@
     _effectView.imageView.hidden = YES;
     [_effectView.loadingView stopAnimating];
     //
-    [self showAnimated:YES];
+    return [self showAnimated:YES];
 }
 
-- (void)showImage:(UIImage *)image text:(nullable NSString *)text {
+- (instancetype)showImage:(UIImage *)image text:(nullable NSString *)text {
     _effectView.textLabel.text = text;
     _effectView.imageView.image = image;
     //
@@ -211,10 +211,10 @@
     _effectView.imageView.hidden = NO;
     [_effectView.loadingView stopAnimating];
     //
-    [self showAnimated:YES];
+    return [self showAnimated:YES];
 }
 
-- (void)showLoading:(nullable NSString *)text {
+- (instancetype)showLoading:(nullable NSString *)text {
     _effectView.textLabel.text = text;
     _effectView.imageView.image = nil;
     //
@@ -222,19 +222,19 @@
     _effectView.imageView.hidden = YES;
     [_effectView.loadingView startAnimating];
     //
-    [self showAnimated:YES];
+    return [self showAnimated:YES];
 }
 
-- (void)showAnimated:(BOOL)animated {
+- (instancetype)showAnimated:(BOOL)animated {
     [self prepareForView:nil];
-    [self showAnimation:animated ? _animation : ZXToastAnimationNone];
+    return [self showAnimation:animated ? _animation : ZXToastAnimationNone];
 }
 
-- (void)showAnimation:(ZXToastAnimation)animation {
+- (instancetype)showAnimation:(ZXToastAnimation)animation {
     [self cancelHideAfter];
     //
     if (self.isRunning) {
-        return;
+        return self;
     }
     self.running = YES;
     //
@@ -300,11 +300,13 @@
             break;
         }
     }
+    //
+    return self;
 }
 
-- (void)showInView:(nullable UIView *)view {
+- (instancetype)showInView:(nullable UIView *)view {
     [self prepareForView:view];
-    [self showAnimation:_animation];
+    return [self showAnimation:_animation];
 }
 
 #pragma mark Hiding

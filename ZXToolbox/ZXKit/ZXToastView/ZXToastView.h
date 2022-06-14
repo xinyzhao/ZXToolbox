@@ -99,25 +99,25 @@ typedef NS_ENUM(NSInteger, ZXToastAnimation) {
 
 /// Change the loading text
 /// @param text The text to be displayed
-- (void)showText:(nullable NSString *)text;
+- (instancetype)showText:(nullable NSString *)text;
 
 /// Show the text and image
 /// @param image The image
 /// @param text The text
-- (void)showImage:(UIImage *)image text:(nullable NSString *)text;
+- (instancetype)showImage:(UIImage *)image text:(nullable NSString *)text;
 
 /// Show the loading text
 /// @param text The text to be displayed
-- (void)showLoading:(nullable NSString *)text;
+- (instancetype)showLoading:(nullable NSString *)text;
 
 /// Show the toast with animated
 /// @param animated animated
 /// @discussion If animated is YES and the animation is not ZXToastAnimationNone, the toast will be animation showing.
-- (void)showAnimated:(BOOL)animated;
+- (instancetype)showAnimated:(BOOL)animated;
 
 /// Show the toast in view
 /// @param view The superview
-- (void)showInView:(nullable UIView *)view;
+- (instancetype)showInView:(nullable UIView *)view;
 
 /// Hide the toast after delay time
 /// @param time The delay time
