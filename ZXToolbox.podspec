@@ -401,14 +401,14 @@ Pod::Spec.new do |s|
   s.subspec "ZXToastView" do |ss|
     ss.source_files = "ZXToolbox/ZXKit/ZXToastView/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXToastView/*.h"
-    ss.dependency "UIApplication+ZXToolbox"
-    ss.dependency "ZXDispatchQueue"
+    ss.dependency "ZXToolbox/UIApplication+ZXToolbox"
+    ss.dependency "ZXToolbox/ZXDispatchQueue"
   end
 
   s.subspec "ZXToolbox+Macros" do |ss|
-    ss.dependency "ZXToolbox/NSDate+ZXToolbox"
     ss.source_files = "ZXToolbox/ZXKit/ZXToolbox+Macros/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXToolbox+Macros/*.h"
+    ss.dependency "ZXToolbox/NSDate+ZXToolbox"
   end
 
   s.subspec "ZXURLProtocol" do |ss|
