@@ -301,7 +301,7 @@
 - (void)testZXDownloader {
     XCTestExpectation *expectation = [self expectationWithDescription:@"ZXDownloader"];
     //
-    NSURL *url = [NSURL URLWithString:@"https://vod.300hu.com/4c1f7a6atransbjngwcloud1oss/4bb3e4c1242645539656048641/v.f30.mp4"];
+    NSURL *url = [NSURL URLWithString:@"https://jvod.300hu.com/vod/product/cfa032ca-8607-45e5-b7c0-f28de644a74e/687f7beec5294af994a192d9998e860f.mp4"];
     ZXDownloadTask *task = [ZXDownloader.defaultDownloader downloadTaskWithURL:url];
     [task addObserver:self state:^(NSURLSessionTaskState state, NSString * _Nullable filePath, NSError * _Nullable error) {
         NSLogA(@"#state: %d filePath: %@ error: %@", (int)state, filePath, error);

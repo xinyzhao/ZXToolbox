@@ -552,30 +552,35 @@ NSLogA(@"#image: %@", NSStringFromUIEdgeInsets(button.imageEdgeInsets));
 * UIColor+ZXToolbox
 
 ```
-NSLogA(@"#[UIColor colorWithString:] %@", [UIColor colorWithString:@"#999999"]);
-NSLogA(@"#[UIColor colorWithString:alpha:] %@", [UIColor colorWithString:@"#999999" alpha:0.5]);
-NSLogA(@"#[UIColor colorWithInteger:] %@", [UIColor colorWithInteger:0x999999]);
-NSLogA(@"#[UIColor colorWithInteger:alpha:] %@", [UIColor colorWithInteger:0x999999 alpha:0.5]);
+NSLogA(@"#[UIColor colorWithHEXString:] %@", [UIColor colorWithHEXString:@"#999999"]);
+NSLogA(@"#[UIColor colorWithHEXString:alpha:] %@", [UIColor colorWithHEXString:@"#999999" alpha:0.5]);
+NSLogA(@"#[UIColor colorWithRGBInteger:] %@", [UIColor colorWithRGBInteger:0x999999]);
+NSLogA(@"#[UIColor colorWithRGBInteger:alpha:] %@", [UIColor colorWithRGBInteger:0x999999 alpha:0.5]);
 NSLogA(@"#[UIColor randomColor] %@", [UIColor randomColor]);
 NSLogA(@"#[UIColor inverseColor] %@", [[UIColor blackColor] inverseColor]);
-NSLogA(@"#[UIColor stringValue] %@", [[UIColor redColor] stringValue]);
-NSLogA(@"#[UIColor stringValueWithPrefix:] %@", [[UIColor redColor] stringValueWithPrefix:@"#"]);
-NSLogA(@"#[UIColor integerValue] %lx", (long)[[UIColor redColor] integerValue]);
-NSLogA(@"#[UIColor integerValueWithAlpha:] %lx", (long)[[UIColor redColor] integerValueWithAlpha:YES]);
+NSLogA(@"#[UIColor NStringValue] %@", [[UIColor redColor] NSStringValue]);
+NSLogA(@"#[UIColor NSIntegerValue] %lx", (long)[[UIColor redColor] NSIntegerValue]);
+UIColorComponents gc = [[UIColor colorWithWhite:0.1 alpha:0.7] grayscaleComponents];
+NSLogA(@"#[UIColor grayscaleComponents:] white: %f alpha: %f", gc.white, gc.alpha);
+gc = [[UIColor colorWithHue:0.2 saturation:0.5 brightness:0.8 alpha:0.1] HSBComponents];
+NSLogA(@"#[UIColor HSBComponents:] h: %f s: %f b: %f alpha: %f", gc.hue, gc.saturation, gc.brightness, gc.alpha);
+gc = [[UIColor colorWithRed:0.3 green:0.6 blue:0.9 alpha:1.0] RGBComponents];
+NSLogA(@"#[UIColor RGBComponents:] r: %f g: %f b: %f alpha: %f", gc.red, gc.green, gc.blue, gc.alpha);
 ```
 > Output:
 
 ```
-#[colorWithString:] UIExtendedSRGBColorSpace 0.6 0.6 0.6 1
-#[colorWithString:alpha:] UIExtendedSRGBColorSpace 0.6 0.6 0.6 0.5
-#[colorWithInteger:] UIExtendedSRGBColorSpace 0.6 0.6 0.6 1
-#[colorWithInteger:alpha:] UIExtendedSRGBColorSpace 0.6 0.6 0.6 0.5
-#[randomColor] UIExtendedSRGBColorSpace 0.854902 0.129412 0.894118 1
-#[inverseColor] UIExtendedSRGBColorSpace 1 1 1 1
-#[stringValue] ff0000
-#[stringValueWithPrefix:] #ff0000
-#[integerValue] ff0000
-#[integerValueWithAlpha:] ffff0000
+#[UIColor colorWithHEXString:] UIExtendedSRGBColorSpace 0.6 0.6 0.6 1
+#[UIColor colorWithHEXString:alpha:] UIExtendedSRGBColorSpace 0.6 0.6 0.6 0.5
+#[UIColor colorWithRGBInteger:] UIExtendedSRGBColorSpace 0.6 0.6 0.6 1
+#[UIColor colorWithRGBInteger:alpha:] UIExtendedSRGBColorSpace 0.6 0.6 0.6 0.5
+#[UIColor randomColor] UIExtendedSRGBColorSpace 0.921569 0.545098 0.992157 1
+#[UIColor inverseColor] UIExtendedSRGBColorSpace 1 1 1 1
+#[UIColor NStringValue] FF0000
+#[UIColor NSIntegerValue] ff0000
+#[UIColor grayscaleComponents:] white: 0.100000 alpha: 0.700000
+#[UIColor HSBComponents:] h: 0.200000 s: 0.500000 b: 0.800000 alpha: 0.100000
+#[UIColor RGBComponents:] r: 0.300000 g: 0.600000 b: 0.900000 alpha: 1.000000
 ```
 
 * UIControl+ZXToolbox.h
@@ -594,7 +599,7 @@ NSLogA(@"#CPU Bits: %d", [UIDevice currentDevice].cpuBits);
 NSLogA(@"#CPU Type: %d", [UIDevice currentDevice].cpuType);
 NSLogA(@"#Model Type: %@", [UIDevice currentDevice].modelType);
 NSLogA(@"#Model Name: %@", [UIDevice currentDevice].modelName);
-NSLogA(@"#UIIDString: %@", [UIDevice currentDevice].UDIDString);
+NSLogA(@"#UDIDString: %@", [UIDevice currentDevice].UDIDString);
 NSLogA(@"#FileSystemSize: %lld bytes", [UIDevice currentDevice].fileSystemSize);
 NSLogA(@"#FileSystemFreeSize: %lld bytes", [UIDevice currentDevice].fileSystemFreeSize);
 NSLogA(@"#FileSystemUsedSize: %lld bytes", [UIDevice currentDevice].fileSystemUsedSize);
@@ -608,7 +613,7 @@ NSLogA(@"#proximityState: %d", [UIDevice currentDevice].proximityState);
 #CPU Type: 7
 #Model Type: iPhone10,4
 #Model Name: iPhone 8
-#UIIDString: 2231ccf4007eb74442c8ae7cc2471e65b34d9af5
+#UDIDString: 2231ccf4007eb74442c8ae7cc2471e65b34d9af5
 #FileSystemSize: 499933818880 bytes
 #FileSystemFreeSize: 271827771392 bytes
 #FileSystemUsedSize: 228106047488 bytes

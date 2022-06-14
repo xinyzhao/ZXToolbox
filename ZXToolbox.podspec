@@ -234,6 +234,7 @@ Pod::Spec.new do |s|
     ss.dependency "ZXToolbox/ZXCommonCrypto"
     ss.dependency "ZXToolbox/ZXDispatchQueue"
     ss.dependency "ZXToolbox/ZXKeyValueObserver"
+    ss.dependency "ZXToolbox/ZXToolbox+Macros"
   end
 
   s.subspec "ZXDrawingView" do |ss|
