@@ -40,7 +40,7 @@
 @implementation ZXBrightnessView
 
 #define ZXBrightnessBounds  CGRectMake(0.0, 0.0, 155.0, 155.0)
-#define ZXBrightnessColor   UIColorFromHEXString(@"#484848", 1)
+#define ZXBrightnessColor   ZXColorFromHEXString(@"#484848", 1)
 
 + (instancetype)brightnessView {
     static ZXBrightnessView *brightnessView;
