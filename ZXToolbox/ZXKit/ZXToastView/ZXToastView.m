@@ -238,7 +238,7 @@
     }
     self.running = YES;
     //
-    id key = @(self.superview.hash);
+    id key = [self superViewHashKey];
     if (key) {
         ZXToastView *toastView = [[ZXToastView allToasts] objectForKey:key];
         if (toastView != self) {
@@ -309,19 +309,25 @@
     return [self showAnimation:_animation];
 }
 
-#pragma mark Hiding
+#pragma mark Hash
 
-- (NSString *)hashKey {
+- (nullable id)superViewHashKey {
+    return self.superview ? @(self.superview.hash) : nil;
+}
+
+- (NSString *)hideAfterHashKey {
     return [NSString stringWithFormat:@"ZXToastView.hideAfter_%lu", (unsigned long)self.hash];
 }
 
+#pragma mark Hiding
+
 - (void)cancelHideAfter {
-    [[ZXDispatchQueue main] cancelAfter:self.hashKey];
+    [[ZXDispatchQueue main] cancelAfter:self.hideAfterHashKey];
 }
 
 - (void)hideAfter:(NSTimeInterval)time {
     __weak typeof(self) weakSelf = self;
-    [[ZXDispatchQueue main] asyncAfter:self.hashKey deadline:time execute:^(NSString * _Nonnull event) {
+    [[ZXDispatchQueue main] asyncAfter:self.hideAfterHashKey deadline:time execute:^(NSString * _Nonnull event) {
         [weakSelf hideAnimated:YES];
     }];
 }
@@ -341,7 +347,7 @@
     //
     __weak typeof(self) weakSelf = self;
     void (^finish)(BOOL) = ^(BOOL finished) {
-        id key = @(weakSelf.superview.hash);
+        id key = [weakSelf superViewHashKey];
         if (key) {
             [[ZXToastView allToasts] removeObjectForKey:key];
         }

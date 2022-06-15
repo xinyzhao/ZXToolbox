@@ -161,7 +161,7 @@
     [self setupToast];
     NSString *text = _messageView.text;
     NSString *file = ZXToolboxBundleFile(@"ZXBrightnessView.bundle", @"brightness@2x.png");
-    UIImage *image = [UIImage imageWithContentsOfFile:file];
+    UIImage *image = [[UIImage imageWithContentsOfFile:file] imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
     [_toastView showImage:image text:text];
     //
     if (_toastView.isUserInteractionEnabled) {
@@ -205,10 +205,11 @@
         _toastView.customView = imageView;
     }
     //
-    NSLogA(@"seed=[%d] text[40,60=%d], image[20,50=%d], loading[50,80=%d]", seed,
-          _toastView.effectView.textLabel.isHidden,
-          _toastView.effectView.imageView.isHidden,
-          _toastView.effectView.loadingView.isHidden);
+    NSLogA(@"seed=[%d] text[40,60=%d], image[20,50=%d], loading[50,80=%d], custom[20,80=%d]", seed,
+           _toastView.effectView.textLabel.isHidden,
+           _toastView.effectView.imageView.isHidden,
+           _toastView.effectView.loadingView.isHidden,
+           _toastView.customView ? 0 : 1);
     [_toastView showAnimated:YES];
     //
     if (_toastView.isUserInteractionEnabled) {

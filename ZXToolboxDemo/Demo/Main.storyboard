@@ -1260,7 +1260,7 @@
                                                     <action selector="showAnimated:" destination="Z48-ac-KbQ" eventType="touchUpInside" id="3ed-vJ-HPf"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BF7-ho-fTg">
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="VRC-Wx-Jni">
                                                 <rect key="frame" x="199.5" y="0.0" width="184.5" height="40"/>
                                                 <color key="backgroundColor" systemColor="tintColor"/>
                                                 <color key="tintColor" systemColor="systemBlueColor"/>
@@ -1269,7 +1269,7 @@
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="hideAfter:" destination="Z48-ac-KbQ" eventType="touchUpInside" id="jVw-dB-u4Z"/>
+                                                    <action selector="hideAfter:" destination="Z48-ac-KbQ" eventType="touchUpInside" id="4Kt-KA-0GM"/>
                                                 </connections>
                                             </button>
                                         </subviews>
