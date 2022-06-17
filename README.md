@@ -510,15 +510,23 @@ NSLogA(@"#Fragment  : %@", [str stringByURLEncoding:NSStringURLEncodingFragment]
 ```
     NSURL *url1 = [NSURL URLWithString:@"http://www.example.com/" scheme:@"https" user:@"user" password:@"password" host:@"host" port:@2022 path:@"/path" query:@"key1=value1&key2=value2" fragment:@"fragment"];
     NSURL *url2 = [NSURL URLWithString:@"http://www.example.com" scheme:@"https" user:@"user" password:@"password" host:@"host" port:@2022 path:@"/path!@#$%^&*()" query:@{@"key1":@"value1", @"key2":@"value2"} fragment:@"fragment"];
-    NSLogA(@"#URL1: %@", [url1 URLString]);
-    NSLogA(@"#URL2: %@", [url2 URLString]);
+    NSLogA(@"#URL1: %@, queryItems: \n%@", [url1 URLString], [url1 queryItems]);
+    NSLogA(@"#URL2: %@, queryItems: \n%@", [url2 URLString], [url2 queryItems]);
 ```
 
 > Output:
 
 ```
-#URL1: https://user:password@host:2022/path?key1=value1&key2=value2#fragment
-#URL2: https://user:password@host:2022/path!@%23$%25%5E&*()?key1=value1&key2=value2#fragment
+#URL1: https://user:password@host:2022/path?key1=value1&key2=value2#fragment, queryItems: 
+{
+    key1 = value1;
+    key2 = value2;
+}
+#URL2: https://user:password@host:2022/path!@%23$%25%5E&*()?key1=value1&key2=value2#fragment, queryItems: 
+{
+    key1 = value1;
+    key2 = value2;
+}
 ```
 
 ### UIKit
