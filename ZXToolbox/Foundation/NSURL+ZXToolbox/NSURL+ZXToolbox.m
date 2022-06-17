@@ -53,23 +53,17 @@
             if (queryStr.length > 0) {
                 components.query = queryStr;
             }
-        }
-        else if ([query isKindOfClass:NSDictionary.class]) {
-            NSMutableString *queryStr = nil;
+        } else if ([query isKindOfClass:NSDictionary.class]) {
             NSDictionary *dict = (NSDictionary *)query;
+            NSMutableArray *items = [[NSMutableArray alloc] init];
             for (NSString *key in dict.allKeys) {
                 NSString *value = dict[key];
                 if ([key isKindOfClass:NSString.class] && [value isKindOfClass:NSString.class]) {
-                    if (queryStr == nil) {
-                        queryStr = [NSMutableString stringWithFormat:@"%@=%@", key, value];
-                    } else {
-                        [queryStr appendFormat:@"&%@=%@", key, value];
-                    }
+                    NSURLQueryItem *item = [[NSURLQueryItem alloc] initWithName:key value:value];
+                    [items addObject:item];
                 }
             }
-            if (queryStr.length > 0) {
-                components.query = [queryStr copy];
-            }
+            components.queryItems = [items copy];
         }
     }
     if (fragment != nil && fragment.length > 0) {
@@ -96,6 +90,18 @@
 
 - (nullable NSString *)URLString {
     return [[NSURLComponents alloc] initWithURL:self resolvingAgainstBaseURL:NO].string;
+}
+
+- (nullable NSDictionary<NSString *, NSString *> *)queryItems {
+    NSArray *items = [self URLComponents].queryItems;
+    if (items.count > 0) {
+        NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:items.count];
+        for (NSURLQueryItem *item in items) {
+            [dict setObject:(item.value ? item.value : @"") forKey:item.name];
+        }
+        return [dict copy];
+    }
+    return nil;
 }
 
 @end

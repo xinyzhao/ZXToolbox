@@ -78,6 +78,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// A URL derived from the components object, in string form.
 @property (nullable, readonly, copy) NSString *URLString;
 
+/// A URL derived from the components object, in string form.
+@property (nullable, readonly, copy) NSDictionary<NSString *, NSString *> *queryItems;
+
 @end
 
 NS_ASSUME_NONNULL_END
