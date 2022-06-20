@@ -472,31 +472,58 @@
     }];
 }
 
+- (void)testZXURLRouter {
+    NSArray *strs = @[@"app://test/", @"app://test/abc", @"app://test/abc/xyz"];
+    for (NSString *str in strs) {
+        NSURL *url = [NSURL URLWithString:str];
+        [[ZXURLRouter sharedRouter] addHandler:^id _Nullable(NSURL * _Nonnull url, id  _Nullable data) {
+            return str;
+        } forURL:url];
+    }
+    // Test [removeHandler:forURL:]
+    for (NSString *str in strs) {
+        NSURL *url = [NSURL URLWithString:str];
+        NSUInteger h = [[ZXURLRouter sharedRouter] addHandler:^id _Nullable(NSURL * _Nonnull url, id  _Nullable data) {
+            return [NSString stringWithFormat:@"This is other handler for url: %@", str];
+        } forURL:url];
+        [[ZXURLRouter sharedRouter] removeHandler:h forURL:url];
+    }
+    //
+    NSArray *urls = @[@"app://test/abc/xyz/?a=b&c=d", @"app://tests", @"app://tes"];
+    for (NSString *str in urls) {
+        id data = @(arc4random() % 100);
+        int count = [[ZXURLRouter sharedRouter] openURL:[NSURL URLWithString:str] withData:data completionHandler:^(NSURL * _Nonnull url, id  _Nullable data, id  _Nullable response, NSString * _Nullable error) {
+            NSLogA(@"#\n#open url: %@ with data: %@\n#response: %@ #error: %@", url, data, response, error);
+        }];
+        NSLogA(@"#\n#open url: %@ with data: %@ matched: %d", str, data, count);
+    }
+}
+
 - (void)testNaN {
-    NSLog(@"0.0 / 0.0 =%f", 0.0/0.0);
-    NSLog(@"1.0 / 0.0 =%f", 1.0/0.0);
-    NSLog(@"0.0 / 1.0 =%f", 0.0/1.0);
-    NSLog(@"log(0.0)  =%f", log(0.0));
+    NSLogA(@"#0.0 / 0.0 =%f", 0.0/0.0);
+    NSLogA(@"#1.0 / 0.0 =%f", 1.0/0.0);
+    NSLogA(@"#0.0 / 1.0 =%f", 0.0/1.0);
+    NSLogA(@"#log(0.0)  =%f", log(0.0));
 
-    NSLog(@"isfinite:\t0.0 / 0.0 = %d", isfinite(0.0/0.0));
-    NSLog(@"isfinite:\t1.0 / 0.0 = %d", isfinite(1.0/0.0));
-    NSLog(@"isfinite:\t0.0 / 1.0 = %d", isfinite(0.0/1.0));
-    NSLog(@"isfinite:\tlog(0.0)  = %d", isfinite(log(0.0)));
+    NSLogA(@"#isfinite:\t0.0 / 0.0 = %d", isfinite(0.0/0.0));
+    NSLogA(@"#isfinite:\t1.0 / 0.0 = %d", isfinite(1.0/0.0));
+    NSLogA(@"#isfinite:\t0.0 / 1.0 = %d", isfinite(0.0/1.0));
+    NSLogA(@"#isfinite:\tlog(0.0)  = %d", isfinite(log(0.0)));
  
-    NSLog(@"isnormal:\t0.0 / 0.0 = %d", isnormal(0.0/0.0));
-    NSLog(@"isnormal:\t1.0 / 0.0 = %d", isnormal(1.0/0.0));
-    NSLog(@"isnormal:\t0.0 / 1.0 = %d", isnormal(0.0/1.0));
-    NSLog(@"isnormal:\tlog(0.0)  = %d", isnormal(log(0.0)));
+    NSLogA(@"#isnormal:\t0.0 / 0.0 = %d", isnormal(0.0/0.0));
+    NSLogA(@"#isnormal:\t1.0 / 0.0 = %d", isnormal(1.0/0.0));
+    NSLogA(@"#isnormal:\t0.0 / 1.0 = %d", isnormal(0.0/1.0));
+    NSLogA(@"#isnormal:\tlog(0.0)  = %d", isnormal(log(0.0)));
  
-    NSLog(@"isnan:\t\t0.0 / 0.0 = %d", isnan(0.0/0.0));
-    NSLog(@"isnan:\t\t1.0 / 0.0 = %d", isnan(1.0/0.0));
-    NSLog(@"isnan:\t\t0.0 / 1.0 = %d", isnan(0.0/1.0));
-    NSLog(@"isnan:\t\tlog(0.0)  = %d", isnan(log(0.0))) ;
+    NSLogA(@"#isnan:\t\t0.0 / 0.0 = %d", isnan(0.0/0.0));
+    NSLogA(@"#isnan:\t\t1.0 / 0.0 = %d", isnan(1.0/0.0));
+    NSLogA(@"#isnan:\t\t0.0 / 1.0 = %d", isnan(0.0/1.0));
+    NSLogA(@"#isnan:\t\tlog(0.0)  = %d", isnan(log(0.0))) ;
 
-    NSLog(@"isinf:\t\t0.0 / 0.0 = %d", isinf(0.0/0.0));
-    NSLog(@"isinf:\t\t1.0 / 0.0 = %d", isinf(1.0/0.0));
-    NSLog(@"isinf:\t\t0.0 / 1.0 = %d", isinf(0.0/1.0));
-    NSLog(@"isinf:\t\tlog(0.0)  = %d", isinf(log(0.0)));
+    NSLogA(@"#isinf:\t\t0.0 / 0.0 = %d", isinf(0.0/0.0));
+    NSLogA(@"#isinf:\t\t1.0 / 0.0 = %d", isinf(1.0/0.0));
+    NSLogA(@"#isinf:\t\t0.0 / 1.0 = %d", isinf(0.0/1.0));
+    NSLogA(@"#isinf:\t\tlog(0.0)  = %d", isinf(log(0.0)));
 }
 
 @end

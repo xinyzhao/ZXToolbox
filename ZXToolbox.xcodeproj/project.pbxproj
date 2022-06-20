@@ -226,6 +226,8 @@
 		70D4BD2523A9DC47000D28E2 /* ZXImageBroswer.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D4BD1F23A9DC47000D28E2 /* ZXImageBroswer.m */; };
 		70D4BD2623A9DC47000D28E2 /* ZXImageBroswerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D4BD2023A9DC47000D28E2 /* ZXImageBroswerCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70D4BD2723A9DC47000D28E2 /* ZXImageBroswerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D4BD2123A9DC47000D28E2 /* ZXImageBroswerCell.m */; };
+		70D66C482859DF2D008C47CE /* ZXURLRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D66C462859DF2C008C47CE /* ZXURLRouter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70D66C492859DF2D008C47CE /* ZXURLRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D66C472859DF2C008C47CE /* ZXURLRouter.m */; };
 		70D8448123C706D80042E305 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D8448023C706D80042E305 /* AppDelegate.m */; };
 		70D8448723C706D80042E305 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D8448623C706D80042E305 /* MainViewController.m */; };
 		70D8448C23C706DA0042E305 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70D8448B23C706DA0042E305 /* Assets.xcassets */; };
@@ -536,6 +538,8 @@
 		70D4BD1F23A9DC47000D28E2 /* ZXImageBroswer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXImageBroswer.m; sourceTree = "<group>"; };
 		70D4BD2023A9DC47000D28E2 /* ZXImageBroswerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXImageBroswerCell.h; sourceTree = "<group>"; };
 		70D4BD2123A9DC47000D28E2 /* ZXImageBroswerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXImageBroswerCell.m; sourceTree = "<group>"; };
+		70D66C462859DF2C008C47CE /* ZXURLRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXURLRouter.h; sourceTree = "<group>"; };
+		70D66C472859DF2C008C47CE /* ZXURLRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXURLRouter.m; sourceTree = "<group>"; };
 		70D8447D23C706D80042E305 /* ZXToolboxDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZXToolboxDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		70D8447F23C706D80042E305 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		70D8448023C706D80042E305 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -907,6 +911,7 @@
 				7000AD1322E9C22F00651E44 /* ZXToastView */,
 				7000AD0322E9C22F00651E44 /* ZXToolbox+Macros */,
 				7000AD1022E9C22F00651E44 /* ZXURLProtocol */,
+				70D66C452859DF2C008C47CE /* ZXURLRouter */,
 				7000ACF822E9C22F00651E44 /* ZXURLSession */,
 			);
 			path = ZXKit;
@@ -1469,6 +1474,15 @@
 			path = ZXImageBroswer;
 			sourceTree = "<group>";
 		};
+		70D66C452859DF2C008C47CE /* ZXURLRouter */ = {
+			isa = PBXGroup;
+			children = (
+				70D66C462859DF2C008C47CE /* ZXURLRouter.h */,
+				70D66C472859DF2C008C47CE /* ZXURLRouter.m */,
+			);
+			path = ZXURLRouter;
+			sourceTree = "<group>";
+		};
 		70D8447E23C706D80042E305 /* ZXToolboxDemo */ = {
 			isa = PBXGroup;
 			children = (
@@ -1581,6 +1595,7 @@
 				70F77AE724E16AA20062C21F /* ZXKeyValueObserver.h in Headers */,
 				7000AD4622E9C22F00651E44 /* UITextField+ZXToolbox.h in Headers */,
 				7000AD3B22E9C22F00651E44 /* UIView+ZXToolbox.h in Headers */,
+				70D66C482859DF2D008C47CE /* ZXURLRouter.h in Headers */,
 				7000AD3822E9C22F00651E44 /* UIViewController+ZXToolbox.h in Headers */,
 				7000AD4022E9C22F00651E44 /* UIScreen+ZXToolbox.h in Headers */,
 				70F2728824EFC3B300DD1A9F /* ZXDispatchQueue.h in Headers */,
@@ -1718,7 +1733,7 @@
 		7000AC3E22E9C1CC00651E44 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = xinyzhao;
 				TargetAttributes = {
 					7000AC4622E9C1CC00651E44 = {
@@ -1872,6 +1887,7 @@
 				70A7B5BB23B0B7990080C95A /* ZXDownloadTask.m in Sources */,
 				7000AD5622E9C22F00651E44 /* ZXPopoverView.m in Sources */,
 				70F77AE824E16AA20062C21F /* ZXKeyValueObserver.m in Sources */,
+				70D66C492859DF2D008C47CE /* ZXURLRouter.m in Sources */,
 				7000AD8022E9C22F00651E44 /* ZXQRCodeReader.m in Sources */,
 				70BC8B4D23C5B6B000DD952B /* ZXKeychainItem+InternetPassword.m in Sources */,
 				7000AD2622E9C22F00651E44 /* JSONObject.m in Sources */,
@@ -2085,7 +2101,7 @@
 		7000AC5022E9C1CC00651E44 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2022.06.08;
 				DEFINES_MODULE = YES;
@@ -2112,7 +2128,7 @@
 		7000AC5122E9C1CC00651E44 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2022.06.08;
 				DEFINES_MODULE = YES;

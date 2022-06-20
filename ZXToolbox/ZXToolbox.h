@@ -105,4 +105,5 @@ FOUNDATION_EXPORT const unsigned char ZXToolboxVersionString[];
 #import "ZXToastView.h"
 #import "ZXToolbox+Macros.h"
 #import "ZXURLProtocol.h"
+#import "ZXURLRouter.h"
 #import "ZXURLSession.h"

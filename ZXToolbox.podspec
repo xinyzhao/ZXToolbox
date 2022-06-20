@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "2.8.5"
+  s.version      = "2.8.6"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -417,6 +417,13 @@ Pod::Spec.new do |s|
     ss.frameworks = "CoreFoundation", "MobileCoreServices"
   end
 
+  s.subspec "ZXURLRouter" do |ss|
+    ss.source_files = "ZXToolbox/ZXKit/ZXURLRouter/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/ZXKit/ZXURLRouter/*.h"
+    ss.dependency "ZXToolbox/NSURL+ZXToolbox"
+    ss.dependency "ZXToolbox/ZXToolbox+Macros"
+  end
+  
   s.subspec "ZXURLSession" do |ss|
     ss.source_files = "ZXToolbox/ZXKit/ZXURLSession/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXURLSession/*.h"

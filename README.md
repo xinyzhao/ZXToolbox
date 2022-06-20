@@ -1110,6 +1110,9 @@ NSLogA(@"#ZXQRCodeReader %@", results);
 * ZXURLProtocol
 > 204 No Content
 
+* ZXURLRouter
+> 204 No Content
+
 * ZXURLSession
 > 204 No Content
 

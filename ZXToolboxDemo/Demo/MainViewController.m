@@ -108,6 +108,7 @@
                   @"ZXToastView",
                   @"ZXToolbox+Macros",
                   @"ZXURLProtocol",
+                  @"ZXURLRouter",
                   @"ZXURLSession"
           ]
         }
