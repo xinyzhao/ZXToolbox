@@ -28,8 +28,8 @@
 #import "NSURL+ZXToolbox.h"
 
 @interface ZXURLHandler : NSObject
-@property (nonatomic, copy) NSURL *url;
-@property (nonatomic, nullable, copy) id _Nullable (^handler)(NSURL *url, id _Nullable data);
+@property (nonatomic, nullable, copy) NSURL *url;
+@property (nonatomic, nullable, copy) id (^handler)(NSURL *url, id _Nullable data);
 @property (nonatomic, nullable, weak) id target;
 @property (nonatomic, nullable, assign) SEL action;
 
@@ -37,7 +37,7 @@
 
 @implementation ZXURLHandler
 
-- (instancetype)initWithURL:(NSURL *)url handler:(id _Nullable (^)(NSURL *url, id _Nullable data))handler {
+- (instancetype)initWithURL:(nullable NSURL *)url handler:(id _Nullable (^)(NSURL *url, id _Nullable data))handler {
     self = [super init];
     if (self) {
         self.url = url;
@@ -46,7 +46,7 @@
     return self;
 }
 
-- (instancetype)initWithURL:(NSURL *)url target:(id)target action:(SEL)action {
+- (instancetype)initWithURL:(nullable NSURL *)url target:(id)target action:(SEL)action {
     self = [super init];
     if (self) {
         self.url = url;
@@ -59,6 +59,7 @@
 @end
 
 @interface ZXURLRouter ()
+@property (nonatomic, strong) NSMutableArray<ZXURLHandler *> *global;
 @property (nonatomic, strong) NSMutableDictionary<NSURL *, NSMutableSet<ZXURLHandler *> *> *routes;
 
 @end
@@ -78,77 +79,61 @@
 {
     self = [super init];
     if (self) {
+        _global = [[NSMutableArray alloc] init];
         _routes = [[NSMutableDictionary alloc] init];
     }
     return self;
 }
 
-- (NSUInteger)addHandler:(id (^)(NSURL *url, id _Nullable data))handler forURL:(NSURL *)url {
+- (NSUInteger)addHandler:(id _Nullable(^)(NSURL *url, id _Nullable data))handler forURL:(nullable NSURL *)url {
     ZXURLHandler *obj = [[ZXURLHandler alloc] initWithURL:url handler:handler];
     BOOL added = YES;
     AT_SYNCHRONIZED_SELF_BEGIN
-    NSMutableSet *set = [_routes objectForKey:url];
-    if (set == nil) {
-        set = [[NSMutableSet alloc] init];
-        [_routes setObject:set forKey:url];
-    }
-    if (self.isExclusiveURL) {
-        if (set.count > 0) {
-            added = NO;
+    if (url == nil) {
+        if (self.isExclusiveRoute) {
+            if (_global.count > 0) {
+                added = NO;
+            }
         }
-    }
-    if (added) {
-        [set addObject:obj];
+        if (added) {
+            [_global addObject:obj];
+        }
+    } else {
+        NSMutableSet *set = [_routes objectForKey:url];
+        if (set == nil) {
+            set = [[NSMutableSet alloc] init];
+            [_routes setObject:set forKey:url];
+        }
+        if (self.isExclusiveRoute) {
+            if (set.count > 0) {
+                added = NO;
+            }
+        }
+        if (added) {
+            [set addObject:obj];
+        }
     }
     AT_SYNCHRONIZED_SELF_END
     return added ? obj.hash : 0;
 }
 
-- (void)removeHandler:(NSUInteger)handler forURL:(NSURL *)url {
+- (void)removeHandler:(NSUInteger)handler forURL:(nullable NSURL *)url {
     AT_SYNCHRONIZED_SELF_BEGIN
-    NSMutableSet *set = [_routes objectForKey:url];
-    if (set) {
-        NSArray *list = [set allObjects];
-        for (ZXURLHandler *obj in list) {
+    if (url == nil) {
+        for (ZXURLHandler *obj in _global) {
             if (obj.hash == handler) {
-                [set removeObject:obj];
+                [_global removeObject:obj];
                 break;
             }
         }
-    }
-    AT_SYNCHRONIZED_SELF_END
-}
-
-- (BOOL)addTarget:(id)target action:(SEL)action forURL:(NSURL *)url {
-    ZXURLHandler *obj = [[ZXURLHandler alloc] initWithURL:url target:target action:action];
-    BOOL added = YES;
-    AT_SYNCHRONIZED_SELF_BEGIN
-    NSMutableSet *set = [_routes objectForKey:url];
-    if (set == nil) {
-        set = [[NSMutableSet alloc] init];
-        [_routes setObject:set forKey:url];
-    }
-    if (self.isExclusiveURL) {
-        if (set.count > 0) {
-            added = NO;
-        }
-    }
-    if (added) {
-        [set addObject:obj];
-    }
-    AT_SYNCHRONIZED_SELF_END
-    return added;
-}
-
-- (void)removeTarget:(id)target action:(SEL _Nullable)action forURL:(NSURL *)url {
-    AT_SYNCHRONIZED_SELF_BEGIN
-    NSMutableSet *set = [_routes objectForKey:url];
-    if (set) {
-        NSArray *list = [set allObjects];
-        for (ZXURLHandler *obj in list) {
-            if (obj.target == target) {
-                if (obj.action == action || action == nil) {
+    } else {
+        NSMutableSet *set = [_routes objectForKey:url];
+        if (set) {
+            NSArray *list = [set allObjects];
+            for (ZXURLHandler *obj in list) {
+                if (obj.hash == handler) {
                     [set removeObject:obj];
+                    break;
                 }
             }
         }
@@ -156,9 +141,72 @@
     AT_SYNCHRONIZED_SELF_END
 }
 
-- (nullable NSArray<ZXURLHandler *> *)handlersForURL:(NSURL *)url {
+- (BOOL)addTarget:(id)target action:(SEL)action forURL:(nullable NSURL *)url {
+    ZXURLHandler *obj = [[ZXURLHandler alloc] initWithURL:url target:target action:action];
+    BOOL added = YES;
+    AT_SYNCHRONIZED_SELF_BEGIN
+    if (url == nil) {
+        if (self.isExclusiveRoute) {
+            if (_global.count > 0) {
+                added = NO;
+            }
+        }
+        if (added) {
+            [_global addObject:obj];
+        }
+    } else {
+        NSMutableSet *set = [_routes objectForKey:url];
+        if (set == nil) {
+            set = [[NSMutableSet alloc] init];
+            [_routes setObject:set forKey:url];
+        }
+        if (self.isExclusiveRoute) {
+            if (set.count > 0) {
+                added = NO;
+            }
+        }
+        if (added) {
+            [set addObject:obj];
+        }
+    }
+    AT_SYNCHRONIZED_SELF_END
+    return added;
+}
+
+- (void)removeTarget:(id)target action:(nullable SEL)action forURL:(nullable NSURL *)url {
+    AT_SYNCHRONIZED_SELF_BEGIN
+    if (url == nil) {
+        NSArray *list = [_global copy];
+        for (ZXURLHandler *obj in list) {
+            if (obj.target == target) {
+                if (obj.action == action || action == nil) {
+                    [_global removeObject:obj];
+                }
+            }
+        }
+    } else {
+        NSMutableSet *set = [_routes objectForKey:url];
+        if (set) {
+            NSArray *list = [set allObjects];
+            for (ZXURLHandler *obj in list) {
+                if (obj.target == target) {
+                    if (obj.action == action || action == nil) {
+                        [set removeObject:obj];
+                    }
+                }
+            }
+        }
+    }
+    AT_SYNCHRONIZED_SELF_END
+}
+
+- (nullable NSArray<ZXURLHandler *> *)routesForURL:(NSURL *)url {
     NSMutableArray *list = [[NSMutableArray alloc] init];
     AT_SYNCHRONIZED_SELF_BEGIN
+    // 全局路由
+    if (_global.count > 0) {
+        [list addObjectsFromArray:_global];
+    }
     // 全量匹配
     NSSet *set = [_routes objectForKey:url];
     if (set) {
@@ -210,13 +258,21 @@
 }
 
 - (BOOL)canOpenURL:(NSURL *)url {
-    NSArray *list = [self handlersForURL:url];
-    return list.count > 0 ? YES : NO;
+    AT_SYNCHRONIZED_SELF_BEGIN
+    if (_global.count > 0) {
+        return YES;
+    }
+    AT_SYNCHRONIZED_SELF_END
+    NSArray *list = [self routesForURL:url];
+    if (list.count > 0) {
+        return YES;
+    }
+    return NO;
 }
 
-- (int)openURL:(NSURL*)url withData:(id _Nullable)data completionHandler:(void (^ _Nullable)(NSURL *url, id _Nullable data, id _Nullable response, NSString * _Nullable error))completionHandler {
+- (int)openURL:(NSURL*)url withData:(nullable id)data completionHandler:(void (^ _Nullable)(NSURL *url, id _Nullable data, id _Nullable response, NSString * _Nullable error))completionHandler {
     int matched = 0;
-    NSArray *handlers = [self handlersForURL:url];
+    NSArray *handlers = [self routesForURL:url];
     for (ZXURLHandler *obj in handlers) {
         id response = nil;
         if (obj.handler) {

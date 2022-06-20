@@ -33,29 +33,32 @@ NS_ASSUME_NONNULL_BEGIN
 /// Default shared router
 + (instancetype)sharedRouter;
 
-/// If YES, a URL can be only one handler or target/aciton, add multiple handler or target/action will failed.
-/// Otherwise, you can add multiple handlers or target/aciton for same URL. Default is NO.
-@property (nonatomic, assign, getter=isExclusiveURL) BOOL exclusiveURL;
+/// If YES, a URL or global can be only one handler or target/aciton, add multiple handler or target/action will failed.
+/// Otherwise, you can add multiple handlers or target/aciton for a URL/global. Default is NO.
+@property (nonatomic, assign, getter=isExclusiveRoute) BOOL exclusiveRoute;
 
 /// Add handler for URL
 /// @param handler The handler for URL
-/// @param url The URL
+/// @param url The URL, add a global handler if pass nil.
 /// @return Return a no zero integer value if add succeeds, otherwise is 0.
-- (NSUInteger)addHandler:(id _Nullable (^)(NSURL *url, id _Nullable data))handler forURL:(NSURL *)url;
+- (NSUInteger)addHandler:(id _Nullable(^)(NSURL *url, id _Nullable data))handler forURL:(nullable NSURL *)url;
 
 /// Remove handler for URL
 /// @param handler The handler id
-/// @param url The URL
-- (void)removeHandler:(NSUInteger)handler forURL:(NSURL *)url;
+/// @param url The URL, remvoe the global handler if pass nil.
+- (void)removeHandler:(NSUInteger)handler forURL:(nullable NSURL *)url;
 
 /// Add target and action for URL
 /// @param target The target
 /// @param action If the selector has parameters, the first is the URL and the second is userData.
-/// @param url The url
-- (BOOL)addTarget:(id)target action:(SEL)action forURL:(NSURL *)url;
+/// @param url The URL, add a global target/action if pass nil.
+- (BOOL)addTarget:(id)target action:(SEL)action forURL:(nullable NSURL *)url;
 
-/// remove the target/action for a set of URL. pass in NULL for the action to remove all actions for that target
-- (void)removeTarget:(id)target action:(SEL _Nullable)action forURL:(NSURL *)url;
+/// remove the target/action for a set of URL.
+/// @param target The target
+/// @param action pass in NULL for the action to remove all actions for that target
+/// @param url The URL, remvoe the global target/action if pass nil.
+- (void)removeTarget:(id)target action:(nullable SEL)action forURL:(nullable NSURL *)url;
 
 /// Return a Boolean value that indicates whether this router is available to handle a URL.
 /// @param url The URL
@@ -65,7 +68,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param url The URL
 /// @param data The data, eg. params etc.
 /// @param completionHandler The handler for completion
-- (int)openURL:(NSURL *)url withData:(id _Nullable)data completionHandler:(void (^ _Nullable)(NSURL *url, id _Nullable data, id _Nullable response, NSString * _Nullable error))completionHandler;
+- (int)openURL:(NSURL *)url withData:(nullable id)data completionHandler:(void (^ _Nullable)(NSURL *url, id _Nullable data, id _Nullable response, NSString * _Nullable error))completionHandler;
 
 @end
 

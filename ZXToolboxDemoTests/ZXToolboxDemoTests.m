@@ -473,6 +473,10 @@
 }
 
 - (void)testZXURLRouter {
+    [[ZXURLRouter sharedRouter] addHandler:^id _Nullable(NSURL * _Nonnull url, id  _Nullable data) {
+        return @"This is a GLOBAL route!!!";
+    } forURL:nil];
+    //
     NSArray *strs = @[@"app://test/", @"app://test/abc", @"app://test/abc/xyz"];
     for (NSString *str in strs) {
         NSURL *url = [NSURL URLWithString:str];

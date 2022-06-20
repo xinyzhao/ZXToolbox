@@ -1113,6 +1113,10 @@ NSLogA(@"#ZXQRCodeReader %@", results);
 * ZXURLRouter
 
 ```
+[[ZXURLRouter sharedRouter] addHandler:^id _Nullable(NSURL * _Nonnull url, id  _Nullable data) {
+    return @"This is a GLOBAL route!!!";
+} forURL:nil];
+//
 NSArray *strs = @[@"app://test/", @"app://test/abc", @"app://test/abc/xyz"];
 for (NSString *str in strs) {
     NSURL *url = [NSURL URLWithString:str];
@@ -1145,26 +1149,29 @@ for (NSString *str in urls) {
 #match succeeds: app://test/abc
 #match succeeds: app://test/
 #
-#open url: app://test/abc/xyz/?a=b&c=d with data: 22
+#open url: app://test/abc/xyz/?a=b&c=d with data: 56
+#response: This is a GLOBAL route!!! #error: (null)
+#
+#open url: app://test/abc/xyz/?a=b&c=d with data: 56
 #response: app://test/abc/xyz #error: (null)
 #
-#open url: app://test/abc/xyz/?a=b&c=d with data: 22
+#open url: app://test/abc/xyz/?a=b&c=d with data: 56
 #response: app://test/abc #error: (null)
 #
-#open url: app://test/abc/xyz/?a=b&c=d with data: 22
+#open url: app://test/abc/xyz/?a=b&c=d with data: 56
 #response: app://test/ #error: (null)
 #
-#open url: app://test/abc/xyz/?a=b&c=d with data: 22 matched: 3
+#open url: app://test/abc/xyz/?a=b&c=d with data: 56 matched: 4
 #
-#open url: app://tests with data: 25
-#response: (null) #error: 404 Not Found
+#open url: app://tests with data: 88
+#response: This is a GLOBAL route!!! #error: (null)
 #
-#open url: app://tests with data: 25 matched: 0
+#open url: app://tests with data: 88 matched: 1
 #
-#open url: app://tes with data: 79
-#response: (null) #error: 404 Not Found
+#open url: app://tes with data: 51
+#response: This is a GLOBAL route!!! #error: (null)
 #
-#open url: app://tes with data: 79 matched: 0
+#open url: app://tes with data: 51 matched: 1
 ```
 
 * ZXURLSession

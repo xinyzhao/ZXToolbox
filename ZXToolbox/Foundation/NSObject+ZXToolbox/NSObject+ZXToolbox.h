@@ -67,7 +67,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param value The value to associate with the key key for object. Pass nil to clear an existing association.
 /// @param policy The policy for the association. For possible values, see objc_AssociationPolicy.
 /// @see objc_AssociationPolicy
-- (void)setAssociatedObject:(nonnull const void *)key
+- (void)setAssociatedObject:(const void *)key
                       value:(nullable id)value
                      policy:(objc_AssociationPolicy)policy;
 
