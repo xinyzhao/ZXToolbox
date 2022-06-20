@@ -1111,7 +1111,61 @@ NSLogA(@"#ZXQRCodeReader %@", results);
 > 204 No Content
 
 * ZXURLRouter
-> 204 No Content
+
+```
+NSArray *strs = @[@"app://test/", @"app://test/abc", @"app://test/abc/xyz"];
+for (NSString *str in strs) {
+    NSURL *url = [NSURL URLWithString:str];
+    [[ZXURLRouter sharedRouter] addHandler:^id _Nullable(NSURL * _Nonnull url, id  _Nullable data) {
+        return str;
+    } forURL:url];
+}
+// Test [removeHandler:forURL:]
+for (NSString *str in strs) {
+    NSURL *url = [NSURL URLWithString:str];
+    NSUInteger h = [[ZXURLRouter sharedRouter] addHandler:^id _Nullable(NSURL * _Nonnull url, id  _Nullable data) {
+        return [NSString stringWithFormat:@"This is other handler for url: %@", str];
+    } forURL:url];
+    [[ZXURLRouter sharedRouter] removeHandler:h forURL:url];
+}
+//
+NSArray *urls = @[@"app://test/abc/xyz/?a=b&c=d", @"app://tests", @"app://tes"];
+for (NSString *str in urls) {
+    id data = @(arc4random() % 100);
+    int count = [[ZXURLRouter sharedRouter] openURL:[NSURL URLWithString:str] withData:data completionHandler:^(NSURL * _Nonnull url, id  _Nullable data, id  _Nullable response, NSString * _Nullable error) {
+        NSLogA(@"#\n#open url: %@ with data: %@\n#response: %@ #error: %@", url, data, response, error);
+    }];
+    NSLogA(@"#\n#open url: %@ with data: %@ matched: %d", str, data, count);
+}
+```
+> Output:
+
+```
+#match succeeds: app://test/abc/xyz
+#match succeeds: app://test/abc
+#match succeeds: app://test/
+#
+#open url: app://test/abc/xyz/?a=b&c=d with data: 22
+#response: app://test/abc/xyz #error: (null)
+#
+#open url: app://test/abc/xyz/?a=b&c=d with data: 22
+#response: app://test/abc #error: (null)
+#
+#open url: app://test/abc/xyz/?a=b&c=d with data: 22
+#response: app://test/ #error: (null)
+#
+#open url: app://test/abc/xyz/?a=b&c=d with data: 22 matched: 3
+#
+#open url: app://tests with data: 25
+#response: (null) #error: 404 Not Found
+#
+#open url: app://tests with data: 25 matched: 0
+#
+#open url: app://tes with data: 79
+#response: (null) #error: 404 Not Found
+#
+#open url: app://tes with data: 79 matched: 0
+```
 
 * ZXURLSession
 > 204 No Content
