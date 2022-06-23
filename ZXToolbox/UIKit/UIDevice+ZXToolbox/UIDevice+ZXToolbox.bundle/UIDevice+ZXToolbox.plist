@@ -90,6 +90,8 @@
 	<string>iPhone 13 mini</string>
 	<key>iPhone14,5</key>
 	<string>iPhone 13</string>
+	<key>iPhone14,6</key>
+	<string>iPhone SE (3rd generation)</string>
 	<key>iPad1,1</key>
 	<string>iPad (1st generation)</string>
 	<key>iPad2,1</key>
@@ -232,6 +234,10 @@
 	<string>iPad Pro (12.9-inch) (5th generation)</string>
 	<key>iPad13,11</key>
 	<string>iPad Pro (12.9-inch) (5th generation)</string>
+	<key>iPad13,16</key>
+	<string>iPad Air (5th generation)</string>
+	<key>iPad13,17</key>
+	<string>iPad Air (5th generation)</string>
 	<key>iPad14,1</key>
 	<string>iPad mini (6th generation)</string>
 	<key>iPad14,2</key>
