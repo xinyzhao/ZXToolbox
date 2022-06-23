@@ -39,25 +39,25 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Add handler for URL
 /// @param handler The handler for URL
-/// @param url The URL, add a global handler if pass nil.
+/// @param url The URL, add a global handler if pass in nil.
 /// @return Return a no zero integer value if add succeeds, otherwise is 0.
 - (NSUInteger)addHandler:(id _Nullable(^)(NSURL *url, id _Nullable data))handler forURL:(nullable NSURL *)url;
 
 /// Remove handler for URL
 /// @param handler The handler id
-/// @param url The URL, remvoe the global handler if pass nil.
+/// @param url The URL, remvoe the global handler if pass in nil.
 - (void)removeHandler:(NSUInteger)handler forURL:(nullable NSURL *)url;
 
 /// Add target and action for URL
 /// @param target The target
 /// @param action If the selector has parameters, the first is the URL and the second is userData.
-/// @param url The URL, add a global target/action if pass nil.
+/// @param url The URL, add a global target/action if pass in nil.
 - (BOOL)addTarget:(id)target action:(SEL)action forURL:(nullable NSURL *)url;
 
 /// remove the target/action for a set of URL.
 /// @param target The target
-/// @param action pass in NULL for the action to remove all actions for that target
-/// @param url The URL, remvoe the global target/action if pass nil.
+/// @param action If pass in NULL for the action to remove all actions for that target
+/// @param url The URL, remvoe the global target/action if pass in nil.
 - (void)removeTarget:(id)target action:(nullable SEL)action forURL:(nullable NSURL *)url;
 
 /// Return a Boolean value that indicates whether this router is available to handle a URL.
