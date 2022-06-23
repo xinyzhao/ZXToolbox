@@ -78,9 +78,53 @@
 
 - (void)testNSDate {
     NSDate *date = [NSDate date];
-    NSLogA(@"#DateTime: %@", [date stringWithFormat:kZXToolboxDateFormatDateTime]);
-    NSLogA(@"#Date: %@", [date stringWithFormat:kZXToolboxDateFormatDate]);
-    NSLogA(@"#Time: %@", [date stringWithFormat:kZXToolboxDateFormatTime]);
+    NSLogA(@"#Date: %@ #Time: %@", [date stringWithFormat:kZXDateTimeStringFormatDate], [date stringWithFormat:kZXDateTimeStringFormatTime]);
+    NSLogA(@"#Default: %@", [date stringWithFormat:kZXDateTimeStringFormatDefault]);
+    NSLogA(@"#RFC3339: %@", [date stringWithFormat:kZXDateTimeStringFormatRFC3339]);
+    //
+    NSLogA(@"#isToday: %d", [date isToday]);
+    NSLogA(@"#isTomorrow: %d", [date isTomorrow]);
+    NSLogA(@"#isYesterday: %d", [date isYesterday]);
+    NSLogA(@"#isDayAfterTomorrow: %d", [date isDayAfterTomorrow]);
+    NSLogA(@"#isDayBeforeYesterday: %d", [date isDayBeforeYesterday]);
+    NSLogA(@"#isLastDayOfMonth: %d", [date isLastDayOfMonth]);
+    NSLogA(@"#numberOfDaysInMonth: %lu", (unsigned long)[date numberOfDaysInMonth]);
+    //
+    date = [NSDate dateWithString:@"2019-12-31" format:kZXDateTimeStringFormatDate];
+    NSLogA(@"#Date: [%@]", [date stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:0 month:0 day:+1] = %@", [[date dateByAddingYear:0 month:0 day:1] stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:0 month:+1 day:0] = %@", [[date dateByAddingYear:0 month:1 day:0] stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:0 month:+1 day:+1] = %@", [[date dateByAddingYear:0 month:1 day:1] stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:0 month:-1 day:0] = %@", [[date dateByAddingYear:0 month:-1 day:0] stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:0 month:-1 day:+1] = %@", [[date dateByAddingYear:0 month:-1 day:1] stringWithFormat:nil]);
+    //
+    date = [NSDate dateWithString:@"2020-01-31" format:kZXDateTimeStringFormatDate];
+    NSLogA(@"#Date: [%@]", [date stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:0 month:0 day:+1] = %@", [[date dateByAddingYear:0 month:0 day:1] stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:0 month:+1 day:0] = %@", [[date dateByAddingYear:0 month:1 day:0] stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:0 month:+1 day:+1] = %@", [[date dateByAddingYear:0 month:1 day:1] stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:0 month:-1 day:0] = %@", [[date dateByAddingYear:0 month:-1 day:0] stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:0 month:-1 day:+1] = %@", [[date dateByAddingYear:0 month:-1 day:1] stringWithFormat:nil]);
+    //
+    date = [NSDate dateWithString:@"2020-02-28" format:kZXDateTimeStringFormatDate];
+    NSLogA(@"#Date: [%@]", [date stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:0 month:0 day:+1] = %@", [[date dateByAddingYear:0 month:0 day:1] stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:-1 month:0 day:+1] = %@", [[date dateByAddingYear:-1 month:0 day:1] stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:+1 month:0 day:+1] = %@", [[date dateByAddingYear:1 month:0 day:1] stringWithFormat:nil]);
+    //
+    date = [NSDate dateWithString:@"2020-02-29" format:kZXDateTimeStringFormatDate];
+    NSLogA(@"#Date: [%@]", [date stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:0 month:0 day:+1] = %@", [[date dateByAddingYear:0 month:0 day:1] stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:-1 month:0 day:0] = %@", [[date dateByAddingYear:-1 month:0 day:0] stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:-1 month:0 day:-1] = %@", [[date dateByAddingYear:-1 month:0 day:-1] stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:+1 month:0 day:0] = %@", [[date dateByAddingYear:1 month:0 day:0] stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:+1 month:0 day:+1] = %@", [[date dateByAddingYear:1 month:0 day:1] stringWithFormat:nil]);
+    //
+    date = [NSDate dateWithString:@"2020-03-01" format:kZXDateTimeStringFormatDate];
+    NSLogA(@"#Date: [%@]", [date stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:0 month:0 day:-1] = %@", [[date dateByAddingYear:0 month:0 day:-1] stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:-1 month:0 day:-1] = %@", [[date dateByAddingYear:-1 month:0 day:-1] stringWithFormat:nil]);
+    NSLogA(@"#[dateByAddingYear:+1 month:0 day:-1] = %@", [[date dateByAddingYear:1 month:0 day:-1] stringWithFormat:nil]);
 }
 
 - (void)testNSFileManager {
@@ -363,7 +407,7 @@
     ZXDownloader *obj = [ZXDownloader defaultDownloader];
     ZXKeyValueObserver *obs = [[ZXKeyValueObserver alloc] init];
     [obs observe:obj keyPath:@"downloadPath" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
-        NSLogA(@"%@", [change objectForKey:NSKeyValueChangeNewKey]);
+        NSLogA(@"#%@", [change objectForKey:NSKeyValueChangeNewKey]);
     }];
     obj.downloadPath = @"1";
     obj.downloadPath = @"2";
@@ -384,15 +428,19 @@
     ZXLocationManager *lm = [[ZXLocationManager alloc] init];
     __weak typeof(lm) weak = lm;
     lm.didUpdateLocation = ^(CLLocation * _Nonnull location, CLPlacemark * _Nullable placemark) {
-        [weak stopUpdatingLocation];
         NSLogA(@"#location: %@", location);
-        NSLogA(@"#province: %@", placemark.province);
-        NSLogA(@"#city: %@", placemark.city);
-        NSLogA(@"#district: %@", placemark.district);
-        NSLogA(@"#street: %@", placemark.street);
-        NSLogA(@"#streetNumber: %@", placemark.streetNumber);
-        NSLogA(@"#address: %@", placemark.address);
-        [expectation fulfill];
+        if (placemark) {
+            [weak stopUpdatingLocation];
+            //
+            NSLogA(@"#province: %@", placemark.province);
+            NSLogA(@"#city: %@", placemark.city);
+            NSLogA(@"#district: %@", placemark.district);
+            NSLogA(@"#street: %@", placemark.street);
+            NSLogA(@"#streetNumber: %@", placemark.streetNumber);
+            NSLogA(@"#address: %@", placemark.address);
+            //
+            [expectation fulfill];
+        }
     };
     if (@available(iOS 9.0, *)) {
         [lm requestLocation];

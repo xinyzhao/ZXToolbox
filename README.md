@@ -237,16 +237,93 @@ index 3 beyond bounds [0...1]
 
 ```
 NSDate *date = [NSDate date];
-NSLogA(@"#DateTime: %@", [date stringWithFormat:kZXToolboxDateFormatDateTime]);
-NSLogA(@"#Date: %@", [date stringWithFormat:kZXToolboxDateFormatDate]);
-NSLogA(@"#Time: %@", [date stringWithFormat:kZXToolboxDateFormatTime]);
+NSLogA(@"#Date: %@ #Time: %@", [date stringWithFormat:kZXDateTimeStringFormatDate], [date stringWithFormat:kZXDateTimeStringFormatTime]);
+NSLogA(@"#Default: %@", [date stringWithFormat:kZXDateTimeStringFormatDefault]);
+NSLogA(@"#RFC3339: %@", [date stringWithFormat:kZXDateTimeStringFormatRFC3339]);
+//
+NSLogA(@"#isToday: %d", [date isToday]);
+NSLogA(@"#isTomorrow: %d", [date isTomorrow]);
+NSLogA(@"#isYesterday: %d", [date isYesterday]);
+NSLogA(@"#isDayAfterTomorrow: %d", [date isDayAfterTomorrow]);
+NSLogA(@"#isDayBeforeYesterday: %d", [date isDayBeforeYesterday]);
+NSLogA(@"#isLastDayOfMonth: %d", [date isLastDayOfMonth]);
+NSLogA(@"#numberOfDaysInMonth: %lu", (unsigned long)[date numberOfDaysInMonth]);
+//
+date = [NSDate dateWithString:@"2019-12-31" format:kZXDateTimeStringFormatDate];
+NSLogA(@"#Date: [%@]", [date stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:0 day:+1] = %@", [[date dateByAddingYear:0 month:0 day:1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:+1 day:0] = %@", [[date dateByAddingYear:0 month:1 day:0] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:+1 day:+1] = %@", [[date dateByAddingYear:0 month:1 day:1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:-1 day:0] = %@", [[date dateByAddingYear:0 month:-1 day:0] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:-1 day:+1] = %@", [[date dateByAddingYear:0 month:-1 day:1] stringWithFormat:nil]);
+//
+date = [NSDate dateWithString:@"2020-01-31" format:kZXDateTimeStringFormatDate];
+NSLogA(@"#Date: [%@]", [date stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:0 day:+1] = %@", [[date dateByAddingYear:0 month:0 day:1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:+1 day:0] = %@", [[date dateByAddingYear:0 month:1 day:0] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:+1 day:+1] = %@", [[date dateByAddingYear:0 month:1 day:1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:-1 day:0] = %@", [[date dateByAddingYear:0 month:-1 day:0] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:-1 day:+1] = %@", [[date dateByAddingYear:0 month:-1 day:1] stringWithFormat:nil]);
+//
+date = [NSDate dateWithString:@"2020-02-28" format:kZXDateTimeStringFormatDate];
+NSLogA(@"#Date: [%@]", [date stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:0 day:+1] = %@", [[date dateByAddingYear:0 month:0 day:1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:-1 month:0 day:+1] = %@", [[date dateByAddingYear:-1 month:0 day:1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:+1 month:0 day:+1] = %@", [[date dateByAddingYear:1 month:0 day:1] stringWithFormat:nil]);
+//
+date = [NSDate dateWithString:@"2020-02-29" format:kZXDateTimeStringFormatDate];
+NSLogA(@"#Date: [%@]", [date stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:0 day:+1] = %@", [[date dateByAddingYear:0 month:0 day:1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:-1 month:0 day:0] = %@", [[date dateByAddingYear:-1 month:0 day:0] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:-1 month:0 day:-1] = %@", [[date dateByAddingYear:-1 month:0 day:-1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:+1 month:0 day:0] = %@", [[date dateByAddingYear:1 month:0 day:0] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:+1 month:0 day:+1] = %@", [[date dateByAddingYear:1 month:0 day:1] stringWithFormat:nil]);
+//
+date = [NSDate dateWithString:@"2020-03-01" format:kZXDateTimeStringFormatDate];
+NSLogA(@"#Date: [%@]", [date stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:0 day:-1] = %@", [[date dateByAddingYear:0 month:0 day:-1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:-1 month:0 day:-1] = %@", [[date dateByAddingYear:-1 month:0 day:-1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:+1 month:0 day:-1] = %@", [[date dateByAddingYear:1 month:0 day:-1] stringWithFormat:nil]);
 ```
 > Output:
 
 ```
-#DateTime: 2020-06-05 11:59:59
-#Date: 2020-06-05
-#Time: 11:59:59
+#Date: 2022-06-23 #Time: 16:00:08
+#Default: 2022-06-23 16:00:08
+#RFC3339: 2022-06-23T16:00:08.393+0800
+#isToday: 1
+#isTomorrow: 0
+#isYesterday: 0
+#isDayAfterTomorrow: 0
+#isDayBeforeYesterday: 0
+#isLastDayOfMonth: 0
+#numberOfDaysInMonth: 30
+#Date: [2019-12-31 00:00:00]
+#[dateByAddingYear:0 month:0 day:+1] = 2020-01-01 00:00:00
+#[dateByAddingYear:0 month:+1 day:0] = 2020-01-31 00:00:00
+#[dateByAddingYear:0 month:+1 day:+1] = 2020-02-01 00:00:00
+#[dateByAddingYear:0 month:-1 day:0] = 2019-11-30 00:00:00
+#[dateByAddingYear:0 month:-1 day:+1] = 2019-12-01 00:00:00
+#Date: [2020-01-31 00:00:00]
+#[dateByAddingYear:0 month:0 day:+1] = 2020-02-01 00:00:00
+#[dateByAddingYear:0 month:+1 day:0] = 2020-02-29 00:00:00
+#[dateByAddingYear:0 month:+1 day:+1] = 2020-03-01 00:00:00
+#[dateByAddingYear:0 month:-1 day:0] = 2019-12-31 00:00:00
+#[dateByAddingYear:0 month:-1 day:+1] = 2020-01-01 00:00:00
+#Date: [2020-02-28 00:00:00]
+#[dateByAddingYear:0 month:0 day:+1] = 2020-02-29 00:00:00
+#[dateByAddingYear:-1 month:0 day:+1] = 2019-03-01 00:00:00
+#[dateByAddingYear:+1 month:0 day:+1] = 2021-03-01 00:00:00
+#Date: [2020-02-29 00:00:00]
+#[dateByAddingYear:0 month:0 day:+1] = 2020-03-01 00:00:00
+#[dateByAddingYear:-1 month:0 day:0] = 2019-02-28 00:00:00
+#[dateByAddingYear:-1 month:0 day:-1] = 2019-02-27 00:00:00
+#[dateByAddingYear:+1 month:0 day:0] = 2021-02-28 00:00:00
+#[dateByAddingYear:+1 month:0 day:+1] = 2021-03-01 00:00:00
+#Date: [2020-03-01 00:00:00]
+#[dateByAddingYear:0 month:0 day:-1] = 2020-02-29 00:00:00
+#[dateByAddingYear:-1 month:0 day:-1] = 2019-02-28 00:00:00
+#[dateByAddingYear:+1 month:0 day:-1] = 2021-02-28 00:00:00
 ```
 
 * NSFileManager+ZXToolbox
