@@ -1042,18 +1042,25 @@ NSLogA(@"#canEvaluatePolicy:%d", [ZXLocalAuthentication canEvaluatePolicy:LAPoli
 * ZXLocationManager
 
 ```
-ZXLocationManager *lm = [[ZXLocationManager alloc] init];
-lm.didUpdateLocation = ^(CLLocation * _Nonnull location, CLPlacemark * _Nullable placemark) {
+ZXLocationManager *mgr = [[ZXLocationManager alloc] init];
+__weak typeof(mgr) weakMgr = mgr;
+mgr.didUpdateLocation = ^(CLLocation * _Nonnull location, CLPlacemark * _Nullable placemark) {
     NSLogA(@"#location: %@", location);
-    NSLogA(@"#province: %@", placemark.province);
-    NSLogA(@"#city: %@", placemark.city);
-    NSLogA(@"#district: %@", placemark.district);
-    NSLogA(@"#street: %@", placemark.street);
-    NSLogA(@"#streetNumber: %@", placemark.streetNumber);
-    NSLogA(@"#address: %@", placemark.address);
+    if (placemark) {
+        [weakMgr stopUpdatingLocation];
+        //
+        NSLogA(@"#province: %@", placemark.province);
+        NSLogA(@"#city: %@", placemark.city);
+        NSLogA(@"#district: %@", placemark.district);
+        NSLogA(@"#street: %@", placemark.street);
+        NSLogA(@"#streetNumber: %@", placemark.streetNumber);
+        NSLogA(@"#address: %@", placemark.address);
+    }
 };
 if (@available(iOS 9.0, *)) {
-    [lm requestLocation];
+    [mgr requestLocation];
+} else {
+    [mgr startUpdatingLocation];
 }
 ```
 > Output:

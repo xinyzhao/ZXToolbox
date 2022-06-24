@@ -425,12 +425,12 @@
 - (void)testZXLocationManager {
     XCTestExpectation *expectation = [self expectationWithDescription:@"testZXLocationManager"];
     //
-    ZXLocationManager *lm = [[ZXLocationManager alloc] init];
-    __weak typeof(lm) weak = lm;
-    lm.didUpdateLocation = ^(CLLocation * _Nonnull location, CLPlacemark * _Nullable placemark) {
+    ZXLocationManager *mgr = [[ZXLocationManager alloc] init];
+    __weak typeof(mgr) weakMgr = mgr;
+    mgr.didUpdateLocation = ^(CLLocation * _Nonnull location, CLPlacemark * _Nullable placemark) {
         NSLogA(@"#location: %@", location);
         if (placemark) {
-            [weak stopUpdatingLocation];
+            [weakMgr stopUpdatingLocation];
             //
             NSLogA(@"#province: %@", placemark.province);
             NSLogA(@"#city: %@", placemark.city);
@@ -443,9 +443,9 @@
         }
     };
     if (@available(iOS 9.0, *)) {
-        [lm requestLocation];
+        [mgr requestLocation];
     } else {
-        [lm startUpdatingLocation];
+        [mgr startUpdatingLocation];
     }
     //
     [self waitForExpectationsWithTimeout:60 handler:^(NSError * _Nullable error) {
