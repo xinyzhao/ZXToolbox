@@ -38,9 +38,9 @@ extern NSString *const kZXDateTimeStringFormatTime;
 
 /// NSDate (ZXToolbox)
 @interface NSDate (ZXToolbox)
-/// Default is [NSLocale currentLocale/systemLocale]
+/// Default is [NSLocale currentLocale]
 @property (class, copy, nullable) NSLocale *locale;
-/// Default is [NSTimeZone systemTimeZone/defaultTimeZone/localTimeZone]
+/// Default is [NSTimeZone localTimeZone]
 @property (class, copy, nullable) NSTimeZone *timeZone;
 /// Default is [NSCalendar currentCalendar]
 @property (class, copy, nullable) NSCalendar *calendar;

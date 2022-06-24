@@ -42,16 +42,8 @@ NSString *const kZXDateTimeStringFormatTime     = @"HH:mm:ss";
     return dateFormatter;
 }
 
-+ (nullable NSCalendar *)calendar {
-    return [NSDate dateFormatter].calendar;
-}
-
-+ (void)setCalendar:(NSCalendar *)calendar {
-    [NSDate dateFormatter].calendar = calendar;
-}
-
 + (nullable NSLocale *)locale {
-    return [NSDate dateFormatter].locale;
+    return [NSDate dateFormatter].locale ?: [NSLocale currentLocale];
 }
 
 + (void)setLocale:(nullable NSLocale *)locale {
@@ -59,11 +51,19 @@ NSString *const kZXDateTimeStringFormatTime     = @"HH:mm:ss";
 }
 
 + (nullable NSTimeZone *)timeZone {
-    return [NSDate dateFormatter].timeZone;
+    return [NSDate dateFormatter].timeZone ?: [NSTimeZone localTimeZone];
 }
 
 + (void)setTimeZone:(nullable NSTimeZone *)timeZone {
     [NSDate dateFormatter].timeZone = timeZone;
+}
+
++ (nullable NSCalendar *)calendar {
+    return [NSDate dateFormatter].calendar ?: [NSCalendar currentCalendar];
+}
+
++ (void)setCalendar:(NSCalendar *)calendar {
+    [NSDate dateFormatter].calendar = calendar;
 }
 
 + (nullable NSDate *)dateWithString:(NSString *)string format:(nullable NSString  *)format {
@@ -95,8 +95,7 @@ NSString *const kZXDateTimeStringFormatTime     = @"HH:mm:ss";
                             NSCalendarUnitNanosecond |
                             NSCalendarUnitCalendar |
                             NSCalendarUnitTimeZone);
-    NSCalendar *calendar = [NSDate calendar] ?: [NSCalendar currentCalendar];
-    return [calendar components:units fromDate:self];
+    return [[NSDate calendar] components:units fromDate:self];
 }
 
 - (NSDateComponents *)dateComponents {
@@ -107,12 +106,11 @@ NSString *const kZXDateTimeStringFormatTime     = @"HH:mm:ss";
                             NSCalendarUnitMinute |
                             NSCalendarUnitSecond |
                             NSCalendarUnitNanosecond);
-    NSCalendar *calendar = [NSDate calendar] ?: [NSCalendar currentCalendar];
-    return [calendar components:units fromDate:self];
+    return [[NSDate calendar] components:units fromDate:self];
 }
 
 - (NSDate *)dateByAddingYear:(NSInteger)year month:(NSInteger)month day:(NSInteger)day {
-    NSCalendar *calendar = [NSDate calendar] ?: [NSCalendar currentCalendar];
+    NSCalendar *calendar = [NSDate calendar];
     NSDateComponents *comp = self.dateComponents;
     comp.year += year + month / 12;
     comp.month += month % 12;
@@ -161,8 +159,7 @@ NSString *const kZXDateTimeStringFormatTime     = @"HH:mm:ss";
 }
 
 - (NSUInteger)numberOfDaysInMonth {
-    NSCalendar *calendar = [NSDate calendar] ?: [NSCalendar currentCalendar];
-    return [calendar rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:self].length;
+    return [[NSDate calendar] rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:self].length;
 }
 
 @end
