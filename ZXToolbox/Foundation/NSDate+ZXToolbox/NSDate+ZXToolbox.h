@@ -45,12 +45,12 @@ extern NSString *const kZXDateTimeStringFormatTime;
 /// Default is [NSCalendar currentCalendar]
 @property (class, copy, nullable) NSCalendar *calendar;
 
-/// Returns a NSDate from date time string with format
+/// Returns a date from date time string with specified format
 /// @param string The date time string
 /// @param format The date time string format, default is kZXDateTimeStringFormatDefault if pass in nil.
 + (nullable NSDate *)dateWithString:(NSString *)string format:(nullable NSString  *)format;
 
-/// Returns a date representing the absolute time calculated by adding given components to a given date.
+/// Returns a date by adding given nature year/month and day to a given date.
 /// @param year The year will be adding, it could be positive, negative and 0
 /// @param month The month will be adding, it could be positive, negative and 0
 /// @param day The day will be adding, it could be positive, negative and 0
