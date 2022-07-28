@@ -285,7 +285,7 @@
             response = [obj.target performSelector:obj.action withObject:url withObject:data];
 #pragma clang diagnostic pop
         }
-        if (completionHandler) {
+        if (matched > 0 && completionHandler) {
             completionHandler(url, data, response, nil);
         }
     }
