@@ -27,8 +27,6 @@
 #import "NSObject+ZXToolbox.h"
 #import "ZXKeyValueObserver.h"
 
-#define ZXToolboxSubclass @"_ZXToolbox_Subclass"
-
 static char isScrollFreezedKey;
 static char freezedViewsKey;
 static char shouldRecognizeSimultaneouslyKey;
@@ -69,11 +67,15 @@ static char shouldRecognizeSimultaneouslyKey;
     return obj;
 }
 
+- (NSString *)subclassSuffix {
+    return [NSString stringWithFormat:@"ZXToolbox_%lu", (unsigned long)self.hash];
+}
+
 - (void)setShouldRecognizeSimultaneously:(BOOL)shouldRecognizeSimultaneously {
     Class clsA = [self class];
     NSString *strA = NSStringFromClass(clsA);
-    if (![strA hasSuffix:ZXToolboxSubclass]) {
-        NSString *strB = [strA stringByAppendingString:ZXToolboxSubclass];
+    if (![strA hasSuffix:self.subclassSuffix]) {
+        NSString *strB = [strA stringByAppendingString:self.subclassSuffix];
         Class clsB = NSClassFromString(strB);
         if (clsB == nil) {
             clsB = objc_allocateClassPair(clsA, strB.UTF8String, 0);

@@ -26,8 +26,6 @@
 #import "UIView+ZXToolbox.h"
 #import "NSObject+ZXToolbox.h"
 
-#define ZXToolboxSubclass @"_ZXToolbox_Subclass"
-
 static char extrinsicContentSizeKey;
 
 @implementation UIView (ZXToolbox)
@@ -53,11 +51,15 @@ static char extrinsicContentSizeKey;
     return nil;
 }
 
+- (NSString *)subclassSuffix {
+    return [NSString stringWithFormat:@"ZXToolbox_%lu", (unsigned long)self.hash];
+}
+
 - (void)setExtrinsicContentSize:(CGSize)size {
     Class clsA = [self class];
     NSString *strA = NSStringFromClass(clsA);
-    if (![strA hasSuffix:ZXToolboxSubclass]) {
-        NSString *strB = [strA stringByAppendingString:ZXToolboxSubclass];
+    if (![strA hasSuffix:self.subclassSuffix]) {
+        NSString *strB = [strA stringByAppendingString:self.subclassSuffix];
         Class clsB = NSClassFromString(strB);
         if (clsB == nil) {
             clsB = objc_allocateClassPair(clsA, strB.UTF8String, 0);
