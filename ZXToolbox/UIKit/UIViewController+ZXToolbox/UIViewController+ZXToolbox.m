@@ -111,12 +111,6 @@ static char zx_bottomLayoutViewKey;
     return vc;
 }
 
-#pragma mark Target Actions
-
-- (IBAction)onBack:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
 /**
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
