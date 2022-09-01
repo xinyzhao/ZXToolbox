@@ -66,7 +66,7 @@ NSString *const kZXDateTimeStringFormatTime     = @"HH:mm:ss";
     [NSDate dateFormatter].calendar = calendar;
 }
 
-+ (nullable NSDate *)dateWithString:(NSString *)string format:(nullable NSString  *)format {
++ (nullable NSDate *)dateWithString:(NSString *)string format:(nullable NSString *)format {
     NSDateFormatter *date = [NSDate dateFormatter];
     date.dateFormat = format ?: kZXDateTimeStringFormatDefault;
     return [date dateFromString:string];

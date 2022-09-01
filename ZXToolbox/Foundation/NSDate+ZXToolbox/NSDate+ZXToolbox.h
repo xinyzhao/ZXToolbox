@@ -48,7 +48,7 @@ extern NSString *const kZXDateTimeStringFormatTime;
 /// Returns a date from date time string with specified format
 /// @param string The date time string
 /// @param format The date time string format, default is kZXDateTimeStringFormatDefault if pass in nil.
-+ (nullable NSDate *)dateWithString:(NSString *)string format:(nullable NSString  *)format;
++ (nullable NSDate *)dateWithString:(NSString *)string format:(nullable NSString *)format;
 
 /// Returns a date by adding given nature year/month and day to a given date.
 /// @param year The year will be adding, it could be positive, negative and 0

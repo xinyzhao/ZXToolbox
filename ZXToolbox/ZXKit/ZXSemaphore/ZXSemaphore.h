@@ -40,8 +40,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param count The starting value for the semaphore.
 - (instancetype)initWithCount:(NSInteger)count;
 
-/// 增加或减少信号量
-/// Signal (increment or decrement) for the semaphore.
+/// @Brief 增加或减少信号量
+/// @Discussion Signal (increment or decrement) for the semaphore.
 /// @param count The signal value for the semaphore.
 /// @param checkValue Check value for the semaphore.
 - (void)signal:(NSInteger)count checkValue:(BOOL)checkValue;
