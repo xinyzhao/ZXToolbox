@@ -2,7 +2,7 @@
 // UIViewController+ZXToolbox.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,16 +24,19 @@
 //
 
 #import "UIViewController+ZXToolbox.h"
-#import <objc/runtime.h>
+#import "NSObject+ZXToolbox.h"
+
+static char zx_topLayoutViewKey;
+static char zx_bottomLayoutViewKey;
 
 @implementation UIViewController (ZXToolbox)
 
 - (void)setZx_topLayoutView:(UIView *)topLayoutView {
-    objc_setAssociatedObject(self, @selector(zx_topLayoutView), topLayoutView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:&zx_topLayoutViewKey value:topLayoutView policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (UIView *)zx_topLayoutView {
-    UIView *view = objc_getAssociatedObject(self, @selector(zx_topLayoutView));
+    UIView *view = [self getAssociatedObject:&zx_topLayoutViewKey];
     if (view == nil) {
         view = [[UIView alloc] initWithFrame:CGRectZero];
         view.translatesAutoresizingMaskIntoConstraints = NO;
@@ -51,11 +54,11 @@
 }
 
 - (void)setZx_bottomLayoutView:(UIView *)bottomLayoutView {
-    objc_setAssociatedObject(self, @selector(zx_bottomLayoutView), bottomLayoutView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:&zx_bottomLayoutViewKey value:bottomLayoutView policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (UIView *)zx_bottomLayoutView {
-    UIView *view = objc_getAssociatedObject(self, @selector(zx_bottomLayoutView));
+    UIView *view = [self getAssociatedObject:&zx_bottomLayoutViewKey];
     if (view == nil) {
         view = [[UIView alloc] initWithFrame:CGRectZero];
         view.translatesAutoresizingMaskIntoConstraints = NO;
@@ -106,12 +109,6 @@
         vc = [vc zx_visibleViewController];
     }
     return vc;
-}
-
-#pragma mark Target Actions
-
-- (IBAction)onBack:(id)sender {
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 /**

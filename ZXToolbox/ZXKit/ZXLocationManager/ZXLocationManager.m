@@ -2,7 +2,7 @@
 // ZXLocationManager.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2019 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -109,6 +109,9 @@
      didUpdateLocations:(NSArray<CLLocation *> *)locations {
     // location
     self.location = [locations lastObject];
+    if (self.didUpdateLocation) {
+        self.didUpdateLocation(self.location, nil);
+    }
     // geocoder
     [[[CLGeocoder alloc] init] reverseGeocodeLocation:_location completionHandler:^(NSArray *array, NSError *error){
         CLPlacemark *placemark = [array lastObject];

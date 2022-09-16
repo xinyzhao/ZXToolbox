@@ -2,7 +2,7 @@
 // UIApplication+ZXToolbox.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,15 @@
 //
 
 #import "UIApplication+ZXToolbox.h"
-#import <objc/runtime.h>
+#import "NSObject+ZXToolbox.h"
+
+static char networkActivityIndicatorCountKey;
+static char idleTimerDisabledSavedKey;
+static char willResignActiveObserverKey;
+static char didEnterBackgroundObserverKey;
+static char willEnterForegroundObserverKey;
+static char didBecomeActiveObserverKey;
+static char idleTimerEnabledKey;
 
 @interface UIApplication ()
 @property (nonatomic, assign) NSNumber *idleTimerDisabledSaved;
@@ -74,7 +82,14 @@
         url = [NSURL URLWithString:[NSString stringWithFormat:@"prefs:root==%@", [NSBundle mainBundle].infoDictionary[@"CFBundleIdentifier"]]];
     }
     if([self canOpenURL:url]) {
-        return [self openURL:url];
+        if(@available(iOS 10.0, *)) {
+            [self openURL:url options:@{} completionHandler:^(BOOL success) {
+                //return success;
+            }];
+            return YES;
+        } else {
+            return [self openURL:url];
+        }
     }
     return NO;
 }
@@ -101,59 +116,59 @@
 #pragma mark NetworkActivityIndicator
 
 - (void)setNetworkActivityIndicatorCount:(NSUInteger)networkActivityIndicatorCount {
-    objc_setAssociatedObject(self, @selector(networkActivityIndicatorCount), @(networkActivityIndicatorCount), OBJC_ASSOCIATION_ASSIGN);
+    [self setAssociatedObject:&networkActivityIndicatorCountKey value:@(networkActivityIndicatorCount) policy:OBJC_ASSOCIATION_RETAIN];
     self.networkActivityIndicatorVisible = networkActivityIndicatorCount > 0;
 }
 
 - (NSUInteger)networkActivityIndicatorCount {
-    NSNumber *number = objc_getAssociatedObject(self, @selector(networkActivityIndicatorCount));
+    NSNumber *number = [self getAssociatedObject:&networkActivityIndicatorCountKey];
     return [number integerValue];
 }
 
 #pragma mark IdleTimer
 
 - (NSNumber *)idleTimerDisabledSaved {
-    return objc_getAssociatedObject(self, @selector(idleTimerDisabledSaved));
+    return [self getAssociatedObject:&idleTimerDisabledSavedKey];
 }
 
 - (void)setIdleTimerDisabledSaved:(NSNumber *)idleTimerDisabledSaved {
-    objc_setAssociatedObject(self, @selector(idleTimerDisabledSaved), idleTimerDisabledSaved, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:&idleTimerDisabledSavedKey value:idleTimerDisabledSaved policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (id)willResignActiveObserver {
-    return objc_getAssociatedObject(self, @selector(willResignActiveObserver));
+    return [self getAssociatedObject:&willResignActiveObserverKey];
 }
 
 - (void)setWillResignActiveObserver:(id)willResignActiveObserver {
-    objc_setAssociatedObject(self, @selector(willResignActiveObserver), willResignActiveObserver, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:&willResignActiveObserverKey value:willResignActiveObserver policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (id)didEnterBackgroundObserver {
-    return objc_getAssociatedObject(self, @selector(didEnterBackgroundObserver));
+    return [self getAssociatedObject:&didEnterBackgroundObserverKey];
 }
 
 - (void)setDidEnterBackgroundObserver:(id)didEnterBackgroundObserver {
-    objc_setAssociatedObject(self, @selector(didEnterBackgroundObserver), didEnterBackgroundObserver, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:&didEnterBackgroundObserverKey value:didEnterBackgroundObserver policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (id)willEnterForegroundObserver {
-    return objc_getAssociatedObject(self, @selector(willEnterForegroundObserver));
+    return [self getAssociatedObject:&willEnterForegroundObserverKey];
 }
 
 - (void)setWillEnterForegroundObserver:(id)willEnterForegroundObserver {
-    objc_setAssociatedObject(self, @selector(willEnterForegroundObserver), willEnterForegroundObserver, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:&willEnterForegroundObserverKey value:willEnterForegroundObserver policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (id)didBecomeActiveObserver {
-    return objc_getAssociatedObject(self, @selector(didBecomeActiveObserver));
+    return [self getAssociatedObject:&didBecomeActiveObserverKey];
 }
 
 - (void)setDidBecomeActiveObserver:(id)didBecomeActiveObserver {
-    objc_setAssociatedObject(self, @selector(didBecomeActiveObserver), didBecomeActiveObserver, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:&didBecomeActiveObserverKey value:didBecomeActiveObserver policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (BOOL)idleTimerEnabled {
-    NSNumber *number = objc_getAssociatedObject(self, @selector(idleTimerEnabled));
+    NSNumber *number = [self getAssociatedObject:&idleTimerEnabledKey];
     return [number boolValue];
 }
 
@@ -162,7 +177,7 @@
         self.idleTimerDisabledSaved = @(self.idleTimerDisabled);
     }
     //
-    objc_setAssociatedObject(self, @selector(idleTimerEnabled), @(idleTimerEnabled), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:&idleTimerEnabledKey value:@(idleTimerEnabled) policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
     self.idleTimerDisabled = !idleTimerEnabled;
     //
     __weak typeof(self) weakSelf = self;

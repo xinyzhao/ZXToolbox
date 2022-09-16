@@ -1,5 +1,5 @@
 //
-// ZXKVObserver.m
+// ZXKeyValueObserver.m
 // https://github.com/xinyzhao/ZXToolbox
 //
 // Copyright (c) 2020 Zhao Xin
@@ -23,48 +23,41 @@
 // THE SOFTWARE.
 //
 
-#import "ZXKVObserver.h"
+#import "ZXKeyValueObserver.h"
 
-@interface ZXKVObserver ()
+@interface ZXKeyValueObserver ()
 @property (nonatomic, weak) NSObject *object;
 @property (nonatomic, copy) NSString *keyPath;
-@property (nonatomic, assign) NSKeyValueObservingOptions options;
 @property (nonatomic, assign) void *context;
-@property (nonatomic, copy) ZXKVObserveValue observeValue;
+@property (nonatomic, copy) ZXKeyValueChangeHandler changeHandler;
 
 @end
 
-@implementation ZXKVObserver
+@implementation ZXKeyValueObserver
 
-- (void)addObserver:(NSObject *)object forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(nullable void *)context observeValue:(ZXKVObserveValue)observeValue {
-    [self removeObserver];
+- (void)observe:(NSObject *)object keyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(nullable void *)context changeHandler:(ZXKeyValueChangeHandler)changeHandler {
+    [self invalidate];
     self.object = object;
     self.keyPath = keyPath;
-    self.options = options;
     self.context = context;
-    self.observeValue = observeValue;
-    [self addObserver];
-}
-
-- (void)addObserver {
-    [self.object addObserver:self forKeyPath:self.keyPath options:self.options context:self.context];
-}
-
-- (void)removeObserver {
-    [self.object removeObserver:self forKeyPath:self.keyPath context:self.context];
-    self.object = nil;
-    self.keyPath = nil;
-    self.options = 0;
-    self.context = NULL;
-    self.observeValue = NULL;
+    self.changeHandler = changeHandler;
+    [self.object addObserver:self forKeyPath:self.keyPath options:options context:self.context];
 }
 
 - (void)observeValueForKeyPath:(nullable NSString *)keyPath ofObject:(nullable id)object change:(nullable NSDictionary<NSKeyValueChangeKey, id> *)change context:(nullable void *)context {
-    if (object == self.object && [keyPath isEqualToString:self.keyPath] && context == self.context) {
-        if (self.observeValue) {
-            self.observeValue(change);
+    if (object == self.object && [keyPath isEqualToString:self.keyPath]) {
+        if (self.changeHandler) {
+            self.changeHandler(change, context);
         }
     }
+}
+
+- (void)invalidate {
+    [self.object removeObserver:self forKeyPath:self.keyPath context:self.context];
+    self.object = nil;
+    self.keyPath = nil;
+    self.context = NULL;
+    self.changeHandler = nil;
 }
 
 @end

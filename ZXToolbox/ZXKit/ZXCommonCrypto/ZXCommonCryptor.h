@@ -2,7 +2,7 @@
 // ZXCommonCryptor.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param iv  Initialization vector
 /// @param error Error of encryption
 /// @return Encrypted data if no error.
-- (NSData *)encryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id _Nullable)iv error:(NSError **_Nullable)error;
+- (NSData *)encryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(nullable id)iv error:(NSError ** _Nullable)error;
 
 /// Create a decrypted NSData from an NSData or UTF-8 encoded NSString using the given options.
 /// @param algorithm Encryption algorithms implemented by this module.
@@ -49,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param iv  Initialization vector
 /// @param error Error of decryption
 /// @return Decrypted data if no error.
-- (NSData *)decryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id _Nullable)iv error:(NSError **_Nullable)error;
+- (NSData *)decryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(nullable id)iv error:(NSError ** _Nullable)error;
 
 @end
 

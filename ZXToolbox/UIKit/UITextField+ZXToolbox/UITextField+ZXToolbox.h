@@ -2,7 +2,7 @@
 // UITextField+ZXToolbox.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,20 +25,24 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface UITextField (ZXToolbox)
 /**
- 11位手机号格式，一般设置为以空格分隔的344格式：### #### ####，符号#为点位符，只支持中国手机号，默认为nil
+ 11位手机号格式，一般设置为以空格分隔的344格式：### #### ####，符号#为占位符，只支持中国手机号，默认为nil
  */
-@property (nonatomic, strong) NSString *mobileNumberFormat;
+@property (nonatomic, strong, nullable) NSString *mobileNumberFormat;
 
 /**
  手机号输入完成后调用的Block
  */
-@property (nonatomic, copy) void (^mobileNumberDidCompleted)(UITextField *textField, NSString *unformattedText);
+@property (nonatomic, copy, nullable) void (^mobileNumberDidCompleted)(UITextField *textField, NSString *unformattedText);
 
 /**
  占位符颜色
  */
-@property (nonatomic, strong) IBInspectable UIColor *placeholderColor;
+@property (nonatomic, strong, nullable) IBInspectable UIColor *placeholderColor;
 
 @end
+
+NS_ASSUME_NONNULL_END

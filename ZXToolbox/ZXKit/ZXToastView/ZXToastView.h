@@ -2,7 +2,7 @@
 // ZXToastView.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,110 +28,108 @@
 NS_ASSUME_NONNULL_BEGIN
 
 
-/// ZXToastViewStyle
+/// ZXToastStyle
 typedef NS_ENUM(NSInteger, ZXToastStyle) {
-    ZXToastStyleUnspecified,
-    ZXToastStyleLight,
     ZXToastStyleDark,
+    ZXToastStyleLight,
+    ZXToastStyleSystem, // follow the system style
 };
 
-/// ZXToastPosition
-typedef NS_ENUM(NSInteger, ZXToastPosition) {
-    ZXToastPositionCenter,
-    ZXToastPositionTop,
-    ZXToastPositionBottom,
-    ZXToastPositionLeft,
-    ZXToastPositionRight,
-    ZXToastPositionTopLeft,
-    ZXToastPositionTopRight,
-    ZXToastPositionBottomLeft,
-    ZXToastPositionBottomRight,
+/// ZXToastAnimation
+typedef NS_ENUM(NSInteger, ZXToastAnimation) {
+    ZXToastAnimationNone,
+    ZXToastAnimationFade,
+    ZXToastAnimationScale,
 };
 
-/// ZXToastView
-@interface ZXToastView : UIView
+/// ZXToastEffectView
+@interface ZXToastEffectView : UIVisualEffectView
 
-/// Preset style for toast view, default is ZXToastStyleUnspecified
-@property (nonatomic, readwrite) ZXToastStyle style;
-
-/// The bubble view
-@property (nonatomic, readonly) UIView *bubbleView;
-
-/// Blur effect style for bubbleView
-@property (nonatomic, readwrite) UIBlurEffectStyle effectStyle NS_AVAILABLE_IOS(8_0);
-
-/// The activity view
-@property (nonatomic, readonly, nullable) UIActivityIndicatorView *activityView;
+/// The effect style
+@property (nonatomic, assign) UIBlurEffectStyle effectStyle;
 
 /// The text label
-@property (nonatomic, readonly, nullable) UILabel *textLabel;
+@property (nonatomic, readonly) UILabel *textLabel;
 
 /// The image view
-@property (nonatomic, readonly, nullable) UIImageView *imageView;
+@property (nonatomic, readonly) UIImageView *imageView;
 
-/// Toast safe area insets, default is {0, 0, 0, 0}
-@property (nonatomic, assign) UIEdgeInsets safeAreaInset;
+/// The image view size
+@property (nonatomic, assign) CGSize imageSize;
 
-/// Toast content margin, default is {15, 15, 15, 20}
+/// The loading view
+@property (nonatomic, readonly) UIActivityIndicatorView *loadingView;
+
+/// The loading view size
+@property (nonatomic, assign) CGSize loadingSize;
+
+/// Toast content margin, default is {16, 16, 16, 16}
 @property (nonatomic, assign) UIEdgeInsets contentInset;
 
-/// Toast content spacing, default is 8
-@property (nonatomic, assign) CGFloat contentSpacing;
+/// Toast content size, include the contentInset size.
+@property (nonatomic, readonly) CGSize contentSize;
 
-/// Toast corner radius, default is 10
-@property (nonatomic, assign) CGFloat cornerRadius;
+/// Toast item spacing, default is 8
+@property (nonatomic, assign) CGFloat itemSpacing;
 
-/// The toast duration, default is 3 sec.
-@property (nonatomic, assign) NSTimeInterval duration;
+@end
 
-/// The fade in/out animation duration. Default is 0.2.
-@property (nonatomic, assign) NSTimeInterval fadeDuration;
+/// ZXToastView
+/// @Discussion The touch events will be captured when displayed, stop captures by setting the userInteractionEnabled to false.
+@interface ZXToastView : UIView
 
-/// The toast position, default is ZXToastViewPositionCenter
-@property (nonatomic, assign) ZXToastPosition position;
+/// Preset style for toast view, default is ZXToastStyleSystem
+@property (nonatomic, assign) ZXToastStyle style;
 
-/// Tap to dismiss on toast views, default is YES
-@property (nonatomic, assign) BOOL dismissWhenTouchInside;
+/// The animation type, default is ZXToastAnimationFade
+@property (nonatomic, assign) ZXToastAnimation animation;
 
-/// Capture all touchs when toast view presenting, default is YES
-@property (nonatomic, assign) BOOL captureWhenTouchOutside;
+/// The effectView view, it's layer.cornerRadius is 16, layer.masksToBounds is true, you can set it by yourself if you needed.
+/// You can change the foreground color by setting effectView.tintColor after ZXToastView.style was setting.
+@property (nonatomic, readonly) ZXToastEffectView *effectView;
 
-/// Init toast activity view
+/// The custom view, replace the effectView if not nil.
+@property (nonatomic, strong, nullable) UIView *customView;
+
+/// Toast center point, default is {0.5, 0.5}
+@property (nonatomic, assign) CGPoint centerPoint;
+
+/// Toast safe area insets, default is equal to system safe area
+@property (nonatomic, assign) UIEdgeInsets safeAreaInset;
+
+/// Change the loading text
 /// @param text The text to be displayed
-- (instancetype)initWithActivity:(NSString * _Nullable)text;
+- (instancetype)showText:(nullable NSString *)text;
 
-/// Creates a new toast view
-/// @param text The text to be displayed
-- (instancetype)initWithText:(NSString * _Nullable)text;
-
-/// Creates a new toast view
-/// @param text The text to be displayed
-/// @param duration The toast duration
-- (instancetype)initWithText:(NSString * _Nullable)text
-                    duration:(NSTimeInterval)duration;
-
-/// Creates a new toast view
+/// Show the text and image
 /// @param image The image
+/// @param text The text
+- (instancetype)showImage:(UIImage *)image text:(nullable NSString *)text;
+
+/// Show the loading text
 /// @param text The text to be displayed
-/// @param duration The toast duration
-- (instancetype)initWithImage:(UIImage * _Nullable)image
-                         text:(NSString * _Nullable)text
-                     duration:(NSTimeInterval)duration;
+- (instancetype)showLoading:(nullable NSString *)text;
 
-/// Show toast in view
-/// @param view The superview
-- (instancetype)showInView:(UIView *)view;
-
-/// Show the status text
-/// @param text The text to be displayed
-- (void)showStatus:(NSString * _Nullable)text;
-
-/// Hide the toast
+/// Show the toast with animated
 /// @param animated animated
+/// @discussion If animated is YES and the animation is not ZXToastAnimationNone, the toast will be animation showing.
+- (instancetype)showAnimated:(BOOL)animated;
+
+/// Show the toast in view
+/// @param view The superview
+- (instancetype)showInView:(nullable UIView *)view;
+
+/// Hide the toast after delay time
+/// @param time The delay time
+- (void)hideAfter:(NSTimeInterval)time;
+
+/// Hide the toast with animated
+/// @param animated animated
+/// @discussion If animated is YES and the animation is not ZXToastAnimationNone, the toast will be animation hiding.
 - (void)hideAnimated:(BOOL)animated;
 
-/// Hide all toast
-+ (void)hideAllToast;
+/// Remove all toasts
++ (void)hideToasts;
 
 @end
 

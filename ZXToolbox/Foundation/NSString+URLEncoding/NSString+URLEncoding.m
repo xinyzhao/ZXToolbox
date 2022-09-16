@@ -2,7 +2,7 @@
 // NSString+URLEncoding.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -54,11 +54,12 @@
     if (set) {
         return [self stringByAddingPercentEncodingWithAllowedCharacters:set];
     }
-    return nil;
+    return self;
 }
 
 - (NSString *)stringByURLDecoding {
-    return [self stringByRemovingPercentEncoding];
+    NSString *str = [self stringByRemovingPercentEncoding];
+    return str ? str : self;
 }
 
 @end

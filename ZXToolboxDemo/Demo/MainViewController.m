@@ -33,6 +33,7 @@
     self.dataArray = @[
         @{@"title":@"Foundation",
           @"rows":@[
+                  @"AVAsset+ZXToolbox",
                   @"AVAudioSession+ZXToolbox",
                   @"Base64Encoding",
                   @"JSONObject",
@@ -68,11 +69,12 @@
         @{@"title":@"ZXKit",
           @"rows":@[
                   @"ZXAuthorizationHelper",
-                  @"ZXBadgeLabel",
                   @"ZXBrightnessView",
                   @"ZXCircularProgressView",
                   @"ZXCommonCrypto",
                   @"ZXCoordinate2D",
+                  @"ZXDeallocObject",
+                  @"ZXDebugTools",
                   @"ZXDispatchQueue",
                   @"ZXDownloader",
                   @"ZXDrawingView",
@@ -80,7 +82,7 @@
                   @"ZXHaloLabel",
                   @"ZXImageBroswer",
                   @"ZXKeychain",
-                  @"ZXKVObserver",
+                  @"ZXKeyValueObserver",
                   @"ZXLineChartView",
                   @"ZXLocalAuthentication",
                   @"ZXLocationManager",
@@ -92,24 +94,31 @@
                   @"ZXPlayer",
                   @"ZXPlayerViewController",
                   @"ZXPopoverView",
-                  @"ZXPopoverWindow",
                   @"ZXQRCodeGenerator",
                   @"ZXQRCodeReader",
                   @"ZXQRCodeScanner",
                   @"ZXScriptMessageHandler",
+                  @"ZXSemaphore",
                   @"ZXStackView",
                   @"ZXTabBar",
                   @"ZXTabBarController",
                   @"ZXTagView",
+                  @"ZXTextAttributes",
                   @"ZXTimer",
                   @"ZXToastView",
                   @"ZXToolbox+Macros",
                   @"ZXURLProtocol",
+                  @"ZXURLRouter",
                   @"ZXURLSession"
           ]
         }
     ];
     [self.tableView reloadData];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(nullable id)sender {
+    UIViewController *vc = segue.destinationViewController;
+    vc.title = segue.identifier;
 }
 
 #pragma mark <UITableViewDataSource>

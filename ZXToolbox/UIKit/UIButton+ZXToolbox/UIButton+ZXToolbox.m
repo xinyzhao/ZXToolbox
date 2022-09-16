@@ -2,7 +2,7 @@
 // UIButton+ZXToolbox.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2019 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,9 @@
 
 #import "UIButton+ZXToolbox.h"
 #import "NSObject+ZXToolbox.h"
-#import <objc/runtime.h>
+
+static char titleImageLayoutKey;
+static char titleImageSpacingKey;
 
 @implementation UIButton (ZXToolbox)
 
@@ -64,27 +66,30 @@
 }
 
 - (void)zx_setBounds:(CGRect)rect {
+    CGRect bounds = self.bounds;
     [self zx_setBounds:rect];
-    [self layoutTitleImage];
+    if (!CGRectEqualToRect(bounds, rect)) { // Bugs fixes for Xcode 13
+        [self layoutTitleImage];
+    }
 }
 
 - (void)setTitleImageLayout:(UIButtonTitleImageLayout)titleImageLayout {
-    objc_setAssociatedObject(self, @selector(titleImageLayout), @(titleImageLayout), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:&titleImageLayoutKey value:@(titleImageLayout) policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
     [self layoutTitleImage];
 }
 
 - (UIButtonTitleImageLayout)titleImageLayout {
-    NSNumber *number = objc_getAssociatedObject(self, @selector(titleImageLayout));
+    NSNumber *number = [self getAssociatedObject:&titleImageLayoutKey];
     return [number integerValue];
 }
 
 - (void)setTitleImageSpacing:(CGFloat)titleImageSpacing {
-    objc_setAssociatedObject(self, @selector(titleImageSpacing), @(titleImageSpacing), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:&titleImageSpacingKey value:@(titleImageSpacing) policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
     [self layoutTitleImage];
 }
 
 - (CGFloat)titleImageSpacing {
-    NSNumber *number = objc_getAssociatedObject(self, @selector(titleImageSpacing));
+    NSNumber *number = [self getAssociatedObject:&titleImageSpacingKey];
     return [number floatValue];
 }
 

@@ -61,13 +61,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param key Key under which the value is stored in the keychain.
 /// @param accessible  Indicates when a keychain item is accessible.
 /// @return True if the value was successfully written to the keychain, otherwise, lastError is not nil.
-- (BOOL)setData:(NSData *_Nullable)value forKey:(NSString *)key withAccessible:(ZXKeychainItemAttrAccessible)accessible;
+- (BOOL)setData:(nullable NSData *)value forKey:(NSString *)key withAccessible:(ZXKeychainItemAttrAccessible)accessible;
 
 /// Stores the data value in the keychain item under the given key. Accessible is ZXKeychainItemAttrAccessibleWhenUnlocked.
 /// @param value Data to be written to the keychain.
 /// @param key Key under which the value is stored in the keychain.
 /// @return True if the value was successfully written to the keychain, otherwise, lastError is not nil.
-- (BOOL)setData:(NSData *_Nullable)value forKey:(NSString *)key;
+- (BOOL)setData:(nullable NSData *)value forKey:(NSString *)key;
 
 /// Retrieves the data from the keychain that corresponds to the given key.
 /// @param key The key that is used to read the keychain item.
@@ -79,13 +79,13 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param key Key under which the value is stored in the keychain.
 /// @param accessible Indicates when a keychain item is accessible.
 /// @return True if the value was successfully written to the keychain, otherwise, lastError is not nil.
-- (BOOL)setString:(NSString *_Nullable)value forKey:(NSString *)key withAccessible:(ZXKeychainItemAttrAccessible)accessible;
+- (BOOL)setString:(nullable NSString *)value forKey:(NSString *)key withAccessible:(ZXKeychainItemAttrAccessible)accessible;
 
 /// Stores the text string in the keychain item under the given key. Accessible is ZXKeychainItemAttrAccessibleWhenUnlocked.
 /// @param value Text string to be written to the keychain.
 /// @param key Key under which the value is stored in the keychain.
 /// @return True if the value was successfully written to the keychain, otherwise, lastError is not empty.
-- (BOOL)setString:(NSString *_Nullable)value forKey:(NSString *)key;
+- (BOOL)setString:(nullable NSString *)value forKey:(NSString *)key;
 
 /// Retrieves the text string from the keychain that corresponds to the given key.
 /// @param key The key that is used to read the keychain item.

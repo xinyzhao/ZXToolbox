@@ -2,7 +2,7 @@
 // UIDevice+ZXToolbox.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2019 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -55,7 +55,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, readonly) int cpuType;
 
 /// Proximity state observer block
-@property (nonatomic, copy) void (^proximityStateDidChange)(BOOL proximityState);
+@property (nonatomic, nullable, copy) void (^proximityStateDidChange)(BOOL proximityState);
 
 @end
 

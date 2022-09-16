@@ -2,7 +2,7 @@
 // NSString+Unicode.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,6 +25,8 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface NSString (Unicode)
 
 + (NSString *)stringByReplacingUnicodeString:(NSString *)string;
@@ -44,3 +46,5 @@
 @interface NSSet (Unicode)
 // Replacing unicode string in description
 @end
+
+NS_ASSUME_NONNULL_END

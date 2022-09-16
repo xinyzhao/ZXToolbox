@@ -45,8 +45,9 @@
 - (IBAction)onGenerate:(id)sender {
     NSString *text = _textView.text;
     if (text == nil || text.length == 0) {
-        ZXToastView *toastView = [[ZXToastView alloc] initWithText:@"Please input text"];
-        [toastView showInView:self.view];
+        ZXToastView *toastView = [[ZXToastView alloc] init];
+        [toastView showText:@"Please input text"];
+        [toastView hideAfter:2];
         return;
     }
     //
@@ -56,11 +57,11 @@
     //
     UIColor *foreColor = UIColor.blackColor;
     if (_foregroundColorField.text.length > 0) {
-        foreColor = [UIColor colorWithString:_foregroundColorField.text];
+        foreColor = ZXColorFromHEXString(_foregroundColorField.text, 1);
     }
     UIColor *backColor = UIColor.whiteColor;
     if (_backgroundColorField.text.length > 0) {
-        backColor = [UIColor colorWithString:_backgroundColorField.text];
+        backColor = ZXColorFromHEXString(_backgroundColorField.text, 1);
     }
     NSString *level = ZXQRCodeCorrectionLevelMedium;
     switch (_correctionLevelControl.selectedSegmentIndex) {
@@ -89,8 +90,9 @@
         UIAlertAction *copy = [UIAlertAction actionWithTitle:@"Copy to pasteboard" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [[UIPasteboard generalPasteboard] setImage:image];
             AudioServicesPlaySystemSound(1001);
-            ZXToastView *toastView = [[ZXToastView alloc] initWithText:@"Copy success"];
-            [toastView showInView:weakSelf.view];
+            ZXToastView *toastView = [[ZXToastView alloc] init];
+            [toastView showText:@"Copy success"];
+            [toastView hideAfter:2];
         }];
         UIAlertAction *save = [UIAlertAction actionWithTitle:@"Save to photo album" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [ZXPhotoLibrary requestAuthorization:^(AVAuthorizationStatus status) {
@@ -99,8 +101,9 @@
                     {
                         [[ZXPhotoLibrary sharedPhotoLibrary] saveImage:image toSavedPhotoAlbum:^(NSError *error) {
                             NSString *msg = error ? error.localizedDescription : @"Save success";
-                            ZXToastView *toastView = [[ZXToastView alloc] initWithText:msg];
-                            [toastView showInView:weakSelf.view];
+                            ZXToastView *toastView = [[ZXToastView alloc] init];
+                            [toastView showText:msg];
+                            [toastView hideAfter:2];
                         }];
                         break;
                     }

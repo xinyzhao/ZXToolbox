@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -58,8 +58,6 @@
 		7000AD4E22E9C22F00651E44 /* ZXBlockTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACA022E9C22F00651E44 /* ZXBlockTimer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD4F22E9C22F00651E44 /* ZXTimer.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACA122E9C22F00651E44 /* ZXTimer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD5022E9C22F00651E44 /* ZXTargetTimer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACA222E9C22F00651E44 /* ZXTargetTimer.m */; };
-		7000AD5122E9C22F00651E44 /* ZXPopoverWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACA422E9C22F00651E44 /* ZXPopoverWindow.m */; };
-		7000AD5222E9C22F00651E44 /* ZXPopoverWindow.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACA522E9C22F00651E44 /* ZXPopoverWindow.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD5322E9C22F00651E44 /* ZXBrightnessView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACA722E9C22F00651E44 /* ZXBrightnessView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD5422E9C22F00651E44 /* ZXBrightnessView.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 7000ACA822E9C22F00651E44 /* ZXBrightnessView.bundle */; };
 		7000AD5522E9C22F00651E44 /* ZXBrightnessView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACA922E9C22F00651E44 /* ZXBrightnessView.m */; };
@@ -98,8 +96,6 @@
 		7000AD7A22E9C22F00651E44 /* ZXScriptMessageHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACDE22E9C22F00651E44 /* ZXScriptMessageHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD7B22E9C22F00651E44 /* ZXTagView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACE022E9C22F00651E44 /* ZXTagView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD7C22E9C22F00651E44 /* ZXTagView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACE122E9C22F00651E44 /* ZXTagView.m */; };
-		7000AD7D22E9C22F00651E44 /* ZXBadgeLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACE322E9C22F00651E44 /* ZXBadgeLabel.m */; };
-		7000AD7E22E9C22F00651E44 /* ZXBadgeLabel.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACE422E9C22F00651E44 /* ZXBadgeLabel.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD7F22E9C22F00651E44 /* ZXQRCodeReader.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACE622E9C22F00651E44 /* ZXQRCodeReader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD8022E9C22F00651E44 /* ZXQRCodeReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACE722E9C22F00651E44 /* ZXQRCodeReader.m */; };
 		7000AD8122E9C22F00651E44 /* ZXHaloLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACE922E9C22F00651E44 /* ZXHaloLabel.m */; };
@@ -133,12 +129,16 @@
 		7000ADA322E9C22F00651E44 /* ZXHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000AD1822E9C22F00651E44 /* ZXHTTPClient.m */; };
 		7000ADA422E9C22F00651E44 /* ZXHTTPSecurity.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AD1922E9C22F00651E44 /* ZXHTTPSecurity.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000ADA522E9C22F00651E44 /* ZXHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000AD1A22E9C22F00651E44 /* ZXHTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70259A622655090B0022C91C /* ZXDebugTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 70259A602655090A0022C91C /* ZXDebugTools.m */; };
+		70259A632655090B0022C91C /* ZXDebugTools.h in Headers */ = {isa = PBXBuildFile; fileRef = 70259A612655090A0022C91C /* ZXDebugTools.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70271314249F0C02001850B5 /* ZXToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7000AC4722E9C1CC00651E44 /* ZXToolbox.framework */; };
 		70271316249F1120001850B5 /* ZXCoordinate2D.m in Sources */ = {isa = PBXBuildFile; fileRef = 70271315249F1120001850B5 /* ZXCoordinate2D.m */; };
 		70271318249F56CF001850B5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 70271317249F56CF001850B5 /* Main.storyboard */; };
 		7027131E24A1A7ED001850B5 /* Base64EncodingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7027131D24A1A7ED001850B5 /* Base64EncodingViewController.m */; };
 		7040F6CB23824182009EFB1F /* UINavigationController+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7040F6C923824182009EFB1F /* UINavigationController+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7040F6CC23824182009EFB1F /* UINavigationController+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 7040F6CA23824182009EFB1F /* UINavigationController+ZXToolbox.m */; };
+		704EA53A2743A00400BA5962 /* ZXDeallocObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 704EA5382743A00400BA5962 /* ZXDeallocObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		704EA53B2743A00400BA5962 /* ZXDeallocObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 704EA5392743A00400BA5962 /* ZXDeallocObject.m */; };
 		705A8FD123C2D51000BE361F /* ZXKeychain.h in Headers */ = {isa = PBXBuildFile; fileRef = 705A8FCF23C2D51000BE361F /* ZXKeychain.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		705A8FD223C2D51000BE361F /* ZXKeychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 705A8FD023C2D51000BE361F /* ZXKeychain.m */; };
 		705A8FD923C2E32100BE361F /* ZXKeychainItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 705A8FD723C2E32100BE361F /* ZXKeychainItem.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -151,6 +151,12 @@
 		70988F382335F3B30002A8A3 /* UIControl+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */; };
 		709DF5FC24BEF9F100075E6F /* AVAsset+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 709DF5FA24BEF9F100075E6F /* AVAsset+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		709DF5FD24BEF9F100075E6F /* AVAsset+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 709DF5FB24BEF9F100075E6F /* AVAsset+ZXToolbox.m */; };
+		70A6381A268423640050E111 /* NSObject+JSONObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 70A63818268423640050E111 /* NSObject+JSONObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70A6381B268423640050E111 /* NSObject+JSONObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A63819268423640050E111 /* NSObject+JSONObject.m */; };
+		70A638222684288F0050E111 /* NSData+JSONObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 70A638202684288F0050E111 /* NSData+JSONObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70A638232684288F0050E111 /* NSData+JSONObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A638212684288F0050E111 /* NSData+JSONObject.m */; };
+		70A6382A268434130050E111 /* NSString+JSONObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 70A63828268434130050E111 /* NSString+JSONObject.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70A6382B268434130050E111 /* NSString+JSONObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A63829268434130050E111 /* NSString+JSONObject.m */; };
 		70A7B5B823B0B7990080C95A /* ZXDownloader.h in Headers */ = {isa = PBXBuildFile; fileRef = 70A7B5B423B0B7990080C95A /* ZXDownloader.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70A7B5B923B0B7990080C95A /* ZXDownloader.m in Sources */ = {isa = PBXBuildFile; fileRef = 70A7B5B523B0B7990080C95A /* ZXDownloader.m */; };
 		70A7B5BA23B0B7990080C95A /* ZXDownloadTask.h in Headers */ = {isa = PBXBuildFile; fileRef = 70A7B5B623B0B7990080C95A /* ZXDownloadTask.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -163,7 +169,6 @@
 		70AE9EA924A8CB1D001B81EE /* UIControlViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE9EA824A8CB1D001B81EE /* UIControlViewController.m */; };
 		70AE9EAC24A8CB2A001B81EE /* UIDeviceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE9EAB24A8CB2A001B81EE /* UIDeviceViewController.m */; };
 		70AE9EAF24A8CB34001B81EE /* UIImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE9EAE24A8CB34001B81EE /* UIImageViewController.m */; };
-		70AE9EB224A8CD52001B81EE /* ZXBadgeLabelViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE9EB124A8CD52001B81EE /* ZXBadgeLabelViewController.m */; };
 		70AE9EB524A8CE4C001B81EE /* ZXBrightnessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE9EB424A8CE4C001B81EE /* ZXBrightnessViewController.m */; };
 		70AE9EB824A8CE5C001B81EE /* ZXCircularProgressViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE9EB724A8CE5C001B81EE /* ZXCircularProgressViewController.m */; };
 		70AE9EBB24A8CE69001B81EE /* ZXCommonCryptoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE9EBA24A8CE69001B81EE /* ZXCommonCryptoViewController.m */; };
@@ -189,6 +194,10 @@
 		70AE9EFD24A8D0FD001B81EE /* ZXToastViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE9EFC24A8D0FD001B81EE /* ZXToastViewController.m */; };
 		70AE9F0124A993CD001B81EE /* AVAudioSession+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70AE9EFF24A993CD001B81EE /* AVAudioSession+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70AE9F0224A993CD001B81EE /* AVAudioSession+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70AE9F0024A993CD001B81EE /* AVAudioSession+ZXToolbox.m */; };
+		70B276C826E20B4B00C4E63A /* ZXSemaphore.m in Sources */ = {isa = PBXBuildFile; fileRef = 70B276C626E20B4B00C4E63A /* ZXSemaphore.m */; };
+		70B276C926E20B4B00C4E63A /* ZXSemaphore.h in Headers */ = {isa = PBXBuildFile; fileRef = 70B276C726E20B4B00C4E63A /* ZXSemaphore.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70BBADBD28353E090005575B /* NSURL+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BBADBB28353E090005575B /* NSURL+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70BBADBE28353E090005575B /* NSURL+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BBADBC28353E090005575B /* NSURL+ZXToolbox.m */; };
 		70BC8B3823C581B400DD952B /* ZXKeychainItem+Attribute.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BC8B3623C581B400DD952B /* ZXKeychainItem+Attribute.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70BC8B3923C581B400DD952B /* ZXKeychainItem+Attribute.m in Sources */ = {isa = PBXBuildFile; fileRef = 70BC8B3723C581B400DD952B /* ZXKeychainItem+Attribute.m */; };
 		70BC8B3C23C5829E00DD952B /* ZXKeychainItem+Class.h in Headers */ = {isa = PBXBuildFile; fileRef = 70BC8B3A23C5829E00DD952B /* ZXKeychainItem+Class.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -217,6 +226,8 @@
 		70D4BD2523A9DC47000D28E2 /* ZXImageBroswer.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D4BD1F23A9DC47000D28E2 /* ZXImageBroswer.m */; };
 		70D4BD2623A9DC47000D28E2 /* ZXImageBroswerCell.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D4BD2023A9DC47000D28E2 /* ZXImageBroswerCell.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70D4BD2723A9DC47000D28E2 /* ZXImageBroswerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D4BD2123A9DC47000D28E2 /* ZXImageBroswerCell.m */; };
+		70D66C482859DF2D008C47CE /* ZXURLRouter.h in Headers */ = {isa = PBXBuildFile; fileRef = 70D66C462859DF2C008C47CE /* ZXURLRouter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70D66C492859DF2D008C47CE /* ZXURLRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D66C472859DF2C008C47CE /* ZXURLRouter.m */; };
 		70D8448123C706D80042E305 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D8448023C706D80042E305 /* AppDelegate.m */; };
 		70D8448723C706D80042E305 /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D8448623C706D80042E305 /* MainViewController.m */; };
 		70D8448C23C706DA0042E305 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70D8448B23C706DA0042E305 /* Assets.xcassets */; };
@@ -225,13 +236,16 @@
 		70D8449C23C706DA0042E305 /* ZXToolboxDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 70D8449B23C706DA0042E305 /* ZXToolboxDemoTests.m */; };
 		70D844B323C707200042E305 /* ZXToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7000AC4722E9C1CC00651E44 /* ZXToolbox.framework */; };
 		70D844B423C707200042E305 /* ZXToolbox.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 7000AC4722E9C1CC00651E44 /* ZXToolbox.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		70DEDDA926A1925D00451313 /* ZXTextAttributesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 70DEDDA826A1925D00451313 /* ZXTextAttributesViewController.m */; };
+		70ED5F8726A01012000901CD /* ZXTextAttributes.m in Sources */ = {isa = PBXBuildFile; fileRef = 70ED5F8526A01012000901CD /* ZXTextAttributes.m */; };
+		70ED5F8826A01012000901CD /* ZXTextAttributes.h in Headers */ = {isa = PBXBuildFile; fileRef = 70ED5F8626A01012000901CD /* ZXTextAttributes.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70F2728724EFC3B300DD1A9F /* ZXDispatchQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F2728524EFC3B300DD1A9F /* ZXDispatchQueue.m */; };
 		70F2728824EFC3B300DD1A9F /* ZXDispatchQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F2728624EFC3B300DD1A9F /* ZXDispatchQueue.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70F673CA234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70F673CB234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F673C8234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m */; };
 		70F673CE234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 70F673CD234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle */; };
-		70F77AE724E16AA20062C21F /* ZXKVObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F77AE524E16AA20062C21F /* ZXKVObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		70F77AE824E16AA20062C21F /* ZXKVObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F77AE624E16AA20062C21F /* ZXKVObserver.m */; };
+		70F77AE724E16AA20062C21F /* ZXKeyValueObserver.h in Headers */ = {isa = PBXBuildFile; fileRef = 70F77AE524E16AA20062C21F /* ZXKeyValueObserver.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		70F77AE824E16AA20062C21F /* ZXKeyValueObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 70F77AE624E16AA20062C21F /* ZXKeyValueObserver.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -319,8 +333,6 @@
 		7000ACA022E9C22F00651E44 /* ZXBlockTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXBlockTimer.h; sourceTree = "<group>"; };
 		7000ACA122E9C22F00651E44 /* ZXTimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXTimer.h; sourceTree = "<group>"; };
 		7000ACA222E9C22F00651E44 /* ZXTargetTimer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXTargetTimer.m; sourceTree = "<group>"; };
-		7000ACA422E9C22F00651E44 /* ZXPopoverWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXPopoverWindow.m; sourceTree = "<group>"; };
-		7000ACA522E9C22F00651E44 /* ZXPopoverWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXPopoverWindow.h; sourceTree = "<group>"; };
 		7000ACA722E9C22F00651E44 /* ZXBrightnessView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXBrightnessView.h; sourceTree = "<group>"; };
 		7000ACA822E9C22F00651E44 /* ZXBrightnessView.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = ZXBrightnessView.bundle; sourceTree = "<group>"; };
 		7000ACA922E9C22F00651E44 /* ZXBrightnessView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXBrightnessView.m; sourceTree = "<group>"; };
@@ -359,8 +371,6 @@
 		7000ACDE22E9C22F00651E44 /* ZXScriptMessageHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXScriptMessageHandler.h; sourceTree = "<group>"; };
 		7000ACE022E9C22F00651E44 /* ZXTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXTagView.h; sourceTree = "<group>"; };
 		7000ACE122E9C22F00651E44 /* ZXTagView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXTagView.m; sourceTree = "<group>"; };
-		7000ACE322E9C22F00651E44 /* ZXBadgeLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXBadgeLabel.m; sourceTree = "<group>"; };
-		7000ACE422E9C22F00651E44 /* ZXBadgeLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXBadgeLabel.h; sourceTree = "<group>"; };
 		7000ACE622E9C22F00651E44 /* ZXQRCodeReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXQRCodeReader.h; sourceTree = "<group>"; };
 		7000ACE722E9C22F00651E44 /* ZXQRCodeReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXQRCodeReader.m; sourceTree = "<group>"; };
 		7000ACE922E9C22F00651E44 /* ZXHaloLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXHaloLabel.m; sourceTree = "<group>"; };
@@ -397,6 +407,8 @@
 		7000ADA622E9D16D00651E44 /* ZXToolbox.podspec */ = {isa = PBXFileReference; lastKnownFileType = text; path = ZXToolbox.podspec; sourceTree = "<group>"; };
 		7000ADA722E9D16D00651E44 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		7000ADA822E9D16D00651E44 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		70259A602655090A0022C91C /* ZXDebugTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXDebugTools.m; sourceTree = "<group>"; };
+		70259A612655090A0022C91C /* ZXDebugTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXDebugTools.h; sourceTree = "<group>"; };
 		70271315249F1120001850B5 /* ZXCoordinate2D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXCoordinate2D.m; sourceTree = "<group>"; };
 		70271317249F56CF001850B5 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		7027131C24A1A7ED001850B5 /* Base64EncodingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Base64EncodingViewController.h; sourceTree = "<group>"; };
@@ -404,6 +416,8 @@
 		702E538E23D8478200D8B0CF /* Location.gpx */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = Location.gpx; sourceTree = "<group>"; };
 		7040F6C923824182009EFB1F /* UINavigationController+ZXToolbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationController+ZXToolbox.h"; sourceTree = "<group>"; };
 		7040F6CA23824182009EFB1F /* UINavigationController+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationController+ZXToolbox.m"; sourceTree = "<group>"; };
+		704EA5382743A00400BA5962 /* ZXDeallocObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXDeallocObject.h; sourceTree = "<group>"; };
+		704EA5392743A00400BA5962 /* ZXDeallocObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXDeallocObject.m; sourceTree = "<group>"; };
 		705A8FCF23C2D51000BE361F /* ZXKeychain.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXKeychain.h; sourceTree = "<group>"; };
 		705A8FD023C2D51000BE361F /* ZXKeychain.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXKeychain.m; sourceTree = "<group>"; };
 		705A8FD723C2E32100BE361F /* ZXKeychainItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXKeychainItem.h; sourceTree = "<group>"; };
@@ -418,6 +432,12 @@
 		70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+ZXToolbox.m"; sourceTree = "<group>"; };
 		709DF5FA24BEF9F100075E6F /* AVAsset+ZXToolbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AVAsset+ZXToolbox.h"; sourceTree = "<group>"; };
 		709DF5FB24BEF9F100075E6F /* AVAsset+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AVAsset+ZXToolbox.m"; sourceTree = "<group>"; };
+		70A63818268423640050E111 /* NSObject+JSONObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSObject+JSONObject.h"; sourceTree = "<group>"; };
+		70A63819268423640050E111 /* NSObject+JSONObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSObject+JSONObject.m"; sourceTree = "<group>"; };
+		70A638202684288F0050E111 /* NSData+JSONObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSData+JSONObject.h"; sourceTree = "<group>"; };
+		70A638212684288F0050E111 /* NSData+JSONObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSData+JSONObject.m"; sourceTree = "<group>"; };
+		70A63828268434130050E111 /* NSString+JSONObject.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+JSONObject.h"; sourceTree = "<group>"; };
+		70A63829268434130050E111 /* NSString+JSONObject.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+JSONObject.m"; sourceTree = "<group>"; };
 		70A7B5B423B0B7990080C95A /* ZXDownloader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXDownloader.h; sourceTree = "<group>"; };
 		70A7B5B523B0B7990080C95A /* ZXDownloader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXDownloader.m; sourceTree = "<group>"; };
 		70A7B5B623B0B7990080C95A /* ZXDownloadTask.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXDownloadTask.h; sourceTree = "<group>"; };
@@ -438,8 +458,6 @@
 		70AE9EAB24A8CB2A001B81EE /* UIDeviceViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIDeviceViewController.m; sourceTree = "<group>"; };
 		70AE9EAD24A8CB34001B81EE /* UIImageViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UIImageViewController.h; sourceTree = "<group>"; };
 		70AE9EAE24A8CB34001B81EE /* UIImageViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UIImageViewController.m; sourceTree = "<group>"; };
-		70AE9EB024A8CD52001B81EE /* ZXBadgeLabelViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXBadgeLabelViewController.h; sourceTree = "<group>"; };
-		70AE9EB124A8CD52001B81EE /* ZXBadgeLabelViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXBadgeLabelViewController.m; sourceTree = "<group>"; };
 		70AE9EB324A8CE4C001B81EE /* ZXBrightnessViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXBrightnessViewController.h; sourceTree = "<group>"; };
 		70AE9EB424A8CE4C001B81EE /* ZXBrightnessViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXBrightnessViewController.m; sourceTree = "<group>"; };
 		70AE9EB624A8CE5C001B81EE /* ZXCircularProgressViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXCircularProgressViewController.h; sourceTree = "<group>"; };
@@ -488,6 +506,10 @@
 		70AE9EFC24A8D0FD001B81EE /* ZXToastViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXToastViewController.m; sourceTree = "<group>"; };
 		70AE9EFF24A993CD001B81EE /* AVAudioSession+ZXToolbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AVAudioSession+ZXToolbox.h"; sourceTree = "<group>"; };
 		70AE9F0024A993CD001B81EE /* AVAudioSession+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "AVAudioSession+ZXToolbox.m"; sourceTree = "<group>"; };
+		70B276C626E20B4B00C4E63A /* ZXSemaphore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXSemaphore.m; sourceTree = "<group>"; };
+		70B276C726E20B4B00C4E63A /* ZXSemaphore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXSemaphore.h; sourceTree = "<group>"; };
+		70BBADBB28353E090005575B /* NSURL+ZXToolbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSURL+ZXToolbox.h"; sourceTree = "<group>"; };
+		70BBADBC28353E090005575B /* NSURL+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSURL+ZXToolbox.m"; sourceTree = "<group>"; };
 		70BC8B3623C581B400DD952B /* ZXKeychainItem+Attribute.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZXKeychainItem+Attribute.h"; sourceTree = "<group>"; };
 		70BC8B3723C581B400DD952B /* ZXKeychainItem+Attribute.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZXKeychainItem+Attribute.m"; sourceTree = "<group>"; };
 		70BC8B3A23C5829E00DD952B /* ZXKeychainItem+Class.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZXKeychainItem+Class.h"; sourceTree = "<group>"; };
@@ -516,6 +538,8 @@
 		70D4BD1F23A9DC47000D28E2 /* ZXImageBroswer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXImageBroswer.m; sourceTree = "<group>"; };
 		70D4BD2023A9DC47000D28E2 /* ZXImageBroswerCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXImageBroswerCell.h; sourceTree = "<group>"; };
 		70D4BD2123A9DC47000D28E2 /* ZXImageBroswerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXImageBroswerCell.m; sourceTree = "<group>"; };
+		70D66C462859DF2C008C47CE /* ZXURLRouter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXURLRouter.h; sourceTree = "<group>"; };
+		70D66C472859DF2C008C47CE /* ZXURLRouter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXURLRouter.m; sourceTree = "<group>"; };
 		70D8447D23C706D80042E305 /* ZXToolboxDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZXToolboxDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		70D8447F23C706D80042E305 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		70D8448023C706D80042E305 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -528,13 +552,17 @@
 		70D8449723C706DA0042E305 /* ZXToolboxDemoTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZXToolboxDemoTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		70D8449B23C706DA0042E305 /* ZXToolboxDemoTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXToolboxDemoTests.m; sourceTree = "<group>"; };
 		70D8449D23C706DA0042E305 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		70DEDDA726A1925D00451313 /* ZXTextAttributesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXTextAttributesViewController.h; sourceTree = "<group>"; };
+		70DEDDA826A1925D00451313 /* ZXTextAttributesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXTextAttributesViewController.m; sourceTree = "<group>"; };
+		70ED5F8526A01012000901CD /* ZXTextAttributes.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXTextAttributes.m; sourceTree = "<group>"; };
+		70ED5F8626A01012000901CD /* ZXTextAttributes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXTextAttributes.h; sourceTree = "<group>"; };
 		70F2728524EFC3B300DD1A9F /* ZXDispatchQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXDispatchQueue.m; sourceTree = "<group>"; };
 		70F2728624EFC3B300DD1A9F /* ZXDispatchQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXDispatchQueue.h; sourceTree = "<group>"; };
 		70F673C7234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIDevice+ZXToolbox.h"; sourceTree = "<group>"; };
 		70F673C8234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIDevice+ZXToolbox.m"; sourceTree = "<group>"; };
 		70F673CD234EDD06009A6FF2 /* UIDevice+ZXToolbox.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = "UIDevice+ZXToolbox.bundle"; sourceTree = "<group>"; };
-		70F77AE524E16AA20062C21F /* ZXKVObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXKVObserver.h; sourceTree = "<group>"; };
-		70F77AE624E16AA20062C21F /* ZXKVObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXKVObserver.m; sourceTree = "<group>"; };
+		70F77AE524E16AA20062C21F /* ZXKeyValueObserver.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXKeyValueObserver.h; sourceTree = "<group>"; };
+		70F77AE624E16AA20062C21F /* ZXKeyValueObserver.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZXKeyValueObserver.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -616,6 +644,7 @@
 				7000AC5C22E9C22E00651E44 /* NSString+Pinyin */,
 				7000AC5322E9C22E00651E44 /* NSString+Unicode */,
 				7000AC6622E9C22E00651E44 /* NSString+URLEncoding */,
+				70BBADB628353DC10005575B /* NSURL+ZXToolbox */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -671,6 +700,12 @@
 			children = (
 				7000AC6522E9C22E00651E44 /* JSONObject.h */,
 				7000AC6422E9C22E00651E44 /* JSONObject.m */,
+				70A63818268423640050E111 /* NSObject+JSONObject.h */,
+				70A63819268423640050E111 /* NSObject+JSONObject.m */,
+				70A638202684288F0050E111 /* NSData+JSONObject.h */,
+				70A638212684288F0050E111 /* NSData+JSONObject.m */,
+				70A63828268434130050E111 /* NSString+JSONObject.h */,
+				70A63829268434130050E111 /* NSString+JSONObject.m */,
 			);
 			path = JSONObject;
 			sourceTree = "<group>";
@@ -837,11 +872,12 @@
 			isa = PBXGroup;
 			children = (
 				7000ACC422E9C22F00651E44 /* ZXAuthorizationHelper */,
-				7000ACE222E9C22F00651E44 /* ZXBadgeLabel */,
 				7000ACA622E9C22F00651E44 /* ZXBrightnessView */,
 				7000ACD022E9C22F00651E44 /* ZXCircularProgressView */,
 				7000ACAD22E9C22F00651E44 /* ZXCommonCrypto */,
 				705F48AF23C9BFFE002AADC8 /* ZXCoordinate2D */,
+				704EA53727439FF400BA5962 /* ZXDeallocObject */,
+				70259A5F2655090A0022C91C /* ZXDebugTools */,
 				70F2728424EFC3B300DD1A9F /* ZXDispatchQueue */,
 				70A7B5B323B0B7990080C95A /* ZXDownloader */,
 				7000ACC722E9C22F00651E44 /* ZXDrawingView */,
@@ -849,7 +885,7 @@
 				7000AD1622E9C22F00651E44 /* ZXHTTPClient */,
 				70D4BD1B23A9DC47000D28E2 /* ZXImageBroswer */,
 				705A8FCE23C2D4F200BE361F /* ZXKeychain */,
-				70F77AE424E16A720062C21F /* ZXKVObserver */,
+				70F77AE424E16A720062C21F /* ZXKeyValueObserver */,
 				7000AD0D22E9C22F00651E44 /* ZXLineChartView */,
 				7000ACC122E9C22F00651E44 /* ZXLocalAuthentication */,
 				7000ACBE22E9C22F00651E44 /* ZXLocationManager */,
@@ -861,19 +897,21 @@
 				7000ACEE22E9C22F00651E44 /* ZXPlayer */,
 				7040F6CD23824410009EFB1F /* ZXPlayerViewController */,
 				7000ACAA22E9C22F00651E44 /* ZXPopoverView */,
-				7000ACA322E9C22F00651E44 /* ZXPopoverWindow */,
 				7000ACD322E9C22F00651E44 /* ZXQRCodeGenerator */,
 				7000ACE522E9C22F00651E44 /* ZXQRCodeReader */,
 				7000AD0522E9C22F00651E44 /* ZXQRCodeScanner */,
 				7000ACDC22E9C22F00651E44 /* ZXScriptMessageHandler */,
+				70B276C526E20B4B00C4E63A /* ZXSemaphore */,
 				7000ACFB22E9C22F00651E44 /* ZXStackView */,
 				7000ACF322E9C22F00651E44 /* ZXTabBar */,
 				7000ACFE22E9C22F00651E44 /* ZXTabBarController */,
 				7000ACDF22E9C22F00651E44 /* ZXTagView */,
+				70ED5F8426A01012000901CD /* ZXTextAttributes */,
 				7000AC9D22E9C22E00651E44 /* ZXTimer */,
 				7000AD1322E9C22F00651E44 /* ZXToastView */,
 				7000AD0322E9C22F00651E44 /* ZXToolbox+Macros */,
 				7000AD1022E9C22F00651E44 /* ZXURLProtocol */,
+				70D66C452859DF2C008C47CE /* ZXURLRouter */,
 				7000ACF822E9C22F00651E44 /* ZXURLSession */,
 			);
 			path = ZXKit;
@@ -889,15 +927,6 @@
 				7000ACA122E9C22F00651E44 /* ZXTimer.h */,
 			);
 			path = ZXTimer;
-			sourceTree = "<group>";
-		};
-		7000ACA322E9C22F00651E44 /* ZXPopoverWindow */ = {
-			isa = PBXGroup;
-			children = (
-				7000ACA522E9C22F00651E44 /* ZXPopoverWindow.h */,
-				7000ACA422E9C22F00651E44 /* ZXPopoverWindow.m */,
-			);
-			path = ZXPopoverWindow;
 			sourceTree = "<group>";
 		};
 		7000ACA622E9C22F00651E44 /* ZXBrightnessView */ = {
@@ -1050,15 +1079,6 @@
 			path = ZXTagView;
 			sourceTree = "<group>";
 		};
-		7000ACE222E9C22F00651E44 /* ZXBadgeLabel */ = {
-			isa = PBXGroup;
-			children = (
-				7000ACE422E9C22F00651E44 /* ZXBadgeLabel.h */,
-				7000ACE322E9C22F00651E44 /* ZXBadgeLabel.m */,
-			);
-			path = ZXBadgeLabel;
-			sourceTree = "<group>";
-		};
 		7000ACE522E9C22F00651E44 /* ZXQRCodeReader */ = {
 			isa = PBXGroup;
 			children = (
@@ -1181,6 +1201,15 @@
 			path = ZXHTTPClient;
 			sourceTree = "<group>";
 		};
+		70259A5F2655090A0022C91C /* ZXDebugTools */ = {
+			isa = PBXGroup;
+			children = (
+				70259A612655090A0022C91C /* ZXDebugTools.h */,
+				70259A602655090A0022C91C /* ZXDebugTools.m */,
+			);
+			path = ZXDebugTools;
+			sourceTree = "<group>";
+		};
 		7027131924A1A7B0001850B5 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
@@ -1218,8 +1247,6 @@
 		7027131B24A1A7BF001850B5 /* ZXKit */ = {
 			isa = PBXGroup;
 			children = (
-				70AE9EB024A8CD52001B81EE /* ZXBadgeLabelViewController.h */,
-				70AE9EB124A8CD52001B81EE /* ZXBadgeLabelViewController.m */,
 				70AE9EB324A8CE4C001B81EE /* ZXBrightnessViewController.h */,
 				70AE9EB424A8CE4C001B81EE /* ZXBrightnessViewController.m */,
 				70AE9EB624A8CE5C001B81EE /* ZXCircularProgressViewController.h */,
@@ -1264,6 +1291,8 @@
 				70AE9EF624A8D0CB001B81EE /* ZXStackViewController.m */,
 				70AE9EF824A8D0EC001B81EE /* ZXTagViewController.h */,
 				70AE9EF924A8D0EC001B81EE /* ZXTagViewController.m */,
+				70DEDDA726A1925D00451313 /* ZXTextAttributesViewController.h */,
+				70DEDDA826A1925D00451313 /* ZXTextAttributesViewController.m */,
 				70AE9EFB24A8D0FD001B81EE /* ZXToastViewController.h */,
 				70AE9EFC24A8D0FD001B81EE /* ZXToastViewController.m */,
 			);
@@ -1299,6 +1328,15 @@
 				7000ACF022E9C22F00651E44 /* ZXPlayerViewController.m */,
 			);
 			path = ZXPlayerViewController;
+			sourceTree = "<group>";
+		};
+		704EA53727439FF400BA5962 /* ZXDeallocObject */ = {
+			isa = PBXGroup;
+			children = (
+				704EA5382743A00400BA5962 /* ZXDeallocObject.h */,
+				704EA5392743A00400BA5962 /* ZXDeallocObject.m */,
+			);
+			path = ZXDeallocObject;
 			sourceTree = "<group>";
 		};
 		705A8FCE23C2D4F200BE361F /* ZXKeychain */ = {
@@ -1405,6 +1443,24 @@
 			path = "AVAudioSession+ZXToolbox";
 			sourceTree = "<group>";
 		};
+		70B276C526E20B4B00C4E63A /* ZXSemaphore */ = {
+			isa = PBXGroup;
+			children = (
+				70B276C726E20B4B00C4E63A /* ZXSemaphore.h */,
+				70B276C626E20B4B00C4E63A /* ZXSemaphore.m */,
+			);
+			path = ZXSemaphore;
+			sourceTree = "<group>";
+		};
+		70BBADB628353DC10005575B /* NSURL+ZXToolbox */ = {
+			isa = PBXGroup;
+			children = (
+				70BBADBB28353E090005575B /* NSURL+ZXToolbox.h */,
+				70BBADBC28353E090005575B /* NSURL+ZXToolbox.m */,
+			);
+			path = "NSURL+ZXToolbox";
+			sourceTree = "<group>";
+		};
 		70D4BD1B23A9DC47000D28E2 /* ZXImageBroswer */ = {
 			isa = PBXGroup;
 			children = (
@@ -1416,6 +1472,15 @@
 				70D4BD2123A9DC47000D28E2 /* ZXImageBroswerCell.m */,
 			);
 			path = ZXImageBroswer;
+			sourceTree = "<group>";
+		};
+		70D66C452859DF2C008C47CE /* ZXURLRouter */ = {
+			isa = PBXGroup;
+			children = (
+				70D66C462859DF2C008C47CE /* ZXURLRouter.h */,
+				70D66C472859DF2C008C47CE /* ZXURLRouter.m */,
+			);
+			path = ZXURLRouter;
 			sourceTree = "<group>";
 		};
 		70D8447E23C706D80042E305 /* ZXToolboxDemo */ = {
@@ -1459,6 +1524,15 @@
 			path = Class;
 			sourceTree = "<group>";
 		};
+		70ED5F8426A01012000901CD /* ZXTextAttributes */ = {
+			isa = PBXGroup;
+			children = (
+				70ED5F8626A01012000901CD /* ZXTextAttributes.h */,
+				70ED5F8526A01012000901CD /* ZXTextAttributes.m */,
+			);
+			path = ZXTextAttributes;
+			sourceTree = "<group>";
+		};
 		70F2728424EFC3B300DD1A9F /* ZXDispatchQueue */ = {
 			isa = PBXGroup;
 			children = (
@@ -1478,13 +1552,13 @@
 			path = "UIDevice+ZXToolbox";
 			sourceTree = "<group>";
 		};
-		70F77AE424E16A720062C21F /* ZXKVObserver */ = {
+		70F77AE424E16A720062C21F /* ZXKeyValueObserver */ = {
 			isa = PBXGroup;
 			children = (
-				70F77AE524E16AA20062C21F /* ZXKVObserver.h */,
-				70F77AE624E16AA20062C21F /* ZXKVObserver.m */,
+				70F77AE524E16AA20062C21F /* ZXKeyValueObserver.h */,
+				70F77AE624E16AA20062C21F /* ZXKeyValueObserver.m */,
 			);
-			path = ZXKVObserver;
+			path = ZXKeyValueObserver;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1494,6 +1568,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70A638222684288F0050E111 /* NSData+JSONObject.h in Headers */,
 				7000AD2722E9C22F00651E44 /* JSONObject.h in Headers */,
 				70BC8B4C23C5B6B000DD952B /* ZXKeychainItem+InternetPassword.h in Headers */,
 				7000AD3022E9C22F00651E44 /* NSArray+ZXToolbox.h in Headers */,
@@ -1501,6 +1576,7 @@
 				7000AD2F22E9C22F00651E44 /* NSDate+ZXToolbox.h in Headers */,
 				7000AD2522E9C22F00651E44 /* NSFileManager+ZXToolbox.h in Headers */,
 				7000AD1E22E9C22F00651E44 /* NSObject+ZXToolbox.h in Headers */,
+				70BBADBD28353E090005575B /* NSURL+ZXToolbox.h in Headers */,
 				7000AD3322E9C22F00651E44 /* NSNumberFormatter+ZXToolbox.h in Headers */,
 				7000AD2D22E9C22F00651E44 /* NSString+Base64Encoding.h in Headers */,
 				7000AD2022E9C22F00651E44 /* NSString+NumberValue.h in Headers */,
@@ -1512,12 +1588,14 @@
 				70D4BD2223A9DC47000D28E2 /* UIImageView+ZXImageBroswer.h in Headers */,
 				7000AD4522E9C22F00651E44 /* UIButton+ZXToolbox.h in Headers */,
 				7000AD3F22E9C22F00651E44 /* UIColor+ZXToolbox.h in Headers */,
+				70259A632655090B0022C91C /* ZXDebugTools.h in Headers */,
 				70AE9F0124A993CD001B81EE /* AVAudioSession+ZXToolbox.h in Headers */,
 				7000AD4822E9C22F00651E44 /* UIImage+ZXToolbox.h in Headers */,
 				7000AD3722E9C22F00651E44 /* UITableViewCell+ZXToolbox.h in Headers */,
-				70F77AE724E16AA20062C21F /* ZXKVObserver.h in Headers */,
+				70F77AE724E16AA20062C21F /* ZXKeyValueObserver.h in Headers */,
 				7000AD4622E9C22F00651E44 /* UITextField+ZXToolbox.h in Headers */,
 				7000AD3B22E9C22F00651E44 /* UIView+ZXToolbox.h in Headers */,
+				70D66C482859DF2D008C47CE /* ZXURLRouter.h in Headers */,
 				7000AD3822E9C22F00651E44 /* UIViewController+ZXToolbox.h in Headers */,
 				7000AD4022E9C22F00651E44 /* UIScreen+ZXToolbox.h in Headers */,
 				70F2728824EFC3B300DD1A9F /* ZXDispatchQueue.h in Headers */,
@@ -1526,7 +1604,6 @@
 				70D4BD2623A9DC47000D28E2 /* ZXImageBroswerCell.h in Headers */,
 				70BC8B5023C5B7A100DD952B /* ZXKeychainItem+Key.h in Headers */,
 				7000AD6922E9C22F00651E44 /* ZXAuthorizationHelper.h in Headers */,
-				7000AD7E22E9C22F00651E44 /* ZXBadgeLabel.h in Headers */,
 				7000AD4E22E9C22F00651E44 /* ZXBlockTimer.h in Headers */,
 				7000AD5322E9C22F00651E44 /* ZXBrightnessView.h in Headers */,
 				70A7B5BA23B0B7990080C95A /* ZXDownloadTask.h in Headers */,
@@ -1549,15 +1626,16 @@
 				7000AD7622E9C22F00651E44 /* ZXNetworkTrafficMonitor.h in Headers */,
 				70BC8B5423C5B7E500DD952B /* ZXKeychainItem+Password.h in Headers */,
 				70BC8B4823C5B68000DD952B /* ZXKeychainItem+Identity.h in Headers */,
+				70B276C926E20B4B00C4E63A /* ZXSemaphore.h in Headers */,
 				7000AD5F22E9C22F00651E44 /* ZXPageIndicatorView.h in Headers */,
 				7000AD6322E9C22F00651E44 /* ZXPageView.h in Headers */,
 				70BC8B4423C5B55D00DD952B /* ZXKeychainItem+GenericPassword.h in Headers */,
 				7000AD8522E9C22F00651E44 /* ZXPlayer.h in Headers */,
 				7000AD8722E9C22F00651E44 /* ZXPlayerViewController.h in Headers */,
 				7000AD6F22E9C22F00651E44 /* ZXPhotoLibrary.h in Headers */,
+				70A6382A268434130050E111 /* NSString+JSONObject.h in Headers */,
 				70F673CA234EDCA4009A6FF2 /* UIDevice+ZXToolbox.h in Headers */,
 				7000AD5722E9C22F00651E44 /* ZXPopoverView.h in Headers */,
-				7000AD5222E9C22F00651E44 /* ZXPopoverWindow.h in Headers */,
 				705F48A923C97701002AADC8 /* ZXCoordinate2D.h in Headers */,
 				7000AD7322E9C22F00651E44 /* ZXQRCodeGenerator.h in Headers */,
 				70BC8B4023C5865700DD952B /* ZXKeychainItem+Certificate.h in Headers */,
@@ -1578,11 +1656,14 @@
 				7000AD7B22E9C22F00651E44 /* ZXTagView.h in Headers */,
 				705A8FD123C2D51000BE361F /* ZXKeychain.h in Headers */,
 				7000AD4D22E9C22F00651E44 /* ZXTargetTimer.h in Headers */,
+				70ED5F8826A01012000901CD /* ZXTextAttributes.h in Headers */,
 				7000AD4F22E9C22F00651E44 /* ZXTimer.h in Headers */,
+				704EA53A2743A00400BA5962 /* ZXDeallocObject.h in Headers */,
 				7000ADA022E9C22F00651E44 /* ZXToastView.h in Headers */,
 				7000AC4C22E9C1CC00651E44 /* ZXToolbox.h in Headers */,
 				7000AD9522E9C22F00651E44 /* ZXToolbox+Macros.h in Headers */,
 				70BC8B6023C5B94200DD952B /* ZXKeychainItem+Return.h in Headers */,
+				70A6381A268423640050E111 /* NSObject+JSONObject.h in Headers */,
 				7000AD9F22E9C22F00651E44 /* ZXURLProtocol.h in Headers */,
 				7000AD8E22E9C22F00651E44 /* ZXURLSession.h in Headers */,
 			);
@@ -1652,7 +1733,7 @@
 		7000AC3E22E9C1CC00651E44 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = xinyzhao;
 				TargetAttributes = {
 					7000AC4622E9C1CC00651E44 = {
@@ -1725,9 +1806,10 @@
 				7000AD7222E9C22F00651E44 /* ZXCircularProgressView.m in Sources */,
 				7000AD8622E9C22F00651E44 /* ZXPlayerViewController.m in Sources */,
 				70F673CB234EDCA4009A6FF2 /* UIDevice+ZXToolbox.m in Sources */,
-				7000AD5122E9C22F00651E44 /* ZXPopoverWindow.m in Sources */,
+				70A638232684288F0050E111 /* NSData+JSONObject.m in Sources */,
 				7000AD2B22E9C22F00651E44 /* NSString+Base64Encoding.m in Sources */,
 				70BC8B6123C5B94200DD952B /* ZXKeychainItem+Return.m in Sources */,
+				70B276C826E20B4B00C4E63A /* ZXSemaphore.m in Sources */,
 				70BC8B4123C5865700DD952B /* ZXKeychainItem+Certificate.m in Sources */,
 				7000AD6022E9C22F00651E44 /* ZXPageIndicatorView.m in Sources */,
 				7000AD4422E9C22F00651E44 /* UIButton+ZXToolbox.m in Sources */,
@@ -1735,6 +1817,7 @@
 				705A8FD223C2D51000BE361F /* ZXKeychain.m in Sources */,
 				70AE9F0224A993CD001B81EE /* AVAudioSession+ZXToolbox.m in Sources */,
 				70BC8B5923C5B8D100DD952B /* ZXKeychainItem+Match.m in Sources */,
+				70BBADBE28353E090005575B /* NSURL+ZXToolbox.m in Sources */,
 				7000AD7022E9C22F00651E44 /* ZXPhotoLibrary.m in Sources */,
 				7000AD8B22E9C22F00651E44 /* ZXTabBarItem.m in Sources */,
 				7000AD7C22E9C22F00651E44 /* ZXTagView.m in Sources */,
@@ -1746,7 +1829,6 @@
 				7000AD4922E9C22F00651E44 /* UIImage+ZXToolbox.m in Sources */,
 				7000AD7422E9C22F00651E44 /* ZXQRCodeGenerator.m in Sources */,
 				7000AD6A22E9C22F00651E44 /* ZXAuthorizationHelper.m in Sources */,
-				7000AD7D22E9C22F00651E44 /* ZXBadgeLabel.m in Sources */,
 				7000AD5922E9C22F00651E44 /* ZXCommonHMAC.m in Sources */,
 				709DF5FD24BEF9F100075E6F /* AVAsset+ZXToolbox.m in Sources */,
 				7000AD5522E9C22F00651E44 /* ZXBrightnessView.m in Sources */,
@@ -1755,6 +1837,7 @@
 				70BC8B5D23C5B90400DD952B /* ZXKeychainItem+Value.m in Sources */,
 				70BC8B4923C5B68000DD952B /* ZXKeychainItem+Identity.m in Sources */,
 				7000AD4722E9C22F00651E44 /* UITextField+ZXToolbox.m in Sources */,
+				704EA53B2743A00400BA5962 /* ZXDeallocObject.m in Sources */,
 				7000AD9C22E9C22F00651E44 /* ZXLineChartView.m in Sources */,
 				7000AD3222E9C22F00651E44 /* NSNumberFormatter+ZXToolbox.m in Sources */,
 				7000AD8D22E9C22F00651E44 /* ZXURLSession.m in Sources */,
@@ -1765,6 +1848,7 @@
 				70BC8B4523C5B55D00DD952B /* ZXKeychainItem+GenericPassword.m in Sources */,
 				705A8FDA23C2E32100BE361F /* ZXKeychainItem.m in Sources */,
 				70D4BD2723A9DC47000D28E2 /* ZXImageBroswerCell.m in Sources */,
+				70259A622655090B0022C91C /* ZXDebugTools.m in Sources */,
 				7000AD9122E9C22F00651E44 /* ZXTabBarItemController.m in Sources */,
 				70271316249F1120001850B5 /* ZXCoordinate2D.m in Sources */,
 				7000AD2E22E9C22F00651E44 /* NSDate+ZXToolbox.m in Sources */,
@@ -1772,6 +1856,7 @@
 				7000AD6722E9C22F00651E44 /* ZXLocalAuthentication.m in Sources */,
 				7000AD3E22E9C22F00651E44 /* UIColor+ZXToolbox.m in Sources */,
 				70A7B5B923B0B7990080C95A /* ZXDownloader.m in Sources */,
+				70ED5F8726A01012000901CD /* ZXTextAttributes.m in Sources */,
 				7000AD8122E9C22F00651E44 /* ZXHaloLabel.m in Sources */,
 				7000AD1D22E9C22F00651E44 /* NSObject+ZXToolbox.m in Sources */,
 				70BC8B5523C5B7E500DD952B /* ZXKeychainItem+Password.m in Sources */,
@@ -1779,6 +1864,7 @@
 				70BC8B3923C581B400DD952B /* ZXKeychainItem+Attribute.m in Sources */,
 				7000AD7922E9C22F00651E44 /* ZXScriptMessageHandler.m in Sources */,
 				7000AD7522E9C22F00651E44 /* ZXNetworkTrafficMonitor.m in Sources */,
+				70A6381B268423640050E111 /* NSObject+JSONObject.m in Sources */,
 				7000AD9222E9C22F00651E44 /* ZXTabBarController.m in Sources */,
 				7000AD2122E9C22F00651E44 /* NSString+Pinyin.m in Sources */,
 				7000AD5022E9C22F00651E44 /* ZXTargetTimer.m in Sources */,
@@ -1800,10 +1886,12 @@
 				7000AD7722E9C22F00651E44 /* ZXNavigationController.m in Sources */,
 				70A7B5BB23B0B7990080C95A /* ZXDownloadTask.m in Sources */,
 				7000AD5622E9C22F00651E44 /* ZXPopoverView.m in Sources */,
-				70F77AE824E16AA20062C21F /* ZXKVObserver.m in Sources */,
+				70F77AE824E16AA20062C21F /* ZXKeyValueObserver.m in Sources */,
+				70D66C492859DF2D008C47CE /* ZXURLRouter.m in Sources */,
 				7000AD8022E9C22F00651E44 /* ZXQRCodeReader.m in Sources */,
 				70BC8B4D23C5B6B000DD952B /* ZXKeychainItem+InternetPassword.m in Sources */,
 				7000AD2622E9C22F00651E44 /* JSONObject.m in Sources */,
+				70A6382B268434130050E111 /* NSString+JSONObject.m in Sources */,
 				70F2728724EFC3B300DD1A9F /* ZXDispatchQueue.m in Sources */,
 				7000AD2922E9C22F00651E44 /* NSString+URLEncoding.m in Sources */,
 				7000AD2422E9C22F00651E44 /* NSFileManager+ZXToolbox.m in Sources */,
@@ -1844,6 +1932,7 @@
 				70AE9EA324A8CB06001B81EE /* UIButtonViewController.m in Sources */,
 				70AE9EFA24A8D0EC001B81EE /* ZXTagViewController.m in Sources */,
 				70AE9EEE24A8D091001B81EE /* ZXQRCodeGeneratorViewController.m in Sources */,
+				70DEDDA926A1925D00451313 /* ZXTextAttributesViewController.m in Sources */,
 				70AE9EDC24A8CF3B001B81EE /* ZXPageViewController.m in Sources */,
 				70D8449223C706DA0042E305 /* main.m in Sources */,
 				70AE9E9D24A8C9D3001B81EE /* NSStringPinyinViewController.m in Sources */,
@@ -1851,7 +1940,6 @@
 				70AE9E9A24A8C9C8001B81EE /* NSStringNumberValueViewController.m in Sources */,
 				70AE9EC424A8CE96001B81EE /* ZXDrawingViewController.m in Sources */,
 				70AE9ED324A8CEFC001B81EE /* ZXLocalAuthenticationViewController.m in Sources */,
-				70AE9EB224A8CD52001B81EE /* ZXBadgeLabelViewController.m in Sources */,
 				70AE9EC124A8CE80001B81EE /* ZXDownloaderViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1869,6 +1957,7 @@
 /* Begin PBXTargetDependency section */
 		70D8449923C706DA0042E305 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
+			platformFilter = ios;
 			target = 70D8447C23C706D80042E305 /* ZXToolboxDemo */;
 			targetProxy = 70D8449823C706DA0042E305 /* PBXContainerItemProxy */;
 		};
@@ -2012,9 +2101,9 @@
 		7000AC5022E9C1CC00651E44 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2020.09.01;
+				CURRENT_PROJECT_VERSION = 2022.06.08;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2027,7 +2116,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.6;
+				MARKETING_VERSION = 2.8.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolbox;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2039,9 +2128,9 @@
 		7000AC5122E9C1CC00651E44 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2020.09.01;
+				CURRENT_PROJECT_VERSION = 2022.06.08;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = "";
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2054,7 +2143,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.6;
+				MARKETING_VERSION = 2.8.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolbox;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2069,7 +2158,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2020.08.21;
+				CURRENT_PROJECT_VERSION = 2022.06.08;
 				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = ZXToolboxDemo/main.pch;
 				INFOPLIST_FILE = ZXToolboxDemo/Info.plist;
@@ -2078,7 +2167,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.5;
+				MARKETING_VERSION = 2.8.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolboxDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2092,7 +2181,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2020.08.21;
+				CURRENT_PROJECT_VERSION = 2022.06.08;
 				DEVELOPMENT_TEAM = "";
 				GCC_PREFIX_HEADER = ZXToolboxDemo/main.pch;
 				INFOPLIST_FILE = ZXToolboxDemo/Info.plist;
@@ -2101,7 +2190,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2.6.5;
+				MARKETING_VERSION = 2.8.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.xinyzhao.ZXToolboxDemo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2114,6 +2203,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ZXToolboxDemoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2133,6 +2223,7 @@
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = ZXToolboxDemoTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = (

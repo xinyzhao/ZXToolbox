@@ -2,7 +2,7 @@
 // ZXImageBroswerCell.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2019 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -272,6 +272,11 @@
         rect.origin.y = point.y - rect.size.height / 2;
         [self.scrollView zoomToRect:rect animated:YES];
     }
+}
+
+- (void)restore:(BOOL)animated {
+    [self.scrollView setZoomScale:self.scrollView.minimumZoomScale animated:animated];
+    [self centerImageView];
 }
 
 #pragma mark Target Actions

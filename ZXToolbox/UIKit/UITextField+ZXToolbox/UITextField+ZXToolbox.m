@@ -2,7 +2,7 @@
 // UITextField+ZXToolbox.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,7 +25,12 @@
 
 #import "UITextField+ZXToolbox.h"
 #import "NSObject+ZXToolbox.h"
-#import <objc/runtime.h>
+
+static char mobileNumberFormatKey;
+static char mobileNumberSeparatorKey;
+static char mobileNumberDidCompletedKey;
+static char mobileNumberLengthKey;
+static char placeholderColorKey;
 
 @implementation UITextField (ZXToolbox)
 
@@ -37,7 +42,7 @@
 }
 
 - (void)setMobileNumberFormat:(NSString *)mobileNumberFormat {
-    objc_setAssociatedObject(self, @selector(mobileNumberFormat), mobileNumberFormat, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:&mobileNumberFormatKey value:mobileNumberFormat policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
     //
     NSMutableDictionary *separator = [[NSMutableDictionary alloc] init];
     for (NSInteger i = 0; i < mobileNumberFormat.length; i++) {
@@ -56,31 +61,32 @@
 }
 
 - (NSString *)mobileNumberFormat {
-    return objc_getAssociatedObject(self, @selector(mobileNumberFormat));
+    return [self getAssociatedObject:&mobileNumberFormatKey];
 }
 
 - (void)setMobileNumberSeparator:(NSDictionary *)mobileNumberSeparator {
-    objc_setAssociatedObject(self, @selector(mobileNumberSeparator), mobileNumberSeparator, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:&mobileNumberSeparatorKey value:mobileNumberSeparator policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (NSDictionary *)mobileNumberSeparator {
-    return objc_getAssociatedObject(self, @selector(mobileNumberSeparator));
+    return [self getAssociatedObject:&mobileNumberSeparatorKey];
 }
 
 - (void)setMobileNumberDidCompleted:(void (^)(UITextField *, NSString *))mobileNumberDidCompleted {
-    objc_setAssociatedObject(self, @selector(mobileNumberDidCompleted), mobileNumberDidCompleted, OBJC_ASSOCIATION_COPY_NONATOMIC);
+    [self setAssociatedObject:&mobileNumberDidCompletedKey value:mobileNumberDidCompleted policy:OBJC_ASSOCIATION_COPY_NONATOMIC];
 }
 
 - (void(^)(UITextField *, NSString *))mobileNumberDidCompleted {
-    return objc_getAssociatedObject(self, @selector(mobileNumberDidCompleted));
+    return [self getAssociatedObject:&mobileNumberDidCompletedKey];
 }
 
 - (void)setMobileNumberLength:(NSInteger)mobileNumberLength {
-    objc_setAssociatedObject(self, @selector(mobileNumberLength), @(mobileNumberLength), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:&mobileNumberLengthKey value:@(mobileNumberLength) policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (NSInteger)mobileNumberLength {
-    return [objc_getAssociatedObject(self, @selector(mobileNumberLength)) integerValue];
+    NSNumber *number = [self getAssociatedObject:&mobileNumberLengthKey];
+    return [number integerValue];
 }
 
 - (void)mobileNumberDidChanged:(UITextField *)textField {
@@ -126,7 +132,7 @@
 }
 
 - (void)setPlaceholderColor:(UIColor *)placeholderColor {
-    objc_setAssociatedObject(self, @selector(placeholderColor), placeholderColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:&placeholderColorKey value:placeholderColor policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
     if (placeholderColor == nil) {
         self.attributedPlaceholder = nil;
     } else if (self.placeholder) {
@@ -135,7 +141,7 @@
 }
 
 - (UIColor *)placeholderColor {
-    return objc_getAssociatedObject(self, @selector(placeholderColor));
+    return [self getAssociatedObject:&placeholderColorKey];
 }
 
 - (void)setPlaceholderText:(NSString *)text {

@@ -2,7 +2,7 @@
 // ZXPageIndicatorView.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,22 +25,34 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface ZXPageIndicatorView : UIView
+/// default is 0
+@property(nonatomic, assign) NSInteger numberOfPages;
+/// default is 0. value pinned to 0..numberOfPages-1
+@property(nonatomic, assign) NSInteger currentPage;
 
-@property(nonatomic) NSInteger numberOfPages;          // default is 0
-@property(nonatomic) NSInteger currentPage;            // default is 0. value pinned to 0..numberOfPages-1
+/// hide the the indicator if there is only one page. default is NO
+@property(nonatomic) BOOL hidesForSinglePage;
 
-@property(nonatomic) BOOL hidesForSinglePage;          // hide the the indicator if there is only one page. default is NO
+/// default is light gray color
+@property(nonatomic, strong, nullable) UIColor *pageIndicatorColor;
+/// default is white color
+@property(nonatomic, strong, nullable) UIColor *currentPageIndicatorColor;
 
-@property(nonatomic,strong) UIColor *pageIndicatorColor; // default is light gray color
-@property(nonatomic,strong) UIColor *currentPageIndicatorColor; // default is white color
+/// default is nil
+@property(nonatomic, strong, nullable) UIImage *pageIndicatorImage;
+/// default is nil
+@property(nonatomic, strong, nullable) UIImage *currentPageIndicatorImage;
 
-@property(nonatomic,strong) UIImage *pageIndicatorImage; // default is nil
-@property(nonatomic,strong) UIImage *currentPageIndicatorImage; // default is nil
-
-@property(nonatomic) CGSize pageIndicatorSize; // default is {7 x 7}
-@property(nonatomic) CGFloat pageIndicatorSpacing; // default is 8
-@property(nonatomic) CGFloat pageIndicatorCornerRadius; // default is 3.5
-
+/// default is {7 x 7}
+@property(nonatomic, assign) CGSize pageIndicatorSize;
+/// default is 8
+@property(nonatomic, assign) CGFloat pageIndicatorSpacing;
+/// default is 3.5
+@property(nonatomic, assign) CGFloat pageIndicatorCornerRadius;
 
 @end
+
+NS_ASSUME_NONNULL_END

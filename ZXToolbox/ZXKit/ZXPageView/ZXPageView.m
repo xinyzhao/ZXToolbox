@@ -2,7 +2,7 @@
 // ZXPageView.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,12 +26,19 @@
 #import "ZXPageView.h"
 #import "ZXTimer.h"
 
-@interface ZXPageView () <UIScrollViewDelegate>
+@interface ZXPageView () <UIScrollViewDelegate, NSCacheDelegate>
+/// 滚动视图
 @property (nonatomic, strong) UIScrollView *scrollView;
+/// 当前显示的视图，当视图不在显示范围内则缓存到pageCache
 @property (nonatomic, strong) NSMutableDictionary *pageViews;
+/// 在内存宽裕时，缓存之前显示的视图，重用这些对象，以提高应用性能；
+/// 当内存紧张时，将从缓存中删除一些不显示的视图，从而最小化内存占用。
 @property (nonatomic, strong) NSCache *pageCache;
+/// 当前索引
 @property (nonatomic, assign) NSInteger currentIndex;
+/// 时间戳
 @property (nonatomic, assign) NSTimeInterval timestamp;
+/// 计时器
 @property (nonatomic, strong) ZXTargetTimer *timer;
 
 @end
@@ -59,13 +66,15 @@
 }
 
 - (void)setupView {
+    self.clipsToBounds = YES;
     self.direction = ZXPageViewDirectionHorizontal;
+    self.pagingEnabled = YES;
+    self.pagingInterval = 0;
     self.pagingMode = ZXPagingModeEndless;
     self.pageScaleFactor = CGPointMake(1.f, 1.f);
     
     self.scrollView = [[UIScrollView alloc] initWithFrame:self.bounds];
     self.scrollView.delegate = self;
-    self.scrollView.clipsToBounds = YES;
     self.scrollView.pagingEnabled = NO;
     self.scrollView.showsVerticalScrollIndicator = NO;
     self.scrollView.showsHorizontalScrollIndicator = NO;
@@ -74,6 +83,7 @@
     
     self.pageViews = [[NSMutableDictionary alloc] init];
     self.pageCache = [[NSCache alloc] init];
+    //self.pageCache.delegate = self;
 }
 
 - (void)dealloc {
@@ -103,9 +113,27 @@
     [self setNeedsLayout];
 }
 
+- (void)setScrollEnabled:(BOOL)scrollEnabled {
+    self.scrollView.scrollEnabled = scrollEnabled;
+}
+
+- (void)setPagingEnabled:(BOOL)pagingEnabled {
+    _pagingEnabled = pagingEnabled;
+    if (_pagingEnabled) {
+        [self startPaging];
+    } else {
+        [self stopPaging];
+    }
+}
+
 - (void)setPagingMode:(ZXPagingMode)pagingMode {
     _pagingMode = pagingMode;
     [self setNeedsLayout];
+}
+
+- (void)setPagingInterval:(NSTimeInterval)pagingInterval {
+    _pagingInterval = pagingInterval;
+    [self startPaging];
 }
 
 #pragma mark Getter
@@ -169,6 +197,10 @@
     return [self correctPage:self.currentIndex];
 }
 
+- (BOOL)scrollEnabled {
+    return self.scrollView.scrollEnabled;
+}
+
 #pragma mark Layout
 
 /**
@@ -206,7 +238,9 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     //
-    self.scrollView.frame = self.bounds;
+    if (!CGRectEqualToRect(_scrollView.frame, self.bounds)) {
+        self.scrollView.frame = self.bounds;
+    }
     [self resetEdgeInset];
     [self layoutPageView];
 }
@@ -310,10 +344,10 @@
     if (view == nil) {
         view = [self.pageCache objectForKey:@(index)];
         if (view) {
+            //NSLog(@"Cache[-] %s %d", __func__, (int)index);
             [self.pageViews setObject:view forKey:@(index)];
             [self.pageCache removeObjectForKey:@(index)];
             [self.scrollView addSubview:view];
-            //NSLog(@"%s %d", __func__, (int)index);
         }
     }
     if (view == nil) {
@@ -345,7 +379,7 @@
     NSMutableArray *allKeys = [self.pageViews.allKeys mutableCopy];
     [allKeys removeObjectsInArray:keys];
     for (id key in allKeys) {
-        //NSLog(@"%s %d", __func__, [key intValue]);
+        //NSLog(@"Cache[+] %s %d", __func__, [key intValue]);
         UIView *view = [self.pageViews objectForKey:key];
         [self.pageCache setObject:view forKey:key];
         [self.pageViews removeObjectForKey:key];
@@ -355,22 +389,9 @@
 
 #pragma mark Auto paging
 
-- (void)setTimeInterval:(NSTimeInterval)timeInterval {
-    self.pagingInterval = timeInterval;
-}
-
-- (NSTimeInterval)timeInterval {
-    return self.pagingInterval;
-}
-
-- (void)setPagingInterval:(NSTimeInterval)pagingInterval {
-    _pagingInterval = pagingInterval;
-    [self startPaging];
-}
-
 - (void)startPaging {
     [self stopPaging];
-    if (_pagingInterval >= 0.01 && _timer == nil) {
+    if (_pagingEnabled && _pagingInterval >= 0.01 && _timer == nil) {
         _timer = [ZXTargetTimer scheduledTimerWithTimeInterval:_pagingInterval target:self selector:@selector(pagingTimer:) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:_timer.timer forMode:NSRunLoopCommonModes];
     }
@@ -442,4 +463,14 @@
     }
 }
 
+@end
+
+@implementation ZXPageView (Deprecated)
+- (void)setTimeInterval:(NSTimeInterval)timeInterval {
+    self.pagingInterval = timeInterval;
+}
+
+- (NSTimeInterval)timeInterval {
+    return self.pagingInterval;
+}
 @end

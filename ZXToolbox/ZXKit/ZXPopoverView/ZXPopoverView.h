@@ -2,7 +2,7 @@
 // ZXPopoverView.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -71,10 +71,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Get the popover view
-
- @return ZXPopoverView
  */
-- (ZXPopoverView *)popoverView;
+@property (nonatomic, readonly) ZXPopoverView *popoverView;
 
 /**
  Present view
@@ -84,6 +82,16 @@ NS_ASSUME_NONNULL_BEGIN
  @param completion completion block
  */
 - (void)presentView:(UIView *)view animated:(BOOL)animated completion:(void (^ _Nullable)(void))completion;
+
+/**
+ Present view
+ 
+ @param view presention view
+ @param safeArea Coss over the safe area, default is YES
+ @param animated animated
+ @param completion completion block
+ */
+- (void)presentView:(UIView *)view safeArea:(BOOL)safeArea animated:(BOOL)animated completion:(void (^ _Nullable)(void))completion;
 
 /**
  Present view

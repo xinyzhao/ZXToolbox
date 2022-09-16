@@ -31,19 +31,21 @@
 
 - (IBAction)onParse:(id)sender {
     if (_textView.text.length > 0) {
-        id obj = [JSONObject JSONObjectWithString:_textView.text];
-        if ([JSONObject isValidJSONObject:obj]) {
+        id obj = [_textView.text JSONObject];
+        if ([obj isValidJSONObject]) {
             NSError *error;
-            NSString *str = [JSONObject stringWithJSONObject:obj options:0 error:&error];
+            NSString *str = [obj JSONStringWithOptions:0 error:&error];
             if (error) {
-                ZXToastView *toastView = [[ZXToastView alloc] initWithText:error.localizedDescription];
-                [toastView showInView:self.textView];
+                ZXToastView *toastView = [[ZXToastView alloc] init];
+                [toastView showText:error.localizedDescription];
+                [toastView hideAfter:2];
             } else {
                 _textView.text = str;
             }
         } else {
-            ZXToastView *toastView = [[ZXToastView alloc] initWithText:@"Not valid json"];
-            [toastView showInView:self.textView];
+            ZXToastView *toastView = [[ZXToastView alloc] init];
+            [toastView showText:@"Not valid json"];
+            [toastView hideAfter:2];
         }
     }
 }
@@ -53,16 +55,18 @@
         id obj = [JSONObject JSONObjectWithString:_textView.text];
         if ([JSONObject isValidJSONObject:obj]) {
             NSError *error;
-            NSString *str = [JSONObject stringWithJSONObject:obj options:NSJSONWritingPrettyPrinted error:&error];
+            NSString *str = [obj JSONStringWithOptions:NSJSONWritingPrettyPrinted error:&error];
             if (error) {
-                ZXToastView *toastView = [[ZXToastView alloc] initWithText:error.localizedDescription];
-                [toastView showInView:self.textView];
+                ZXToastView *toastView = [[ZXToastView alloc] init];
+                [toastView showText:error.localizedDescription];
+                [toastView hideAfter:2];
             } else {
                 _textView.text = str;
             }
         } else {
-            ZXToastView *toastView = [[ZXToastView alloc] initWithText:@"Not valid json"];
-            [toastView showInView:self.textView];
+            ZXToastView *toastView = [[ZXToastView alloc] init];
+            [toastView showText:@"Not valid json"];
+            [toastView hideAfter:2];
         }
     }
 }

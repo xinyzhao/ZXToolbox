@@ -2,7 +2,7 @@
 // ZXDownloadTask.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2019 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,7 @@
 #import "ZXDownloadTask.h"
 #import "ZXDownloader.h"
 #import "ZXCommonCrypto.h"
-#import "ZXKVObserver.h"
+#import "ZXKeyValueObserver.h"
 #import <UIKit/UIKit.h>
 
 /// ZXDownloadObserver
@@ -63,9 +63,10 @@
 
 @property (nonatomic, assign) NSURLSessionTaskState state;
 
-@property (nonatomic, strong) ZXKVObserver *taskStateObserver;
+@property (nonatomic, strong) ZXKeyValueObserver *taskStateObserver;
 @property (nonatomic, weak) NSURLSession *session;
 
+@property (nonatomic, strong) dispatch_semaphore_t semaphore;
 @end
 
 @implementation ZXDownloadTask
@@ -76,8 +77,9 @@
         //
         _session = session;
         _observers = [[NSMutableArray alloc] init];
-        _taskStateObserver = [[ZXKVObserver alloc] init];
+        _taskStateObserver = [[ZXKeyValueObserver alloc] init];
         _state = NSURLSessionTaskStateSuspended;
+        _semaphore = dispatch_semaphore_create(1);
         //
         BOOL isDirectory = NO;
         if (path == nil) {
@@ -116,14 +118,17 @@
 - (void)addObserver:(id)observer
               state:(void(^)(NSURLSessionTaskState state, NSString *filePath, NSError *error))state
            progress:(void(^)(int64_t receivedSize, int64_t expectedSize, float progress))progress {
+    dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
     ZXDownloadObserver *taskObserver = [[ZXDownloadObserver alloc] init];
     taskObserver.observer = observer;
     taskObserver.state = state;
     taskObserver.progress = progress;
     [_observers addObject:taskObserver];
+    dispatch_semaphore_signal(_semaphore);
 }
 
 - (void)removeObserver:(id)observer {
+    dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
     NSMutableArray *array = [[NSMutableArray alloc] init];
     for (ZXDownloadObserver *obj in _observers) {
         if (obj.observer == observer) {
@@ -131,6 +136,7 @@
         }
     }
     [self.observers removeObjectsInArray:array];
+    dispatch_semaphore_signal(_semaphore);
 }
 
 #pragma mark Files
@@ -198,6 +204,7 @@
     //
     self.state = state;
     //
+    dispatch_semaphore_wait(_semaphore, DISPATCH_TIME_FOREVER);
     NSString *path = self.filePath;
     for (ZXDownloadObserver *observer in self.observers) {
         if (observer.observer && observer.state) {
@@ -206,6 +213,7 @@
             });
         }
     }
+    dispatch_semaphore_signal(_semaphore);
 }
 
 #pragma mark Progress

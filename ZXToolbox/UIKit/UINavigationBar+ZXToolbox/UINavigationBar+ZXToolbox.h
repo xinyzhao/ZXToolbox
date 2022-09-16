@@ -2,7 +2,7 @@
 // UINavigationBar+ZXToolbox.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2019 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,11 +31,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Set font for title
 /// @param font UIFont
-- (void)setTitleFont:(UIFont *)font;
+- (void)setTitleFont:(nullable UIFont *)font;
 
 /// Set color for title
 /// @param color UIColor
-- (void)setTitleColor:(UIColor *)color;
+- (void)setTitleColor:(nullable UIColor *)color;
 
 @end
 

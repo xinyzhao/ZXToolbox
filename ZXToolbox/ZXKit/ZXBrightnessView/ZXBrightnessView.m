@@ -2,7 +2,7 @@
 // ZXBrightnessView.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,21 +26,21 @@
 #import "ZXBrightnessView.h"
 #import "UIColor+ZXToolbox.h"
 #import "ZXToolbox+Macros.h"
-#import "ZXKVObserver.h"
+#import "ZXKeyValueObserver.h"
 
 @interface ZXBrightnessView ()
 @property (nonatomic, strong) UIView *levelView;
 @property (nonatomic, strong) NSTimer *disappearTimer;
 @property (nonatomic, assign) BOOL willDisappear;
 @property (nonatomic, weak) id applicationDidChangeStatusBarOrientationObserver;
-@property (nonatomic, strong) ZXKVObserver *mainScreenBrightnessObserver;
+@property (nonatomic, strong) ZXKeyValueObserver *mainScreenBrightnessObserver;
 
 @end
 
 @implementation ZXBrightnessView
 
 #define ZXBrightnessBounds  CGRectMake(0.0, 0.0, 155.0, 155.0)
-#define ZXBrightnessColor   [UIColor colorWithString:@"#484848"]
+#define ZXBrightnessColor   ZXColorFromHEXString(@"#484848", 1)
 
 + (instancetype)brightnessView {
     static ZXBrightnessView *brightnessView;
@@ -92,7 +92,7 @@
             [self.levelView addSubview:imageView];
         }
         //
-        _mainScreenBrightnessObserver = [[ZXKVObserver alloc] init];
+        _mainScreenBrightnessObserver = [[ZXKeyValueObserver alloc] init];
     }
     return self;
 }
@@ -133,7 +133,7 @@
         [weakSelf setNeedsLayout];
     }];
     //
-    [_mainScreenBrightnessObserver addObserver:[UIScreen mainScreen] forKeyPath:@"brightness" options:NSKeyValueObservingOptionNew context:NULL observeValue:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change) {
+    [_mainScreenBrightnessObserver observe:[UIScreen mainScreen] keyPath:@"brightness" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
         CGFloat level = [change[NSKeyValueChangeNewKey] floatValue];
         [weakSelf presentViewAnimated];
         [weakSelf updateBrightnessLevel:level];
@@ -144,7 +144,7 @@
     if (_applicationDidChangeStatusBarOrientationObserver) {
         [[NSNotificationCenter defaultCenter] removeObserver:_applicationDidChangeStatusBarOrientationObserver];
     }
-    [_mainScreenBrightnessObserver removeObserver];
+    [_mainScreenBrightnessObserver invalidate];
 }
 
 #pragma mark Present

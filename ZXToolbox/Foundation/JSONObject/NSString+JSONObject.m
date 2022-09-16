@@ -1,8 +1,8 @@
 //
-// ZXBadgeLabel.h
+// NSString+JSONObject.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2021 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -23,32 +23,21 @@
 // THE SOFTWARE.
 //
 
-#import <UIKit/UIKit.h>
+#import "NSString+JSONObject.h"
+#import "JSONObject.h"
 
-/**
- ZXBadgeLabel
- */
-@interface ZXBadgeLabel : UILabel
+@implementation NSString (JSONObject)
 
-/**
- Audo-hide, calls -setHidden when number equal or less than mininum
- */
-@property (nonatomic, assign) BOOL audoHide; // Default YES
+- (id)JSONObject {
+    return [JSONObject JSONObjectWithString:self];
+}
 
-/**
- Badge number
- */
-@property (nonatomic, assign) NSInteger number; // Default 0
+- (id)JSONObjectWithOptions:(NSJSONReadingOptions)opt {
+    return [JSONObject JSONObjectWithString:self options:opt];
+}
 
-/**
- Mininum number
- */
-@property (nonatomic, assign) NSInteger mininum; // Default 0
-
-/**
- Maxinum, eg. number>99 and maxinum==99, display as "99+"
- */
-@property (nonatomic, assign) NSInteger maxinum; // Default 99
+- (id)JSONObjectWithOptions:(NSJSONReadingOptions)opt error:(NSError **)error {
+    return [JSONObject JSONObjectWithString:self options:opt error:error];
+}
 
 @end
-

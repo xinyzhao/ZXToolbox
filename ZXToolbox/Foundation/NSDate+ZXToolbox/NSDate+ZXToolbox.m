@@ -2,7 +2,7 @@
 // NSDate+ZXToolbox.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,10 +24,12 @@
 //
 
 #import "NSDate+ZXToolbox.h"
+#import "ZXToolbox+Macros.h"
 
-NSString *const kZXToolboxDateFormatDateTime   = @"yyyy-MM-dd HH:mm:ss";
-NSString *const kZXToolboxDateFormatDate       = @"yyyy-MM-dd";
-NSString *const kZXToolboxDateFormatTime       = @"HH:mm:ss";
+NSString *const kZXDateTimeStringFormatRFC3339  = @"yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+NSString *const kZXDateTimeStringFormatDefault  = @"yyyy-MM-dd HH:mm:ss";
+NSString *const kZXDateTimeStringFormatDate     = @"yyyy-MM-dd";
+NSString *const kZXDateTimeStringFormatTime     = @"HH:mm:ss";
 
 @implementation NSDate (ZXToolbox)
 
@@ -40,92 +42,43 @@ NSString *const kZXToolboxDateFormatTime       = @"HH:mm:ss";
     return dateFormatter;
 }
 
-+ (NSDate *)dateWithString:(NSString *)string format:(NSString *)format {
-    NSDateFormatter *dateFormatter = [NSDate dateFormatter];
-    [dateFormatter setDateFormat:format ? format : kZXToolboxDateFormatDateTime];
-    return [dateFormatter dateFromString:string];
++ (nullable NSLocale *)locale {
+    return [NSDate dateFormatter].locale ?: [NSLocale currentLocale];
 }
 
-- (NSString *)stringWithFormat:(NSString *)format {
-    NSDateFormatter *dateFormatter = [NSDate dateFormatter];
-    [dateFormatter setDateFormat:format ? format : kZXToolboxDateFormatDateTime];
-    return [dateFormatter stringFromDate:self];
++ (void)setLocale:(nullable NSLocale *)locale {
+    [NSDate dateFormatter].locale = locale;
 }
 
-- (NSString *)dateString {
-    return [self stringWithFormat:kZXToolboxDateFormatDate];
++ (nullable NSTimeZone *)timeZone {
+    return [NSDate dateFormatter].timeZone ?: [NSTimeZone localTimeZone];
 }
 
-- (NSString *)dateTimeString {
-    return [self stringWithFormat:kZXToolboxDateFormatDateTime];
++ (void)setTimeZone:(nullable NSTimeZone *)timeZone {
+    [NSDate dateFormatter].timeZone = timeZone;
 }
 
-- (NSString *)timeString {
-    return [self stringWithFormat:kZXToolboxDateFormatTime];
++ (nullable NSCalendar *)calendar {
+    return [NSDate dateFormatter].calendar ?: [NSCalendar currentCalendar];
 }
 
-- (NSDate *)prevDayDate {
-    return [NSDate dateWithTimeIntervalSinceReferenceDate:[self timeIntervalSinceReferenceDate] - 24 * 3600];
++ (void)setCalendar:(NSCalendar *)calendar {
+    [NSDate dateFormatter].calendar = calendar;
 }
 
-- (NSDate *)nextDayDate {
-    return [NSDate dateWithTimeIntervalSinceReferenceDate:[self timeIntervalSinceReferenceDate] + 24 * 3600];
++ (nullable NSDate *)dateWithString:(NSString *)string format:(nullable NSString *)format {
+    NSDateFormatter *date = [NSDate dateFormatter];
+    date.dateFormat = format ?: kZXDateTimeStringFormatDefault;
+    return [date dateFromString:string];
 }
 
-- (NSDate *)prevMonthDate {
-    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:self];
-    if (components.month > 1) {
-        [components setYear:0];
-    } else {
-        [components setYear:-1];
-    }
-    [components setMonth:-1];
-    [components setDay:0];
-    return [[NSCalendar currentCalendar] dateByAddingComponents:components
-                                                         toDate:self
-                                                        options:NSCalendarWrapComponents];
+- (NSString *)stringWithFormat:(nullable NSString *)format {
+    NSDateFormatter *date = [NSDate dateFormatter];
+    date.dateFormat = format ?: kZXDateTimeStringFormatDefault;
+    return [date stringFromDate:self];
 }
 
-- (NSDate *)nextMonthDate {
-    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:self];
-    if (components.month < 12) {
-        [components setYear:0];
-    } else {
-        [components setYear:1];
-    }
-    [components setMonth:1];
-    [components setDay:0];
-    return [[NSCalendar currentCalendar] dateByAddingComponents:components
-                                                         toDate:self
-                                                        options:NSCalendarWrapComponents];
-}
-
-- (BOOL)isToday {
-    NSString *date = [[NSDate date] dateString];
-    return [date isEqualToString:[self dateString]];
-}
-
-- (BOOL)isTomorrow {
-    NSString *date = [[[NSDate date] nextDayDate] dateString];
-    return [date isEqualToString:[self dateString]];
-}
-
-- (BOOL)isYesterday {
-    NSString *date = [[[NSDate date] prevDayDate] dateString];
-    return [date isEqualToString:[self dateString]];
-}
-
-- (BOOL)isDayAfterTomorrow {
-    NSString *date = [[NSDate dateWithTimeIntervalSinceReferenceDate:[[NSDate date] timeIntervalSinceReferenceDate] + 48 * 3600] dateString];
-    return [date isEqualToString:[self dateString]];
-}
-
-- (BOOL)isDayBeforeYesterday {
-    NSString *date = [[NSDate dateWithTimeIntervalSinceReferenceDate:[[NSDate date] timeIntervalSinceReferenceDate] - 48 * 3600] dateString];
-    return [date isEqualToString:[self dateString]];
-}
-
-- (NSDateComponents *)componets {
+- (NSDateComponents *)allComponents {
     NSCalendarUnit units = (NSCalendarUnitEra |
                             NSCalendarUnitYear |
                             NSCalendarUnitMonth |
@@ -142,17 +95,71 @@ NSString *const kZXToolboxDateFormatTime       = @"HH:mm:ss";
                             NSCalendarUnitNanosecond |
                             NSCalendarUnitCalendar |
                             NSCalendarUnitTimeZone);
-    return [[NSCalendar currentCalendar] components:units fromDate:self];
+    return [[NSDate calendar] components:units fromDate:self];
 }
 
-- (NSDate *)firstDayOfMonthDate {
-    NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitYear|NSCalendarUnitMonth|NSCalendarUnitDay fromDate:self];
-    components.day = 1;
-    return [[NSCalendar currentCalendar] dateFromComponents:components];
+- (NSDateComponents *)dateComponents {
+    NSCalendarUnit units = (NSCalendarUnitYear |
+                            NSCalendarUnitMonth |
+                            NSCalendarUnitDay |
+                            NSCalendarUnitHour |
+                            NSCalendarUnitMinute |
+                            NSCalendarUnitSecond |
+                            NSCalendarUnitNanosecond);
+    return [[NSDate calendar] components:units fromDate:self];
 }
 
-- (NSInteger)numberOfDaysInMonth {
-    return [[NSCalendar currentCalendar] rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:self].length;
+- (NSDate *)dateByAddingYear:(NSInteger)year month:(NSInteger)month day:(NSInteger)day {
+    NSCalendar *calendar = [NSDate calendar];
+    NSDateComponents *comp = self.dateComponents;
+    comp.year += year + month / 12;
+    comp.month += month % 12;
+    if (self.isLastDayOfMonth) {
+        comp.day = 1;
+        comp.day = [[calendar dateFromComponents:comp] numberOfDaysInMonth];
+    }
+    NSDate *date = [calendar dateFromComponents:comp];
+    return [date dateByAddingTimeInterval:(3600 * 24 * day)];
+}
+
+- (BOOL)isToday {
+    NSDateComponents *this = [self dateComponents];
+    NSDateComponents *date = [[NSDate date] dateComponents];
+    return this.year == date.year && this.month == date.month && this.day == date.day;
+}
+
+- (BOOL)isTomorrow {
+    NSDateComponents *this = [self dateComponents];
+    NSDateComponents *date = [[[NSDate date] dateByAddingYear:0 month:0 day:1] dateComponents];
+    return this.year == date.year && this.month == date.month && this.day == date.day;
+}
+
+- (BOOL)isYesterday {
+    NSDateComponents *this = [self dateComponents];
+    NSDateComponents *date = [[[NSDate date] dateByAddingYear:0 month:0 day:-1] dateComponents];
+    return this.year == date.year && this.month == date.month && this.day == date.day;
+}
+
+- (BOOL)isDayAfterTomorrow {
+    NSDateComponents *this = [self dateComponents];
+    NSDateComponents *date = [[[NSDate date] dateByAddingYear:0 month:0 day:2] dateComponents];
+    return this.year == date.year && this.month == date.month && this.day == date.day;
+}
+
+- (BOOL)isDayBeforeYesterday {
+    NSDateComponents *this = [self dateComponents];
+    NSDateComponents *date = [[[NSDate date] dateByAddingYear:0 month:0 day:-2] dateComponents];
+    return this.year == date.year && this.month == date.month && this.day == date.day;
+}
+
+- (BOOL)isLastDayOfMonth {
+    NSDateComponents *date = [self dateComponents];
+    NSUInteger days = [self numberOfDaysInMonth];
+    return date.day == days;
+}
+
+- (NSUInteger)numberOfDaysInMonth {
+    return [[NSDate calendar] rangeOfUnit:NSCalendarUnitDay inUnit:NSCalendarUnitMonth forDate:self].length;
 }
 
 @end

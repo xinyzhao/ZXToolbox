@@ -2,7 +2,7 @@
 // UIImage+ZXToolbox.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -322,6 +322,22 @@ UIImage * UIImageToThumbnail(UIImage *image, CGSize size, BOOL scaleAspectFill) 
 
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size {
     return UIImageFromColor(color, size);
+}
+
+- (CGFloat)adaptiveHeight:(CGFloat)width {
+    CGSize size = self.size;
+    CGFloat h = size.height > 0 ? size.height : 1;
+    CGFloat w = size.width > 0 ? size.width : 1;
+    CGFloat scale = h / w;
+    return width * scale;
+}
+
+- (CGFloat)adaptiveWidth:(CGFloat)height {
+    CGSize size = self.size;
+    CGFloat h = size.height > 0 ? size.height : 1;
+    CGFloat w = size.width > 0 ? size.width : 1;
+    CGFloat scale = w / h;
+    return height * scale;
 }
 
 - (UIImage *)blurImage:(CGFloat)radius {

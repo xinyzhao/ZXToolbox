@@ -2,7 +2,7 @@
 // AVAudioSession+ZXToolbox.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,18 +24,24 @@
 //
 
 #import <AVFoundation/AVFoundation.h>
+#import <MediaPlayer/MediaPlayer.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface AVAudioSession (ZXToolbox)
 /// eg AVAudioSessionPortHeadsetMic etc.
-@property (nonatomic, copy) NSString *currentInput;
+@property (nonatomic, nullable, copy) NSString *currentInput;
 /// eg AVAudioSessionPortBuiltInSpeaker etc.
-@property (nonatomic, readonly) NSString *currentOutput;
+@property (nonatomic, nullable, readonly) NSString *currentOutput;
 /// with AVAudioSessionCategoryPlayAndRecord
 @property (nonatomic, getter=isOverrideSpeaker) BOOL overrideSpeaker;
 /// Audio session route change observer block
-@property (nonatomic, copy) void (^audioSessionRouteChange)(AVAudioSessionRouteDescription *previousRoute, AVAudioSessionRouteChangeReason reason);
+@property (nonatomic, nullable, copy) void (^audioSessionRouteChange)(AVAudioSessionRouteDescription *previousRoute, AVAudioSessionRouteChangeReason reason);
+/// The system volume, equivalent to outputVolume, but this property can be assignment..
+/// @attention: Cannot be used for KVO, Use "outputVolume" to observing.
+@property (nonatomic, assign) float systemVolume;
+/// The system volume did change observer block
+@property (nonatomic, nullable, copy) void (^systemVolumeDidChange)(float volume);
 
 @end
 

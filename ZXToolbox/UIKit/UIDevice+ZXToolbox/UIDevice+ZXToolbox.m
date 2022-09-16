@@ -2,7 +2,7 @@
 // UIDevice+ZXToolbox.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2019 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,10 +27,13 @@
 #import "ZXCommonCrypto.h"
 #import "ZXKeychain.h"
 #import "ZXToolbox+Macros.h"
-#import <objc/runtime.h>
+#import "NSObject+ZXToolbox.h"
 #import <sys/utsname.h>
 #import <sys/types.h>
 #import <sys/sysctl.h>
+
+static char proximityStateDidChangeKey;
+static char proximityStateDidChangeObserverKey;
 
 @interface UIDevice ()
 @property (nonatomic, weak) id proximityStateDidChangeObserver;
@@ -125,7 +128,7 @@
 #pragma mark Proximity State
 
 - (void)setProximityStateDidChange:(void (^)(BOOL))proximityStateDidChange {
-    objc_setAssociatedObject(self, @selector(proximityStateDidChange), proximityStateDidChange, OBJC_ASSOCIATION_COPY);
+    [self setAssociatedObject:&proximityStateDidChangeKey value:proximityStateDidChange policy:OBJC_ASSOCIATION_COPY];
     // Add observer
     if (self.proximityStateDidChangeObserver == nil) {
         __weak typeof(self) weakSelf = self;
@@ -139,15 +142,15 @@
 }
 
 - (void (^)(BOOL))proximityStateDidChange {
-    return objc_getAssociatedObject(self, @selector(proximityStateDidChange));
+    return [self getAssociatedObject:&proximityStateDidChangeKey];
 }
 
 - (void)setProximityStateDidChangeObserver:(id)proximityStateDidChangeObserver {
-    objc_setAssociatedObject(self, @selector(proximityStateDidChangeObserver), proximityStateDidChangeObserver, OBJC_ASSOCIATION_ASSIGN);
+    [self setAssociatedObject:&proximityStateDidChangeObserverKey value:proximityStateDidChangeObserver policy:OBJC_ASSOCIATION_RETAIN];
 }
 
 - (id)proximityStateDidChangeObserver {
-    return objc_getAssociatedObject(self, @selector(proximityStateDidChangeObserver));
+    return [self getAssociatedObject:&proximityStateDidChangeObserverKey];
 }
 
 - (void)dealloc

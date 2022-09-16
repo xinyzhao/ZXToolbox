@@ -2,7 +2,7 @@
 // UIColor+ZXToolbox.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,168 +25,139 @@
 
 #import <UIKit/UIKit.h>
 
-/**
- Make color from HEX string, RGB format
- eg. @"0xRRGGBB", @"#RRGGBB", @"RRGGBB"
- 
- @param string HEX color string
- @param alpha Alpha value
- @return UIColor
- */
-UIKIT_EXTERN UIColor* UIColorFromHEX(NSString *string, CGFloat alpha);
+NS_ASSUME_NONNULL_BEGIN
 
-/**
- Make color from integer value, RGB format
- eg. 0xRRGGBB
- 
- @param value Integer color value
- @param alpha Alpha value
- @return UIColor
- */
-UIKIT_EXTERN UIColor* UIColorFromRGB(NSInteger value, CGFloat alpha);
+#ifndef _UIColorFromHEXString_
+/// Make color from HEX string in RGB order
+/// Return black color if the color string is invalid.
+/// @param string The HEX string, eg. @"0xRRGGBB", @"#RRGGBB", @"RRGGBB"
+/// @param alpha The alpha value, value between 0.0 and 1.0.
+/// @return Return black color with alpha If the color string is invalid
+/// @attention If the method name has conflicts, PLEASE add macro definition _UIColorFromHEXString_ to your project "Build Settings" -> "Preprocessor Macros"
+UIKIT_EXTERN UIColor * UIColorFromHEXString(NSString *string, CGFloat alpha);
+#endif//_UIColorFromHEXString_
 
-/**
- Return the HEX string of the color with prefix
- 
- @param color UIColor
- @param prefix Prefix of color string, eg '#'
- @return HEX string of the color with prefix
- */
-UIKIT_EXTERN NSString *UIColorToHEX(UIColor *color, NSString *prefix);
+#ifndef _UIColorFromRGBInteger_
+/// Make color from integer in RGB order
+/// @param value An integer value, value between 0x000000 and 0xFFFFFF
+/// @param alpha The alpha value, value between 0.0 and 1.0.
+/// @attention If the method name has conflicts, PLEASE add macro definition _UIColorFromRGBInteger_ to your project "Build Settings" -> "Preprocessor Macros"
+UIKIT_EXTERN UIColor * UIColorFromRGBInteger(NSInteger value, CGFloat alpha);
+#endif//_UIColorFromRGBInteger_
 
-/**
- UIColor category
- */
+#ifndef _NSStringFromUIColor_
+/// Make a HEX string in RGB order from UIColor without alpha value
+/// @param color The UIColor
+/// @attention If the method name has conflicts, PLEASE add macro definition _NSStringFromUIColor_ to your project "Build Settings" -> "Preprocessor Macros"
+UIKIT_EXTERN NSString * NSStringFromUIColor(UIColor *color);
+#endif//_NSStringFromUIColor_
+
+#ifndef _NSIntegerFromUIColor_
+/// Make a integer in RGB order from UIColor without alpha value
+/// @param color The UIColor
+/// @attention If the method name has conflicts, PLEASE add macro definition _NSIntegerFromUIColor_ to your project "Build Settings" -> "Preprocessor Macros"
+UIKIT_EXTERN NSInteger NSIntegerFromUIColor(UIColor *color);
+#endif//_NSIntegerFromUIColor_
+
+#ifndef _ZXColorComponents_
+#define _ZXColorComponents_
+/// The color components
+typedef struct ZXColorComponents {
+    CGFloat alpha;
+    union {
+        /// The grayscale components
+        struct {
+            CGFloat white;
+        };
+        /// The components that form the color in the HSB color space.
+        struct {
+            CGFloat hue;
+            CGFloat saturation;
+            CGFloat brightness;
+        };
+        /// The components that form the color in the RGB color space.
+        struct {
+            CGFloat red;
+            CGFloat green;
+            CGFloat blue;
+        };
+    };
+} ZXColorComponents;
+#endif//_ZXColorComponents_
+
+#ifndef _UIColorComponents_
+typedef ZXColorComponents UIColorComponents;
+#endif//_UIColorComponents_
+
+/// Make color from HEX string in RGB order
+/// Return black color if the color string is invalid.
+/// @param string The HEX string, eg. @"0xRRGGBB", @"#RRGGBB", @"RRGGBB"
+/// @param alpha The alpha value, value between 0.0 and 1.0.
+UIKIT_EXTERN UIColor * ZXColorFromHEXString(NSString *string, CGFloat alpha);
+
+/// Make color from integer in RGB order
+/// @param value An integer value, value between 0x000000 and 0xFFFFFF
+/// @param alpha The alpha value, value between 0.0 and 1.0.
+UIKIT_EXTERN UIColor * ZXColorFromRGBInteger(NSInteger value, CGFloat alpha);
+
+/// Make a HEX string in RGB order from UIColor without alpha value
+/// @param color The UIColor
+UIKIT_EXTERN NSString * ZXStringFromUIColor(UIColor *color);
+
+/// Make a integer in RGB order from UIColor without alpha value
+/// @param color The UIColor
+UIKIT_EXTERN NSInteger ZXIntegerFromUIColor(UIColor *color);
+
+/// UIColor category
 @interface UIColor (ZXToolbox)
 
-/**
- Make color from HEX string, RGB format
- eg. @"0xRRGGBB", @"#RRGGBB", @"RRGGBB"
- 
- @param string HEX string, RGB format
- @return UIColor
- */
-+ (instancetype)colorWithString:(NSString *)string;
+#ifndef _UIColorWithHEXString_
+/// Make color from HEX string in RGB order
+/// @param string The HEX string, eg. @"0xRRGGBB", @"#RRGGBB", @"RRGGBB"
+/// @attention If the method name conflicts with another categories, PLEASE add macro definition UIColorWithHEXString to your project "Build Settings" -> "Preprocessor Macros"
++ (instancetype)colorWithHEXString:(NSString *)string;
 
-/**
- Make color from HEX string, RGB format
- eg. @"0xRRGGBB", @"#RRGGBB", @"RRGGBB"
+/// Make color from HEX string in RGB order and alpha value
+/// @param string The HEX string, eg. @"0xRRGGBB", @"#RRGGBB", @"RRGGBB"
+/// @param alpha The alpha value, value between 0.0 and 1.0.
+/// @attention If the method name conflicts with another categories, PLEASE add macro definition _UIColorWithHEXString_ to your project "Build Settings" -> "Preprocessor Macros"
++ (instancetype)colorWithHEXString:(NSString *)string alpha:(CGFloat)alpha;
+#endif//_UIColorWithHEXString_
 
- @param string HEX string, RGB format
- @param alpha alpha value
- @return UIColor
- */
-+ (instancetype)colorWithString:(NSString *)string alpha:(CGFloat)alpha;
+#ifndef _UIColorWithRGBInteger_
+/// Make color from integer in RGB order
+/// @param value An integer value, value between 0x000000 and 0xFFFFFF
+/// @attention If the method name conflicts with another categories, PLEASE add macro definition _UIColorWithRGBInteger_ to your project "Build Settings" -> "Preprocessor Macros"
++ (instancetype)colorWithRGBInteger:(NSInteger)value;
 
-/**
- Make color from integer value, RGB format
- eg. 0xRRGGBB
- 
- @param value Integer value
- @return UIColor
- */
-+ (instancetype)colorWithInteger:(NSInteger)value;
+/// Make color from integer in RGB order
+/// @param value An integer value, value between 0x000000 and 0xFFFFFF
+/// @param alpha The alpha value, value between 0.0 and 1.0.
+/// @attention If the method name conflicts with another categories, PLEASE add macro definition _UIColorWithRGBInteger_ to your project "Build Settings" -> "Preprocessor Macros"
++ (instancetype)colorWithRGBInteger:(NSInteger)value alpha:(CGFloat)alpha;
+#endif//_UIColorWithRGBInteger_
 
-/**
- Make color from integer value, RGB format
- eg. 0xRRGGBB
- 
- @param value Integer value
- @return UIColor
- */
-+ (instancetype)colorWithInteger:(NSInteger)value alpha:(CGFloat)alpha;
-
-/**
- Gen random color
-
- @return UIColor
- */
+/// Get a random color
 + (UIColor *)randomColor;
 
-/**
- Return the inverse color
- 
- @return UIColor
- */
+/// Get the inverse color
 - (UIColor *)inverseColor;
 
-/**
- Return the HEX string of the color
- 
- @return HEX string of the color
- */
-- (NSString *)stringValue;
+/// Get a HEX string in RGB order without alpha value
+- (NSString *)NSStringValue;
 
-/**
- Return the HEX string of the color with prefix
+/// Get a integer in RGB order without alpha value
+- (NSInteger)NSIntegerValue;
 
- @param prefix Prefix of color
- @return HEX string of the color with prefix
- */
-- (NSString *)stringValueWithPrefix:(NSString *)prefix;
+/// Returns the grayscale components
+- (ZXColorComponents)grayscaleComponents;
 
-/**
- Return the integer value of the color
- 
- @return NSInteger
- */
-- (NSInteger)integerValue;
+/// Returns the components that form the color in the HSB color space.
+- (ZXColorComponents)HSBComponents;
 
-/**
- Return the integer value of the color
-
- @param alpha Whether or not include alpha value
- @return NSInteger
- */
-- (NSInteger)integerValueWithAlpha:(BOOL)alpha;
-
-/**
- Return the alpha value of the color
-
- @return Alpha value
- */
-- (CGFloat)alpha;
-
-/**
- Return the red value of the color
-
- @return Red value
- */
-- (CGFloat)red;
-
-/**
- Return the green value of the color
- 
- @return Green value
- */
-- (CGFloat)green;
-
-/**
- Return the blue value of the color
- 
- @return Blue value
- */
-- (CGFloat)blue;
-
-/**
- Return the hue value of the color
- 
- @return Hue value
- */
-- (CGFloat)hue;
-
-/**
- Return the saturation value of the color
- 
- @return Saturation value
- */
-- (CGFloat)saturation;
-
-/**
- Return the brightness value of the color
- 
- @return Brightness value
- */
-- (CGFloat)brightness;
+/// Returns the components that form the color in the RGB color space.
+- (ZXColorComponents)RGBComponents;
 
 @end
+
+NS_ASSUME_NONNULL_END

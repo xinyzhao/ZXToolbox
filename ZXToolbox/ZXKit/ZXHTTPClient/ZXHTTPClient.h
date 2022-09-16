@@ -2,7 +2,7 @@
 // ZXHTTPClient.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -58,7 +58,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param completionHandler The completion handler
  @return NSURLSessionDataTask
  */
-+ (NSURLSessionDataTask *)requestWithURLString:(NSString *)URLString method:(NSString *)method params:(NSDictionary * _Nullable)params body:(NSData * _Nullable)body requestHandler:(void(^ _Nullable)(NSMutableURLRequest *request))requestHandler completionHandler:(void(^ _Nullable)(NSURLSessionDataTask * _Nullable task, NSData * _Nullable data, NSError * _Nullable error))completionHandler;
++ (NSURLSessionDataTask *)requestWithURLString:(NSString *)URLString method:(NSString *)method params:(nullable NSDictionary *)params body:(nullable NSData *)body requestHandler:(void(^ _Nullable)(NSMutableURLRequest *request))requestHandler completionHandler:(void(^ _Nullable)(NSURLSessionDataTask * _Nullable task, NSData * _Nullable data, NSError * _Nullable error))completionHandler;
 
 /**
  HTTP Request with "multipart/form-data"
@@ -71,7 +71,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param completionHandler The completion handler
  @return NSURLSessionDataTask
  */
-+ (NSURLSessionDataTask *)requestWithURLString:(NSString *)URLString method:(NSString *)method params:(NSDictionary * _Nullable)params formData:(NSArray<ZXHTTPFormData *> * _Nullable)formData requestHandler:(void(^ _Nullable)(NSMutableURLRequest *request))requestHandler completionHandler:(void(^ _Nullable)(NSURLSessionDataTask * _Nullable task, NSData * _Nullable data, NSError * _Nullable error))completionHandler;
++ (NSURLSessionDataTask *)requestWithURLString:(NSString *)URLString method:(NSString *)method params:(nullable NSDictionary *)params formData:(nullable NSArray<ZXHTTPFormData *> *)formData requestHandler:(void(^ _Nullable)(NSMutableURLRequest *request))requestHandler completionHandler:(void(^ _Nullable)(NSURLSessionDataTask * _Nullable task, NSData * _Nullable data, NSError * _Nullable error))completionHandler;
 
 /**
  HTTP Request with "application/json"
@@ -84,7 +84,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param completionHandler The completion handler
  @return NSURLSessionDataTask
  */
-+ (NSURLSessionDataTask *)requestWithURLString:(NSString *)URLString method:(NSString *)method params:(NSDictionary * _Nullable)params jsonObject:(id _Nullable)jsonObject requestHandler:(void(^ _Nullable)(NSMutableURLRequest *request))requestHandler completionHandler:(void(^ _Nullable)(NSURLSessionDataTask * _Nullable task, NSData * _Nullable data, NSError * _Nullable error))completionHandler;
++ (NSURLSessionDataTask *)requestWithURLString:(NSString *)URLString method:(NSString *)method params:(nullable NSDictionary *)params jsonObject:(nullable id)jsonObject requestHandler:(void(^ _Nullable)(NSMutableURLRequest *request))requestHandler completionHandler:(void(^ _Nullable)(NSURLSessionDataTask * _Nullable task, NSData * _Nullable data, NSError * _Nullable error))completionHandler;
 
 #pragma mark HTTP Methods
 
@@ -97,7 +97,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param completionHandler The completion handler
  @return NSURLSessionDataTask
  */
-+ (NSURLSessionDataTask *)GET:(NSString *)URLString params:(NSDictionary * _Nullable)params requestHandler:(void(^ _Nullable)(NSMutableURLRequest *request))requestHandler completionHandler:(void(^ _Nullable)(NSURLSessionDataTask * _Nullable task, NSData * _Nullable data, NSError * _Nullable error))completionHandler;
++ (NSURLSessionDataTask *)GET:(NSString *)URLString params:(nullable NSDictionary *)params requestHandler:(void(^ _Nullable)(NSMutableURLRequest *request))requestHandler completionHandler:(void(^ _Nullable)(NSURLSessionDataTask * _Nullable task, NSData * _Nullable data, NSError * _Nullable error))completionHandler;
 
 /**
  HTTP Request with POST method
@@ -109,7 +109,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param completionHandler The completion handler
  @return NSURLSessionDataTask
  */
-+ (NSURLSessionDataTask *)POST:(NSString *)URLString params:(NSDictionary * _Nullable)params formData:(NSArray<ZXHTTPFormData *> * _Nullable)formData requestHandler:(void(^ _Nullable)(NSMutableURLRequest *request))requestHandler completionHandler:(void(^ _Nullable)(NSURLSessionDataTask * _Nullable task, NSData * _Nullable data, NSError * _Nullable error))completionHandler;
++ (NSURLSessionDataTask *)POST:(NSString *)URLString params:(nullable NSDictionary *)params formData:(nullable NSArray<ZXHTTPFormData *> *)formData requestHandler:(void(^ _Nullable)(NSMutableURLRequest *request))requestHandler completionHandler:(void(^ _Nullable)(NSURLSessionDataTask * _Nullable task, NSData * _Nullable data, NSError * _Nullable error))completionHandler;
 
 /**
  HTTP Request with POST method
@@ -121,7 +121,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param completionHandler The completion handler
  @return NSURLSessionDataTask
  */
-+ (NSURLSessionDataTask *)POST:(NSString *)URLString params:(NSDictionary * _Nullable)params jsonObject:(id _Nullable)jsonObject requestHandler:(void(^ _Nullable)(NSMutableURLRequest *request))requestHandler completionHandler:(void(^ _Nullable)(NSURLSessionDataTask * _Nullable task, NSData * _Nullable data, NSError * _Nullable error))completionHandler;
++ (NSURLSessionDataTask *)POST:(NSString *)URLString params:(nullable NSDictionary *)params jsonObject:(nullable id)jsonObject requestHandler:(void(^ _Nullable)(NSMutableURLRequest *request))requestHandler completionHandler:(void(^ _Nullable)(NSURLSessionDataTask * _Nullable task, NSData * _Nullable data, NSError * _Nullable error))completionHandler;
 
 @end
 
@@ -166,7 +166,7 @@ NS_ASSUME_NONNULL_BEGIN
  @param mimeType MIME type for data
  @return Instance
  */
-- (instancetype)initWithData:(NSData *)data name:(NSString * _Nullable)name fileName:(NSString * _Nullable)fileName mimeType:(NSString *)mimeType;
+- (instancetype)initWithData:(NSData *)data name:(nullable NSString *)name fileName:(nullable NSString *)fileName mimeType:(NSString *)mimeType;
 
 @end
 

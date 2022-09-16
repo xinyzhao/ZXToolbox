@@ -2,7 +2,7 @@
 // ZXToolbox+Macros.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -81,5 +81,15 @@
 #ifndef ZXToolboxBundleFile
 #define ZXToolboxBundleFile(bundle, file) ([[NSBundle mainBundle] pathForResource:file ofType:nil inDirectory:bundle] ?: ZXToolboxFrameworkBundleFile(bundle, file))
 #endif
+
+#ifndef AT_SYNCHRONIZED
+#define AT_SYNCHRONIZED_BEGIN(obj)  @synchronized(obj){
+#define AT_SYNCHRONIZED_END         }
+#endif//AT_SYNCHRONIZED
+
+#ifndef AT_SYNCHRONIZED_SELF
+#define AT_SYNCHRONIZED_SELF_BEGIN  @synchronized(self){
+#define AT_SYNCHRONIZED_SELF_END    }
+#endif//AT_SYNCHRONIZED_SELF
 
 #endif // __OBJC__

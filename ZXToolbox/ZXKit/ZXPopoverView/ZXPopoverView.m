@@ -2,7 +2,7 @@
 // ZXPopoverView.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,9 @@
 //
 
 #import "ZXPopoverView.h"
-#import <objc/runtime.h>
+#import "NSObject+ZXToolbox.h"
+
+static char popoverViewKey;
 
 @interface ZXPopoverView () <UIGestureRecognizerDelegate>
 @property (nonatomic, assign) CGRect fromFrame;
@@ -78,15 +80,19 @@
 @implementation UIView (ZXPopoverView)
 
 - (ZXPopoverView *)popoverView {
-    ZXPopoverView *popoverView = objc_getAssociatedObject(self, @selector(popoverView));
+    ZXPopoverView *popoverView = [self getAssociatedObject:&popoverViewKey];
     if (popoverView == nil) {
         popoverView = [[ZXPopoverView alloc] initWithFrame:[UIScreen mainScreen].bounds];
-        objc_setAssociatedObject(self, @selector(popoverView), popoverView, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+        [self setAssociatedObject:&popoverViewKey value:popoverView policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
     }
     return popoverView;
 }
 
-- (void)presentView:(UIView *)view animated:(BOOL)flag completion:(void (^)(void))completion {
+- (void)presentView:(UIView *)view animated:(BOOL)animated completion:(void (^)(void))completion {
+    [self presentView:view safeArea:YES animated:animated completion:completion];
+}
+
+- (void)presentView:(UIView *)view safeArea:(BOOL)safeArea animated:(BOOL)animated completion:(void (^)(void))completion {
     self.popoverView.frame = self.bounds;
     //
     CGRect from = self.popoverView.frame;
@@ -94,13 +100,17 @@
     from.size.height = view.frame.size.height;
     //
     CGRect to = from;
-    if (@available(iOS 11.0, *)) {
-        to.origin.y = self.safeAreaLayoutGuide.layoutFrame.origin.y + self.safeAreaLayoutGuide.layoutFrame.size.height - view.frame.size.height;
+    if (safeArea) {
+        if (@available(iOS 11.0, *)) {
+            to.origin.y = self.safeAreaLayoutGuide.layoutFrame.origin.y + self.safeAreaLayoutGuide.layoutFrame.size.height - view.frame.size.height;
+        } else {
+            to.origin.y = self.frame.size.height - view.frame.size.height;
+        }
     } else {
         to.origin.y = self.frame.size.height - view.frame.size.height;
     }
     //
-    [self presentView:view from:from to:to animated:flag completion:completion];
+    [self presentView:view from:from to:to animated:animated completion:completion];
 }
 
 - (void)presentView:(UIView *)view from:(CGRect)from to:(CGRect)to animated:(BOOL)animated completion:(void(^)(void))completion {

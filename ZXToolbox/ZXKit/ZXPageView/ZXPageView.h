@@ -2,7 +2,7 @@
 // ZXPageView.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -70,8 +70,10 @@ typedef NS_ENUM(NSInteger, ZXPagingMode) {
 @property (nonatomic, assign) NSInteger currentPage;
 /// The number of pages, default is 0
 @property (nonatomic, assign) NSInteger numberOfPages;
-/// Time interval for auto-paging, default 0 mean no auto-paging, deprecated.
-@property (nonatomic, assign) NSTimeInterval timeInterval __attribute__((deprecated("Replaced by pagingInterval!")));
+/// default YES. turn off any dragging temporarily
+@property (nonatomic, getter=isScrollEnabled) BOOL scrollEnabled;
+/// Auto-paging, default YES.
+@property (nonatomic, getter=isPagingEnabled) BOOL pagingEnabled;
 /// Time interval for auto-paging, default 0 mean no auto-paging
 @property (nonatomic, assign) NSTimeInterval pagingInterval;
 /// Orientation, default ZXPagingModeEndless
@@ -105,3 +107,7 @@ typedef NS_ENUM(NSInteger, ZXPagingMode) {
 
 @end
 
+@interface ZXPageView (Deprecated)
+/// Time interval for auto-paging, default 0 mean no auto-paging, deprecated.
+@property (nonatomic, assign) NSTimeInterval timeInterval __attribute__((deprecated("Replaced by pagingInterval!")));
+@end

@@ -92,6 +92,10 @@ NSLogA(@"#category: %@", ad.category);
 NSLogA(@"#currentInput: %@", ad.currentInput);
 NSLogA(@"#currentOutput: %@", ad.currentOutput);
 NSLogA(@"#isOverrideSpeaker: %d", ad.isOverrideSpeaker);
+[AVAudioSession sharedInstance].systemVolumeDidChange = ^(float volume) {
+    NSLogA(@"#systemVolume: %f", volume);
+};
+[AVAudioSession sharedInstance].systemVolume = 0.5;
 ```
 > Output:
 
@@ -100,6 +104,7 @@ NSLogA(@"#isOverrideSpeaker: %d", ad.isOverrideSpeaker);
 #currentInput: (null)
 #currentOutput: Speaker
 #isOverrideSpeaker: 0
+#systemVolume: 0.5
 ```
 
 * Base64Encoding
@@ -123,9 +128,9 @@ NSLogA(@"#base64DecodedString: %@", str);
 
 ```
 id src = @{@"string":@"json", @"array":@[@1,@2,@3], @"object":@{@"a":@"a", @"b":@"b", @"c":@"c"}};
-id str = [JSONObject stringWithJSONObject:src];
-id pty = [JSONObject stringWithJSONObject:src options:NSJSONWritingPrettyPrinted];
-id obj = [JSONObject JSONObjectWithString:str];
+id str = [src JSONString];
+id pty = [src JSONStringWithOptions:NSJSONWritingPrettyPrinted];
+id obj = [str JSONObject];
 NSLogA(@"#JSONString: %@", str);
 NSLogA(@"#JSONPretty: %@", pty);
 NSLogA(@"#JSONObject: %@", obj);
@@ -232,16 +237,93 @@ index 3 beyond bounds [0...1]
 
 ```
 NSDate *date = [NSDate date];
-NSLogA(@"#DateTime: %@", [date stringWithFormat:kZXToolboxDateFormatDateTime]);
-NSLogA(@"#Date: %@", [date stringWithFormat:kZXToolboxDateFormatDate]);
-NSLogA(@"#Time: %@", [date stringWithFormat:kZXToolboxDateFormatTime]);
+NSLogA(@"#Date: %@ #Time: %@", [date stringWithFormat:kZXDateTimeStringFormatDate], [date stringWithFormat:kZXDateTimeStringFormatTime]);
+NSLogA(@"#Default: %@", [date stringWithFormat:kZXDateTimeStringFormatDefault]);
+NSLogA(@"#RFC3339: %@", [date stringWithFormat:kZXDateTimeStringFormatRFC3339]);
+//
+NSLogA(@"#isToday: %d", [date isToday]);
+NSLogA(@"#isTomorrow: %d", [date isTomorrow]);
+NSLogA(@"#isYesterday: %d", [date isYesterday]);
+NSLogA(@"#isDayAfterTomorrow: %d", [date isDayAfterTomorrow]);
+NSLogA(@"#isDayBeforeYesterday: %d", [date isDayBeforeYesterday]);
+NSLogA(@"#isLastDayOfMonth: %d", [date isLastDayOfMonth]);
+NSLogA(@"#numberOfDaysInMonth: %lu", (unsigned long)[date numberOfDaysInMonth]);
+//
+date = [NSDate dateWithString:@"2019-12-31" format:kZXDateTimeStringFormatDate];
+NSLogA(@"#Date: [%@]", [date stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:0 day:+1] = %@", [[date dateByAddingYear:0 month:0 day:1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:+1 day:0] = %@", [[date dateByAddingYear:0 month:1 day:0] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:+1 day:+1] = %@", [[date dateByAddingYear:0 month:1 day:1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:-1 day:0] = %@", [[date dateByAddingYear:0 month:-1 day:0] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:-1 day:+1] = %@", [[date dateByAddingYear:0 month:-1 day:1] stringWithFormat:nil]);
+//
+date = [NSDate dateWithString:@"2020-01-31" format:kZXDateTimeStringFormatDate];
+NSLogA(@"#Date: [%@]", [date stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:0 day:+1] = %@", [[date dateByAddingYear:0 month:0 day:1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:+1 day:0] = %@", [[date dateByAddingYear:0 month:1 day:0] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:+1 day:+1] = %@", [[date dateByAddingYear:0 month:1 day:1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:-1 day:0] = %@", [[date dateByAddingYear:0 month:-1 day:0] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:-1 day:+1] = %@", [[date dateByAddingYear:0 month:-1 day:1] stringWithFormat:nil]);
+//
+date = [NSDate dateWithString:@"2020-02-28" format:kZXDateTimeStringFormatDate];
+NSLogA(@"#Date: [%@]", [date stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:0 day:+1] = %@", [[date dateByAddingYear:0 month:0 day:1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:-1 month:0 day:+1] = %@", [[date dateByAddingYear:-1 month:0 day:1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:+1 month:0 day:+1] = %@", [[date dateByAddingYear:1 month:0 day:1] stringWithFormat:nil]);
+//
+date = [NSDate dateWithString:@"2020-02-29" format:kZXDateTimeStringFormatDate];
+NSLogA(@"#Date: [%@]", [date stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:0 day:+1] = %@", [[date dateByAddingYear:0 month:0 day:1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:-1 month:0 day:0] = %@", [[date dateByAddingYear:-1 month:0 day:0] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:-1 month:0 day:-1] = %@", [[date dateByAddingYear:-1 month:0 day:-1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:+1 month:0 day:0] = %@", [[date dateByAddingYear:1 month:0 day:0] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:+1 month:0 day:+1] = %@", [[date dateByAddingYear:1 month:0 day:1] stringWithFormat:nil]);
+//
+date = [NSDate dateWithString:@"2020-03-01" format:kZXDateTimeStringFormatDate];
+NSLogA(@"#Date: [%@]", [date stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:0 month:0 day:-1] = %@", [[date dateByAddingYear:0 month:0 day:-1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:-1 month:0 day:-1] = %@", [[date dateByAddingYear:-1 month:0 day:-1] stringWithFormat:nil]);
+NSLogA(@"#[dateByAddingYear:+1 month:0 day:-1] = %@", [[date dateByAddingYear:1 month:0 day:-1] stringWithFormat:nil]);
 ```
 > Output:
 
 ```
-#DateTime: 2020-06-05 11:59:59
-#Date: 2020-06-05
-#Time: 11:59:59
+#Date: 2022-06-23 #Time: 16:00:08
+#Default: 2022-06-23 16:00:08
+#RFC3339: 2022-06-23T16:00:08.393+0800
+#isToday: 1
+#isTomorrow: 0
+#isYesterday: 0
+#isDayAfterTomorrow: 0
+#isDayBeforeYesterday: 0
+#isLastDayOfMonth: 0
+#numberOfDaysInMonth: 30
+#Date: [2019-12-31 00:00:00]
+#[dateByAddingYear:0 month:0 day:+1] = 2020-01-01 00:00:00
+#[dateByAddingYear:0 month:+1 day:0] = 2020-01-31 00:00:00
+#[dateByAddingYear:0 month:+1 day:+1] = 2020-02-01 00:00:00
+#[dateByAddingYear:0 month:-1 day:0] = 2019-11-30 00:00:00
+#[dateByAddingYear:0 month:-1 day:+1] = 2019-12-01 00:00:00
+#Date: [2020-01-31 00:00:00]
+#[dateByAddingYear:0 month:0 day:+1] = 2020-02-01 00:00:00
+#[dateByAddingYear:0 month:+1 day:0] = 2020-02-29 00:00:00
+#[dateByAddingYear:0 month:+1 day:+1] = 2020-03-01 00:00:00
+#[dateByAddingYear:0 month:-1 day:0] = 2019-12-31 00:00:00
+#[dateByAddingYear:0 month:-1 day:+1] = 2020-01-01 00:00:00
+#Date: [2020-02-28 00:00:00]
+#[dateByAddingYear:0 month:0 day:+1] = 2020-02-29 00:00:00
+#[dateByAddingYear:-1 month:0 day:+1] = 2019-03-01 00:00:00
+#[dateByAddingYear:+1 month:0 day:+1] = 2021-03-01 00:00:00
+#Date: [2020-02-29 00:00:00]
+#[dateByAddingYear:0 month:0 day:+1] = 2020-03-01 00:00:00
+#[dateByAddingYear:-1 month:0 day:0] = 2019-02-28 00:00:00
+#[dateByAddingYear:-1 month:0 day:-1] = 2019-02-27 00:00:00
+#[dateByAddingYear:+1 month:0 day:0] = 2021-02-28 00:00:00
+#[dateByAddingYear:+1 month:0 day:+1] = 2021-03-01 00:00:00
+#Date: [2020-03-01 00:00:00]
+#[dateByAddingYear:0 month:0 day:-1] = 2020-02-29 00:00:00
+#[dateByAddingYear:-1 month:0 day:-1] = 2019-02-28 00:00:00
+#[dateByAddingYear:+1 month:0 day:-1] = 2021-02-28 00:00:00
 ```
 
 * NSFileManager+ZXToolbox
@@ -310,69 +392,126 @@ NSLogA(@"#%@ -> %@", num, str3);
 * NSString+NumberValue
 
 ```
-NSString *str = [NSString stringWithNumber:@(arc4random())];
-NSLogA(@"str: %@", str);
-NSLogA(@"arr: %@", [str numberComponents]);
+NSString *str = @"123456789";
+NSLogA(@"Number: %@", str);
+NSLogA(@"Components: %@", [str numberComponents]);
 //
-NSMutableArray *arr = [[NSMutableArray alloc] init];
-for (int i = 2; i <= 36; i++) {
-    [arr addObject:[NSString stringWithFormat:@"[Base10]100 -> [Base%d]%@", i, [NSString stringWithValue:@"100" baseIn:10 baseOut:i alphabet:nil]]];
+NSString *alphabet = [NSString defaultAlphabet];
+NSLogA(@"Alphabet: %@", alphabet);
+for (int i = 2; i <= alphabet.length; i++) {
+    NSLog(@"[%02d] %@", i, [NSString stringWithValue:str baseIn:10 baseOut:i alphabet:nil]);
 }
-NSLogA(@"%@", arr);
 ```
 > Output:
 
 ```
-str: 2033282857
-arr: (
+Number: 123456789
+Components: (
+    1,
     2,
-    0,
     3,
-    3,
-    2,
-    8,
-    2,
-    8,
+    4,
     5,
-    7
+    6,
+    7,
+    8,
+    9
 )
-(
-    "[Base10]100 -> [Base2]1100100",
-    "[Base10]100 -> [Base3]10201",
-    "[Base10]100 -> [Base4]1210",
-    "[Base10]100 -> [Base5]400",
-    "[Base10]100 -> [Base6]244",
-    "[Base10]100 -> [Base7]202",
-    "[Base10]100 -> [Base8]144",
-    "[Base10]100 -> [Base9]121",
-    "[Base10]100 -> [Base10]100",
-    "[Base10]100 -> [Base11]91",
-    "[Base10]100 -> [Base12]84",
-    "[Base10]100 -> [Base13]79",
-    "[Base10]100 -> [Base14]72",
-    "[Base10]100 -> [Base15]6A",
-    "[Base10]100 -> [Base16]64",
-    "[Base10]100 -> [Base17]5F",
-    "[Base10]100 -> [Base18]5A",
-    "[Base10]100 -> [Base19]55",
-    "[Base10]100 -> [Base20]50",
-    "[Base10]100 -> [Base21]4G",
-    "[Base10]100 -> [Base22]4C",
-    "[Base10]100 -> [Base23]48",
-    "[Base10]100 -> [Base24]44",
-    "[Base10]100 -> [Base25]40",
-    "[Base10]100 -> [Base26]3M",
-    "[Base10]100 -> [Base27]3J",
-    "[Base10]100 -> [Base28]3G",
-    "[Base10]100 -> [Base29]3D",
-    "[Base10]100 -> [Base30]3A",
-    "[Base10]100 -> [Base31]37",
-    "[Base10]100 -> [Base32]34",
-    "[Base10]100 -> [Base33]31",
-    "[Base10]100 -> [Base34]2W",
-    "[Base10]100 -> [Base35]2U",
-    "[Base10]100 -> [Base36]2S"
-)
+Alphabet: 0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~
+[02] 111010110111100110100010101
+[03] 22121022020212200
+[04] 13112330310111
+[05] 223101104124
+[06] 20130035113
+[07] 3026236221
+[08] 726746425
+[09] 277266780
+[10] 123456789
+[11] 63762A05
+[12] 35418A99
+[13] 1C767471
+[14] 12579781
+[15] AC89BC9
+[16] 75BCD15
+[17] 51G2A21
+[18] 3B60F89
+[19] 2BG64AE
+[20] 1IBC1J9
+[21] 194GH7F
+[22] 11L0805
+[23] J43JFB
+[24] FC2EGL
+[25] CG15LE
+[26] AA44A1
+[27] 8G86NI
+[28] 74NQB1
+[29] 60FSHJ
+[30] 52CE69
+[31] 49L302
+[32] 3LNJ8L
+[33] 353C3R
+[34] 2OD2I1
+[35] 2C9G1T
+[36] 21I3V9
+[37] 1SWB9a
+[38] 1L7YEX
+[39] 1EE96R
+[40] 1890JT
+[41] 12SBJ8
+[42] dSEZF
+[43] a4XL5
+[44] WfD05
+[45] U4aE9
+[46] RQGJB
+[47] PE549
+[48] NCFWL
+[49] LKHiF
+[50] JbWZd
+[51] ICZ6I
+[52] Gk151
+[53] FYDNK
+[54] ES1cj
+[55] DR28n
+[56] CUtXT
+[57] BdaMX
+[58] AqhNJ
+[59] AB6qu
+[60] 9VXX9
+[61] 8ttNm
+[62] 8M0kX
+[63] 7qkGa
+[64] 7MyqL
+[65] 6xZZE
+[66] 6XRpR
+[67] 68W4h
+[68] 5qh91
+[69] 5Utwv
+[70] 59#IT
+[71] 4y$c1
+[72] 4gs'j
+[73] 4PP(#
+[74] 48n4+
+[75] 3%l#d
+[76] 3rI7X
+[77] 3dWe)
+[78] 3QC3R
+[79] 3DVjD
+[80] 31A9'
+[81] 2(Oz*
+[82] 2x,on
+[83] 2n-)G
+[84] 2eOxv
+[85] 2V2b'
+[86] 2M8W5
+[87] 2Df+m
+[88] 25EM5
+[89] 1\B0?
+[90] 1;Vq9
+[91] 1*-e1
+[92] 1$o9v
+[93] 1yjAX
+[94] 1sy29
+[95] 1m~eE
 ```
 
 * NSString+Pinyin
@@ -443,6 +582,30 @@ NSLogA(@"#Fragment  : %@", [str stringByURLEncoding:NSStringURLEncodingFragment]
 #Fragment  : %20~%60!@%23$%25%5E&*()-_=+%5B%7B%5D%7D%5C%7C;:'%22,%3C.%3E/?
 ```
 
+* NSURL+ZXToolbox
+
+```
+    NSURL *url1 = [NSURL URLWithString:@"http://www.example.com/" scheme:@"https" user:@"user" password:@"password" host:@"host" port:@2022 path:@"/path" query:@"key1=value1&key2=value2" fragment:@"fragment"];
+    NSURL *url2 = [NSURL URLWithString:@"http://www.example.com" scheme:@"https" user:@"user" password:@"password" host:@"host" port:@2022 path:@"/path!@#$%^&*()" query:@{@"key1":@"value1", @"key2":@"value2"} fragment:@"fragment"];
+    NSLogA(@"#URL1: %@, queryItems: \n%@", [url1 URLString], [url1 queryItems]);
+    NSLogA(@"#URL2: %@, queryItems: \n%@", [url2 URLString], [url2 queryItems]);
+```
+
+> Output:
+
+```
+#URL1: https://user:password@host:2022/path?key1=value1&key2=value2#fragment, queryItems: 
+{
+    key1 = value1;
+    key2 = value2;
+}
+#URL2: https://user:password@host:2022/path!@%23$%25%5E&*()?key1=value1&key2=value2#fragment, queryItems: 
+{
+    key1 = value1;
+    key2 = value2;
+}
+```
+
 ### UIKit
 
 * UIApplication+ZXToolbox
@@ -474,30 +637,35 @@ NSLogA(@"#image: %@", NSStringFromUIEdgeInsets(button.imageEdgeInsets));
 * UIColor+ZXToolbox
 
 ```
-NSLogA(@"#[UIColor colorWithString:] %@", [UIColor colorWithString:@"#999999"]);
-NSLogA(@"#[UIColor colorWithString:alpha:] %@", [UIColor colorWithString:@"#999999" alpha:0.5]);
-NSLogA(@"#[UIColor colorWithInteger:] %@", [UIColor colorWithInteger:0x999999]);
-NSLogA(@"#[UIColor colorWithInteger:alpha:] %@", [UIColor colorWithInteger:0x999999 alpha:0.5]);
+NSLogA(@"#[UIColor colorWithHEXString:] %@", [UIColor colorWithHEXString:@"#999999"]);
+NSLogA(@"#[UIColor colorWithHEXString:alpha:] %@", [UIColor colorWithHEXString:@"#999999" alpha:0.5]);
+NSLogA(@"#[UIColor colorWithRGBInteger:] %@", [UIColor colorWithRGBInteger:0x999999]);
+NSLogA(@"#[UIColor colorWithRGBInteger:alpha:] %@", [UIColor colorWithRGBInteger:0x999999 alpha:0.5]);
 NSLogA(@"#[UIColor randomColor] %@", [UIColor randomColor]);
 NSLogA(@"#[UIColor inverseColor] %@", [[UIColor blackColor] inverseColor]);
-NSLogA(@"#[UIColor stringValue] %@", [[UIColor redColor] stringValue]);
-NSLogA(@"#[UIColor stringValueWithPrefix:] %@", [[UIColor redColor] stringValueWithPrefix:@"#"]);
-NSLogA(@"#[UIColor integerValue] %lx", (long)[[UIColor redColor] integerValue]);
-NSLogA(@"#[UIColor integerValueWithAlpha:] %lx", (long)[[UIColor redColor] integerValueWithAlpha:YES]);
+NSLogA(@"#[UIColor NStringValue] %@", [[UIColor redColor] NSStringValue]);
+NSLogA(@"#[UIColor NSIntegerValue] %lx", (long)[[UIColor redColor] NSIntegerValue]);
+UIColorComponents gc = [[UIColor colorWithWhite:0.1 alpha:0.7] grayscaleComponents];
+NSLogA(@"#[UIColor grayscaleComponents:] white: %f alpha: %f", gc.white, gc.alpha);
+gc = [[UIColor colorWithHue:0.2 saturation:0.5 brightness:0.8 alpha:0.1] HSBComponents];
+NSLogA(@"#[UIColor HSBComponents:] h: %f s: %f b: %f alpha: %f", gc.hue, gc.saturation, gc.brightness, gc.alpha);
+gc = [[UIColor colorWithRed:0.3 green:0.6 blue:0.9 alpha:1.0] RGBComponents];
+NSLogA(@"#[UIColor RGBComponents:] r: %f g: %f b: %f alpha: %f", gc.red, gc.green, gc.blue, gc.alpha);
 ```
 > Output:
 
 ```
-#[colorWithString:] UIExtendedSRGBColorSpace 0.6 0.6 0.6 1
-#[colorWithString:alpha:] UIExtendedSRGBColorSpace 0.6 0.6 0.6 0.5
-#[colorWithInteger:] UIExtendedSRGBColorSpace 0.6 0.6 0.6 1
-#[colorWithInteger:alpha:] UIExtendedSRGBColorSpace 0.6 0.6 0.6 0.5
-#[randomColor] UIExtendedSRGBColorSpace 0.854902 0.129412 0.894118 1
-#[inverseColor] UIExtendedSRGBColorSpace 1 1 1 1
-#[stringValue] ff0000
-#[stringValueWithPrefix:] #ff0000
-#[integerValue] ff0000
-#[integerValueWithAlpha:] ffff0000
+#[UIColor colorWithHEXString:] UIExtendedSRGBColorSpace 0.6 0.6 0.6 1
+#[UIColor colorWithHEXString:alpha:] UIExtendedSRGBColorSpace 0.6 0.6 0.6 0.5
+#[UIColor colorWithRGBInteger:] UIExtendedSRGBColorSpace 0.6 0.6 0.6 1
+#[UIColor colorWithRGBInteger:alpha:] UIExtendedSRGBColorSpace 0.6 0.6 0.6 0.5
+#[UIColor randomColor] UIExtendedSRGBColorSpace 0.921569 0.545098 0.992157 1
+#[UIColor inverseColor] UIExtendedSRGBColorSpace 1 1 1 1
+#[UIColor NStringValue] FF0000
+#[UIColor NSIntegerValue] ff0000
+#[UIColor grayscaleComponents:] white: 0.100000 alpha: 0.700000
+#[UIColor HSBComponents:] h: 0.200000 s: 0.500000 b: 0.800000 alpha: 0.100000
+#[UIColor RGBComponents:] r: 0.300000 g: 0.600000 b: 0.900000 alpha: 1.000000
 ```
 
 * UIControl+ZXToolbox.h
@@ -516,7 +684,7 @@ NSLogA(@"#CPU Bits: %d", [UIDevice currentDevice].cpuBits);
 NSLogA(@"#CPU Type: %d", [UIDevice currentDevice].cpuType);
 NSLogA(@"#Model Type: %@", [UIDevice currentDevice].modelType);
 NSLogA(@"#Model Name: %@", [UIDevice currentDevice].modelName);
-NSLogA(@"#UIIDString: %@", [UIDevice currentDevice].UDIDString);
+NSLogA(@"#UDIDString: %@", [UIDevice currentDevice].UDIDString);
 NSLogA(@"#FileSystemSize: %lld bytes", [UIDevice currentDevice].fileSystemSize);
 NSLogA(@"#FileSystemFreeSize: %lld bytes", [UIDevice currentDevice].fileSystemFreeSize);
 NSLogA(@"#FileSystemUsedSize: %lld bytes", [UIDevice currentDevice].fileSystemUsedSize);
@@ -530,7 +698,7 @@ NSLogA(@"#proximityState: %d", [UIDevice currentDevice].proximityState);
 #CPU Type: 7
 #Model Type: iPhone10,4
 #Model Name: iPhone 8
-#UIIDString: 2231ccf4007eb74442c8ae7cc2471e65b34d9af5
+#UDIDString: 2231ccf4007eb74442c8ae7cc2471e65b34d9af5
 #FileSystemSize: 499933818880 bytes
 #FileSystemFreeSize: 271827771392 bytes
 #FileSystemUsedSize: 228106047488 bytes
@@ -583,7 +751,67 @@ NSLogA(@"#adapt height: %.2f for base width %.2f = %.2f", size.width, size.heigh
 ```
 
 * UIScrollView+ZXToolbox
-> 204 No Content
+
+```
+- (void)viewDidLoad {
+    // 父视图设置
+    scrollView.shouldRecognizeSimultaneously = YES;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    // 垂直滚动时用y值做判断，横向滚动时用x值做判断
+    CGFloat y = 100;
+    //
+    if (scrollView.isScrollFreezed) {
+        // 冻结时，固定滚动位置
+        scrollView.contentOffset.y = y;
+    } else if (scrollView.contentOffset.y >= y) {
+        // 滚动距离超过y时，固定滚动位置，并冻结
+        scrollView.contentOffset.y = y;
+        scrollView.isScrollFreezed = YES;
+    } else if (scrollView.contentOffset.y < 0) {
+        // 如果子视图包含刷新header，建议加上此条逻辑
+        scrollView.contentOffset.y = 0;
+    }
+}
+```
+
+```
+// 此处需要从外部传入与此联动的父视图
+UIScrollView *superView = nil;
+// 当前的滚动视图
+UIScrollView *childView = nil;
+
+- (void)viewDidLoad {
+    // 子视图冻结设置正好与父视图相反
+    childView.isScrollFreezed = !superView.isScrollFreezed;
+    // 父子视图相互添加对方到自己的冻结列表内
+    childView.freezedViews.addObject(superView);
+    superView.freezedViews.addObject(childView);
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    // 垂直滚动时用y值做判断，0为最顶部，横向滚动时用x值做判断
+    CGFloat y = 0;
+    // 没有刷新header时的逻辑
+    if (scrollView.isScrollFreezed) {
+        // 冻结时, 固定滚动位置
+        scrollView.contentOffset.y = y;
+    } else if (scrollView.contentOffset.y <= y) {
+        // 滚动距离小于等于y时，固定滚动位置，并冻结
+        scrollView.contentOffset.y = y;
+        scrollView.isScrollFreezed = YES;
+    }
+    // 包含刷新header时的逻辑
+    if (scrollView.isScrollFreezed) {
+        if (scrollView.contentOffset.y > y) {
+            scrollView.contentOffset.y = y;
+        }
+    } else if (scrollView.contentOffset.y <= y) {
+        scrollView.isScrollFreezed = YES;
+    }
+}
+```
 
 * UITableViewCell+ZXToolbox
 > 204 No Content
@@ -599,10 +827,10 @@ NSLogA(@"#adapt height: %.2f for base width %.2f = %.2f", size.width, size.heigh
 
 ### ZXKit
 
-* ZXAuthorizationHelper
+* ZXTextAttributes
 > 204 No Content
 
-* ZXBadgeLabel
+* ZXAuthorizationHelper
 > 204 No Content
 
 * ZXBrightnessView
@@ -675,6 +903,11 @@ NSLogA(@"#W-B: %fm", ZXCoordinate2DDistanceMeters(world, baidu));
 #C-B: 870.298132m
 #W-B: 1352.293468m
 ```
+* ZXDeallocObject
+> 204 No Content
+
+* ZXDebugTools
+> 204 No Content
 
 * ZXDispatchQueue
 > 204 No Content
@@ -768,18 +1001,18 @@ if ([keychain removeAllItems]) {
 #delete all success!
 ```
 
-* ZXKVObserver
+* ZXKeyValueObserver
 
 ```
 ZXDownloader *obj = [ZXDownloader defaultDownloader];
-ZXKVObserver *obs = [[ZXKVObserver alloc] init];
-[obs addObserver:obj forKeyPath:@"downloadPath" options:NSKeyValueObservingOptionNew context:NULL observeValue:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change) {
+ZXKeyValueObserver *obs = [[ZXKeyValueObserver alloc] init];
+[obs observe:obj keyPath:@"downloadPath" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
     NSLogA(@"%@", [change objectForKey:NSKeyValueChangeNewKey]);
 }];
 obj.downloadPath = @"1";
 obj.downloadPath = @"2";
 obj.downloadPath = @"3";
-[obs removeObserver];
+[obs invalidate];
 obj.downloadPath = @"4";
 obj.downloadPath = @"5";
 obj.downloadPath = @"6";
@@ -809,18 +1042,25 @@ NSLogA(@"#canEvaluatePolicy:%d", [ZXLocalAuthentication canEvaluatePolicy:LAPoli
 * ZXLocationManager
 
 ```
-ZXLocationManager *lm = [[ZXLocationManager alloc] init];
-lm.didUpdateLocation = ^(CLLocation * _Nonnull location, CLPlacemark * _Nullable placemark) {
+ZXLocationManager *mgr = [[ZXLocationManager alloc] init];
+__weak typeof(mgr) weakMgr = mgr;
+mgr.didUpdateLocation = ^(CLLocation * _Nonnull location, CLPlacemark * _Nullable placemark) {
     NSLogA(@"#location: %@", location);
-    NSLogA(@"#province: %@", placemark.province);
-    NSLogA(@"#city: %@", placemark.city);
-    NSLogA(@"#district: %@", placemark.district);
-    NSLogA(@"#street: %@", placemark.street);
-    NSLogA(@"#streetNumber: %@", placemark.streetNumber);
-    NSLogA(@"#address: %@", placemark.address);
+    if (placemark) {
+        [weakMgr stopUpdatingLocation];
+        //
+        NSLogA(@"#province: %@", placemark.province);
+        NSLogA(@"#city: %@", placemark.city);
+        NSLogA(@"#district: %@", placemark.district);
+        NSLogA(@"#street: %@", placemark.street);
+        NSLogA(@"#streetNumber: %@", placemark.streetNumber);
+        NSLogA(@"#address: %@", placemark.address);
+    }
 };
 if (@available(iOS 9.0, *)) {
-    [lm requestLocation];
+    [mgr requestLocation];
+} else {
+    [mgr startUpdatingLocation];
 }
 ```
 > Output:
@@ -894,9 +1134,6 @@ NSLogA(@"#WWANReceived: %lld bytes", data.WWANReceived);
 * ZXPopoverView
 > 204 No Content
 
-* ZXPopoverWindow
-> 204 No Content
-
 * ZXQRCodeGenerator
 
 ```
@@ -930,6 +1167,9 @@ NSLogA(@"#ZXQRCodeReader %@", results);
 * ZXScriptMessageHandler
 > 204 No Content
 
+* ZXSemaphore
+> 204 No Content
+
 * ZXStackView
 > 204 No Content
 
@@ -953,6 +1193,70 @@ NSLogA(@"#ZXQRCodeReader %@", results);
 
 * ZXURLProtocol
 > 204 No Content
+
+* ZXURLRouter
+
+```
+[[ZXURLRouter sharedRouter] addHandler:^id _Nullable(NSURL * _Nonnull url, id  _Nullable data) {
+    return @"This is a GLOBAL route!!!";
+} forURL:nil];
+//
+NSArray *strs = @[@"app://test/", @"app://test/abc", @"app://test/abc/xyz"];
+for (NSString *str in strs) {
+    NSURL *url = [NSURL URLWithString:str];
+    [[ZXURLRouter sharedRouter] addHandler:^id _Nullable(NSURL * _Nonnull url, id  _Nullable data) {
+        return str;
+    } forURL:url];
+}
+// Test [removeHandler:forURL:]
+for (NSString *str in strs) {
+    NSURL *url = [NSURL URLWithString:str];
+    NSUInteger h = [[ZXURLRouter sharedRouter] addHandler:^id _Nullable(NSURL * _Nonnull url, id  _Nullable data) {
+        return [NSString stringWithFormat:@"This is other handler for url: %@", str];
+    } forURL:url];
+    [[ZXURLRouter sharedRouter] removeHandler:h forURL:url];
+}
+//
+NSArray *urls = @[@"app://test/abc/xyz/?a=b&c=d", @"app://tests", @"app://tes"];
+for (NSString *str in urls) {
+    id data = @(arc4random() % 100);
+    int count = [[ZXURLRouter sharedRouter] openURL:[NSURL URLWithString:str] withData:data completionHandler:^(NSURL * _Nonnull url, id  _Nullable data, id  _Nullable response, NSString * _Nullable error) {
+        NSLogA(@"#\n#open url: %@ with data: %@\n#response: %@ #error: %@", url, data, response, error);
+    }];
+    NSLogA(@"#\n#open url: %@ with data: %@ matched: %d", str, data, count);
+}
+```
+> Output:
+
+```
+#match succeeds: app://test/abc/xyz
+#match succeeds: app://test/abc
+#match succeeds: app://test/
+#
+#open url: app://test/abc/xyz/?a=b&c=d with data: 56
+#response: This is a GLOBAL route!!! #error: (null)
+#
+#open url: app://test/abc/xyz/?a=b&c=d with data: 56
+#response: app://test/abc/xyz #error: (null)
+#
+#open url: app://test/abc/xyz/?a=b&c=d with data: 56
+#response: app://test/abc #error: (null)
+#
+#open url: app://test/abc/xyz/?a=b&c=d with data: 56
+#response: app://test/ #error: (null)
+#
+#open url: app://test/abc/xyz/?a=b&c=d with data: 56 matched: 4
+#
+#open url: app://tests with data: 88
+#response: This is a GLOBAL route!!! #error: (null)
+#
+#open url: app://tests with data: 88 matched: 1
+#
+#open url: app://tes with data: 51
+#response: This is a GLOBAL route!!! #error: (null)
+#
+#open url: app://tes with data: 51 matched: 1
+```
 
 * ZXURLSession
 > 204 No Content

@@ -2,7 +2,7 @@
 // NSFileManager+ZXToolbox.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,34 +25,38 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface NSFileManager (ZXToolbox)
 
 // Bundle
-+ (NSString*)bundleFile:(NSString*)file;
++ (nullable NSString *)bundleFile:(NSString*)file;
 
 // Caches
-+ (NSString*)cachesDirectory;
-+ (NSString*)cachesDirectory:(NSString *)subpath;
-+ (NSString*)cachesFile:(NSString*)file;
-+ (NSString*)cachesFile:(NSString*)file inDirectory:(NSString *)subpath;
++ (nullable NSString *)cachesDirectory;
++ (nullable NSString *)cachesDirectory:(NSString *)subpath;
++ (nullable NSString *)cachesFile:(NSString *)file;
++ (nullable NSString *)cachesFile:(NSString *)file inDirectory:(NSString *)subpath;
 
 // Documents
-+ (NSString*)documentDirectory;
-+ (NSString*)documentDirectory:(NSString *)subpath;
-+ (NSString*)documentFile:(NSString*)file;
-+ (NSString*)documentFile:(NSString *)file inDirectory:(NSString *)subpath;
++ (nullable NSString *)documentDirectory;
++ (nullable NSString *)documentDirectory:(NSString *)subpath;
++ (nullable NSString *)documentFile:(NSString *)file;
++ (nullable NSString *)documentFile:(NSString *)file inDirectory:(NSString *)subpath;
 
 // Temporary
-+ (NSString *)temporaryDirectory;
-+ (NSString *)temporaryDirectory:(NSString *)subpath;
-+ (NSString *)temporaryFile:(NSString *)file;
-+ (NSString *)temporaryFile:(NSString *)file inDirectory:(NSString *)subpath;
++ (nullable NSString *)temporaryDirectory;
++ (nullable NSString *)temporaryDirectory:(NSString *)subpath;
++ (nullable NSString *)temporaryFile:(NSString *)file;
++ (nullable NSString *)temporaryFile:(NSString *)file inDirectory:(NSString *)subpath;
 
 // File size
 + (uint64_t)fileSizeAtPath:(NSString *)path;
 
 // Create && Remove
 - (BOOL)createDirectoryAtPath:(NSString *)path error:(NSError **)error;
-- (BOOL)removeItemAtPath:(NSString *)path error:(NSError **)error exclude:(NSArray *)exclusions;
+- (BOOL)removeItemAtPath:(NSString *)path error:(NSError **)error exclude:(nullable NSArray *)exclusions;
 
 @end
+
+NS_ASSUME_NONNULL_END

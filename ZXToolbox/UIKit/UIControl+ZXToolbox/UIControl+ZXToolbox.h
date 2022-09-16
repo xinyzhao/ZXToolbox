@@ -2,7 +2,7 @@
 // UIControl+ZXToolbox.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2019 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,27 +27,33 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger, UIControlTimeIntervalMode) {
+    /// pass property `enabled` of UIControl
+    UIControlTimeIntervalModeState,
+    /// pass property `userInteractionEnabled` of UIControl
+    UIControlTimeIntervalModeEvent,
+};
+
+#define UIControlTimeIntervalMinimum 0.01
+
+/// UIControl (ZXToolbox)
 @interface UIControl (ZXToolbox)
 
-/**
- If true, through UIControl.userInteractionEnabled property to activate the timeInterval,
- otherwise, through UIControl.enabled property to activate the timeInterval.
- */
-@property (nonatomic, assign) BOOL timeIntervalByUserInteractionEnabled; // Default is NO
+/// If true, through UIControl.userInteractionEnabled property to activate the timeInterval,
+/// otherwise, through UIControl.enabled property to activate the timeInterval.
+/// Default is NO
+@property (nonatomic, assign) BOOL timeIntervalByUserInteractionEnabled __attribute__((deprecated("Replaced by timeIntervalMode!")));
 
-/**
- Set time interval for particular event, set 0 to remove time interval
- 
- @param timeInterval time interval
- @param controlEvents control events
- */
+/// The time interval mode, default is UIControlTimeIntervalModeState.
+@property (nonatomic, assign) UIControlTimeIntervalMode timeIntervalMode;
+
+/// Set time interval for particular event, set a less than 0.01 value to remove time interval
+/// @param timeInterval time interval, must great than 0.01
+/// @param controlEvents UIControlEvents
 - (void)setTimeInteval:(NSTimeInterval)timeInterval forControlEvents:(UIControlEvents)controlEvents;
 
-/**
- Remove time interval for particular event
- 
- @param controlEvents control events
- */
+/// Remove time interval for particular event
+/// @param controlEvents UIControlEvents
 - (void)removeTimeIntevalForControlEvents:(UIControlEvents)controlEvents;
 
 @end

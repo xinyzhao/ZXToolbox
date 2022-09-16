@@ -2,7 +2,7 @@
 // ZXTagView.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,7 +26,10 @@
 #import "ZXTagView.h"
 
 @interface ZXTagView ()
-@property (nonatomic, strong) NSMutableArray<UIView *> *tagViews;
+@property (nonatomic, strong) UIStackView *stackView;
+@property (nonatomic, strong) NSMutableArray<UIStackView *> *lines;
+@property (nonatomic, strong) NSMutableArray<UIView *> *items;
+@property (nonatomic, strong) NSMutableArray<NSLayoutConstraint *> *layoutConstraints;
 
 @end
 
@@ -35,7 +38,7 @@
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
     if (self) {
-        [self initView];
+        [self setupView];
     }
     return self;
 }
@@ -43,155 +46,223 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        [self initView];
+        [self setupView];
     }
     return self;
 }
 
-- (void)initView {
-    _isMultiLine = NO;
-    _spacingForItems = 0;
-    _spacingForLines = 0;
-    _selectedIndex = -1;
+- (void)setupView {
+    _items = [[NSMutableArray alloc] init];
+    _lines = [[NSMutableArray alloc] init];
+    _lineHeight = 0;
+    _lineSpacing = 0;
+    _itemSpacing = 0;
+    _layoutConstraints = [[NSMutableArray alloc] init];
+    //
+    _stackView = [[UIStackView alloc] initWithFrame:self.bounds];
+    _stackView.axis = UILayoutConstraintAxisVertical;
+    _stackView.distribution = UIStackViewDistributionFill;
+    [self addSubview:_stackView];
+    self.contentInset = UIEdgeInsetsZero;
 }
 
-- (void)setSpacingForItems:(CGFloat)spacingForItems {
-    _spacingForItems = spacingForItems;
+- (void)setContentInset:(UIEdgeInsets)contentInset {
+    _contentInset = contentInset;
+    [self setNeedsUpdateConstraints];
+}
+
+- (void)setLineHeight:(CGFloat)lineHeight {
+    _lineHeight = lineHeight;
     [self setNeedsLayout];
 }
 
-- (void)setSpacingForLines:(CGFloat)spacingForLines {
-    _spacingForLines = spacingForLines;
-    [self setNeedsLayout];
+- (void)setLineSpacing:(CGFloat)lineSpacing {
+    _lineSpacing = lineSpacing;
+    _stackView.spacing = _lineSpacing;
+    [self setNeedsUpdateConstraints];
 }
 
-- (NSMutableArray<UIView *> *)tagViews {
-    if (_tagViews == nil) {
-        _tagViews = [[NSMutableArray alloc] init];
+- (void)setItemSpacing:(CGFloat)itemSpacing {
+    _itemSpacing = itemSpacing;
+    for (UIStackView *line in _lines) {
+        line.spacing = _itemSpacing;
     }
-    return _tagViews;
+    [self setNeedsUpdateConstraints];
 }
 
-- (NSInteger)numberOfTags {
-    return self.tagViews.count;
-}
-
-- (void)addTagView:(UIView *)view {
-    if (view) {
-        [self.tagViews addObject:view];
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                              action:@selector(onTagView:)];
-        [view addGestureRecognizer:tap];
-        [self addSubview:view];
+- (void)addItem:(UIView *)item {
+    if (item) {
+        [_items addObject:item];
         [self setNeedsLayout];
     }
 }
 
-- (void)insertTagView:(UIView *)view atIndex:(NSInteger)index {
-    if (view) {
-        [self.tagViews insertObject:view atIndex:index];
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                              action:@selector(onTagView:)];
-        [view addGestureRecognizer:tap];
-        [self addSubview:view];
+- (void)insertItem:(UIView *)item atIndex:(NSUInteger)index {
+    if (item) {
+        [_items insertObject:item atIndex:index];
         [self setNeedsLayout];
     }
 }
 
-- (UIView *)tagViewAtIndex:(NSInteger)index {
-    UIView *view = nil;
-    if (index >= 0 && index < self.tagViews.count) {
-        view = [self.tagViews objectAtIndex:index];
+- (nullable UIView *)itemAtIndex:(NSUInteger)index {
+    if (index < _items.count) {
+        return _items[index];
     }
-    return view;
+    return nil;
 }
 
-- (void)removeTagAtIndex:(NSInteger)index {
-    UIView *view = [self tagViewAtIndex:index];
-    if (view) {
+- (void)removeItemAtIndex:(NSUInteger)index {
+    if (index < _items.count) {
+        [_items removeObjectAtIndex:index];
+        [self setNeedsLayout];
+    }
+}
+
+- (void)removeItem:(UIView *)item {
+    if ([_items containsObject:item]) {
+        [_items removeObject:item];
+        [self setNeedsLayout];
+    }
+}
+
+- (void)removeAllLines {
+    for (UIStackView *line in _lines) {
+        for (UIView *view in line.arrangedSubviews) {
+            [line removeArrangedSubview:view];
+            [view removeFromSuperview];
+        }
+    }
+    for (UIView *view in _stackView.arrangedSubviews) {
+        [_stackView removeArrangedSubview:view];
         [view removeFromSuperview];
-        [self.tagViews removeObject:view];
-        [self setNeedsLayout];
     }
+    [_lines removeAllObjects];
 }
 
-- (void)removeAllTags {
-    _selectedIndex = -1;
-    [self.tagViews enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        [obj removeFromSuperview];
-    }];
-    [self.tagViews removeAllObjects];
+- (void)removeAllItems {
+    [self removeAllLines];
+    [_items removeAllObjects];
 }
 
 - (void)layoutSubviews {
     [super layoutSubviews];
     //
-    __block CGRect rect = CGRectZero;
-    [self.tagViews enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
-        rect.size = obj.bounds.size;
-        if (self->_isMultiLine) {
-            if (rect.origin.x + rect.size.width + self->_spacingForItems + self.contentInset.left + self.contentInset.right > self.frame.size.width) {
-                rect.origin.x = 0;
-                rect.origin.y += rect.size.height + self->_spacingForLines;
-            }
-        }
-        obj.frame = rect;
-        rect.origin.x += rect.size.width + self->_spacingForItems;
-    }];
+    [self removeAllLines];
     //
-    if (_isMultiLine) {
-        rect.size.width = 0;
-        rect.size.height = rect.origin.y + rect.size.height;
-    } else {
-        rect.size.width = rect.origin.x - _spacingForItems;
-        rect.size.height = 0;
-    }
-    BOOL reselect = self.contentSize.width != rect.size.width;
-    self.contentSize = rect.size;
+    UIStackView *line = [self addLineView];
+    UIView *tail = [self addTailView:line];
     //
-    if (reselect) {
-        self.selectedIndex = _selectedIndex;
-    }
-}
-
-- (void)setSelectedIndex:(NSInteger)selectedIndex {
-    [self setSelectedIndex:selectedIndex animated:NO];
-}
-
-- (void)setSelectedIndex:(NSInteger)selectedIndex animated:(BOOL)animated {
-    UIView *view = [self tagViewAtIndex:selectedIndex];
-    if (view) {
-        if (!_isMultiLine) {
-            CGPoint offset = CGPointZero;
-            offset.x = view.frame.origin.x + view.bounds.size.width / 2 - self.bounds.size.width / 2;
-            CGFloat left = -self.contentInset.left;
-            CGFloat right = self.contentSize.width + self.contentInset.right - self.bounds.size.width;
-            if (offset.x < left) {
-                offset.x = left;
-            } else if (right > 0) {
-                if (offset.x > right) {
-                    offset.x = right;
-                }
-            } else {
-                offset.x = left;
-            }
-            [self setContentOffset:offset animated:animated];
-        }
+    for (UIView *item in _items) {
+        // add item
+        [item removeFromSuperview];
+        [line addArrangedSubview:item];
+        // set item compression/hugging priority to high
+        [item setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+        [item setContentCompressionResistancePriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+        [item setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisHorizontal];
+        [item setContentHuggingPriority:UILayoutPriorityDefaultHigh forAxis:UILayoutConstraintAxisVertical];
+        // add tail
+        [line removeArrangedSubview:tail];
+        [tail removeFromSuperview];
+        [line addArrangedSubview:tail];
         //
-        UIView *prevView = [self tagViewAtIndex:_selectedIndex];
-        if (_selectedIndex != selectedIndex) {
-            _selectedIndex = selectedIndex;
-        }
-        if (_selectedBlock) {
-            _selectedBlock(_selectedIndex, view, prevView);
+        if (line.arrangedSubviews.count > 2) {
+            [line layoutIfNeeded];
+            // if tail width is equal to zero, add new line
+            if (tail.frame.size.width <= 0) {
+                // remove item
+                [line removeArrangedSubview:item];
+                [item removeFromSuperview];
+                // add item to new line
+                line = [self addLineView];
+                tail = [self addTailView:line];
+                [line addArrangedSubview:item];
+            }
         }
     }
+    //
+    [self setNeedsUpdateConstraints];
 }
 
-- (void)onTagView:(id)sender {
-    UITapGestureRecognizer *tap = sender;
-    NSInteger index = [self.tagViews indexOfObject:tap.view];
-    [self setSelectedIndex:index animated:YES];
+- (void)updateConstraints {
+    [super updateConstraints];
+    //
+    [self removeConstraints:_layoutConstraints];
+    [_layoutConstraints removeAllObjects];
+    //
+    _stackView.translatesAutoresizingMaskIntoConstraints = NO;
+    [_layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:_stackView attribute:NSLayoutAttributeLeading relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeLeading multiplier:1 constant:_contentInset.left]];
+    [_layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:_stackView attribute:NSLayoutAttributeTrailing relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTrailing multiplier:1 constant:_contentInset.right]];
+    [_layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:_stackView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeTop multiplier:1 constant:_contentInset.top]];
+    [_layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:_stackView attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self attribute:NSLayoutAttributeBottom multiplier:1 constant:_contentInset.bottom]];
+    //
+    if (_lineHeight > 0.1) {
+        BOOL hasHeight = NO;
+        for (NSLayoutConstraint *ls in self.constraints) {
+            if (ls.firstAttribute == NSLayoutAttributeHeight) {
+                hasHeight = YES;
+                break;
+            }
+        }
+        if (hasHeight) {
+            //add placeholder line
+            [self addTailView:_stackView];
+        } else {
+            //add height constraint
+            NSInteger rows = self.numberOfLines;
+            CGFloat height = rows * _lineHeight;
+            height += (rows - 1) * _lineSpacing;
+            height += _contentInset.top + _contentInset.bottom;
+            self.translatesAutoresizingMaskIntoConstraints = NO;
+            [_layoutConstraints addObject:[NSLayoutConstraint constraintWithItem:self attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1 constant:height]];
+        }
+    }
+    //
+    [self addConstraints:_layoutConstraints];
+}
+
+- (UIStackView *)addLineView {
+    UIStackView *line = [[UIStackView alloc] init];
+    line.axis = UILayoutConstraintAxisHorizontal;
+    line.distribution = UIStackViewDistributionFill;
+    line.spacing = _itemSpacing;
+    [_lines addObject:line];
+    [_stackView addArrangedSubview:line];
+    if (_lineHeight > 0.1) {
+        line.translatesAutoresizingMaskIntoConstraints = NO;
+        [line addConstraint:[NSLayoutConstraint constraintWithItem:line attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeHeight multiplier:1 constant:_lineHeight]];
+    }
+    return line;
+}
+
+- (UIView *)addTailView:(nonnull UIStackView *)line {
+    UIView *tail = [[UIView alloc] init];
+    [line addArrangedSubview:tail];
+    [tail setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
+    [tail setContentCompressionResistancePriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
+    [tail setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisHorizontal];
+    [tail setContentHuggingPriority:UILayoutPriorityDefaultLow forAxis:UILayoutConstraintAxisVertical];
+    return tail;
+}
+
+@end
+
+@implementation ZXTagView (Extension)
+
+- (NSInteger)numberOfLines {
+    return _lines.count;
+}
+
+- (NSInteger)numberOfItems {
+    return _items.count;
+}
+
+- (nullable UIView *)firstItem {
+    return _items.firstObject;
+}
+
+- (nullable UIView *)lastItem {
+    return _items.lastObject;
 }
 
 @end

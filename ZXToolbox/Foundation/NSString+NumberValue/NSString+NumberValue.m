@@ -2,7 +2,7 @@
 // NSString+NumberValue.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -94,7 +94,7 @@
     return [[[NSString numberFormatter] numberFromString:self] unsignedIntegerValue];
 }
 
-- (NSArray<NSNumber *> * _Nullable)numberComponents {
+- (NSArray<NSNumber *> *)numberComponents {
     NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:self.length];
     for (NSUInteger i = 0; i < self.length; i++) {
         NSString *str = [self substringWithRange:NSMakeRange(i, 1)];
@@ -103,7 +103,11 @@
     return array.count > 0 ? [array copy] : nil;
 }
 
-+ (NSString *)stringWithValue:(id)value baseIn:(int)baseIn baseOut:(int)baseOut alphabet:(NSString *_Nullable)alphabet {
++ (NSString *)defaultAlphabet {
+    return @"0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ !\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+}
+
++ (NSString *)stringWithValue:(id)value baseIn:(int)baseIn baseOut:(int)baseOut alphabet:(nullable NSString *)alphabet {
     // String
     NSString *str = nil;
     if ([value isKindOfClass:NSNumber.class]) {
@@ -115,9 +119,7 @@
     }
     // Alphabet
     if (alphabet == nil) {
-        alphabet = @"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    } else {
-        alphabet = [alphabet uppercaseString];
+        alphabet = [self defaultAlphabet];
     }
     NSMutableArray *ALPHABET = [[NSMutableArray alloc] initWithCapacity:alphabet.length];
     for (int i = 0; i < alphabet.length; i++) {
@@ -154,7 +156,10 @@
     // Reverse
     NSMutableString *strOut = [[NSMutableString alloc] initWithCapacity:arr.count];
     for (int i = (int)arr.count; i > 0; i--) {
-        [strOut appendString:ALPHABET[[arr[i - 1] intValue]]];
+        int j = [arr[i - 1] intValue];
+        if (j >= 0 && j < ALPHABET.count) {
+            [strOut appendString:ALPHABET[j]];
+        }
     }
     return [strOut copy];
 }

@@ -2,7 +2,7 @@
 // UIColor+ZXToolbox.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,43 +25,54 @@
 
 #import "UIColor+ZXToolbox.h"
 
-UIColor* UIColorFromHEX(NSString *string, CGFloat alpha) {
+UIColor * UIColorFromHEXString(NSString *string, CGFloat alpha) {
+    return ZXColorFromHEXString(string, alpha);
+}
+
+UIColor * UIColorFromRGBInteger(NSInteger value, CGFloat alpha) {
+    return ZXColorFromRGBInteger(value, alpha);
+}
+
+NSString * NSStringFromUIColor(UIColor *color) {
+    return ZXStringFromUIColor(color);
+}
+
+NSInteger NSIntegerFromUIColor(UIColor *color) {
+    return ZXIntegerFromUIColor(color);
+}
+
+UIColor * ZXColorFromHEXString(NSString *string, CGFloat alpha) {
     NSRange range = [string rangeOfString:@"[a-fA-F0-9]{6}" options:NSRegularExpressionSearch];
     if (range.location != NSNotFound) {
         unsigned int hex = 0;
         NSString *str = [string substringWithRange:range];
         [[NSScanner scannerWithString:str] scanHexInt:&hex];
-        return UIColorFromRGB(hex, alpha);
+        return ZXColorFromRGBInteger(hex, alpha);
     }
-    return nil;
+    return [UIColor colorWithWhite:0 alpha:alpha];
 }
 
-UIColor* UIColorFromRGB(NSInteger value, CGFloat alpha) {
-//    CGFloat a = 1.f;
-//    if ((value & 0xff000000)) {
-//        a = ((value & 0xff000000) >> 24) / 255.f;
-//    }
+UIColor * ZXColorFromRGBInteger(NSInteger value, CGFloat alpha) {
     CGFloat r = ((value & 0x00ff0000) >> 16) / (double)255.f;
     CGFloat g = ((value & 0x0000ff00) >> 8) / (double)255.f;
     CGFloat b = (value & 0x000000ff) / (double)255.f;
     return [UIColor colorWithRed:r green:g blue:b alpha:alpha];
 }
 
-NSString *UIColorToHEX(UIColor *color, NSString *prefix) {
+NSString * ZXStringFromUIColor(UIColor *color) {
     CGFloat r,g,b,a;
     [color getRed:&r green:&g blue:&b alpha:&a];
-    return [NSString stringWithFormat:@"%@%02x%02x%02x", prefix ? prefix : @"",
+    return [NSString stringWithFormat:@"%02X%02X%02X",
             (int)roundf(r * 255),
             (int)roundf(g * 255),
             (int)roundf(b * 255)];
 }
 
-NSInteger UIColorToRGB(UIColor *color, BOOL alpha) {
+NSInteger ZXIntegerFromUIColor(UIColor *color) {
     CGFloat r,g,b,a;
     [color getRed:&r green:&g blue:&b alpha:&a];
     //
-    NSString *str = [NSString stringWithFormat:@"%02x%02x%02x%02x",
-                     alpha ? (int)roundf(a * 255) : 0x00,
+    NSString *str = [NSString stringWithFormat:@"%02X%02X%02X",
                      (int)roundf(r * 255),
                      (int)roundf(g * 255),
                      (int)roundf(b * 255)];
@@ -73,20 +84,20 @@ NSInteger UIColorToRGB(UIColor *color, BOOL alpha) {
 
 @implementation UIColor (ZXToolbox)
 
-+ (instancetype)colorWithString:(NSString *)string {
-    return UIColorFromHEX(string, 1.f);
++ (instancetype)colorWithHEXString:(NSString *)string {
+    return ZXColorFromHEXString(string, 1.f);
 }
 
-+ (instancetype)colorWithString:(NSString *)string alpha:(CGFloat)alpha {
-    return UIColorFromHEX(string, alpha);
++ (instancetype)colorWithHEXString:(NSString *)string alpha:(CGFloat)alpha {
+    return ZXColorFromHEXString(string, alpha);
 }
 
-+ (instancetype)colorWithInteger:(NSInteger)value {
-    return UIColorFromRGB(value, 1.f);
++ (instancetype)colorWithRGBInteger:(NSInteger)value {
+    return ZXColorFromRGBInteger(value, 1.f);
 }
 
-+ (instancetype)colorWithInteger:(NSInteger)value alpha:(CGFloat)alpha {
-    return UIColorFromRGB(value, alpha);
++ (instancetype)colorWithRGBInteger:(NSInteger)value alpha:(CGFloat)alpha {
+    return ZXColorFromRGBInteger(value, alpha);
 }
 
 + (UIColor *)randomColor {
@@ -97,65 +108,34 @@ NSInteger UIColorToRGB(UIColor *color, BOOL alpha) {
 }
 
 - (UIColor *)inverseColor {
-    CGFloat r,g,b,a;
-    [self getRed:&r green:&g blue:&b alpha:&a];
-    return [UIColor colorWithRed:(1.f - r) green:(1.f - g) blue:(1.f - b) alpha:a];
+    ZXColorComponents cc = [self RGBComponents];
+    return [UIColor colorWithRed:(1.f - cc.red) green:(1.f - cc.green) blue:(1.f - cc.blue) alpha:cc.alpha];
 }
 
-- (NSString *)stringValue {
-    return UIColorToHEX(self, nil);
+- (NSString *)NSStringValue {
+    return ZXStringFromUIColor(self);
 }
 
-- (NSString *)stringValueWithPrefix:(NSString *)prefix {
-    return UIColorToHEX(self, prefix);
+- (NSInteger)NSIntegerValue {
+    return ZXIntegerFromUIColor(self);
 }
 
-- (NSInteger)integerValue {
-    return UIColorToRGB(self, NO);
+- (ZXColorComponents)grayscaleComponents {
+    ZXColorComponents cc;
+    [self getWhite:&cc.white alpha:&cc.alpha];
+    return cc;
 }
 
-- (NSInteger)integerValueWithAlpha:(BOOL)alpha {
-    return UIColorToRGB(self, alpha);
+- (ZXColorComponents)HSBComponents {
+    ZXColorComponents cc;
+    [self getHue:&cc.hue saturation:&cc.saturation brightness:&cc.brightness alpha:&cc.alpha];
+    return cc;
 }
 
-- (CGFloat)alpha {
-    return CGColorGetAlpha(self.CGColor);
-}
-
-- (CGFloat)red {
-    CGFloat r,g,b,a;
-    [self getRed:&r green:&g blue:&b alpha:&a];
-    return r;
-}
-
-- (CGFloat)green {
-    CGFloat r,g,b,a;
-    [self getRed:&r green:&g blue:&b alpha:&a];
-    return g;
-}
-
-- (CGFloat)blue {
-    CGFloat r,g,b,a;
-    [self getRed:&r green:&g blue:&b alpha:&a];
-    return b;
-}
-
-- (CGFloat)hue {
-    CGFloat h,s,b,a;
-    [self getHue:&h saturation:&s brightness:&b alpha:&a];
-    return h;
-}
-
-- (CGFloat)saturation {
-    CGFloat h,s,b,a;
-    [self getHue:&h saturation:&s brightness:&b alpha:&a];
-    return s;
-}
-
-- (CGFloat)brightness {
-    CGFloat h,s,b,a;
-    [self getHue:&h saturation:&s brightness:&b alpha:&a];
-    return b;
+- (ZXColorComponents)RGBComponents {
+    ZXColorComponents cc;
+    [self getRed:&cc.red green:&cc.green blue:&cc.blue alpha:&cc.alpha];
+    return cc;
 }
 
 @end

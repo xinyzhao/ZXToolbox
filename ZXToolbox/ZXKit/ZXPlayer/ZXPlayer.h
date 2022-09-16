@@ -2,7 +2,7 @@
 // ZXPlayer.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -32,7 +32,6 @@ NS_ASSUME_NONNULL_BEGIN
 typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
     ZXPlaybackStatusBuffering,
     ZXPlaybackStatusPlaying,
-    ZXPlaybackStatusSeeking,
     ZXPlaybackStatusPaused,
     ZXPlaybackStatusEnded,
 };
@@ -72,7 +71,7 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 @property (nonatomic, strong, nullable) AVPlayerItem *playerItem;
 
 /// A status that indicates whether the player can be used for playback.
-@property (nonatomic, nullable, copy) void (^playerStatus)(AVPlayerStatus status, NSError * _Nullable error);
+@property (nonatomic, nullable, copy) void (^playerStatus)(AVPlayerStatus status, NSError *_Nullable error);
 /// A time ranges indicating media data that is readily available.
 @property (nonatomic, nullable, copy) void (^loadedTime)(NSTimeInterval time, NSTimeInterval duration);
 
@@ -87,20 +86,22 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 @property (nonatomic, readonly) NSTimeInterval currentTime;
 /// The duration of the player.
 @property (nonatomic, readonly) NSTimeInterval duration;
+/// Returns the preferred loaded time of the player.
+@property (nonatomic, readonly) NSTimeInterval preferredLoadedTime;
 
 /// The player is ready to play.
-@property (nonatomic, readonly) BOOL isReadToPlay;
+@property (nonatomic, readonly) BOOL isReadyToPlay;
 /// A Boolean value that indicates whether playback has consumed all buffered media and that playback will stall or end.
 @property (nonatomic, readonly) BOOL isBuffering;
 /// The player is ready to play.
 @property (nonatomic, readonly) BOOL isPlaying;
 /// The player is ready to play.
-@property (nonatomic, readonly) BOOL isSeeking;
-/// The player is ready to play.
 @property (nonatomic, readonly) BOOL isPaused;
 /// The player is end at play.
 @property (nonatomic, readonly) BOOL isEnded;
 
+/// Indicates the desired rate of playback; 0.0 means "paused", 1.0 indicates a desire to play at the natural rate of the current item.
+@property (nonatomic, assign) float rate;
 /// The audio playback volume for the player.
 @property (nonatomic, assign) float volume NS_AVAILABLE(10_7, 7_0);
 /// A Boolean value that indicates whether the audio output of the player is muted.
@@ -109,9 +110,12 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 /// AVLayerVideoGravityResizeAspect is default.
 @property (nonatomic, copy) AVLayerVideoGravity videoGravity;
 
-/// Attach to view of preview
+/// Add preivew layer to the view
 /// @param view The view
 - (void)attachToView:(UIView *)view;
+
+/// Remove preview layer from the view if necessary.
+- (void)detachView;
 
 /// Preview image for video
 @property (nonatomic, nullable, readonly) UIImage *previewImage;
@@ -130,15 +134,15 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 
 /// Moves the playback cursor and play when the seek operation has completed.
 /// @param time The time to which to seek.
-/// @param playAfter Play when seek completed
-- (void)seekToTime:(NSTimeInterval)time playAfter:(BOOL)playAfter;
+/// @param completion completion handler
+- (void)seekToTime:(NSTimeInterval)time completion:(void (^_Nullable)(BOOL finished))completion;
 
 /// Sets the current playback time within a specified time bound and invokes the specified block when the seek operation completes or is interrupted.
 /// @param time The time to which to seek.
 /// @param tolerance The temporal tolerance time.
 /// Pass kCMTimeZero to request sample accurate seeking (this may incur additional decoding delay).
-/// @param playAfter Play when seek completed
-- (void)seekToTime:(NSTimeInterval)time tolerance:(CMTime)tolerance playAfter:(BOOL)playAfter;
+/// @param completion completion handler
+- (void)seekToTime:(NSTimeInterval)time tolerance:(CMTime)tolerance completion:(void (^_Nullable)(BOOL finished))completion;
 
 /// A UIPanGestureRecognizer of player view.
 @property (nonatomic, readonly) UIPanGestureRecognizer *panGestureRecognizer;

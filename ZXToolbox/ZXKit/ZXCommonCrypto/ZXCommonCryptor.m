@@ -2,7 +2,7 @@
 // ZXCommonCryptor.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -42,7 +42,7 @@
     return nil;
 }
 
-- (BOOL)checkCryptorCipherMode:(CCMode)mode error:(NSError **_Nullable)error {
+- (BOOL)checkCryptorCipherMode:(CCMode)mode error:(NSError **)error {
     NSArray *modes = @[@(kCCModeECB), @(kCCModeCBC), @(kCCModeCFB), @(kCCModeCTR), @(kCCModeOFB), @(kCCModeRC4), @(kCCModeCFB8)];
     if ([modes containsObject:@(mode)]) {
         return YES;
@@ -113,7 +113,7 @@
     return size;
 }
 
-- (NSData *)keyData:(id)obj forAlgorithm:(CCAlgorithm)algorithm error:(NSError *_Nullable *_Nullable)error {
+- (NSData *)keyData:(id)obj forAlgorithm:(CCAlgorithm)algorithm error:(NSError **)error {
     NSData *data = [self copyData:obj];
     NSInteger size = [self keySize:data.length forAlgorithm:algorithm];
     if (data.length != size) {
@@ -154,7 +154,7 @@
     return size;
 }
 
-- (NSData *)ivData:(id)obj forAlgorithm:(CCAlgorithm)algorithm error:(NSError *_Nullable *_Nullable)error {
+- (NSData *)ivData:(id)obj forAlgorithm:(CCAlgorithm)algorithm error:(NSError **)error {
     NSData *data = [self copyData:obj];
     NSInteger size = [self ivSize:data.length forAlgorithm:algorithm];
     if (data.length != size) {
@@ -169,7 +169,7 @@
     return [data copy];
 }
 
-- (BOOL)checkCryptorStatus:(CCCryptorStatus)status error:(NSError *_Nullable *_Nullable)error {
+- (BOOL)checkCryptorStatus:(CCCryptorStatus)status error:(NSError **)error {
     if (status != kCCSuccess) {
         if (error) {
             *error = [self errorWithCryptorStatus:status];
@@ -228,7 +228,7 @@
     return [NSError errorWithDomain:@"ZXCommonCryptor" code:status userInfo:@{NSLocalizedDescriptionKey:desc}];
 }
 
-- (NSData *)cryptWithOperation:(CCOperation)operation algorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id _Nullable)iv error:(NSError **_Nullable)error {
+- (NSData *)cryptWithOperation:(CCOperation)operation algorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id)iv error:(NSError **)error {
     // Check Mode
     if (![self checkCryptorCipherMode:mode error:error]) {
         return nil;
@@ -274,11 +274,11 @@
     return [NSData dataWithBytesNoCopy:dataOut length:updateLen + finalLen];
 }
 
-- (NSData *)encryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id _Nullable)iv error:(NSError **_Nullable)error {
+- (NSData *)encryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id)iv error:(NSError **)error {
     return [self cryptWithOperation:kCCEncrypt algorithm:algorithm mode:mode padding:padding key:key iv:iv error:error];
 }
 
-- (NSData *)decryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id _Nullable)iv error:(NSError **_Nullable)error {
+- (NSData *)decryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id)iv error:(NSError **)error {
     return [self cryptWithOperation:kCCDecrypt algorithm:algorithm mode:mode padding:padding key:key iv:iv error:error];
 }
 
@@ -286,12 +286,12 @@
 
 @implementation NSString (ZXCommonCryptor)
 
-- (NSData *)encryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id _Nullable)iv error:(NSError **_Nullable)error {
+- (NSData *)encryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id)iv error:(NSError **)error {
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
     return [data encryptedDataUsingAlgorithm:algorithm mode:mode padding:padding key:key iv:iv error:error];
 }
 
-- (NSData *)decryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id _Nullable)iv error:(NSError **_Nullable)error {
+- (NSData *)decryptedDataUsingAlgorithm:(CCAlgorithm)algorithm mode:(CCMode)mode padding:(CCPadding)padding key:(id)key iv:(id)iv error:(NSError **)error {
     NSData *data = [self dataUsingEncoding:NSUTF8StringEncoding];
     return [data decryptedDataUsingAlgorithm:algorithm mode:mode padding:padding key:key iv:iv error:error];
 }

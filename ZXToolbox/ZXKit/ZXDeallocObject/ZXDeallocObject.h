@@ -1,8 +1,8 @@
 //
-// ZXKVObserver.h
+// ZXDeallocObject.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2020 Zhao Xin
+// Copyright (c) 2021 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -27,14 +27,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface ZXKVObserver : NSObject
+typedef void (^ZXDeallocBlock)(void);
 
-typedef void (^ZXKVObserveValue)(NSDictionary<NSKeyValueChangeKey, id> * _Nullable change);
+@interface ZXDeallocObject : NSObject
+@property (nonatomic, nullable, copy) ZXDeallocBlock deallocBlock;
 
-- (void)addObserver:(NSObject *)object forKeyPath:(NSString *)keyPath options:(NSKeyValueObservingOptions)options context:(nullable void *)context observeValue:(ZXKVObserveValue)observeValue;
-
-- (void)removeObserver;
-
+- (instancetype)initWithBlock:(ZXDeallocBlock)block;
 @end
 
 NS_ASSUME_NONNULL_END

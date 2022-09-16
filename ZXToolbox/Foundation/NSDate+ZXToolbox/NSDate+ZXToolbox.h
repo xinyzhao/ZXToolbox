@@ -2,7 +2,7 @@
 // NSDate+ZXToolbox.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -25,40 +25,60 @@
 
 #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
+// yyyy-MM-dd'T'HH:mm:ss.SSSZ
+extern NSString *const kZXDateTimeStringFormatRFC3339;
 // yyyy-MM-dd HH:mm:ss
-extern NSString *const kZXToolboxDateFormatDateTime;
+extern NSString *const kZXDateTimeStringFormatDefault;
 // yyyy-MM-dd
-extern NSString *const kZXToolboxDateFormatDate;
+extern NSString *const kZXDateTimeStringFormatDate;
 // HH:mm:ss
-extern NSString *const kZXToolboxDateFormatTime;
+extern NSString *const kZXDateTimeStringFormatTime;
 
 /// NSDate (ZXToolbox)
 @interface NSDate (ZXToolbox)
+/// Default is [NSLocale currentLocale]
+@property (class, copy, nullable) NSLocale *locale;
+/// Default is [NSTimeZone localTimeZone]
+@property (class, copy, nullable) NSTimeZone *timeZone;
+/// Default is [NSCalendar currentCalendar]
+@property (class, copy, nullable) NSCalendar *calendar;
 
-+ (NSDateFormatter *)dateFormatter;
+/// Returns a date from date time string with specified format
+/// @param string The date time string
+/// @param format The date time string format, default is kZXDateTimeStringFormatDefault if pass in nil.
++ (nullable NSDate *)dateWithString:(NSString *)string format:(nullable NSString *)format;
 
-+ (NSDate *)dateWithString:(NSString *)string format:(NSString *)format;
+/// Returns a date by adding given nature year/month and day to a given date.
+/// @param year The year will be adding, it could be positive, negative and 0
+/// @param month The month will be adding, it could be positive, negative and 0
+/// @param day The day will be adding, it could be positive, negative and 0
+- (NSDate *)dateByAddingYear:(NSInteger)year month:(NSInteger)month day:(NSInteger)day;
 
-- (NSString *)stringWithFormat:(NSString *)format;
-- (NSString *)dateString; //NSDateToolboxFormatDate
-- (NSString *)dateTimeString; //NSDateToolboxFormatDateTime
-- (NSString *)timeString; //NSDateToolboxFormatTime
+/// Get date time format string for defaultDateFormatter.
+/// @param format The date format string, default is kZXDateTimeStringFormatDefault if pass in nil.
+- (NSString *)stringWithFormat:(nullable NSString *)format;
 
-- (NSDate *)prevDayDate; // 前一天
-- (NSDate *)nextDayDate; // 后一天
-
-- (NSDate *)prevMonthDate; // 上个月
-- (NSDate *)nextMonthDate; // 下个月
-
-- (BOOL)isToday; // 今天
-- (BOOL)isTomorrow; // 明天
-- (BOOL)isYesterday; // 昨天
-- (BOOL)isDayAfterTomorrow; // 后天
-- (BOOL)isDayBeforeYesterday; // 前天
-
-- (NSDateComponents *)componets;
-
-- (NSDate *)firstDayOfMonthDate; // 当月第一天
-- (NSInteger)numberOfDaysInMonth; // 当月天数
+/// Returns the date components representing a given date.
+@property (nonatomic, readonly) NSDateComponents *allComponents;
+/// Returns the date components: year/month/day/hour/minute/second/nonosecond
+@property (nonatomic, readonly) NSDateComponents *dateComponents;
+/// 今天
+@property (nonatomic, readonly) BOOL isToday;
+/// 明天
+@property (nonatomic, readonly) BOOL isTomorrow;
+/// 昨天
+@property (nonatomic, readonly) BOOL isYesterday;
+/// 后天
+@property (nonatomic, readonly) BOOL isDayAfterTomorrow;
+/// 前天
+@property (nonatomic, readonly) BOOL isDayBeforeYesterday;
+/// 本月最后一天
+@property (nonatomic, readonly) BOOL isLastDayOfMonth;
+/// 本月天数
+@property (nonatomic, readonly) NSUInteger numberOfDaysInMonth;
 
 @end
+
+NS_ASSUME_NONNULL_END

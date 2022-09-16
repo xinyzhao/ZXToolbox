@@ -72,6 +72,34 @@
 	<string>iPhone 11 Pro</string>
 	<key>iPhone12,5</key>
 	<string>iPhone 11 Pro Max</string>
+	<key>iPhone12,8</key>
+	<string>iPhone SE (2nd generation)</string>
+	<key>iPhone13,1</key>
+	<string>iPhone 12 mini</string>
+	<key>iPhone13,2</key>
+	<string>iPhone 12</string>
+	<key>iPhone13,3</key>
+	<string>iPhone 12 Pro</string>
+	<key>iPhone13,4</key>
+	<string>iPhone 12 Pro Max</string>
+	<key>iPhone14,2</key>
+	<string>iPhone 13 Pro</string>
+	<key>iPhone14,3</key>
+	<string>iPhone 13 Pro Max</string>
+	<key>iPhone14,4</key>
+	<string>iPhone 13 mini</string>
+	<key>iPhone14,5</key>
+	<string>iPhone 13</string>
+	<key>iPhone14,6</key>
+	<string>iPhone SE (3rd generation)</string>
+	<key>iPhone14,7</key>
+	<string>iPhone 14</string>
+	<key>iPhone14,8</key>
+	<string>iPhone 14 Plus</string>
+	<key>iPhone15,2</key>
+	<string>iPhone 14 Pro</string>
+	<key>iPhone15,3</key>
+	<string>iPhone 14 Pro Max</string>
 	<key>iPad1,1</key>
 	<string>iPad (1st generation)</string>
 	<key>iPad2,1</key>
@@ -170,6 +198,14 @@
 	<string>iPad Pro (12.9-inch) (3rd generation)</string>
 	<key>iPad8,8</key>
 	<string>iPad Pro (12.9-inch) (3rd generation)</string>
+	<key>iPad8,9</key>
+	<string>iPad Pro (11-inch) (2nd generation)</string>
+	<key>iPad8,10</key>
+	<string>iPad Pro (11-inch) (2nd generation)</string>
+	<key>iPad8,11</key>
+	<string>iPad Pro (12.9-inch) (4th generation)</string>
+	<key>iPad8,12</key>
+	<string>iPad Pro (12.9-inch) (4th generation)</string>
 	<key>iPad11,1</key>
 	<string>iPad mini (5th generation)</string>
 	<key>iPad11,2</key>
@@ -178,6 +214,42 @@
 	<string>iPad Air (3rd generation)</string>
 	<key>iPad11,4</key>
 	<string>iPad Air (3rd generation)</string>
+	<key>iPad11,6</key>
+	<string>iPad (8th generation)</string>
+	<key>iPad11,7</key>
+	<string>iPad (8th generation)</string>
+	<key>iPad12,1</key>
+	<string>iPad (9th generation)</string>
+	<key>iPad12,2</key>
+	<string>iPad (9th generation)</string>
+	<key>iPad13,1</key>
+	<string>iPad Air (4th generation)</string>
+	<key>iPad13,2</key>
+	<string>iPad Air (4th generation)</string>
+	<key>iPad13,4</key>
+	<string>iPad Pro (11-inch) (3rd generation)</string>
+	<key>iPad13,5</key>
+	<string>iPad Pro (11-inch) (3rd generation)</string>
+	<key>iPad13,6</key>
+	<string>iPad Pro (11-inch) (3rd generation)</string>
+	<key>iPad13,7</key>
+	<string>iPad Pro (11-inch) (3rd generation)</string>
+	<key>iPad13,8</key>
+	<string>iPad Pro (12.9-inch) (5th generation)</string>
+	<key>iPad13,9</key>
+	<string>iPad Pro (12.9-inch) (5th generation)</string>
+	<key>iPad13,10</key>
+	<string>iPad Pro (12.9-inch) (5th generation)</string>
+	<key>iPad13,11</key>
+	<string>iPad Pro (12.9-inch) (5th generation)</string>
+	<key>iPad13,16</key>
+	<string>iPad Air (5th generation)</string>
+	<key>iPad13,17</key>
+	<string>iPad Air (5th generation)</string>
+	<key>iPad14,1</key>
+	<string>iPad mini (6th generation)</string>
+	<key>iPad14,2</key>
+	<string>iPad mini (6th generation)</string>
 	<key>iPod1,1</key>
 	<string>iPod touch (1st generation)</string>
 	<key>iPod2,1</key>

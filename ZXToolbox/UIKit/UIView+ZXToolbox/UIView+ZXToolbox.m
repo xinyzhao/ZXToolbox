@@ -2,7 +2,7 @@
 // UIView+ZXToolbox.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,32 +24,71 @@
 //
 
 #import "UIView+ZXToolbox.h"
-//#import "NSObject+ZXToolbox.h"
-//#import <objc/runtime.h>
+#import "NSObject+ZXToolbox.h"
+
+static char extrinsicContentSizeKey;
 
 @implementation UIView (ZXToolbox)
 
-//+ (void)load {
-//    static dispatch_once_t onceToken;
-//    dispatch_once(&onceToken, ^{
-//        [self swizzleMethod:@selector(intrinsicContentSize) with:@selector(inherentContentSize)];
-//    });
-//}
-//
-//- (void)setInherentContentSize:(CGSize)inherentContentSize {
-//    objc_setAssociatedObject(self, @selector(inherentContentSize), NSStringFromCGSize(inherentContentSize), OBJC_ASSOCIATION_COPY_NONATOMIC);
-//    [self invalidateIntrinsicContentSize];
-//}
-//
-//- (CGSize)inherentContentSize {
-//    NSString *str = objc_getAssociatedObject(self, @selector(inherentContentSize));
-//    if (str) {
-//        return CGSizeFromString(str);
-//    }
-//    return [self inherentContentSize];
-//}
++ (instancetype)loadNibNamed:(NSString *)name {
+    return [self loadNibNamed:name inBundle:nil];
+}
 
-- (nullable UIImage *)captureImage {
++ (instancetype)loadNibNamed:(NSString *)name inBundle:(NSBundle *)bundle {
+    return [self loadNibNamed:name inBundle:bundle owner:nil options:nil];
+}
+
++ (instancetype)loadNibNamed:(NSString *)name inBundle:(NSBundle *)bundle owner:(id)owner options:(NSDictionary<UINibOptionsKey,id> *)options {
+    if (bundle == nil) {
+        bundle = [NSBundle mainBundle];
+    }
+    NSArray *list = [bundle loadNibNamed:name owner:owner options:options];
+    for (UIView *view in list) {
+        if ([view isKindOfClass:[self class]]) {
+            return view;
+        }
+    }
+    return nil;
+}
+
+- (NSString *)subclassSuffix {
+    return [NSString stringWithFormat:@"ZXToolbox_%lu", (unsigned long)self.hash];
+}
+
+- (void)setExtrinsicContentSize:(CGSize)size {
+    Class clsA = [self class];
+    NSString *strA = NSStringFromClass(clsA);
+    if (![strA hasSuffix:self.subclassSuffix]) {
+        NSString *strB = [strA stringByAppendingString:self.subclassSuffix];
+        Class clsB = NSClassFromString(strB);
+        if (clsB == nil) {
+            clsB = objc_allocateClassPair(clsA, strB.UTF8String, 0);
+            objc_registerClassPair(clsB);
+            //
+            [clsB swizzleMethod:@selector(intrinsicContentSize) with:@selector(zx_intrinsicContentSize)];
+        }
+        object_setClass(self, clsB);
+    }
+    //
+    self.translatesAutoresizingMaskIntoConstraints = NO;
+    [self setAssociatedObject:&extrinsicContentSizeKey value:[NSValue valueWithCGSize:size] policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
+    [self invalidateIntrinsicContentSize];
+}
+
+- (CGSize)extrinsicContentSize {
+    NSValue *value = [self getAssociatedObject:&extrinsicContentSizeKey];
+    return value ? [value CGSizeValue] : CGSizeZero;;
+}
+
+- (CGSize)zx_intrinsicContentSize   {
+    CGSize size = [self zx_intrinsicContentSize];
+    CGSize offset = [self extrinsicContentSize];
+    size.width += offset.width;
+    size.height += offset.height;
+    return size;
+}
+
+- (UIImage *)captureImage {
     UIGraphicsBeginImageContextWithOptions(self.bounds.size, NO, 0);
     CGContextRef context = UIGraphicsGetCurrentContext();
     [self.layer renderInContext:context];
@@ -58,11 +97,11 @@
     return image;
 }
 
-- (nullable UIImage *)snapshotImage {
+- (UIImage *)snapshotImage {
     return [self captureImage];
 }
 
-- (nullable id)subviewForTag:(NSInteger)tag {
+- (id)subviewForTag:(NSInteger)tag {
     UIView *subview = nil;
     for (UIView *view in self.subviews) {
         if (view.tag == tag) {
@@ -78,7 +117,7 @@
     return subview;
 }
 
-- (nullable id)subviewForTag:(NSInteger)tag isKindOfClass:(Class)aClass {
+- (id)subviewForTag:(NSInteger)tag isKindOfClass:(Class)aClass {
     UIView *subview = nil;
     for (UIView *view in self.subviews) {
         if (view.tag == tag && [view isKindOfClass:aClass]) {
@@ -94,7 +133,7 @@
     return subview;
 }
 
-- (nullable id)subviewForTag:(NSInteger)tag isMemberOfClass:(Class)aClass {
+- (id)subviewForTag:(NSInteger)tag isMemberOfClass:(Class)aClass {
     UIView *subview = nil;
     for (UIView *view in self.subviews) {
         if (view.tag == tag && [view isMemberOfClass:aClass]) {

@@ -2,7 +2,7 @@
 // UIImageView+ZXImageBroswer.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2019 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,9 +24,11 @@
 //
 
 #import "UIImageView+ZXImageBroswer.h"
-#import <objc/runtime.h>
+#import "NSObject+ZXToolbox.h"
 #import "ZXCommonCrypto.h"
 #import "ZXURLSession.h"
+
+static char downloadTaskKey;
 
 @implementation UIImageView (ZXImageBroswer)
 
@@ -42,11 +44,11 @@
 #pragma mark Task
 
 - (void)setDownloadTask:(NSURLSessionDownloadTask *)downloadTask {
-    objc_setAssociatedObject(self, @selector(downloadTask), downloadTask, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:&downloadTaskKey value:downloadTask policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (NSURLSessionDownloadTask *)downloadTask {
-    return objc_getAssociatedObject(self, @selector(downloadTask));
+    return [self getAssociatedObject:&downloadTaskKey];
 }
 
 #pragma mark URL

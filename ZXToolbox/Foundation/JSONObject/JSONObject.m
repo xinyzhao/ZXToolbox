@@ -2,7 +2,7 @@
 // JSONObject.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -31,54 +31,55 @@
     return [NSJSONSerialization isValidJSONObject:obj];
 }
 
-+ (NSData *)dataWithJSONObject:(id)obj {
-    return [JSONObject dataWithJSONObject:obj options:kNilOptions];
+#pragma mark JSONData
+
++ (NSData *)JSONDataWithObject:(id)obj {
+    return [self JSONDataWithObject:obj options:kNilOptions];
 }
 
-+ (NSData *)dataWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt {
++ (NSData *)JSONDataWithObject:(id)obj options:(NSJSONWritingOptions)opt {
     NSError *error;
-    NSData *data = [JSONObject dataWithJSONObject:obj options:opt error:&error];
+    NSData *data = [self JSONDataWithObject:obj options:opt error:&error];
     if (error) {
         NSLog(@"%s %@\n>>Object: %@", __func__, error.localizedDescription, obj);
     }
     return data;
 }
 
-+ (NSData *)dataWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError **)error {
-    return [NSJSONSerialization dataWithJSONObject:obj options:opt error:error];
-}
-
-+ (NSString *)stringWithJSONObject:(id)obj {
-    return [JSONObject stringWithJSONObject:obj options:kNilOptions];
-}
-
-+ (NSString *)stringWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt {
-    NSError *error;
-    NSData *data = [JSONObject dataWithJSONObject:obj options:opt error:&error];
-    if (error) {
-        NSLog(@"%s %@\n>>Object: %@", __func__, error.localizedDescription, obj);
++ (NSData *)JSONDataWithObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError **)error {
+    if ([self isValidJSONObject:obj]) {
+        return [NSJSONSerialization dataWithJSONObject:obj options:opt error:error];
     }
+    return nil;
+}
+
+#pragma mark JSONObject
+
++ (NSString *)JSONStringWithObject:(id)obj {
+    return [self JSONStringWithObject:obj options:kNilOptions];
+}
+
++ (NSString *)JSONStringWithObject:(id)obj options:(NSJSONWritingOptions)opt {
+    return [self JSONStringWithObject:obj options:opt error:nil];
+}
+
++ (NSString *)JSONStringWithObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError **)error {
+    NSData *data = [self JSONDataWithObject:obj options:opt error:error];
     if (data) {
         return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     }
     return nil;
 }
 
-+ (NSString *)stringWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError **)error {
-    NSData *data = [JSONObject dataWithJSONObject:obj options:opt error:error];
-    if (data) {
-        return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-    }
-    return nil;
-}
+#pragma mark JSONObject
 
 + (id)JSONObjectWithData:(NSData *)data {
-    return [JSONObject JSONObjectWithData:data options:NSJSONReadingAllowFragments];
+    return [self JSONObjectWithData:data options:NSJSONReadingAllowFragments];
 }
 
 + (id)JSONObjectWithData:(NSData *)data options:(NSJSONReadingOptions)opt {
     NSError *error;
-    id object = [JSONObject JSONObjectWithData:data options:opt error:&error];
+    id object = [self JSONObjectWithData:data options:opt error:&error];
     if (error) {
         NSLog(@"%s %@>>Data: %@", __func__, error.localizedDescription, data);
     }
@@ -90,21 +91,44 @@
 }
 
 + (id)JSONObjectWithString:(NSString *)str {
-    return [JSONObject JSONObjectWithString:str options:NSJSONReadingAllowFragments];
+    return [self JSONObjectWithString:str options:NSJSONReadingAllowFragments];
 }
 
 + (id)JSONObjectWithString:(NSString *)str options:(NSJSONReadingOptions)opt {
-    NSError *error;
-    id object = [JSONObject JSONObjectWithString:str options:opt error:&error];
-    if (error) {
-        NSLog(@"%s %@>>String: %@", __func__, error.localizedDescription, str);
-    }
-    return object;
+    return [self JSONObjectWithString:str options:opt error:nil];
 }
 
 + (id)JSONObjectWithString:(NSString *)str options:(NSJSONReadingOptions)opt error:(NSError **)error {
     NSData *data = [str dataUsingEncoding:NSUTF8StringEncoding];
-    return [JSONObject JSONObjectWithData:data options:opt error:error];
+    return [self JSONObjectWithData:data options:opt error:error];
+}
+
+@end
+
+@implementation JSONObject (DEPRECATED)
+
++ (NSData *)dataWithJSONObject:(id)obj {
+    return [self JSONDataWithObject:obj];
+}
+
++ (NSData *)dataWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt {
+    return [self JSONDataWithObject:obj options:opt];
+}
+
++ (NSData *)dataWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError **)error {
+    return [self JSONDataWithObject:obj options:opt error:error];
+}
+
++ (NSString *)stringWithJSONObject:(id)obj {
+    return [self JSONStringWithObject:obj options:kNilOptions];
+}
+
++ (NSString *)stringWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt {
+    return [self JSONStringWithObject:obj options:opt];
+}
+
++ (NSString *)stringWithJSONObject:(id)obj options:(NSJSONWritingOptions)opt error:(NSError **)error {
+    return [self JSONStringWithObject:obj options:opt error:error];
 }
 
 @end

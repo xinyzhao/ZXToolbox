@@ -2,7 +2,7 @@
 // NSObject+ZXToolbox.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,6 +24,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <objc/runtime.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 /**
  NSObject (ZXToolbox)
@@ -59,40 +62,19 @@
  */
 - (void)swizzleMethod:(SEL)originalSelector with:(SEL)swizzledSelector class:(Class)originalClass;
 
-/**
- 类同 respondsToSelector
+/// Sets an associated value for a given object using a given key and association policy.
+/// @param key The key for the association.
+/// @param value The value to associate with the key key for object. Pass nil to clear an existing association.
+/// @param policy The policy for the association. For possible values, see objc_AssociationPolicy.
+/// @see objc_AssociationPolicy
+- (void)setAssociatedObject:(const void *)key
+                      value:(nullable id)value
+                     policy:(objc_AssociationPolicy)policy;
 
- @param selector 方法选择器
- @return BOOL
- */
-- (BOOL)respondsToMethod:(SEL)selector;
-
-/**
- 执行指定的方法
-
- @param selector 选择器
- */
-- (void)performMethod:(SEL)selector;
-/**
- 执行指定的方法
-
- @param selector 选择器
- @param object 对象
- */
-- (void)performMethod:(SEL)selector withObject:(id)object;
-/**
- 执行指定的方法
-
- @param selector 选择器
- @param object1 对象1
- @param object2 对象2
- */
-- (void)performMethod:(SEL)selector withObject:(id)object1 withObject:(id)object2;
-
-/// 延时执行闭包
-/// @param block 闭包
-/// @param object 传值
-/// @param delayInSeconds 等待时间
-- (void)performBlock:(void(^)(id object))block withObject:(id)object afterDelay:(NSTimeInterval)delayInSeconds;
+/// Returns the value associated with a given object for a given key.
+/// @param key The key for the association.
+- (nullable id)getAssociatedObject:(nullable const void *)key;
 
 @end
+
+NS_ASSUME_NONNULL_END

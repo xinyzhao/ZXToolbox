@@ -2,7 +2,7 @@
 // UITableViewCell+ZXToolbox.m
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,7 +24,10 @@
 //
 
 #import "UITableViewCell+ZXToolbox.h"
-#import <objc/runtime.h>
+#import "NSObject+ZXToolbox.h"
+
+static char separatorColorKey;
+static char separatorInsetKey;
 
 @implementation UITableViewCell (ZXToolbox)
 
@@ -57,11 +60,11 @@
 #pragma mark Getter & Setter
 
 - (void)saveSeparatorColor:(UIColor *)separatorColor {
-    objc_setAssociatedObject(self, @selector(separatorColor), separatorColor, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    [self setAssociatedObject:&separatorColorKey value:separatorColor policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (UIColor *)separatorColor {
-    UIColor *color = objc_getAssociatedObject(self, @selector(separatorColor));
+    UIColor *color = [self getAssociatedObject:&separatorColorKey];
     if (color == nil) {
         color = [[UITableView alloc] init].separatorColor;
         self.separatorColor = color;
@@ -70,18 +73,18 @@
 }
 
 - (void)setSeparatorInset:(UIEdgeInsets)separatorInset {
-    NSString *str = NSStringFromUIEdgeInsets(separatorInset);
-    objc_setAssociatedObject(self, @selector(separatorInset), str, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+    NSValue *value = [NSValue valueWithUIEdgeInsets:separatorInset];
+    [self setAssociatedObject:&separatorInsetKey value:value policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
 }
 
 - (UIEdgeInsets)separatorInset {
     UIEdgeInsets inset = UIEdgeInsetsZero;
-    NSString *str = objc_getAssociatedObject(self, @selector(separatorInset));
-    if (str == nil) {
+    NSValue *value = [self getAssociatedObject:&separatorInsetKey];
+    if (value) {
+        inset = [value UIEdgeInsetsValue];
+    } else {
         inset = [[UITableView alloc] init].separatorInset;
         self.separatorInset = inset;
-    } else {
-        inset = UIEdgeInsetsFromString(str);
     }
     return inset;
 }

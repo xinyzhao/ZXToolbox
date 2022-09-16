@@ -2,7 +2,7 @@
 // UIImage+ZXToolbox.h
 // https://github.com/xinyzhao/ZXToolbox
 //
-// Copyright (c) 2019-2020 Zhao Xin
+// Copyright (c) 2018 Zhao Xin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,8 @@
 #import <UIKit/UIKit.h>
 #import <ImageIO/ImageIO.h>
 #import <CoreGraphics/CoreGraphics.h>
+
+NS_ASSUME_NONNULL_BEGIN
 
 /// 拼接
 UIKIT_EXTERN UIImage * UIImageCombineToRect(UIImage *image1, UIImage *image2, CGRect rect);
@@ -71,6 +73,12 @@ UIKIT_EXTERN UIImage * UIImageToThumbnail(UIImage *image, CGSize size, BOOL scal
 + (UIImage *)imageWithColor:(UIColor *)color;
 + (UIImage *)imageWithColor:(UIColor *)color size:(CGSize)size;
 
+/// 自适应高度: 宽度固定, 等比缩放
+- (CGFloat)adaptiveHeight:(CGFloat)width;
+
+/// 自适应宽度: 高度固定, 等比缩放
+- (CGFloat)adaptiveWidth:(CGFloat)height;
+
 /// 高斯模糊
 - (UIImage *)blurImage:(CGFloat)radius;
 
@@ -104,3 +112,4 @@ UIKIT_EXTERN UIImage * UIImageToThumbnail(UIImage *image, CGSize size, BOOL scal
 
 @end
 
+NS_ASSUME_NONNULL_END
