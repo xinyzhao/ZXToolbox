@@ -92,6 +92,14 @@
 	<string>iPhone 13</string>
 	<key>iPhone14,6</key>
 	<string>iPhone SE (3rd generation)</string>
+	<key>iPhone14,7</key>
+	<string>iPhone 14</string>
+	<key>iPhone14,8</key>
+	<string>iPhone 14 Plus</string>
+	<key>iPhone15,2</key>
+	<string>iPhone 14 Pro</string>
+	<key>iPhone15,3</key>
+	<string>iPhone 14 Pro Max</string>
 	<key>iPad1,1</key>
 	<string>iPad (1st generation)</string>
 	<key>iPad2,1</key>
