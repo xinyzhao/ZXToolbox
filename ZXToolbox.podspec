@@ -53,6 +53,7 @@ Pod::Spec.new do |s|
   s.subspec "NSDate+ZXToolbox" do |ss|
     ss.source_files = "ZXToolbox/Foundation/NSDate+ZXToolbox/*.{h,m}"
     ss.public_header_files = "ZXToolbox/Foundation/NSDate+ZXToolbox/*.h"
+    ss.dependency "ZXToolbox/ZXToolbox+Macros"
   end
 
   s.subspec "NSFileManager+ZXToolbox" do |ss|
