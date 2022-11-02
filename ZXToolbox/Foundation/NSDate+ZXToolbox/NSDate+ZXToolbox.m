@@ -24,7 +24,6 @@
 //
 
 #import "NSDate+ZXToolbox.h"
-#import "ZXToolbox+Macros.h"
 
 NSString *const kZXDateTimeStringFormatRFC3339  = @"yyyy-MM-dd'T'HH:mm:ss.SSSZ";
 NSString *const kZXDateTimeStringFormatDefault  = @"yyyy-MM-dd HH:mm:ss";
