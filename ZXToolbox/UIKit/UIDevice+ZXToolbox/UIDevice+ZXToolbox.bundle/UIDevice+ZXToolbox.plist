@@ -246,23 +246,17 @@
 	<string>iPad Air (5th generation)</string>
 	<key>iPad13,17</key>
 	<string>iPad Air (5th generation)</string>
+	<key>iPad13,18</key>
+	<string>iPad (10th generation)</string>
+	<key>iPad13,19</key>
+	<string>iPad (10th generation)</string>
 	<key>iPad14,1</key>
 	<string>iPad mini (6th generation)</string>
 	<key>iPad14,2</key>
 	<string>iPad mini (6th generation)</string>
-	<key>iPod1,1</key>
-	<string>iPod touch (1st generation)</string>
-	<key>iPod2,1</key>
-	<string>iPod touch (2nd generation)</string>
-	<key>iPod3,1</key>
-	<string>iPod touch (3rd generation)</string>
-	<key>iPod4,1</key>
-	<string>iPod touch (4th generation)</string>
-	<key>iPod5,1</key>
-	<string>iPod touch (5th generation)</string>
-	<key>iPod7,1</key>
-	<string>iPod touch (6th generation)</string>
-	<key>iPod9,1</key>
-	<string>iPod touch (7th generation)</string>
+	<key>iPad14,5</key>
+	<string>iPad Pro (12.9-inch) (6th generation)</string>
+	<key>iPad14,6</key>
+	<string>iPad Pro (12.9-inch) (6th generation)</string>
 </dict>
 </plist>
