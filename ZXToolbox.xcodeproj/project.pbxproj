@@ -90,8 +90,6 @@
 		7000AD7422E9C22F00651E44 /* ZXQRCodeGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACD522E9C22F00651E44 /* ZXQRCodeGenerator.m */; };
 		7000AD7522E9C22F00651E44 /* ZXNetworkTrafficMonitor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACD722E9C22F00651E44 /* ZXNetworkTrafficMonitor.m */; };
 		7000AD7622E9C22F00651E44 /* ZXNetworkTrafficMonitor.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACD822E9C22F00651E44 /* ZXNetworkTrafficMonitor.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7000AD7722E9C22F00651E44 /* ZXNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACDA22E9C22F00651E44 /* ZXNavigationController.m */; };
-		7000AD7822E9C22F00651E44 /* ZXNavigationController.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACDB22E9C22F00651E44 /* ZXNavigationController.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD7922E9C22F00651E44 /* ZXScriptMessageHandler.m in Sources */ = {isa = PBXBuildFile; fileRef = 7000ACDD22E9C22F00651E44 /* ZXScriptMessageHandler.m */; };
 		7000AD7A22E9C22F00651E44 /* ZXScriptMessageHandler.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACDE22E9C22F00651E44 /* ZXScriptMessageHandler.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		7000AD7B22E9C22F00651E44 /* ZXTagView.h in Headers */ = {isa = PBXBuildFile; fileRef = 7000ACE022E9C22F00651E44 /* ZXTagView.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -365,8 +363,6 @@
 		7000ACD522E9C22F00651E44 /* ZXQRCodeGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXQRCodeGenerator.m; sourceTree = "<group>"; };
 		7000ACD722E9C22F00651E44 /* ZXNetworkTrafficMonitor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXNetworkTrafficMonitor.m; sourceTree = "<group>"; };
 		7000ACD822E9C22F00651E44 /* ZXNetworkTrafficMonitor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXNetworkTrafficMonitor.h; sourceTree = "<group>"; };
-		7000ACDA22E9C22F00651E44 /* ZXNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXNavigationController.m; sourceTree = "<group>"; };
-		7000ACDB22E9C22F00651E44 /* ZXNavigationController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXNavigationController.h; sourceTree = "<group>"; };
 		7000ACDD22E9C22F00651E44 /* ZXScriptMessageHandler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZXScriptMessageHandler.m; sourceTree = "<group>"; };
 		7000ACDE22E9C22F00651E44 /* ZXScriptMessageHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXScriptMessageHandler.h; sourceTree = "<group>"; };
 		7000ACE022E9C22F00651E44 /* ZXTagView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZXTagView.h; sourceTree = "<group>"; };
@@ -889,7 +885,6 @@
 				7000AD0D22E9C22F00651E44 /* ZXLineChartView */,
 				7000ACC122E9C22F00651E44 /* ZXLocalAuthentication */,
 				7000ACBE22E9C22F00651E44 /* ZXLocationManager */,
-				7000ACD922E9C22F00651E44 /* ZXNavigationController */,
 				7000ACD622E9C22F00651E44 /* ZXNetworkTrafficMonitor */,
 				7000ACB522E9C22F00651E44 /* ZXPageIndicatorView */,
 				7000ACBB22E9C22F00651E44 /* ZXPageView */,
@@ -1050,15 +1045,6 @@
 				7000ACD722E9C22F00651E44 /* ZXNetworkTrafficMonitor.m */,
 			);
 			path = ZXNetworkTrafficMonitor;
-			sourceTree = "<group>";
-		};
-		7000ACD922E9C22F00651E44 /* ZXNavigationController */ = {
-			isa = PBXGroup;
-			children = (
-				7000ACDB22E9C22F00651E44 /* ZXNavigationController.h */,
-				7000ACDA22E9C22F00651E44 /* ZXNavigationController.m */,
-			);
-			path = ZXNavigationController;
 			sourceTree = "<group>";
 		};
 		7000ACDC22E9C22F00651E44 /* ZXScriptMessageHandler */ = {
@@ -1622,7 +1608,6 @@
 				7000AD9D22E9C22F00651E44 /* ZXLineChartView.h in Headers */,
 				7000AD6822E9C22F00651E44 /* ZXLocalAuthentication.h in Headers */,
 				7000AD6522E9C22F00651E44 /* ZXLocationManager.h in Headers */,
-				7000AD7822E9C22F00651E44 /* ZXNavigationController.h in Headers */,
 				7000AD7622E9C22F00651E44 /* ZXNetworkTrafficMonitor.h in Headers */,
 				70BC8B5423C5B7E500DD952B /* ZXKeychainItem+Password.h in Headers */,
 				70BC8B4823C5B68000DD952B /* ZXKeychainItem+Identity.h in Headers */,
@@ -1883,7 +1868,6 @@
 				7000AD6422E9C22F00651E44 /* ZXPageView.m in Sources */,
 				7000AD5822E9C22F00651E44 /* ZXCommonCryptor.m in Sources */,
 				70D4BD2323A9DC47000D28E2 /* UIImageView+ZXImageBroswer.m in Sources */,
-				7000AD7722E9C22F00651E44 /* ZXNavigationController.m in Sources */,
 				70A7B5BB23B0B7990080C95A /* ZXDownloadTask.m in Sources */,
 				7000AD5622E9C22F00651E44 /* ZXPopoverView.m in Sources */,
 				70F77AE824E16AA20062C21F /* ZXKeyValueObserver.m in Sources */,

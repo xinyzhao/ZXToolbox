@@ -1077,9 +1077,6 @@ if (@available(iOS 9.0, *)) {
 )
 ```
 
-* ZXNavigationController
-> 204 No Content
-
 * ZXNetworkTrafficMonitor
 
 ```

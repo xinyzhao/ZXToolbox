@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "ZXToolbox"
-  s.version      = "2.8.6"
+  s.version      = "2.8.7"
   s.summary      = "Development kit for iOS"
   s.description  = <<-DESC
                    Development kit for iOS.
@@ -289,11 +289,6 @@ Pod::Spec.new do |s|
     ss.frameworks = "CoreLocation"
   end
   
-  s.subspec "ZXNavigationController" do |ss|
-    ss.source_files = "ZXToolbox/ZXKit/ZXNavigationController/*.{h,m}"
-    ss.public_header_files = "ZXToolbox/ZXKit/ZXNavigationController/*.h"
-  end
-
   s.subspec "ZXNetworkTrafficMonitor" do |ss|
     ss.source_files = "ZXToolbox/ZXKit/ZXNetworkTrafficMonitor/*.{h,m}"
     ss.public_header_files = "ZXToolbox/ZXKit/ZXNetworkTrafficMonitor/*.h"

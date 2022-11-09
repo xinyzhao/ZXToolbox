@@ -86,7 +86,6 @@
                   @"ZXLineChartView",
                   @"ZXLocalAuthentication",
                   @"ZXLocationManager",
-                  @"ZXNavigationController",
                   @"ZXNetworkTrafficMonitor",
                   @"ZXPageIndicatorView",
                   @"ZXPageView",
