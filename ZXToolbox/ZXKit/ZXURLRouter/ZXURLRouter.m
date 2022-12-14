@@ -81,8 +81,18 @@
     if (self) {
         _global = [[NSMutableArray alloc] init];
         _routes = [[NSMutableDictionary alloc] init];
+        _exclusiveRoute = NO;
+        _caseInsensitive = NO;
     }
     return self;
+}
+
+- (nullable NSURL *)caseInsensitiveURL:(nullable NSURL *)url {
+    NSString *str = [[url URLString] lowercaseString];
+    if (str) {
+        return [NSURL URLWithString:str];
+    }
+    return url;
 }
 
 - (NSUInteger)addHandler:(id _Nullable(^)(NSURL *url, id _Nullable data))handler forURL:(nullable NSURL *)url {
@@ -99,6 +109,9 @@
             [_global addObject:obj];
         }
     } else {
+        if (self.isCaseInsensitive) {
+            url = [self caseInsensitiveURL:url];
+        }
         NSMutableSet *set = [_routes objectForKey:url];
         if (set == nil) {
             set = [[NSMutableSet alloc] init];
@@ -127,6 +140,9 @@
             }
         }
     } else {
+        if (self.isCaseInsensitive) {
+            url = [self caseInsensitiveURL:url];
+        }
         NSMutableSet *set = [_routes objectForKey:url];
         if (set) {
             NSArray *list = [set allObjects];
@@ -155,6 +171,9 @@
             [_global addObject:obj];
         }
     } else {
+        if (self.isCaseInsensitive) {
+            url = [self caseInsensitiveURL:url];
+        }
         NSMutableSet *set = [_routes objectForKey:url];
         if (set == nil) {
             set = [[NSMutableSet alloc] init];
@@ -185,6 +204,9 @@
             }
         }
     } else {
+        if (self.isCaseInsensitive) {
+            url = [self caseInsensitiveURL:url];
+        }
         NSMutableSet *set = [_routes objectForKey:url];
         if (set) {
             NSArray *list = [set allObjects];
@@ -206,6 +228,10 @@
     // 全局路由
     if (_global.count > 0) {
         [list addObjectsFromArray:_global];
+    }
+    // 忽略大小写
+    if (self.isCaseInsensitive) {
+        url = [self caseInsensitiveURL:url];
     }
     // 全量匹配
     NSSet *set = [_routes objectForKey:url];

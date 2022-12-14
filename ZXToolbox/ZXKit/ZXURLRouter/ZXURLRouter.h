@@ -37,6 +37,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// Otherwise, you can add multiple handlers or target/aciton for a URL/global. Default is NO.
 @property (nonatomic, assign, getter=isExclusiveRoute) BOOL exclusiveRoute;
 
+/// A case-insensitive search. Default is NO.
+@property (nonatomic, assign, getter=isCaseInsensitive) BOOL caseInsensitive;
+
 /// Add handler for URL
 /// @param handler The handler for URL
 /// @param url The URL, add a global handler if pass in nil.
