@@ -541,7 +541,7 @@
         [[ZXURLRouter sharedRouter] removeHandler:h forURL:url];
     }
     //
-    NSArray *urls = @[@"app://test/abc/xyz/?a=b&c=d", @"app://tests", @"app://tes"];
+    NSArray *urls = @[@"app://test/abC/xyz/?a=b&c=d", @"app://tests", @"app://tes"];
     for (NSString *str in urls) {
         id data = @(arc4random() % 100);
         int count = [[ZXURLRouter sharedRouter] openURL:[NSURL URLWithString:str] withData:data completionHandler:^(NSURL * _Nonnull url, id  _Nullable data, id  _Nullable response, NSString * _Nullable error) {
