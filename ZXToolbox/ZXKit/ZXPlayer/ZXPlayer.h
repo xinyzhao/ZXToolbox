@@ -30,10 +30,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// The statuses that indicate whether a player can successfully play items.
 typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
-    ZXPlaybackStatusBuffering,
+    ZXPlaybackStatusStop,
     ZXPlaybackStatusPlaying,
     ZXPlaybackStatusPaused,
-    ZXPlaybackStatusEnded,
+};
+
+/// The statuses that indicates whether playback buffer.
+typedef NS_ENUM(NSInteger, ZXPlaybackBuffer) {
+    ZXPlaybackBufferEmpty,
+    ZXPlaybackLikelyToKeepUp,
+    ZXPlaybackBufferFull,
 };
 
 /// ZXPlayer
@@ -72,33 +78,33 @@ typedef NS_ENUM(NSInteger, ZXPlaybackStatus) {
 
 /// A status that indicates whether the player can be used for playback.
 @property (nonatomic, nullable, copy) void (^playerStatus)(AVPlayerStatus status, NSError *_Nullable error);
+/// The player is ready to play.
+@property (nonatomic, readonly) BOOL isReadyToPlay;
+
+/// A status that indicates whether playback buffer.
+@property (nonatomic, readonly) void (^playbackBuffer)(ZXPlaybackBuffer buffer);
 /// A time ranges indicating media data that is readily available.
 @property (nonatomic, nullable, copy) void (^loadedTime)(NSTimeInterval time, NSTimeInterval duration);
+/// Returns the preferred loaded time of the player.
+@property (nonatomic, readonly) NSTimeInterval preferredLoadedTime;
 
 /// A status that indicates whether playback is currently in progress.
 @property (nonatomic, nullable, copy) void (^playbackStatus)(ZXPlaybackStatus status);
+/// The playback status is playing.
+@property (nonatomic, readonly) BOOL isPlaying;
+/// The playback status is paused.
+@property (nonatomic, readonly) BOOL isPaused;
+/// The playback status is stop.
+@property (nonatomic, readonly) BOOL isStop;
+
 /// Requests the periodic invocation of a given block during playback to report changing time.
 @property (nonatomic, nullable, copy) void (^playbackTime)(NSTimeInterval time, NSTimeInterval duration);
-/// The time interval at which the block should be invoked during normal playback, according to progress of the player’s current time.
-@property (nonatomic, assign) NSTimeInterval playbackTimeInterval;
-
 /// Returns the current time of the player.
 @property (nonatomic, readonly) NSTimeInterval currentTime;
 /// The duration of the player.
 @property (nonatomic, readonly) NSTimeInterval duration;
-/// Returns the preferred loaded time of the player.
-@property (nonatomic, readonly) NSTimeInterval preferredLoadedTime;
-
-/// The player is ready to play.
-@property (nonatomic, readonly) BOOL isReadyToPlay;
-/// A Boolean value that indicates whether playback has consumed all buffered media and that playback will stall or end.
-@property (nonatomic, readonly) BOOL isBuffering;
-/// The player is ready to play.
-@property (nonatomic, readonly) BOOL isPlaying;
-/// The player is ready to play.
-@property (nonatomic, readonly) BOOL isPaused;
-/// The player is end at play.
-@property (nonatomic, readonly) BOOL isEnded;
+/// The time interval at which the block should be invoked during normal playback, according to progress of the player’s current time.
+@property (nonatomic, assign) NSTimeInterval playbackTimeInterval;
 
 /// Indicates the desired rate of playback; 0.0 means "paused", 1.0 indicates a desire to play at the natural rate of the current item.
 @property (nonatomic, assign) float rate;
