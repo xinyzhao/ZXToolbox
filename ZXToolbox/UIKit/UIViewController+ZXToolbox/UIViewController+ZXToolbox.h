@@ -29,17 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UIViewController (ZXToolbox)
 
-/// The top view controller on the stack.
-@property(nonatomic, readonly) UIViewController *zx_topViewController;
-
-/// Return modal view controller if it exists. Otherwise the top view controller.
-@property(nonatomic, readonly) UIViewController *zx_visibleViewController;
-
-/// The top-layout view
-@property(nonatomic, strong) UIView *zx_topLayoutView;
-
-/// The bottom-layout view
-@property(nonatomic, strong) UIView *zx_bottomLayoutView;
+/// Return modal view controller if it exists. Otherwise the top view controller on the stack.
+@property(nonatomic, readonly) UIViewController *topVisibleViewController;
 
 @end
 

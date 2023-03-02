@@ -24,91 +24,24 @@
 //
 
 #import "UIViewController+ZXToolbox.h"
-#import "NSObject+ZXToolbox.h"
-
-static char zx_topLayoutViewKey;
-static char zx_bottomLayoutViewKey;
 
 @implementation UIViewController (ZXToolbox)
 
-- (void)setZx_topLayoutView:(UIView *)topLayoutView {
-    [self setAssociatedObject:&zx_topLayoutViewKey value:topLayoutView policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
-}
-
-- (UIView *)zx_topLayoutView {
-    UIView *view = [self getAssociatedObject:&zx_topLayoutViewKey];
-    if (view == nil) {
-        view = [[UIView alloc] initWithFrame:CGRectZero];
-        view.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.view addSubview:view];
-        //
-        NSLayoutConstraint *left = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1 constant:0];
-        NSLayoutConstraint *right = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1 constant:0];
-        NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeTop multiplier:1 constant:0];
-        NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.topLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
-        [self.view addConstraints:@[left, right, top, bottom]];
-        //
-        self.zx_topLayoutView = view;
-    }
-    return view;
-}
-
-- (void)setZx_bottomLayoutView:(UIView *)bottomLayoutView {
-    [self setAssociatedObject:&zx_bottomLayoutViewKey value:bottomLayoutView policy:OBJC_ASSOCIATION_RETAIN_NONATOMIC];
-}
-
-- (UIView *)zx_bottomLayoutView {
-    UIView *view = [self getAssociatedObject:&zx_bottomLayoutViewKey];
-    if (view == nil) {
-        view = [[UIView alloc] initWithFrame:CGRectZero];
-        view.translatesAutoresizingMaskIntoConstraints = NO;
-        [self.view addSubview:view];
-        //
-        NSLayoutConstraint *left = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeLeft relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeLeft multiplier:1 constant:0];
-        NSLayoutConstraint *right = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeRight relatedBy:NSLayoutRelationEqual toItem:self.view attribute:NSLayoutAttributeRight multiplier:1 constant:0];
-        NSLayoutConstraint *top = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:self.bottomLayoutGuide attribute:NSLayoutAttributeTop multiplier:1 constant:0];
-        NSLayoutConstraint *bottom = [NSLayoutConstraint constraintWithItem:view attribute:NSLayoutAttributeBottom relatedBy:NSLayoutRelationEqual toItem:self.bottomLayoutGuide attribute:NSLayoutAttributeBottom multiplier:1 constant:0];
-        [self.view addConstraints:@[left, right, top, bottom]];
-        //
-        self.zx_bottomLayoutView = view;
-    }
-    return view;
-}
-
-#pragma mark View Controller
-
-- (UIViewController *)zx_topViewController {
-    UIViewController *vc = self;
-    if ([self isKindOfClass:[UITabBarController class]]) {
-        vc = ((UITabBarController *)self).selectedViewController;
-        vc = [vc zx_topViewController];
-    } else if ([self isKindOfClass:[UINavigationController class]]) {
-        vc = ((UINavigationController *)self).topViewController;
-        vc = [vc zx_topViewController];
-    } else if (self.presentingViewController) {
-        vc = self.presentingViewController;
-        vc = [vc zx_topViewController];
-    }
-    return vc;
-}
-
-- (UIViewController *)zx_visibleViewController {
-    UIViewController *vc = self;
-    if ([self isKindOfClass:[UITabBarController class]]) {
-        vc = ((UITabBarController *)self).selectedViewController;
-        vc = [vc zx_visibleViewController];
-    } else if ([self isKindOfClass:[UINavigationController class]]) {
-        vc = ((UINavigationController *)self).topViewController;
-        vc = [vc zx_visibleViewController];
-    } else if (self.presentedViewController) {
-        if ([self.presentedViewController isBeingDismissed] ||
-            [self.presentedViewController isMovingFromParentViewController]) {
-            return self;
+- (UIViewController *)topVisibleViewController {
+    if (self.presentedViewController) {
+        return [self.presentedViewController topVisibleViewController];
+    } else if ([self isKindOfClass:[UITabBarController class]]) {
+        UIViewController *vc = ((UITabBarController *)self).selectedViewController;
+        if (vc) {
+            return [vc topVisibleViewController];
         }
-        vc = self.presentedViewController;
-        vc = [vc zx_visibleViewController];
+    } else if ([self isKindOfClass:[UINavigationController class]]) {
+        UIViewController *vc = ((UINavigationController *)self).topViewController;
+        if (vc) {
+            return [vc topVisibleViewController];
+        }
     }
-    return vc;
+    return self;
 }
 
 /**
@@ -127,20 +60,42 @@ static char zx_bottomLayoutViewKey;
     // 导航栏透明并取消分隔线
     [self.navigationController.navigationBar setBackgroundImage:[[UIImage alloc] init] forBarMetrics:UIBarMetricsDefault];
     [self.navigationController.navigationBar setShadowImage:[[UIImage alloc] init]];
+    // 设置设备方向
+    //[UIApplication sharedApplication].delegate.supportedInterfaceOrientations = UIInterfaceOrientationMaskLandscape;
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:UIDeviceOrientationUnknown] forKey:@"orientation"];
+    [[UIDevice currentDevice] setValue:[NSNumber numberWithInt:UIDeviceOrientationLandscapeLeft] forKey:@"orientation"];
+    // 同步设备方向
+    [[NSNotificationCenter defaultCenter] postNotificationName:UIDeviceOrientationDidChangeNotification object:nil];
+    [UIViewController attemptRotationToDeviceOrientation];
 }
 
 #pragma mark - Status Bar
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-    return UIStatusBarStyleDefault;
-}
 
 - (BOOL)prefersStatusBarHidden {
     return NO; // 显示/隐藏 状态栏
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+    return UIStatusBarStyleDefault;
+}
+
 - (UIStatusBarAnimation)preferredStatusBarUpdateAnimation {
     return UIStatusBarAnimationFade;
-}*/
+}
+
+#pragma mark - Orientations
+
+- (BOOL)shouldAutorotate {
+    // 1) [UIApplication sharedApplication].delegate.supportedInterfaceOrientations = UIInterfaceOrientationMaskLandscape;
+    // 2) [other presentViewController:this animated:YES completion:nil];
+    // 3) return NO;
+    return NO;
+}
+
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations {
+    // 4) supported orientations
+    return UIInterfaceOrientationMaskLandscape;
+}
+*/
 
 @end
