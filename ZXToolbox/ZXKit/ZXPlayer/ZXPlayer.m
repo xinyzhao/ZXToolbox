@@ -105,6 +105,7 @@
         _volume = 1.0;
         _rate = 1.0;
         _muted = NO;
+        _shouldAutoplay = NO;
         _videoGravity = AVLayerVideoGravityResizeAspect;
         //
         _playerItemStatusObserver = [[ZXKeyValueObserver alloc] init];
@@ -262,7 +263,7 @@
                 if (status == AVPlayerStatusReadyToPlay) {
                     [weakSelf addPlayerTimeObserver];
                     //
-                    if (weakSelf.isPlaying) {
+                    if (weakSelf.shouldAutoplay || weakSelf.isPlaying) {
                         [weakSelf play];
                     }
                 }

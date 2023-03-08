@@ -80,6 +80,8 @@ typedef NS_ENUM(NSInteger, ZXPlaybackBuffer) {
 @property (nonatomic, nullable, copy) void (^playerStatus)(AVPlayerStatus status, NSError *_Nullable error);
 /// The player is ready to play.
 @property (nonatomic, readonly) BOOL isReadyToPlay;
+/// Auto play when ready to play. Default is NO.
+@property (nonatomic, assign) BOOL shouldAutoplay;
 
 /// A status that indicates whether playback buffer.
 @property (nonatomic, readonly) void (^playbackBuffer)(ZXPlaybackBuffer buffer);
