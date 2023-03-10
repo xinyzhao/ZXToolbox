@@ -47,6 +47,13 @@
     [AVAudioSession sharedInstance].systemVolume = 0.5;
 }
 
+- (void)testCALayer {
+    UIView *view = [[UIView alloc] initWithFrame:UIScreen.mainScreen.bounds];
+    view.layer.cornerRadius = 10;
+    view.layer.cornerMasks = CALayerCornerMaskTopCorners;
+    NSLogA(@"#testCALayer: %@ masks: %lu", view.layer.cornerLayer, (unsigned long)view.layer.cornerMasks);
+}
+
 - (void)testBase64Encoding {
     NSString *str = @"testBase64Encoding";
     str = [str base64EncodedStringWithOptions:0];

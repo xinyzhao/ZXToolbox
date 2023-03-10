@@ -35,6 +35,7 @@ FOUNDATION_EXPORT const unsigned char ZXToolboxVersionString[];
 
 #import "AVAsset+ZXToolbox.h"
 #import "AVAudioSession+ZXToolbox.h"
+#import "CALayer+ZXToolbox.h"
 #import "JSONObject.h"
 #import "NSObject+JSONObject.h"
 #import "NSData+JSONObject.h"

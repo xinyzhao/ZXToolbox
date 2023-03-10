@@ -37,7 +37,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, nullable, strong) UIView *presentedView;
 
 /**
- Presented background color, default [[UIColor blackColor] colorWithAlphaComponent:0.4]
+ Presented background color, default [[UIColor blackColor] colorWithAlphaComponent:0.6]
  */
 @property (nonatomic, nullable, strong) UIColor *presentedBackgroundColor;
 

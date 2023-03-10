@@ -41,7 +41,7 @@ static char popoverViewKey;
 {
     self = [super initWithCoder:coder];
     if (self) {
-        self.presentedBackgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.4];
+        self.presentedBackgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.6];
         self.presentingDuration = .3;
         self.dismissingDuration = .2;
     }
@@ -52,7 +52,7 @@ static char popoverViewKey;
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.presentedBackgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.4];
+        self.presentedBackgroundColor = [[UIColor blackColor] colorWithAlphaComponent:.6];
         self.presentingDuration = .3;
         self.dismissingDuration = .2;
     }

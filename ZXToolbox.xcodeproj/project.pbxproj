@@ -144,6 +144,9 @@
 		705F48A923C97701002AADC8 /* ZXCoordinate2D.h in Headers */ = {isa = PBXBuildFile; fileRef = 705F48A723C97701002AADC8 /* ZXCoordinate2D.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		706C15B42383CF64000B45E1 /* UINavigationBar+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 706C15B22383CF64000B45E1 /* UINavigationBar+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		706C15B52383CF64000B45E1 /* UINavigationBar+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 706C15B32383CF64000B45E1 /* UINavigationBar+ZXToolbox.m */; };
+		7078289929BAD0100044662C /* CALayer+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 7078289729BAD0100044662C /* CALayer+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		7078289A29BAD0100044662C /* CALayer+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 7078289829BAD0100044662C /* CALayer+ZXToolbox.m */; };
+		7078289E29BADC550044662C /* CALayerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7078289D29BADC550044662C /* CALayerViewController.m */; };
 		7096225624A1E2A400971D2A /* JSONObjectViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7096225524A1E2A400971D2A /* JSONObjectViewController.m */; };
 		70988F372335F3B30002A8A3 /* UIControl+ZXToolbox.h in Headers */ = {isa = PBXBuildFile; fileRef = 70988F352335F3B30002A8A3 /* UIControl+ZXToolbox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		70988F382335F3B30002A8A3 /* UIControl+ZXToolbox.m in Sources */ = {isa = PBXBuildFile; fileRef = 70988F362335F3B30002A8A3 /* UIControl+ZXToolbox.m */; };
@@ -421,6 +424,10 @@
 		705F48A723C97701002AADC8 /* ZXCoordinate2D.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZXCoordinate2D.h; sourceTree = "<group>"; };
 		706C15B22383CF64000B45E1 /* UINavigationBar+ZXToolbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+ZXToolbox.h"; sourceTree = "<group>"; };
 		706C15B32383CF64000B45E1 /* UINavigationBar+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+ZXToolbox.m"; sourceTree = "<group>"; };
+		7078289729BAD0100044662C /* CALayer+ZXToolbox.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CALayer+ZXToolbox.h"; sourceTree = "<group>"; };
+		7078289829BAD0100044662C /* CALayer+ZXToolbox.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "CALayer+ZXToolbox.m"; sourceTree = "<group>"; };
+		7078289C29BADC550044662C /* CALayerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CALayerViewController.h; sourceTree = "<group>"; };
+		7078289D29BADC550044662C /* CALayerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CALayerViewController.m; sourceTree = "<group>"; };
 		7096225324A1B47300971D2A /* main.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = main.pch; sourceTree = "<group>"; };
 		7096225424A1E2A400971D2A /* JSONObjectViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = JSONObjectViewController.h; sourceTree = "<group>"; };
 		7096225524A1E2A400971D2A /* JSONObjectViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = JSONObjectViewController.m; sourceTree = "<group>"; };
@@ -615,6 +622,7 @@
 		7000AC4922E9C1CC00651E44 /* ZXToolbox */ = {
 			isa = PBXGroup;
 			children = (
+				7078289529BACFC10044662C /* Extension */,
 				7000AC5222E9C22E00651E44 /* Foundation */,
 				7000AC7722E9C22E00651E44 /* UIKit */,
 				7000AC9C22E9C22E00651E44 /* ZXKit */,
@@ -627,8 +635,6 @@
 		7000AC5222E9C22E00651E44 /* Foundation */ = {
 			isa = PBXGroup;
 			children = (
-				709DF5F924BEF9DC00075E6F /* AVAsset+ZXToolbox */,
-				70AE9EFE24A9939F001B81EE /* AVAudioSession+ZXToolbox */,
 				7000AC6922E9C22E00651E44 /* Base64Encoding */,
 				7000AC6322E9C22E00651E44 /* JSONObject */,
 				7000AC7122E9C22E00651E44 /* NSArray+ZXToolbox */,
@@ -1291,6 +1297,7 @@
 				70271317249F56CF001850B5 /* Main.storyboard */,
 				70D8448523C706D80042E305 /* MainViewController.h */,
 				70D8448623C706D80042E305 /* MainViewController.m */,
+				7078289B29BADC1E0044662C /* Extension */,
 				7027131924A1A7B0001850B5 /* Foundation */,
 				7027131A24A1A7B5001850B5 /* UIKit */,
 				7027131B24A1A7BF001850B5 /* ZXKit */,
@@ -1389,6 +1396,34 @@
 				70BC8B5B23C5B90400DD952B /* ZXKeychainItem+Value.m */,
 			);
 			path = Search;
+			sourceTree = "<group>";
+		};
+		7078289529BACFC10044662C /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				709DF5F924BEF9DC00075E6F /* AVAsset+ZXToolbox */,
+				70AE9EFE24A9939F001B81EE /* AVAudioSession+ZXToolbox */,
+				7078289629BACFE30044662C /* CALayer+ZXToolbox */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		7078289629BACFE30044662C /* CALayer+ZXToolbox */ = {
+			isa = PBXGroup;
+			children = (
+				7078289729BAD0100044662C /* CALayer+ZXToolbox.h */,
+				7078289829BAD0100044662C /* CALayer+ZXToolbox.m */,
+			);
+			path = "CALayer+ZXToolbox";
+			sourceTree = "<group>";
+		};
+		7078289B29BADC1E0044662C /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				7078289C29BADC550044662C /* CALayerViewController.h */,
+				7078289D29BADC550044662C /* CALayerViewController.m */,
+			);
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		70988F342335F3B30002A8A3 /* UIControl+ZXToolbox */ = {
@@ -1646,6 +1681,7 @@
 				704EA53A2743A00400BA5962 /* ZXDeallocObject.h in Headers */,
 				7000ADA022E9C22F00651E44 /* ZXToastView.h in Headers */,
 				7000AC4C22E9C1CC00651E44 /* ZXToolbox.h in Headers */,
+				7078289929BAD0100044662C /* CALayer+ZXToolbox.h in Headers */,
 				7000AD9522E9C22F00651E44 /* ZXToolbox+Macros.h in Headers */,
 				70BC8B6023C5B94200DD952B /* ZXKeychainItem+Return.h in Headers */,
 				70A6381A268423640050E111 /* NSObject+JSONObject.h in Headers */,
@@ -1823,6 +1859,7 @@
 				70BC8B4923C5B68000DD952B /* ZXKeychainItem+Identity.m in Sources */,
 				7000AD4722E9C22F00651E44 /* UITextField+ZXToolbox.m in Sources */,
 				704EA53B2743A00400BA5962 /* ZXDeallocObject.m in Sources */,
+				7078289A29BAD0100044662C /* CALayer+ZXToolbox.m in Sources */,
 				7000AD9C22E9C22F00651E44 /* ZXLineChartView.m in Sources */,
 				7000AD3222E9C22F00651E44 /* NSNumberFormatter+ZXToolbox.m in Sources */,
 				7000AD8D22E9C22F00651E44 /* ZXURLSession.m in Sources */,
@@ -1910,6 +1947,7 @@
 				70AE9EBB24A8CE69001B81EE /* ZXCommonCryptoViewController.m in Sources */,
 				7096225624A1E2A400971D2A /* JSONObjectViewController.m in Sources */,
 				70AE9EB824A8CE5C001B81EE /* ZXCircularProgressViewController.m in Sources */,
+				7078289E29BADC550044662C /* CALayerViewController.m in Sources */,
 				70AE9EC724A8CEA2001B81EE /* ZXHaloLabelViewController.m in Sources */,
 				70AE9EDF24A8CF52001B81EE /* ZXPhotoLibraryViewController.m in Sources */,
 				70D8448123C706D80042E305 /* AppDelegate.m in Sources */,
