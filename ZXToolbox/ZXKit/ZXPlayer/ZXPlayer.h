@@ -84,7 +84,7 @@ typedef NS_ENUM(NSInteger, ZXPlaybackBuffer) {
 @property (nonatomic, assign) BOOL shouldAutoplay;
 
 /// A status that indicates whether playback buffer.
-@property (nonatomic, readonly) void (^playbackBuffer)(ZXPlaybackBuffer buffer);
+@property (nonatomic, nullable, copy) void (^playbackBuffer)(ZXPlaybackBuffer buffer, BOOL state);
 /// A time ranges indicating media data that is readily available.
 @property (nonatomic, nullable, copy) void (^loadedTime)(NSTimeInterval time, NSTimeInterval duration);
 /// Returns the preferred loaded time of the player.

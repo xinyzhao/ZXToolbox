@@ -38,7 +38,6 @@
 @property (nonatomic, strong) UIPanGestureRecognizer *panGestureRecognizer;
 @property (nonatomic, strong) UISlider *volumeSlider;
 
-@property (nonatomic, assign) ZXPlaybackBuffer buffer;
 @property (nonatomic, assign) ZXPlaybackStatus status;
 
 @property (nonatomic, strong) ZXKeyValueObserver *playerItemStatusObserver;
@@ -95,7 +94,6 @@
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _buffer = ZXPlaybackBufferEmpty;
         _status = ZXPlaybackStatusStop;
         //
         _playbackTimeInterval = 1.0;
@@ -282,19 +280,13 @@
             }
         }];
         [_playerItemPlaybackBufferEmptyObserver observe:self.playerItem keyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
-            if (weakSelf.playerItem.playbackBufferEmpty) {
-                weakSelf.buffer = ZXPlaybackBufferEmpty;
-            }
+            [weakSelf setBuffer:ZXPlaybackBufferEmpty state:weakSelf.playerItem.isPlaybackBufferEmpty];
         }];
         [_playerItemPlaybackLikelyToKeepUpObserver observe:self.playerItem keyPath:@"playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
-            if (weakSelf.playerItem.playbackLikelyToKeepUp) {
-                weakSelf.buffer = ZXPlaybackLikelyToKeepUp;
-            }
+            [weakSelf setBuffer:ZXPlaybackLikelyToKeepUp state:weakSelf.playerItem.isPlaybackLikelyToKeepUp];
         }];
         [_playerItemPlaybackBufferFullObserver observe:self.playerItem keyPath:@"playbackBufferFull" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
-            if (weakSelf.playerItem.playbackBufferFull) {
-                weakSelf.buffer = ZXPlaybackBufferFull;
-            }
+            [weakSelf setBuffer:ZXPlaybackBufferFull state:weakSelf.playerItem.isPlaybackBufferFull];
         }];
         _playerItemDidPlayToEndTimeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
             if (note.object == weakSelf.playerItem) {
@@ -420,20 +412,18 @@
     }
 }
 
-- (void)setPlaybackBuffer:(void (^)(ZXPlaybackBuffer))playbackBuffer {
+- (void)setPlaybackBuffer:(void (^)(ZXPlaybackBuffer, BOOL))playbackBuffer {
     _playbackBuffer = [playbackBuffer copy];
     if (_playbackBuffer) {
-        _playbackBuffer(_buffer);
+        [self setBuffer:ZXPlaybackLikelyToKeepUp state:self.playerItem.isPlaybackLikelyToKeepUp];
+        [self setBuffer:ZXPlaybackBufferEmpty state:self.playerItem.isPlaybackBufferEmpty];
+        [self setBuffer:ZXPlaybackBufferFull state:self.playerItem.isPlaybackBufferFull];
     }
 }
 
-- (void)setBuffer:(ZXPlaybackBuffer)buffer {
-    if (_buffer != buffer) {
-        _buffer = buffer;
-        //
-        if (_playbackBuffer) {
-            _playbackBuffer(_buffer);
-        }
+- (void)setBuffer:(ZXPlaybackBuffer)buffer state:(BOOL)state {
+    if (_playbackBuffer) {
+        _playbackBuffer(buffer, state);
     }
 }
 
