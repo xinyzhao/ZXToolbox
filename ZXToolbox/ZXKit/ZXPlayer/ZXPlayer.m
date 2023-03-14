@@ -280,13 +280,13 @@
             }
         }];
         [_playerItemPlaybackBufferEmptyObserver observe:self.playerItem keyPath:@"playbackBufferEmpty" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
-            [weakSelf setBuffer:ZXPlaybackBufferEmpty state:weakSelf.playerItem.isPlaybackBufferEmpty];
+            [weakSelf setPlaybackBuffer:ZXPlaybackBufferEmpty state:weakSelf.playerItem.isPlaybackBufferEmpty];
         }];
         [_playerItemPlaybackLikelyToKeepUpObserver observe:self.playerItem keyPath:@"playbackLikelyToKeepUp" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
-            [weakSelf setBuffer:ZXPlaybackLikelyToKeepUp state:weakSelf.playerItem.isPlaybackLikelyToKeepUp];
+            [weakSelf setPlaybackBuffer:ZXPlaybackLikelyToKeepUp state:weakSelf.playerItem.isPlaybackLikelyToKeepUp];
         }];
         [_playerItemPlaybackBufferFullObserver observe:self.playerItem keyPath:@"playbackBufferFull" options:NSKeyValueObservingOptionNew context:NULL changeHandler:^(NSDictionary<NSKeyValueChangeKey,id> * _Nullable change, void * _Nullable context) {
-            [weakSelf setBuffer:ZXPlaybackBufferFull state:weakSelf.playerItem.isPlaybackBufferFull];
+            [weakSelf setPlaybackBuffer:ZXPlaybackBufferFull state:weakSelf.playerItem.isPlaybackBufferFull];
         }];
         _playerItemDidPlayToEndTimeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:AVPlayerItemDidPlayToEndTimeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * _Nonnull note) {
             if (note.object == weakSelf.playerItem) {
@@ -415,13 +415,13 @@
 - (void)setPlaybackBuffer:(void (^)(ZXPlaybackBuffer, BOOL))playbackBuffer {
     _playbackBuffer = [playbackBuffer copy];
     if (_playbackBuffer) {
-        [self setBuffer:ZXPlaybackLikelyToKeepUp state:self.playerItem.isPlaybackLikelyToKeepUp];
-        [self setBuffer:ZXPlaybackBufferEmpty state:self.playerItem.isPlaybackBufferEmpty];
-        [self setBuffer:ZXPlaybackBufferFull state:self.playerItem.isPlaybackBufferFull];
+        [self setPlaybackBuffer:ZXPlaybackLikelyToKeepUp state:self.playerItem.isPlaybackLikelyToKeepUp];
+        [self setPlaybackBuffer:ZXPlaybackBufferEmpty state:self.playerItem.isPlaybackBufferEmpty];
+        [self setPlaybackBuffer:ZXPlaybackBufferFull state:self.playerItem.isPlaybackBufferFull];
     }
 }
 
-- (void)setBuffer:(ZXPlaybackBuffer)buffer state:(BOOL)state {
+- (void)setPlaybackBuffer:(ZXPlaybackBuffer)buffer state:(BOOL)state {
     if (_playbackBuffer) {
         _playbackBuffer(buffer, state);
     }
