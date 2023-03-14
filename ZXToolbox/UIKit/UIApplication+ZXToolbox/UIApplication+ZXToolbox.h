@@ -27,7 +27,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface UIApplication (ZXToolbox)
-/// for iOS 13
+/// 兼容 iOS 13 多窗口
 @property (class, nonatomic, readonly, nullable) UIWindow *keyWindow;
 /// 安全区域
 @property (class, nonatomic, readonly) UIEdgeInsets safeAreaInsets;
