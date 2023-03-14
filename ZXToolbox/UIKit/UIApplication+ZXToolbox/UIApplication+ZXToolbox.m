@@ -48,13 +48,9 @@ static char idleTimerEnabledKey;
 + (UIWindow *)keyWindow {
     if (@available(iOS 13.0, *)) {
         for (UIWindowScene *scene in [UIApplication sharedApplication].connectedScenes) {
-            if (@available(iOS 15.0, *)) {
-                return scene.keyWindow;
-            } else {
-                for (UIWindow *window in scene.windows) {
-                    if (window.isKeyWindow) {
-                        return window;
-                    }
+            for (UIWindow *window in scene.windows) {
+                if (window.isKeyWindow) {
+                    return window;
                 }
             }
         }
