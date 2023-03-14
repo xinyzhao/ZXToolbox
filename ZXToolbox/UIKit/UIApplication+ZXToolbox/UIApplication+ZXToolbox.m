@@ -46,18 +46,20 @@ static char idleTimerEnabledKey;
 @implementation UIApplication (ZXToolbox)
 
 + (UIWindow *)keyWindow {
-    UIWindow *window = nil;
     if (@available(iOS 13.0, *)) {
-        for (UIWindow *win in [UIApplication sharedApplication].windows) {
-            if (win.isKeyWindow) {
-                window = win;
-                break;
+        for (UIWindowScene *scene in [UIApplication sharedApplication].connectedScenes) {
+            if (@available(iOS 15.0, *)) {
+                return scene.keyWindow;
+            } else {
+                for (UIWindow *window in scene.windows) {
+                    if (window.isKeyWindow) {
+                        return window;
+                    }
+                }
             }
         }
-    } else {
-        window = [UIApplication sharedApplication].keyWindow;
     }
-    return window;
+    return [UIApplication sharedApplication].keyWindow;
 }
 
 + (UIEdgeInsets)safeAreaInsets {
