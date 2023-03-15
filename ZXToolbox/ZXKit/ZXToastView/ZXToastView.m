@@ -170,6 +170,8 @@
 {
     self = [super init];
     if (self) {
+        self.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        //
         _animation = ZXToastAnimationFade;
         _centerPoint = CGPointMake(0.5, 0.5);
         _safeAreaInset = [UIApplication safeAreaInsets];
