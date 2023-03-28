@@ -79,7 +79,7 @@ Drag the built ZXToolbox.framework into your Xcode project.
 
 > More examples/usage please check the source code and demo/test.
 
-### Foundation
+### Extensions
 
 * AVAsset+ZXToolbox.h
 > 204 No Content
@@ -107,10 +107,11 @@ NSLogA(@"#isOverrideSpeaker: %d", ad.isOverrideSpeaker);
 #systemVolume: 0.5
 ```
 
-
 * CALayer+ZXToolbox
 > 204 No Content
 
+
+### Foundation
 
 * Base64Encoding
 

@@ -622,7 +622,7 @@
 		7000AC4922E9C1CC00651E44 /* ZXToolbox */ = {
 			isa = PBXGroup;
 			children = (
-				7078289529BACFC10044662C /* Extension */,
+				7078289529BACFC10044662C /* Extensions */,
 				7000AC5222E9C22E00651E44 /* Foundation */,
 				7000AC7722E9C22E00651E44 /* UIKit */,
 				7000AC9C22E9C22E00651E44 /* ZXKit */,
@@ -1297,7 +1297,7 @@
 				70271317249F56CF001850B5 /* Main.storyboard */,
 				70D8448523C706D80042E305 /* MainViewController.h */,
 				70D8448623C706D80042E305 /* MainViewController.m */,
-				7078289B29BADC1E0044662C /* Extension */,
+				7078289B29BADC1E0044662C /* Extensions */,
 				7027131924A1A7B0001850B5 /* Foundation */,
 				7027131A24A1A7B5001850B5 /* UIKit */,
 				7027131B24A1A7BF001850B5 /* ZXKit */,
@@ -1398,14 +1398,14 @@
 			path = Search;
 			sourceTree = "<group>";
 		};
-		7078289529BACFC10044662C /* Extension */ = {
+		7078289529BACFC10044662C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				709DF5F924BEF9DC00075E6F /* AVAsset+ZXToolbox */,
 				70AE9EFE24A9939F001B81EE /* AVAudioSession+ZXToolbox */,
 				7078289629BACFE30044662C /* CALayer+ZXToolbox */,
 			);
-			path = Extension;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		7078289629BACFE30044662C /* CALayer+ZXToolbox */ = {
@@ -1417,13 +1417,13 @@
 			path = "CALayer+ZXToolbox";
 			sourceTree = "<group>";
 		};
-		7078289B29BADC1E0044662C /* Extension */ = {
+		7078289B29BADC1E0044662C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
 				7078289C29BADC550044662C /* CALayerViewController.h */,
 				7078289D29BADC550044662C /* CALayerViewController.m */,
 			);
-			path = Extension;
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		70988F342335F3B30002A8A3 /* UIControl+ZXToolbox */ = {

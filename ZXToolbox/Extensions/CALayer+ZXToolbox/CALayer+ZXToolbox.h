@@ -28,6 +28,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_OPTIONS(NSUInteger, CALayerCornerMask) {
+    CALayerCornerMaskNone                   = 0,
     CALayerCornerMaskTopLeft                = 1U << 0, // 左上 #0001
     CALayerCornerMaskTopRight               = 1U << 1, // 右上 #0010
     CALayerCornerMaskBottomLeft             = 1U << 2, // 左下 #0100
@@ -42,10 +43,11 @@ typedef NS_OPTIONS(NSUInteger, CALayerCornerMask) {
 };
 
 @interface CALayer (ZXToolbox)
-/// The mask layer of corner if set cornerMasks.
-@property (nonatomic, nullable, readonly) CAShapeLayer *cornerLayer;
-/// The corner masks.
-@property (nonatomic, assign) CALayerCornerMask cornerMasks;
+
+/// Set corner with radius and masks
+/// @param radius The corner radius
+/// @param mask The corner mask
+- (void)setCornerRadius:(CGFloat)radius mask:(CALayerCornerMask)mask;
 
 @end
 

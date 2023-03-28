@@ -31,10 +31,15 @@
                   ];
     //
     self.dataArray = @[
-        @{@"title":@"Foundation",
+        @{@"title":@"Extensions",
           @"rows":@[
                   @"AVAsset+ZXToolbox",
                   @"AVAudioSession+ZXToolbox",
+                  @"CALayer+ZXToolbox",
+          ]
+        },
+        @{@"title":@"Foundation",
+          @"rows":@[
                   @"Base64Encoding",
                   @"JSONObject",
                   @"NSArray+ZXToolbox",
@@ -45,7 +50,8 @@
                   @"NSString+NumberValue",
                   @"NSString+Pinyin",
                   @"NSString+Unicode",
-                  @"NSString+URLEncoding"
+                  @"NSString+URLEncoding",
+                  @"NSURL+ZXToolbox"
           ]
         },
         @{@"title":@"UIKit",

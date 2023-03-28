@@ -53,7 +53,9 @@
 }
 
 - (void)invalidate {
-    [self.object removeObserver:self forKeyPath:self.keyPath context:self.context];
+    if (self.keyPath) {
+        [self.object removeObserver:self forKeyPath:self.keyPath context:self.context];
+    }
     self.object = nil;
     self.keyPath = nil;
     self.context = NULL;

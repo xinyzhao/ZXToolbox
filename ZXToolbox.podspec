@@ -21,23 +21,24 @@ Pod::Spec.new do |s|
   s.public_header_files = "ZXToolbox/ZXToolbox.h"
 
   s.subspec "AVAsset+ZXToolbox" do |ss|
-    ss.source_files = "ZXToolbox/Extension/AVAsset+ZXToolbox/*.{h,m}"
-    ss.public_header_files = "ZXToolbox/Extension/AVAsset+ZXToolbox/*.h"
+    ss.source_files = "ZXToolbox/Extensions/AVAsset+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/Extensions/AVAsset+ZXToolbox/*.h"
     ss.frameworks = "AVFoundation"
   end
   
   s.subspec "AVAudioSession+ZXToolbox" do |ss|
-    ss.source_files = "ZXToolbox/Extension/AVAudioSession+ZXToolbox/*.{h,m}"
-    ss.public_header_files = "ZXToolbox/Extension/AVAudioSession+ZXToolbox/*.h"
+    ss.source_files = "ZXToolbox/Extensions/AVAudioSession+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/Extensions/AVAudioSession+ZXToolbox/*.h"
     ss.frameworks = "AVFoundation", "MediaPlayer"
     ss.dependency "ZXToolbox/NSObject+ZXToolbox"
     ss.dependency "ZXToolbox/ZXKeyValueObserver"
   end
   
   s.subspec "CALayer+ZXToolbox" do |ss|
-    ss.source_files = "ZXToolbox/Extension/CALayer+ZXToolbox/*.{h,m}"
-    ss.public_header_files = "ZXToolbox/Extension/CALayer+ZXToolbox/*.h"
+    ss.source_files = "ZXToolbox/Extensions/CALayer+ZXToolbox/*.{h,m}"
+    ss.public_header_files = "ZXToolbox/Extensions/CALayer+ZXToolbox/*.h"
     ss.dependency "ZXToolbox/NSObject+ZXToolbox"
+    ss.dependency "ZXToolbox/ZXKeyValueObserver"
     ss.frameworks = "QuartzCore"
   end
 
