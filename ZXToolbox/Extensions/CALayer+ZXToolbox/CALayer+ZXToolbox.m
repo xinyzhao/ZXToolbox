@@ -42,10 +42,10 @@ static char boundsObserverKey;
 }
 
 - (void)setCornerRadius:(CGFloat)radius mask:(CALayerCornerMask)mask{
-//    if (@available(iOS 11.0, *)) {
-//        self.cornerRadius = radius;
-//        self.maskedCorners = (CACornerMask)mask;
-//    } else
+    if (@available(iOS 11.0, *)) {
+        self.cornerRadius = radius;
+        self.maskedCorners = (CACornerMask)mask;
+    } else
     if (mask == CALayerCornerMaskNone) {
         [self.boundsObserver invalidate];
         self.mask = nil;
