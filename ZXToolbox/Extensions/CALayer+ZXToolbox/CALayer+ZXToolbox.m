@@ -45,8 +45,7 @@ static char boundsObserverKey;
     if (@available(iOS 11.0, *)) {
         self.cornerRadius = radius;
         self.maskedCorners = (CACornerMask)mask;
-    } else
-    if (mask == CALayerCornerMaskNone) {
+    } else if (mask == CALayerCornerMaskNone) {
         [self.boundsObserver invalidate];
         self.mask = nil;
     } else {
