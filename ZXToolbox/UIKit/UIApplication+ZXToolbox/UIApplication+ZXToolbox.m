@@ -60,14 +60,12 @@ static char idleTimerEnabledKey;
 
 + (UIEdgeInsets)safeAreaInsets {
     UIEdgeInsets insets = UIEdgeInsetsZero;
-    UIViewController *vc = UIApplication.keyWindow.rootViewController;
-    if (vc) {
-        if (@available(iOS 11.0, *)) {
-            insets = vc.view.safeAreaInsets;
-        } else {
-            insets.top = vc.topLayoutGuide.length;
-            insets.bottom = vc.bottomLayoutGuide.length;
-        }
+    UIViewController *vc = [[UIViewController alloc] init];
+    if (@available(iOS 11.0, *)) {
+        insets = vc.view.safeAreaInsets;
+    } else {
+        insets.top = vc.topLayoutGuide.length;
+        insets.bottom = vc.bottomLayoutGuide.length;
     }
     return insets;
 }
