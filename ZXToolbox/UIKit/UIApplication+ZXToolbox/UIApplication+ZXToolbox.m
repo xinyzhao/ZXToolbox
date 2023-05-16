@@ -113,6 +113,21 @@ static char idleTimerEnabledKey;
     return insets;
 }
 
+- (CGFloat)statusBarHeight {
+    if (@available(iOS 13.0, *)) {
+        UIScene *scene = [UIApplication sharedApplication].connectedScenes.anyObject;
+        if ([scene isKindOfClass:UIWindowScene.class]) {
+            UIWindowScene *ws = (UIWindowScene *)scene;
+            if (ws) {
+                return ws.statusBarManager.statusBarFrame.size.height;
+            }
+        }
+    } else {
+        return [UIApplication sharedApplication].statusBarFrame.size.height;
+    }
+    return 0;
+}
+
 - (BOOL)openSettingsURL {
     NSURL *url = nil;
     if(@available(iOS 8.0, *)) {

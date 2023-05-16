@@ -31,6 +31,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (class, nonatomic, readonly, nullable) UIWindow *keyWindow;
 /// 安全区域
 @property (class, nonatomic, readonly) UIEdgeInsets safeAreaInsets;
+/// 状态栏高度
+@property (class, nonatomic, readonly) CGFloat statusBarHeight;
 
 /// 打开应用设置界面，成功则返回YES，否则为NO
 - (BOOL)openSettingsURL;
