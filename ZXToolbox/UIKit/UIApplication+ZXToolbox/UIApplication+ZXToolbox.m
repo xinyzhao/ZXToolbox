@@ -46,26 +46,69 @@ static char idleTimerEnabledKey;
 @implementation UIApplication (ZXToolbox)
 
 + (UIWindow *)keyWindow {
-    if (@available(iOS 13.0, *)) {
-        for (UIWindowScene *scene in [UIApplication sharedApplication].connectedScenes) {
-            for (UIWindow *window in scene.windows) {
-                if (window.isKeyWindow) {
-                    return window;
+    UIApplication *app = [UIApplication sharedApplication];
+    if (@available(iOS 15.0, *)) {
+        NSArray<UIScene *> *scenes = app.connectedScenes.allObjects;
+        /// Active and keyWindow
+        for (UIScene *scene in scenes) {
+            if ([scene isKindOfClass:UIWindowScene.class]) {
+                UIWindowScene *ws = (UIWindowScene *)scene;
+                if (ws.activationState == UISceneActivationStateForegroundActive) {
+                    if (ws.keyWindow) {
+                        return ws.keyWindow;
+                    }
                 }
             }
         }
+        /// The keyWindow
+        for (UIScene *scene in scenes) {
+            if ([scene isKindOfClass:UIWindowScene.class]) {
+                UIWindowScene *ws = (UIWindowScene *)scene;
+                if (ws.keyWindow) {
+                    return ws.keyWindow;
+                }
+            }
+        }
+        /// The last window
+        for (UIScene *scene in scenes) {
+            if ([scene isKindOfClass:UIWindowScene.class]) {
+                UIWindowScene *ws = (UIWindowScene *)scene;
+                if (ws.windows.count > 0) {
+                    return ws.windows.lastObject;
+                }
+            }
+        }
+    } else if (@available(iOS 13.0, *)) {
+        /// The keyWindow
+        for (UIWindow *win in app.windows) {
+            if (win.isKeyWindow) {
+                return win;
+            }
+        }
+        /// The first window
+        return app.windows.firstObject;
+    } else {
+        if (app.keyWindow) {
+            return app.keyWindow;
+        }
+        return app.windows.firstObject;
     }
-    return [UIApplication sharedApplication].keyWindow;
+    return nil;
 }
 
 + (UIEdgeInsets)safeAreaInsets {
     UIEdgeInsets insets = UIEdgeInsetsZero;
-    UIViewController *vc = [[UIViewController alloc] init];
-    if (@available(iOS 11.0, *)) {
-        insets = vc.view.safeAreaInsets;
-    } else {
-        insets.top = vc.topLayoutGuide.length;
-        insets.bottom = vc.bottomLayoutGuide.length;
+    UIWindow *window = UIApplication.keyWindow;
+    if (window) {
+        if (@available(iOS 11.0, *)) {
+            insets = window.safeAreaInsets;
+        } else {
+            UIViewController *vc = window.rootViewController;
+            if (vc) {
+                insets.top = vc.topLayoutGuide.length;
+                insets.bottom = vc.bottomLayoutGuide.length;
+            }
+        }
     }
     return insets;
 }
