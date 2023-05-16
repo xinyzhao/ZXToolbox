@@ -113,14 +113,12 @@ static char idleTimerEnabledKey;
     return insets;
 }
 
-- (CGFloat)statusBarHeight {
++ (CGFloat)statusBarHeight {
     if (@available(iOS 13.0, *)) {
         UIScene *scene = [UIApplication sharedApplication].connectedScenes.anyObject;
         if ([scene isKindOfClass:UIWindowScene.class]) {
             UIWindowScene *ws = (UIWindowScene *)scene;
-            if (ws) {
-                return ws.statusBarManager.statusBarFrame.size.height;
-            }
+            return ws.statusBarManager.statusBarFrame.size.height;
         }
     } else {
         return [UIApplication sharedApplication].statusBarFrame.size.height;
