@@ -30,13 +30,13 @@
 - (UIViewController *)topVisibleViewController {
     if (self.presentedViewController) {
         return [self.presentedViewController topVisibleViewController];
-    } else if ([self isKindOfClass:[UITabBarController class]]) {
-        UIViewController *vc = ((UITabBarController *)self).selectedViewController;
+    } else if ([self isKindOfClass:[UINavigationController class]]) {
+        UIViewController *vc = ((UINavigationController *)self).topViewController;
         if (vc) {
             return [vc topVisibleViewController];
         }
-    } else if ([self isKindOfClass:[UINavigationController class]]) {
-        UIViewController *vc = ((UINavigationController *)self).topViewController;
+    } else if ([self isKindOfClass:[UITabBarController class]]) {
+        UIViewController *vc = ((UITabBarController *)self).selectedViewController;
         if (vc) {
             return [vc topVisibleViewController];
         }
