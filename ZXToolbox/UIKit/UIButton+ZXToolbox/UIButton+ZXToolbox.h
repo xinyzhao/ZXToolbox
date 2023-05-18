@@ -28,16 +28,20 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSInteger, UIButtonTitleImageLayout) {
-    UIButtonTitleImageLayoutLeft = 0, // Image in left, Title in right
-    UIButtonTitleImageLayoutRight, // Image in right, Title in left
-    UIButtonTitleImageLayoutTop, // Image in top, Title in bottom
-    UIButtonTitleImageLayoutBottom, // Image in bottom, Title in top
-    UIButtonTitleImageLayoutDefault = UIButtonTitleImageLayoutLeft,
+    UIButtonTitleImageLayoutRightToLeft = 0, // The title is on the right and the image is on the left
+    UIButtonTitleImageLayoutLeftToRight = 1, // The title is on the left and the image is on the right
+    UIButtonTitleImageLayoutBottomToTop = 2, // The title is on the bottom and the image is on the top
+    UIButtonTitleImageLayoutTopToBottom = 3, // The title is on the top and the image is on the bottom
+    UIButtonTitleImageLayoutLeft __attribute__ ((deprecated)) = UIButtonTitleImageLayoutRightToLeft,
+    UIButtonTitleImageLayoutRight __attribute__ ((deprecated)) = UIButtonTitleImageLayoutLeftToRight,
+    UIButtonTitleImageLayoutTop __attribute__ ((deprecated)) = UIButtonTitleImageLayoutBottomToTop,
+    UIButtonTitleImageLayoutBottom __attribute__ ((deprecated)) = UIButtonTitleImageLayoutTopToBottom,
+    UIButtonTitleImageLayoutDefault __attribute__ ((deprecated)) = UIButtonTitleImageLayoutRightToLeft,
 };
 
 @interface UIButton (ZXToolbox)
 
-/** Default is UIButtonTitleImageLayoutLeft */
+/** Default is UIButtonTitleImageLayoutRightToLeft */
 @property (nonatomic, assign) UIButtonTitleImageLayout titleImageLayout;
 
 /** Default is 0 */

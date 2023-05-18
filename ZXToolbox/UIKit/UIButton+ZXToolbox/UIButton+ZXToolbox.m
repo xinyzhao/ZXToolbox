@@ -94,35 +94,29 @@ static char titleImageSpacingKey;
 }
 
 - (void)layoutTitleImage {
-    // no change
-    if (self.titleImageLayout == UIButtonTitleImageLayoutLeft &&
-        self.titleImageSpacing == 0) {
-        return;
-    }
     // reset
-    [self.titleLabel setText:self.currentTitle];
-    [self.imageView setImage:self.currentImage];
     [self setTitleEdgeInsets:UIEdgeInsetsZero];
     [self setImageEdgeInsets:UIEdgeInsetsZero];
     [self layoutIfNeeded];
-    // frame
+    // title
     CGRect title = [self titleRectForContentRect:self.bounds];
-    // Fixed bugs in iOS <= 13
     if (self.currentTitle.length > 0 && title.size.height <= 0) {
+        // Fixed bugs in iOS <= 13
         title.size.height = [self.titleLabel sizeThatFits:self.bounds.size].height;
     }
+    // image
     CGRect image = [self imageRectForContentRect:self.bounds];
+    // layout
     CGFloat space = self.titleImageSpacing / 2;
     CGPoint point = CGPointZero;
-    // layout
     switch (self.titleImageLayout) {
-        case UIButtonTitleImageLayoutLeft:
+        case UIButtonTitleImageLayoutRightToLeft:
         {
             [self setTitleEdgeInsets:UIEdgeInsetsMake(0, space, 0, 0)];
             [self setImageEdgeInsets:UIEdgeInsetsMake(0, 0, 0, space)];
             break;
         }
-        case UIButtonTitleImageLayoutRight:
+        case UIButtonTitleImageLayoutLeftToRight:
         {
             point.x = title.origin.x - image.origin.x + space;
             [self setTitleEdgeInsets:UIEdgeInsetsMake(0, -point.x, 0, point.x)];
@@ -130,7 +124,7 @@ static char titleImageSpacingKey;
             [self setImageEdgeInsets:UIEdgeInsetsMake(0, point.x, 0, -point.x)];
             break;
         }
-        case UIButtonTitleImageLayoutTop:
+        case UIButtonTitleImageLayoutBottomToTop:
         {
             point.x = image.size.width;
             point.y = image.size.height + space;
@@ -140,7 +134,7 @@ static char titleImageSpacingKey;
             [self setImageEdgeInsets:UIEdgeInsetsMake(0, 0, point.y, -point.x)];
             break;
         }
-        case UIButtonTitleImageLayoutBottom:
+        case UIButtonTitleImageLayoutTopToBottom:
         {
             point.x = image.size.width;
             point.y = image.size.height + space;
