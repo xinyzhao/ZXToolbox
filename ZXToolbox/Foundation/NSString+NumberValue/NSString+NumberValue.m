@@ -59,39 +59,39 @@
 }
 
 - (char)charValue {
-    return [[[NSString numberFormatter] numberFromString:self] charValue];
+    return [self.numberValue charValue];
 }
 
 - (unsigned char)unsignedCharValue {
-    return [[[NSString numberFormatter] numberFromString:self] unsignedCharValue];
+    return [self.numberValue unsignedCharValue];
 }
 
 - (short)shortValue {
-    return [[[NSString numberFormatter] numberFromString:self] shortValue];
+    return [self.numberValue shortValue];
 }
 
 - (unsigned short)unsignedShortValue {
-    return [[[NSString numberFormatter] numberFromString:self] unsignedShortValue];
+    return [self.numberValue unsignedShortValue];
 }
 
 - (unsigned int)unsignedIntValue {
-    return [[[NSString numberFormatter] numberFromString:self] unsignedIntValue];
+    return [self.numberValue unsignedIntValue];
 }
 
 - (long)longValue {
-    return [[[NSString numberFormatter] numberFromString:self] longValue];
+    return [self.numberValue longValue];
 }
 
 - (unsigned long)unsignedLongValue {
-    return [[[NSString numberFormatter] numberFromString:self] unsignedLongValue];
+    return [self.numberValue unsignedLongValue];
 }
 
 - (unsigned long long)unsignedLongLongValue {
-    return [[[NSString numberFormatter] numberFromString:self] unsignedLongLongValue];
+    return [self.numberValue unsignedLongLongValue];
 }
 
 - (NSUInteger)unsignedIntegerValue {
-    return [[[NSString numberFormatter] numberFromString:self] unsignedIntegerValue];
+    return [self.numberValue unsignedIntegerValue];
 }
 
 - (NSArray<NSNumber *> *)numberComponents {
@@ -101,6 +101,10 @@
         array[i] = [NSString numberFromString:str];
     }
     return array.count > 0 ? [array copy] : nil;
+}
+
+- (NSNumber *)numberValue {
+    return [NSString numberFromString:self];
 }
 
 + (NSString *)defaultAlphabet {

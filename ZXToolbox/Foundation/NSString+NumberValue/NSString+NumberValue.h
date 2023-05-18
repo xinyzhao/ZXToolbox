@@ -29,12 +29,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface NSString (NumberValue)
 
-+ (NSNumber *)numberFromString:(NSString *)string;
++ (nullable NSNumber *)numberFromString:(NSString *)string;
 
-+ (NSString *)stringWithNumber:(NSNumber *)number;
-+ (NSString *)stringWithNumber:(NSNumber *)number format:(NSString *)format;
++ (nullable NSString *)stringWithNumber:(NSNumber *)number;
++ (nullable NSString *)stringWithNumber:(NSNumber *)number format:(NSString *)format;
 
-- (NSString *)stringWithNumberFormat:(NSString *)format;
+- (nullable NSString *)stringWithNumberFormat:(NSString *)format;
 
 @property (readonly) char charValue;
 @property (readonly) unsigned char unsignedCharValue;
@@ -48,6 +48,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// An array containing the number components. (read-only)
 @property (readonly, nullable, copy) NSArray<NSNumber *> *numberComponents;
+
+/// The number value
+@property (readonly, nullable, copy) NSNumber *numberValue;
 
 /// Default Alphabet
 + (NSString *)defaultAlphabet;
