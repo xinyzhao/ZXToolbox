@@ -114,7 +114,7 @@ UIKIT_EXTERN NSInteger ZXIntegerFromUIColor(UIColor *color);
 #ifndef _UIColorWithHEXString_
 /// Make color from HEX string in RGB order
 /// @param string The HEX string, eg. @"0xRRGGBB", @"#RRGGBB", @"RRGGBB"
-/// @attention If the method name conflicts with another categories, PLEASE add macro definition UIColorWithHEXString to your project "Build Settings" -> "Preprocessor Macros"
+/// @attention If the method name conflicts with another categories, PLEASE add macro definition _UIColorWithHEXString_ to your project "Build Settings" -> "Preprocessor Macros"
 + (instancetype)colorWithHEXString:(NSString *)string;
 
 /// Make color from HEX string in RGB order and alpha value
