@@ -87,14 +87,14 @@ extern NSString* NSStringPinyinTransform(NSString *string, NSStringPinyinStyle s
  * @param string 源字符串
  * @return 拼音首字母缩写字符串
  */
-extern NSString* NSStringPinyinAcronym(NSString *string);
+extern NSString * _Nullable NSStringPinyinAcronym(NSString *string);
 
 /**
  * @brief 得到第一个字符的拼音首字母
  * @param string 源字符串
  * @return 第一个字符的拼音首字母
  */
-extern NSString* NSStringPinyinFirstLetter(NSString *string);
+extern NSString * _Nullable NSStringPinyinFirstLetter(NSString *string);
 
 #pragma mark - NSString 拼音分类
 
@@ -129,13 +129,13 @@ extern NSString* NSStringPinyinFirstLetter(NSString *string);
  * @brief 得到字符串的拼音首字母缩写
  * @return 拼音首字母缩写字符串
  */
-- (NSString *)stringByPinyinAcronym;
+- (nullable NSString *)stringByPinyinAcronym;
 
 /**
  * @brief 得到第一个字符的拼音首字母
  * @return 第一个字符的拼音首字母
  */
-- (NSString *)stringByPinyinFirstLetter;
+- (nullable NSString *)stringByPinyinFirstLetter;
 
 @end
 

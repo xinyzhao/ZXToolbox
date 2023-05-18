@@ -59,17 +59,17 @@ NSString* NSStringPinyinTransform(NSString *string, NSStringPinyinStyle style) {
         NSMutableString *py = [NSMutableString stringWithString:string];
         if (CFStringTransform((__bridge CFMutableStringRef)py, NULL, kCFStringTransformMandarinLatin, NO)) {
             if (style == NSStringPinyinMandarinLatin) {
-                return py;
+                return [py copy];
             }
             if (CFStringTransform((__bridge CFMutableStringRef)py, NULL, kCFStringTransformStripDiacritics, NO)) {
-                return py;
+                return [py copy];
             }
         }
     }
     return string;
 }
 
-NSString* NSStringPinyinAcronym(NSString *string) {
+NSString * _Nullable NSStringPinyinAcronym(NSString *string) {
     NSString *pinyin = NSStringPinyinTransform(string, NSStringPinyinStripDiacritics);
     NSArray *strings = [pinyin componentsSeparatedByString:@" "];
     NSMutableString *str = [NSMutableString string];
@@ -78,10 +78,10 @@ NSString* NSStringPinyinAcronym(NSString *string) {
             [str appendString:[string substringToIndex:1]];
         }
     }
-    return str;
+    return str.length > 0 ? [str copy] : nil;
 }
 
-NSString* NSStringPinyinFirstLetter(NSString *string) {
+NSString * _Nullable NSStringPinyinFirstLetter(NSString *string) {
     NSString *initial = nil;
     if (string.length > 0) {
         NSString *py = NSStringPinyinTransform(string, NSStringPinyinStripDiacritics);
@@ -108,11 +108,11 @@ NSString* NSStringPinyinFirstLetter(NSString *string) {
     return NSStringPinyinTransform(self, style);
 }
 
-- (NSString *)stringByPinyinAcronym {
+- (nullable NSString *)stringByPinyinAcronym {
     return NSStringPinyinAcronym(self);
 }
 
-- (NSString *)stringByPinyinFirstLetter {
+- (nullable NSString *)stringByPinyinFirstLetter {
     return NSStringPinyinFirstLetter(self);
 }
 
