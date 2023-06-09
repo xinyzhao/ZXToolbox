@@ -59,7 +59,7 @@ NS_ASSUME_NONNULL_BEGIN
  @discussion Check the two masks are compatible or not.
  @param mask1 UIInterfaceOrientationMask
  @param mask2 UIInterfaceOrientationMask
- @note 应用案例：解决 iOS 13 竖屏 viewController  push 横屏 viewController 出现的问题
+ @remark 应用案例：解决 iOS 13 竖屏 viewController  push 横屏 viewController 出现的问题
  @code
  /// 竖屏 UIViewController，supportedInterfaceOrientations 包含 UIInterfaceOrientationMaskPortrait/UIInterfaceOrientationMaskPortraitUpsideDown
  UIViewController *pvc = [[UIViewController alloc] init];
