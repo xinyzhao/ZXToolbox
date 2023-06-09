@@ -26,8 +26,7 @@
 #import "ZXDrawingView.h"
 
 /**
- @NOTE: The series of bezierPath/bezierPathXXX class methods,
-        CRASHED for sub-class of UIBezierPath in iOS 8.
+ @note The series of bezierPath/bezierPathXXX class methods, CRASHED for sub-class of UIBezierPath in iOS 8.
  */
 @interface ZXDrawingPath : UIBezierPath
 @property (nonatomic, strong) UIColor *lineColor;
