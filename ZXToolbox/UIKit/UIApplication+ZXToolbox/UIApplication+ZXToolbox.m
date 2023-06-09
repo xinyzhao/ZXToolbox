@@ -274,3 +274,26 @@ static char idleTimerEnabledKey;
 }
 
 @end
+
+BOOL UIInterfaceOrientationMaskCompatible(UIInterfaceOrientationMask mask1, UIInterfaceOrientationMask mask2) {
+    UIInterfaceOrientationMask portrait = UIInterfaceOrientationMaskPortrait;
+    if (((mask1 & portrait) == portrait) && ((mask2 & portrait) == portrait)) {
+        return YES;
+    }
+    UIInterfaceOrientationMask landscapeLeft = UIInterfaceOrientationMaskLandscapeLeft;
+    if (((mask1 & landscapeLeft) == landscapeLeft) &&
+        ((mask2 & landscapeLeft) == landscapeLeft)) {
+        return YES;
+    }
+    UIInterfaceOrientationMask landscapeRight = UIInterfaceOrientationMaskLandscapeRight;
+    if (((mask1 & landscapeRight) == landscapeRight) &&
+        ((mask2 & landscapeRight) == landscapeRight)) {
+        return YES;
+    }
+    UIInterfaceOrientationMask portraitUpsideDown = UIInterfaceOrientationMaskPortraitUpsideDown;
+    if (((mask1 & portraitUpsideDown) == portraitUpsideDown) &&
+        ((mask2 & portraitUpsideDown) == portraitUpsideDown)) {
+        return YES;
+    }
+    return NO;
+}

@@ -54,4 +54,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
+/**
+ @brief 检查两个方向掩码是否兼容
+ @discussion Check the two masks are compatible or not.
+ @param mask1 UIInterfaceOrientationMask
+ @param mask2 UIInterfaceOrientationMask
+ @note 应用案例：解决 iOS 13 竖屏 viewController  push 横屏 viewController 出现的问题
+ @code
+ /// 竖屏 UIViewController，supportedInterfaceOrientations 包含 UIInterfaceOrientationMaskPortrait/UIInterfaceOrientationMaskPortraitUpsideDown
+ UIViewController *pvc = [[UIViewController alloc] init];
+ /// 横屏 UIViewController，supportedInterfaceOrientations 包含 UIInterfaceOrientationMaskLandscapeLeft/UIInterfaceOrientationMaskLandscapeRight
+ UIViewController *hvc = [[UIViewController alloc] init];
+ /// iOS 13 竖屏 Push 横屏 UIViewController，如果双方支持的方向不兼容，会在返回竖屏时出现无法消失的问题，改用present的方式
+ double ver = UIDevice.currentDevice.systemVersion.doubleValue;
+ if (ver >= 13.0 && ver < 14.0 && !UIInterfaceOrientationMaskCompatible(pvc.supportedInterfaceOrientations, hvc.supportedInterfaceOrientations) {
+    [pvc presentViewController:hvc animated:YES completion:nil];
+ } else {
+    [pvc.navigationController pushViewController:hvc animated:YES];
+ }
+ @endcode
+*/
+UIKIT_EXTERN BOOL UIInterfaceOrientationMaskCompatible(UIInterfaceOrientationMask mask1, UIInterfaceOrientationMask mask2);
+
 NS_ASSUME_NONNULL_END
